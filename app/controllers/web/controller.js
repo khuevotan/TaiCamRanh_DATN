@@ -27,6 +27,13 @@ exports.showView = (req, res) => {
     res.render('view.ejs',{layout: './master2'});
 }
 
+exports.dangNhap = (req, res) => {
+    res.render('dangnhap.ejs');
+}
+
+
+
+
 // res.render('index', {layout: false}); -> neu khong muon truyen layout nao
 
 // module.exports.getIndex = (req, res) => {

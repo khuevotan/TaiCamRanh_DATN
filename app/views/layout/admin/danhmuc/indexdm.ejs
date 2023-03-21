@@ -1,0 +1,47 @@
+
+    <style>
+        td, th {
+            padding: 5px;
+        }
+    </style>
+
+<body>
+    <h1>Get All Danh Muc</h1>
+    <% if (typeof deleted !== 'undefined') { %>
+        <%if (deleted == 'true') { %>
+            <div style="color: green;">
+                Deleted Successfully
+            </div>
+        <% } %>
+        <br>
+    <% } %>
+
+    <form action="/danhmuc" method="get">
+        <input type="text" name="tendm" placeholder="Enter title">
+        <button type="submit">Search</button>
+    </form>
+    <br>
+
+    <table border="1" cellpadding="0" cellspacing="0">
+        <tr>
+            <th>MaDM</th>
+            <th>Title</th>
+            <th>Des</th>
+            <th>Publish</th>
+            <th>Action</th>
+        </tr>
+        <% danhmuc.forEach((item) => { %>
+            <tr>
+                <td><%= item.madm %></td>
+                <td><%= item.tendm %></td>
+                <td><%= item.hinhdd %></td>
+                <td><%= item.motact %></td>
+                <td>
+                    <a href="/danhmuc/edit/<%= item.madm %>">Edit</a> <br>
+                    <a href="/danhmuc/delete/<%= item.madm %>">Delete</a>
+                </td>
+            </tr>
+        <% }) %>
+    </table>
+    
+</body>
