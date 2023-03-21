@@ -22,6 +22,7 @@ module.exports = app => {
     router.delete("/delete", danhmuc.deleteAll);
     
     app.use('/danhmuc', router);
+    
     app.get('/500', (req, res) => {
         res.render('err')
     });

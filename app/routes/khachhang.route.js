@@ -7,5 +7,9 @@ module.exports = app => {
         res.render('/khachhang/home');
     });
 
+    router.get('/khachhang/datlichrx', authMiddleware.loggedin, (req, res) => {
+        res.render('/khachhang/datlichrx');
+    });
+
     app.use(router);
 }
