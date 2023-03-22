@@ -13,21 +13,27 @@ exports.login = (req, res) => {
             if (!khachhang) {
                 res.redirect('/login');
             } else {
-                bcrypt.compare( matkhau ,khachhang.matkhau, (err, result) => {
+                console.log(matkhau === '12345');
+                console.log(khachhang.matkhau);
+
+                bcrypt.compare(matkhau,khachhang.matkhau, (err, result) => {
+                    
+                    console.log(result);
+                
                     if (result == true) {
                         req.session.loggedin = true;
                         req.session.khachhang = khachhang;
-                        res.redirect('/home');
+                        res.redirect('khachhang/home');
                     } else {
                         // A khach hang with that taikhoan address does not exists
-                        const conflictError = 'Khue1.';
+                        const conflictError = 'Tài khoản hoặc Password sai';
                         res.render('auth/login', { taikhoan, matkhau, conflictError });
                     }
                 })
             }
         })
     } else {
-        // A user with that taikhoan address does not exists
+        // A khach hang with that taikhoan address does not exists
         const conflictError = 'khue 2';
         res.render('auth/login', { taikhoan, matkhau, conflictError });
     }

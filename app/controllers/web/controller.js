@@ -18,9 +18,9 @@ exports.getBaiviet = (req, res) => {
     res.render('baiviet.ejs');
 }
 
-exports.getBaivietct = (req, res) => {
-    res.render('baivietct.ejs');
-}
+// exports.getBaivietct = (req, res) => {
+//     res.render('baivietct.ejs');
+// }
 
 exports.showView = (req, res) => {
     res.render('view.ejs',{layout: './master2'});

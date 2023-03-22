@@ -19,7 +19,7 @@ exports.register = (req, res) => {
         })
 
         bcrypt.hash(matkhau, parseInt(process.env.BCRYPT_SALT_ROUND)).then((hashed) => {
-            // Create a User
+            // Create a khachhang
             const khachhang = new Khachhang({
                 taikhoan: taikhoan,
                 matkhau: hashed,

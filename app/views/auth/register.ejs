@@ -1,103 +1,109 @@
-<!-- Title Page-->
 <title>Đăng Ký</title>
+<section class="section-padding"></section>
+<section class="section-paddinghai"></section>
 
-
-<!-- 
-    <div class="login-form">
-        <h1>Register Form</h1>
-        <form action="/register" method="POST">
-			<input type="text" name="taikhoan" placeholder="taikhoan" 
-                <% if (typeof taikhoan != "undefined" && taikhoan) { %> value="<%= taikhoan %>"<% } %> required>
-          
-            <input type="matkhau" name="matkhau" placeholder="matkhau" 
-                <% if (typeof matkhau != "undefined" && matkhau) { %> value="<%= matkhau %>"<% } %> required>
-				<input type="text" name="email" placeholder="Email" 
-                <% if (typeof email != "undefined" && email) { %> value="<%= email %>"<% } %>  required>
-				
-            <% if (typeof conflictError != "undefined" && conflictError) { %>
-                <div class="text-danger text-left  mb-3"><%= conflictError %></div>
-            <% } %>
-            <input type="submit">
-        </form>
-    </div> -->
-	<section class="section-padding"></section>
-	<section class="section-paddinghai"></section>
-
-
-	
-<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" />
-<link rel="stylesheet" href="/home/login/css/style.css" />
-
-
-
-<div class="container">
-		<div class="row justify-content-center">
-			<div class="col-md-6 text-center mb-5">
-				<h2 class="heading-section">Đăng Ký</h2>
+<div class="row">
+	<div class="col-lg-3 col-md-4 mt-sm-30">
+	</div>
+	<div class="col-lg-6 col-md-4" style="border:1px solid black">
+		<h1 class="mb-30 text-center mt-30">Đăng Ký</h1>
+		<form action="/register" method="POST">
+			<div class="mt-10" style="border:1px solid black" >
+				<input type="text" name="taikhoan" placeholder="Tên tài khoản" class="single-input"
+					<% if (typeof taikhoan != "undefined" && taikhoan) { %> value="<%= taikhoan %>" <% } %> required>
 			</div>
-		</div>
-		<div class="row justify-content-center">
-			<div class="col-md-7 col-lg-5">
-				<div class="wrap">
-					<div class="login-wrap p-4 p-md-5">
-						<div class="d-flex">
-							<div class="w-100">
-								<p class="social-media d-flex justify-content-end">
-									<a href="#"
-										class="social-icon d-flex align-items-center justify-content-center"><span
-											class="fa fa-facebook"></span></a>
-									<a href="#"
-										class="social-icon d-flex align-items-center justify-content-center"><span
-											class="fa fa-twitter"></span></a>
-								</p>
-							</div>
-						</div>
+			<div class="mt-10" style="border:1px solid black">
+				<input type="password" name="matkhau" placeholder="Password" class="single-input"
+					<% if (typeof matkhau != "undefined" && matkhau) { %> value="<%= matkhau %>" <% } %> required>
+			</div>
+			<div class="mt-10" style="border:1px solid black">
+				<input type="text" name="email" placeholder="Email" class="single-input"
+					<% if (typeof email != "undefined" && email) { %> value="<%= email %>" <% } %> required>
+			</div>
 
-					
-						<form action="/login" method="POST" class="signin-form">
-							<div class="form-group mt-3">
-								<input type="text" name="taikhoan" class="form-control"
-								<% if (typeof taikhoan != "undefined" && taikhoan) { %> value="<%= taikhoan %>"<% } %>  required>
-								<label class="form-control-placeholder" for="username">Username</label>
-							</div>
-							<div class="form-group">
-								<input type="password"  id="password-field" class="form-control" name="matkhau"  
-								<% if (typeof matkhau != "undefined" && matkhau) { %> value="<%= matkhau %>"<% } %> required>
-								<label class="form-control-placeholder" for="password">Password</label>
-								<span toggle="#password-field"
-									class="fa fa-fw fa-eye field-icon toggle-password"></span>
-							</div>
-							<% if (typeof conflictError != "undefined" && conflictError) { %>
-								<div class="text-danger text-left  mb-3"><%= conflictError %></div>
-							<% } %>
-							<div class="form-group">
-								<input  class="form-control btn btn-primary rounded submit px-3" type="submit"> 
-							</div>
-							<div class="form-group d-md-flex">
-								<div class="w-50 text-left">
-									<label class="checkbox-wrap checkbox-primary mb-0">Remember Me
-										<input type="checkbox" checked />
-										<span class="checkmark"></span>
-									</label>
-								</div>
-								<div class="w-50 text-md-right">
-									<a href="#">Forgot Password</a>
-								</div>
-							</div>
-						</form>
-						
-						<p class="text-center">
-							Not a member? <a data-toggle="tab" href="#signup">Sign Up</a>
-						</p>
-					</div>
+
+
+
+
+			<% if (typeof conflictError != "undefined" && conflictError) { %>
+			<div class="text-danger text-left  mb-3"><%= conflictError %></div>
+			<% } %>
+
+
+			<!-- <div class="mt-10">
+				<input type="text" name="first_name" placeholder="First Name"
+				onfocus="this.placeholder = ''" onblur="this.placeholder = 'First Name'" required
+				class="single-input">
+			</div>
+			<div class="mt-10">
+				<input type="text" name="last_name" placeholder="Last Name"
+				onfocus="this.placeholder = ''" onblur="this.placeholder = 'Last Name'" required
+				class="single-input">
+			</div>
+			<div class="mt-10">
+				<input type="text" name="last_name" placeholder="Last Name"
+				onfocus="this.placeholder = ''" onblur="this.placeholder = 'Last Name'" required
+				class="single-input">
+			</div>
+			<div class="mt-10">
+				<input type="email" name="EMAIL" placeholder="Email address"
+				onfocus="this.placeholder = ''" onblur="this.placeholder = 'Email address'" required
+				class="single-input">
+			</div>
+			<div class="input-group-icon mt-10">
+				<div class="icon"><i class="fa fa-thumb-tack" aria-hidden="true"></i></div>
+				<input type="text" name="address" placeholder="Address" onfocus="this.placeholder = ''"
+				onblur="this.placeholder = 'Address'" required class="single-input">
+			</div>
+			<div class="input-group-icon mt-10">
+				<div class="icon"><i class="fa fa-plane" aria-hidden="true"></i></div>
+				<div class="form-select" id="default-select"">
+					<select>
+						<option value=" 1">City</option>
+						<option value="1">Dhaka</option>
+						<option value="1">Dilli</option>
+						<option value="1">Newyork</option>
+						<option value="1">Islamabad</option>
+					</select>
 				</div>
 			</div>
-		</div>
+			<div class="input-group-icon mt-10">
+				<div class="icon"><i class="fa fa-globe" aria-hidden="true"></i></div>
+				<div class="form-select" id="default-select"">
+					<select>
+						<option value=" 1">Country</option>
+						<option value="1">Bangladesh</option>
+						<option value="1">India</option>
+						<option value="1">England</option>
+						<option value="1">Srilanka</option>
+					</select>
+				</div>
+			</div>
+			
+			<div class="mt-10">
+				<textarea class="single-textarea" placeholder="Message" onfocus="this.placeholder = ''"
+				onblur="this.placeholder = 'Message'" required></textarea>
+			</div>
+			<div class="mt-10">
+				<input type="text" name="first_name" placeholder="Primary color"
+				onfocus="this.placeholder = ''" onblur="this.placeholder = 'Primary color'" required
+				class="single-input-primary">
+			</div>
+			<div class="mt-10">
+				<input type="text" name="first_name" placeholder="Accent color"
+				onfocus="this.placeholder = ''" onblur="this.placeholder = 'Accent color'" required
+				class="single-input-accent">
+			</div>
+			<div class="mt-10">
+				<input type="text" name="first_name" placeholder="Secondary color"
+				onfocus="this.placeholder = ''" onblur="this.placeholder = 'Secondary color'"
+				required class="single-input-secondary">
+			</div> -->
+			<div class="mt-10 text-center  mb-10">
+				<input class="genric-btn info circle " type="submit">
+			</div>
+		</form>
+	</div>
+	<div class="col-lg-3 col-md-4 mt-sm-30">
+	</div>
 </div>
-
-<!-- <link rel="stylesheet" href="/css/main.css"> -->
-<script src="/home/login/js/jquery.min.js"></script>
-<script src="/home/login/js/popper.js"></script>
-<script src="/home/login/js/bootstrap.min.js"></script>
-<script src="/home/login/js/main.js"></script>
-	

@@ -5,16 +5,19 @@ module.exports = app => {
     const controller = require('../controllers/web/controller');
     const controllerdv = require('../controllers/admin/dichvu.controller');
     const controllerbv = require('../controllers/admin/baiviet.controller');
+    const controllersp = require('../controllers/admin/sanpham.controller');
 
-
+    router.get('/baivietct/:mabv', controllerbv.chitiet);
     router.get('/', controller.getIndex);
     router.get('/index', controller.getIndex);
     router.get('/dichvu', controllerdv.findAllKH);
     router.get('/vetcr', controller.getVetcr);
     router.get('/lienhe', controller.getLienhe);
     router.get('/baiviet', controllerbv.findAllKH);
-    router.get('/baivietct', controller.getBaivietct);
+  
+    router.get('/shop', controllersp.findAllKH);
     router.get('/dangnhap', controller.dangNhap);
+ 
 
     // router.get('/home', authMiddleware.loggedin, (req, res) => {
     //     res.render('home');

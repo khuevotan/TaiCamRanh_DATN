@@ -5,6 +5,7 @@ const app = express();
 app.use(express.static('app/public'));
 app.use(express.static('app/public/admin'));
 app.use(express.static('app/views'));
+app.use(express.static('app/views/assets'));
 require('dotenv').config();
 
 const bodyParser = require('body-parser');

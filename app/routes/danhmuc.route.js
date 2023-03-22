@@ -11,12 +11,12 @@ module.exports = app => {
     router.post("/", danhmuc.store);
 
     // Retrieve a single danhmuc with id
-    router.get("/edit/:madm", danhmuc.edit);
+    router.get("/editdm/:madm", danhmuc.edit);
     // Update a danhmuc with id
     router.put("/:madm", danhmuc.update);
 
     // Delete a danhmuc with id
-    router.get("/delete/:madm", danhmuc.delete);
+    router.get("/deletedm/:madm", danhmuc.delete);
 
     // Delete all danhmuc
     router.delete("/delete", danhmuc.deleteAll);

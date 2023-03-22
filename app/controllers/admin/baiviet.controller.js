@@ -1,4 +1,4 @@
-const baiviet = require("../../models/baiviet.model");
+const Baiviet = require("../../models/baiviet.model");
 
 // Show form create baiviet
 exports.create = (req, res) => {
@@ -14,14 +14,14 @@ exports.store = (req, res) => {
     }
     
     // Create a baiviet
-    const baiviet = new baiviet({
+    const baiviet = new Baiviet({
         tenbv: req.body.tenbv,
         thoigian: req.body.thoigian,
         motact: req.body.motact,
         giatien: req.body.giatien
     });
     // Save baiviet in the database
-    baiviet.create(baiviet, (err, data) => {
+    Baiviet.create(baiviet, (err, data) => {
         if (err)
             res.redirect('/baiviet/create?status=error')
         else res.redirect('/baiviet/create?status=success')
@@ -32,7 +32,7 @@ exports.store = (req, res) => {
 exports.findAll = (req, res) => {
     res.locals.deleted = req.query.deleted;
     const tenbv = req.query.tenbv;
-    baiviet.getAll(tenbv, (err, data) => {
+    Baiviet.getAll(tenbv, (err, data) => {
         if (err)
             res.redirect('/500')
         else {
@@ -46,7 +46,7 @@ exports.findAll = (req, res) => {
 exports.findAllKH = (req, res) => {
     res.locals.deleted = req.query.deleted;
     const tenbv = req.query.tenbv;
-    baiviet.getAll(tenbv, (err, data) => {
+    Baiviet.getAll(tenbv, (err, data) => {
         if (err)
             res.redirect('/500')
         else {
@@ -62,7 +62,7 @@ exports.findAllKH = (req, res) => {
 exports.edit = (req, res) => {
     res.locals.status = req.query.status;
 
-    baiviet.findByMaDM(req.params.madm, (err, data) => {
+    Baiviet.findByMaDM(req.params.madm, (err, data) => {
         if (err) {
             if (err.kind === "not_found") {
                 res.redirect('/404');
@@ -72,6 +72,7 @@ exports.edit = (req, res) => {
         } else res.render('baiviet/edit', { baiviet: data });
     });
 };
+
 // Update a baiviet identified by the id in the request
 exports.update = (req, res) => {
     // Validate Request
@@ -79,7 +80,7 @@ exports.update = (req, res) => {
         res.redirect('/baiviet/edit/' + req.params.madm + '?status=error')
     }
 
-    baiviet.updateByMaDM(
+    Baiviet.updateByMaDM(
         req.params.madm,
         new baiviet(req.body),
         (err, data) => {
@@ -95,7 +96,7 @@ exports.update = (req, res) => {
 };
 // Delete a baiviet with the specified id in the request
 exports.delete = (req, res) => {
-    baiviet.remove(req.params.madm, (err, data) => {
+    Baiviet.remove(req.params.madm, (err, data) => {
         if (err) {
             if (err.kind === "not_found") {
                 res.redirect('/404');
@@ -107,10 +108,24 @@ exports.delete = (req, res) => {
 };
 // Delete all baiviet from the database.
 exports.deleteAll = (req, res) => {
-    baiviet.removeAll((err, data) => {
+    Baiviet.removeAll((err, data) => {
         if (err)
             res.redirect('/500');
         else res.redirect('/baiviet?deleted=true')
+    });
+};
+
+
+exports.chitiet = (req, res) => {
+    res.locals.status = req.query.status;
+    Baiviet.findBymabv(req.params.mabv, (err, data) => {
+        if (err) {
+            if (err.kind === "not_found") {
+                res.redirect('/404');
+            } else {
+                res.redirect('/500');
+            }
+        } else res.render('baivietct', { baiviet: data , layout: './master'});
     });
 };
 

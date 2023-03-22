@@ -1,6 +1,7 @@
 const sql = require("./db")
 
 const Baiviet = function(baiviet){
+    this.mabv = baiviet.mabv;
     this.tenbv = baiviet.tenbv;
     this.noidung = baiviet.noidung;
     this.hinhdd = baiviet.hinhdd;

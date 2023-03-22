@@ -4,11 +4,11 @@ module.exports = app => {
     var router = require('express').Router();
 
     router.get('/khachhang/home', authMiddleware.loggedin, (req, res) => {
-        res.render('/khachhang/home');
+        res.render('home');
     });
 
     router.get('/khachhang/datlichrx', authMiddleware.loggedin, (req, res) => {
-        res.render('/khachhang/datlichrx');
+        res.render('datlichrx');
     });
 
     app.use(router);

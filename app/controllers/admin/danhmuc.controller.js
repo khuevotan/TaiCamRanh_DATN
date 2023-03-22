@@ -51,7 +51,7 @@ exports.edit = (req, res) => {
             } else {
                 res.redirect('/500');
             }
-        } else res.render('danhmuc/edit', { danhmuc: data });
+        } else res.render('danhmuc/editdm', { danhmuc: data,  layout: './master2'});
     });
 };
 // Update a danhmuc identified by the id in the request
