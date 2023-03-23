@@ -6,14 +6,18 @@ app.use(express.static('app/public'));
 app.use(express.static('app/public/admin'));
 app.use(express.static('app/views'));
 app.use(express.static('app/views/assets'));
+app.use('/uploads', express.static('uploads'));
 require('dotenv').config();
 
 const bodyParser = require('body-parser');
 const methodOverride = require('method-override');
 const session = require('express-session');
 
+//CREATE EXPRESS APP
 app.use(bodyParser.urlencoded({ extended: true }));
 
+ // call all the required packages
+const multer = require('multer');
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
