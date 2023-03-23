@@ -8,7 +8,7 @@
                         <!-- Logo -->
                         <div class="col-xl-2 col-lg-2">
                             <div class="logo">
-                                <a href="index"><img src="assets/img/logo/logo.png" alt=""></a>
+                                <a href="/index"><img src="/assets/img/logo/logo.png" alt=""></a>
                             </div>
                         </div>
                         <div class="col-xl-10 col-lg-10">
@@ -17,25 +17,32 @@
                                 <div class="main-menu d-none d-lg-block">
                                     <nav>
                                         <ul id="navigation">                                                                                          
-                                            <li><a href="dichvu">Dịch Vụ</a></li>
-                                            <li><a href="datlichruaxe">Đặt Lịch Rửa Xe</a></li>
-                                            <li><a href="shop">Shop</a></li>
+                                            <li><a href="/dichvu">Dịch Vụ</a></li>
+                                            <li><a href="/khachhang/datlichrx">Đặt Lịch Rửa Xe</a></li>
+                                            <li><a href="/shop">Shop</a></li>
                                             <li><a href="#">Tin Tức</a>
                                                 <ul class="submenu">
-                                                    <li><a href="baiviet">Bài Viết</a></li>
-                                                    <li><a href="vetcr">Về TaiCamRanh</a></li>
-                                                    <li><a href="lienhe">Liên Hệ</a></li>
+                                                    <li><a href="/baiviet">Bài Viết</a></li>
+                                                    <li><a href="/vetcr">Về TaiCamRanh</a></li>
+                                                    <li><a href="/lienhe">Liên Hệ</a></li>
                                                 </ul>
                                             </li>
-                                           
-                                            <li><a href="login">Đăng Nhập</a></li>
-                                            <li><a href="register">Đăng Ký</a></li>
+                                         
+                                        
+                                            <%if (!locals.session.loggedin) { %>
+                                                <li><a href="/login">Đăng Nhập</a></li>
+                                                <li><a href="/register">Đăng Ký</a></li>
+                                                <% }else{ %>
+                                                    <li><a href="/khachhang/home">Cá Nhân</a></li>
+                                                    <li><a href="/logout">LogOut</a></li>
+                                            <%}%>
+                                            
                                         </ul>
                                     </nav>
                                 </div>
                                 <!-- Header-btn -->
                                 <div class="header-right-btn d-none d-lg-block ml-20">
-                                    <a href="#" class="btn header-btn"><img src="assets/img/icon/smartphone.svg" alt="">0377975929</a>
+                                    <a href="#" class="btn header-btn"><img src="/assets/img/icon/smartphone.svg" alt="">+0377975929</a>
                                 </div>
                             </div>
                         </div> 

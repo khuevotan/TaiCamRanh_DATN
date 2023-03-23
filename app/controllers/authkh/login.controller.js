@@ -23,7 +23,7 @@ exports.login = (req, res) => {
                     if (result == true) {
                         req.session.loggedin = true;
                         req.session.khachhang = khachhang;
-                        res.redirect('khachhang/home');
+                        res.redirect('/');
                     } else {
                         // A khach hang with that taikhoan address does not exists
                         const conflictError = 'Tài khoản hoặc Password sai';

@@ -8,6 +8,7 @@ module.exports = app => {
     const controllersp = require('../controllers/admin/sanpham.controller');
 
     router.get('/baivietct/:mabv', controllerbv.chitiet);
+    
     router.get('/', controller.getIndex);
     router.get('/index', controller.getIndex);
     router.get('/dichvu', controllerdv.findAllKH);

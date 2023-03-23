@@ -1,7 +1,9 @@
+<title>Bài Viết</title>
 <section class=" section-padding">
 </section>
 <section class=" section-paddinghai">
 </section>
+
 
 <main>
     <!--? Blog Area Start-->
@@ -11,26 +13,25 @@
                 <div class="col-lg-8 mb-5 mb-lg-0">
                     <div class="blog_left_sidebar">
 
-                        <% baiviet.forEach((item) => { %>  
-                      <!-- <td><%= item.hinhdd	%></td> -->
+                        <% baiviet.forEach((item) => { %>
+                        <!-- <td><%= item.hinhdd	%></td> -->
                         <article class="blog_item">
                             <div class="blog_item_img">
                                 <img class="card-img rounded-0" src="assets/img/blog/<%= item.hinhdd %>" alt="">
-                                <a href="#" class="blog_item_date">
-                                    <h3>15</h3>
-                                    <p>Jan</p>
-                                </a>
                             </div>
                             <div class="blog_details">
-                                <a class="d-inline-block" href="blog_details.html">
+                                <a class="d-inline-block" href="/baivietct/<%= item.mabv %>">
                                     <h2 class="blog-head" style="color: #2d2d2d;"><%= item.tenbv %></h2>
                                 </a>
-                              
+                                <li><%= item.mota %>...</li>
                                 <ul class="blog-info-link">
-                                    <li><a href="#"><i class="fa fa-user"></i><%= item.manv %></a></li>
+
+                                    <li><a href="#">Người Đăng: <%= item.manv %></a></li>
+                                    <li><a href="#">Ngày Đăng: <%= item.ngaydang %></a></li>
+
                                 </ul>
                             </div>
-                        </article>   
+                        </article>
 
 
                         <% }) %>
@@ -64,18 +65,18 @@
                                 <div class="form-group">
                                     <div class="input-group mb-3">
                                         <input type="text" class="form-control" placeholder='Search Keyword'
-                                        onfocus="this.placeholder = ''"
-                                        onblur="this.placeholder = 'Search Keyword'">
+                                            onfocus="this.placeholder = ''"
+                                            onblur="this.placeholder = 'Search Keyword'">
                                         <div class="input-group-append">
                                             <button class="btns" type="button"><i class="ti-search"></i></button>
                                         </div>
                                     </div>
                                 </div>
                                 <button class="button rounded-0 primary-bg text-white w-100 btn_1 boxed-btn"
-                                type="submit">Search</button>
+                                    type="submit">Search</button>
                             </form>
                         </aside>
-                   
+
                         <aside class="single_sidebar_widget instagram_feeds">
                             <h4 class="widget_title" style="color: #2d2d2d;">Hoạt Động ở TaiCamRanh</h4>
                             <ul class="instagram_row flex-wrap">
@@ -111,7 +112,7 @@
                                 </li>
                             </ul>
                         </aside>
-           
+
                     </div>
                 </div>
             </div>

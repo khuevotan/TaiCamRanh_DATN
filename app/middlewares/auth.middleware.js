@@ -1,5 +1,5 @@
 
-// khong vo dc trang home
+// khong vo dc trang home (chua dang nhap)
 exports.loggedin = (req, res, next) => {
     if (req.session.loggedin) {
         res.locals.khachhang = req.session.khachhang
@@ -9,7 +9,7 @@ exports.loggedin = (req, res, next) => {
     }
 }
 
-// khong vo duoc trang login
+// khong vo duoc trang login (dang nhap roi)
 exports.isAuth = (req, res, next) => {
     if (req.session.loggedin) {
         res.locals.khachhang = req.session.khachhang

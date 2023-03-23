@@ -30,9 +30,6 @@ exports.dangNhap = (req, res) => {
     res.render('dangnhap.ejs');
 }
 
-
-
-
 // res.render('index', {layout: false}); -> neu khong muon truyen layout nao
 
 // module.exports.getIndex = (req, res) => {

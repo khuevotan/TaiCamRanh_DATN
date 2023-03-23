@@ -26,11 +26,17 @@ app.use(methodOverride(function (req, res) {
     }
 }));
 
+// dung seesion
 app.use(session({
     secret: process.env.SESSION_SECRET,
     resave: true,
     saveUninitialized: true,
 }))
+
+app.use(function (req, res, next) {
+    res.locals.session = req.session;
+    next();
+});
 
 // su dung layout
 const expressLayouts = require('express-ejs-layouts');
@@ -53,3 +59,6 @@ require("./app/routes/route")(app);
 app.listen(process.env.PORT, function(){
     console.log('sever running: http://localhost:' + process.env.PORT);
 });
+
+
+

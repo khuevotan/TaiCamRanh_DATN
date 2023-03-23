@@ -3,6 +3,7 @@ const sql = require("./db")
 const Baiviet = function(baiviet){
     this.mabv = baiviet.mabv;
     this.tenbv = baiviet.tenbv;
+    this.mota = baiviet.mota;
     this.noidung = baiviet.noidung;
     this.hinhdd = baiviet.hinhdd;
     this.ngaydang = baiviet.ngaydang;
