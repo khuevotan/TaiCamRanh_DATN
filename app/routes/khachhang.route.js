@@ -36,7 +36,7 @@ module.exports = app => {
     });
 
     router.get('/khachhang/giohang', authMiddleware.loggedin, (req, res) => {
-        res.render('giohang');
+        res.render('giohang',{layout: false});
     });
 
     router.get('/khachhang/thanhtoantc', authMiddleware.loggedin, (req, res) => {

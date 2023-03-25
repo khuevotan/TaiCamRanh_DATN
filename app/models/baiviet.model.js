@@ -10,6 +10,8 @@ const Baiviet = function(baiviet){
     this.manv = baiviet.manv;
 };
 
+
+
 Baiviet.create = (newbaiviet, result) => {
     sql.query("INSERT INTO baiviet SET ?", newbaiviet, (err, res) => {
         if (err) {

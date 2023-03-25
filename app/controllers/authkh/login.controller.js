@@ -11,22 +11,17 @@ exports.login = (req, res) => {
     if (taikhoan && matkhau) {
         Khachhang.findByTaikhoan(taikhoan, (err, khachhang) => {
             if (!khachhang) {
-                res.redirect('/login');
+                // res.redirect('/login');
+                const conflictError = 'Tài khoản này không tồn tại!';
+                res.render('auth/login', { taikhoan, conflictError });
             } else {
-                console.log(matkhau === '12345');
-                console.log(khachhang.matkhau);
-
-                bcrypt.compare(matkhau,khachhang.matkhau, (err, result) => {
-                    
-                    console.log(result);
-                
+                bcrypt.compare(matkhau,khachhang.matkhau, (err, result) => {      
                     if (result == true) {
                         req.session.loggedin = true;
                         req.session.khachhang = khachhang;
                         res.redirect('/');
                     } else {
-                        // A khach hang with that taikhoan address does not exists
-                        const conflictError = 'Tài khoản hoặc Password sai';
+                        const conflictError = 'Sai Password!';
                         res.render('auth/login', { taikhoan, matkhau, conflictError });
                     }
                 })
@@ -34,7 +29,7 @@ exports.login = (req, res) => {
         })
     } else {
         // A khach hang with that taikhoan address does not exists
-        const conflictError = 'khue 2';
+        const conflictError = 'Bạn phải nhập Tài khoản và Password!';
         res.render('auth/login', { taikhoan, matkhau, conflictError });
     }
 }
