@@ -1,4 +1,6 @@
 const authMiddleware = require('../middlewares/auth.middleware');
+const controllerlx = require('../controllers/admin/loaixe.controller');
+const khachhang = require("../controllers/khachhang/khachhang.controller");
 
 module.exports = app => {
     var router = require('express').Router();
@@ -10,6 +12,8 @@ module.exports = app => {
     router.get('/khachhang/chinhsuatt', authMiddleware.loggedin, (req, res) => {
         res.render('chinhsuatt');
     });
+
+    router.put("/:makh", authMiddleware.loggedin, khachhang.update);
 
     router.get('/khachhang/dondathang', authMiddleware.loggedin, (req, res) => {
         res.render('dondathang');
@@ -51,9 +55,13 @@ module.exports = app => {
     });
 
 
-    router.get('/khachhang/datlichrx', authMiddleware.loggedin, (req, res) => {
+
+
+    router.get('/khachhang/datlichrx', authMiddleware.loggedin, controllerlx.findAllKH,(req, res) => {
         res.render('datlichrx');
     });
+
+
 
     app.use(router);
 }

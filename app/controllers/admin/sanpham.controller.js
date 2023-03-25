@@ -57,6 +57,18 @@ exports.findAllKH = (req, res) => {
     });
 };
 
+exports.chitiet = (req, res) => {
+    res.locals.status = req.query.status;
+    sanpham.findBymasp(req.params.masp, (err, data) => {
+        if (err) {
+            if (err.kind === "not_found") {
+                res.redirect('/404');
+            } else {
+                res.redirect('/500');
+            }
+        } else res.render('sanphamct', { sanpham: data , layout: './master'});
+    });
+};
 
 // Find a single sanpham with a madm
 exports.edit = (req, res) => {

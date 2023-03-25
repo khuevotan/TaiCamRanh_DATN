@@ -71,7 +71,7 @@ exports.edit = (req, res) => {
 };
 
 
-// Update a khachhang identified by the id in the request
+// Update a khachhang khi nhấn vào chỉnh sửa thông tin cá nhân bên phía khách hàng
 exports.update = (req, res) => {
     // Validate Request
     if (!req.body) {
@@ -105,6 +105,8 @@ exports.delete = (req, res) => {
         } else res.redirect('/khachhang?deleted=true')
     });
 };
+
+
 // Delete all khachhang from the database.
 exports.deleteAll = (req, res) => {
     Khachhang.removeAll((err, data) => {

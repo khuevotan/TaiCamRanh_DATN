@@ -107,4 +107,21 @@ Sanpham.removeAll = result => {
     });
 };
 
+Sanpham.findBymasp = (mabv, result) => {
+    sql.query(`SELECT * FROM sanpham WHERE masp = ${masp}`, (err, res) => {
+        if (err) {
+            console.log("error: ", err);
+            result(err, null);
+            return;
+        }
+        if (res.length) {
+            console.log("found sanpham: ", res[0]);
+            result(null, res[0]);
+            return;
+        }
+        // not found baiviet with the mabv
+        result({ kind: "not_found" }, null);
+    });
+};
+
 module.exports = Sanpham;

@@ -4,337 +4,662 @@
 </section>
 
 
-<title>Shop product list - Bootdey.com</title>
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<link href="https://netdna.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
-<style type="text/css">
-    .bodyne {
-        background: #f1f2f7;
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.bundle.min.js">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js">
+
+<style>
+  
+    .container {
+        margin: 40px auto
     }
 
-    /*panel*/
-    .panel {
+    #header {
+        width: 100%;
+        height: 60px;
+        box-shadow: 5px 5px 15px #e8e8e8
+    }
+
+    .col-lg-4,
+    .col-md-6 {
+        padding-right: 0
+    }
+
+   
+
+    .btn:focus {
+        box-shadow: none
+    }
+
+    .box-label .btn {
+        background-color: #fff;
+        padding: 0;
+        font-size: 0.8rem
+    }
+
+    .btn-red {
+        background-color: #e00000ce
+    }
+
+    .btn-orange {
+        background-color: #ffa500
+    }
+
+    .btn-pink {
+        background-color: #e0009dce
+    }
+
+    .btn-green {
+        background-color: #00811c
+    }
+
+    .btn-blue {
+        background-color: #026bc2
+    }
+
+    .btn-brown {
+        background-color: #994a00
+    }
+
+    .navbar {
+        display: inline-flex
+    }
+
+    .pagination .page-item .page-link {
+        color: #333;
         border: none;
-        box-shadow: none;
+        width: 40px;
+        text-align: center
     }
 
-    .panel-heading {
-        border-color: #eff2f7;
-        font-size: 16px;
-        font-weight: 300;
+    .pagination .page-item.active .page-link {
+        background-color: #fff;
+        border: 1px solid #333
     }
 
-    .panel-title {
-        color: #2A3542;
-        font-size: 14px;
-        font-weight: 400;
-        margin-bottom: 0;
-        margin-top: 0;
-        font-family: 'Open Sans', sans-serif;
+    select {
+        outline: none;
+        padding: 6px 12px;
+        margin: 0px 4px;
+        color: #999;
+        font-size: 0.85rem;
+        width: 140px
     }
 
-
-    /*product list*/
-
-    .prod-cat li a {
-        border-bottom: 1px dashed #d9d9d9;
+    #select2 {
+        border: 1px solid #777;
+        color: #999
     }
 
-    .prod-cat li a {
-        color: #3b3b3b;
+    #pro {
+        border: none;
+        color: #333;
+        font-weight: 700;
+        padding-left: 0px;
+        width: initial
     }
 
-    .prod-cat li ul {
-        margin-left: 30px;
+    #filterbar {
+        width: 30%;
+        background-color: #fff;
+        border: 1px solid #ddd;
+        border-radius: 15px;
+        float: left
     }
 
-    .prod-cat li ul li a {
-        border-bottom: none;
+    #filterbar input[type="radio"] {
+        visibility: hidden
     }
 
-    .prod-cat li ul li a:hover,
-    .prod-cat li ul li a:focus,
-    .prod-cat li ul li.active a,
-    .prod-cat li a:hover,
-    .prod-cat li a:focus,
-    .prod-cat li a.active {
-        background: none;
-        color: #ff7261;
+    #filterbar input[type='radio']:checked {
+        background-color: #16c79a;
+        border: none
     }
 
-    .pro-lab {
-        margin-right: 20px;
-        font-weight: normal;
+    #filterbar .btn.btn-success {
+        background-color: #ddd;
+        color: #333;
+        border: none;
+        width: 115px
     }
 
-    .pro-sort {
-        padding-right: 20px;
-        float: left;
+    #filterbar .btn.btn-success:hover {
+        background-color: #aff1e1;
+        color: #444
     }
 
-    .pro-page-list {
-        margin: 5px 0 0 0;
+    #filterbar .btn-success:not(:disabled):not(.disabled).active,
+    #filterbar .btn-success:not(:disabled):not(.disabled):active {
+        background-color: #16c79a;
+        color: #fff
     }
 
-    .product-list img {
-        width: 100%;
-        border-radius: 4px 4px 0 0;
-        -webkit-border-radius: 4px 4px 0 0;
+    label {
+        cursor: pointer
     }
 
-    .product-list .pro-img-box {
-        position: relative;
-    }
-
-    .adtocart {
-        background: #fc5959;
-        width: 50px;
-        height: 50px;
-        border-radius: 50%;
-        -webkit-border-radius: 50%;
-        color: #fff;
-        display: inline-block;
-        text-align: center;
-        border: 3px solid #fff;
-        left: 45%;
-        bottom: -25px;
-        position: absolute;
-    }
-
-    .adtocart i {
-        color: #fff;
-        font-size: 25px;
-        line-height: 42px;
-    }
-
-    .pro-title {
-        color: #5A5A5A;
-        display: inline-block;
-        margin-top: 20px;
-        font-size: 16px;
-    }
-
-    .product-list .price {
-        color: #fc5959;
-        font-size: 15px;
-    }
-
-    .pro-img-details {
-        margin-left: -15px;
-    }
-
-    .pro-img-details img {
-        width: 100%;
-    }
-
-    .pro-d-title {
-        font-size: 16px;
-        margin-top: 0;
-    }
-
-    .product_meta {
-        border-top: 1px solid #eee;
-        border-bottom: 1px solid #eee;
-        padding: 10px 0;
-        margin: 15px 0;
-    }
-
-    .product_meta span {
+    .tick {
         display: block;
-        margin-bottom: 10px;
+        position: relative;
+        padding-left: 23px;
+        cursor: pointer;
+        font-size: 0.9rem;
+        margin: 0
     }
 
-    .product_meta a,
-    .pro-price {
-        color: #fc5959;
+    .tick input {
+        position: absolute;
+        opacity: 0;
+        cursor: pointer;
+        height: 0;
+        width: 0
     }
 
-    .pro-price,
-    .amount-old {
-        font-size: 18px;
-        padding: 0 10px;
+    .check {
+        position: absolute;
+        top: 1px;
+        left: 0;
+        height: 18px;
+        width: 18px;
+        background-color: #fff;
+        border: 1px solid #ddd;
+        border-radius: 3px
     }
 
-    .amount-old {
-        text-decoration: line-through;
+    .tick:hover input~.check {
+        background-color: #f3f3f3
     }
 
-    .quantity {
-        width: 120px;
+    .tick input:checked~.check {
+        background-color: #ffffff
     }
 
-    .pro-img-list {
-        margin: 10px 0 0 -15px;
+    .check:after {
+        content: "";
+        position: absolute;
+        display: none
+    }
+
+    .tick input:checked~.check:after {
+        display: block;
+        transform: rotate(45deg) scale(1)
+    }
+
+    .tick .check:after {
+        left: 6px;
+        top: 2px;
+        width: 5px;
+        height: 10px;
+        border: solid rgb(0, 0, 0);
+        border-width: 0 3px 3px 0;
+        transform: rotate(45deg) scale(2)
+    }
+
+    .box {
+        padding: 10px
+    }
+
+    .box-label {
+        color: #11698e;
+        font-size: 0.9rem;
+        font-weight: 800
+    }
+
+    #inner-box,
+    #inner-box2 {
+        height: 150px;
+        overflow-y: scroll
+    }
+
+    #inner-box2 {
+        height: 132px
+    }
+
+    #inner-box::-webkit-scrollbar,
+    #inner-box2::-webkit-scrollbar {
+        width: 6px
+    }
+
+    #inner-box::-webkit-scrollbar-track,
+    #inner-box2::-webkit-scrollbar-track {
+        background-color: #ddd;
+        border-radius: 2px
+    }
+
+    #inner-box::-webkit-scrollbar-thumb,
+    #inner-box2::-webkit-scrollbar-thumb {
+        background-color: #333;
+        border-radius: 2px
+    }
+
+    #price {
+        height: 45px
+    }
+
+    #size input[type="checkbox"] {
+        visibility: hidden
+    }
+
+    #size input[type='checkbox']:checked {
+        background-color: #16c79a;
+        border: none
+    }
+
+    #size .btn.btn-success {
+        background-color: #ddd;
+        color: #333;
+        border: none;
+        width: 40px;
+        font-size: 0.8rem;
+        border-radius: 0
+    }
+
+    #size .btn.btn-success:hover {
+        background-color: #aff1e1;
+        color: #444
+    }
+
+    #size .btn-success:not(:disabled):not(.disabled).active,
+    #size .btn-success:not(:disabled):not(.disabled):active {
+        background-color: #16c79a;
+        color: #fff
+    }
+
+    #size label {
+        margin: 10px;
+        margin-left: 0px
+    }
+
+    .card {
+        padding: 10px;
+        cursor: pointer;
+        transition: .3s all ease-in-out;
+        height: 350px
+    }
+
+    .card:hover {
+        box-shadow: 2px 2px 15px #7cbafc;
+        transform: scale(1.02)
+    }
+
+    .card .product-name {
+        font-weight: 600
+    }
+
+    .card-body {
+        padding-bottom: 0
+    }
+
+    .card .text-muted {
+        font-size: 0.82rem
+    }
+
+    .card-img img {
+        padding-top: 10px;
+        width: inherit;
+        height: 180px;
+        object-fit: contain;
+        display: block
+    }
+
+    .card-body .btn-group .btn {
+        padding: 0;
+        width: 20px;
+        height: 20px;
+        margin-right: 5px;
+        border-radius: 50%;
+        position: relative
+    }
+
+    .card-body .btn-group>.btn-group:not(:last-child)>.btn,
+    .card-body .btn-group>.btn:not(:last-child):not(.dropdown-toggle) {
+        border-radius: 50%;
+        transition: ease-in all .4s
+    }
+
+    .card-body input[type="radio"] {
+        visibility: hidden
+    }
+
+    .card-body .btn:not(:disabled):not(.disabled).active::after,
+    .card-body .btn:not(:disabled):not(.disabled):active::after {
+        content: "";
+        width: 10px;
+        height: 10px;
+        border-radius: 50%;
+        top: 4px;
+        left: 4.2px;
+        background-color: #fff;
+        position: absolute;
+        transition: ease-in all .4s
+    }
+
+    .card-body .btn.btn-light:not(:disabled):not(.disabled).active::after,
+    .card-body .btn.btn-light:not(:disabled):not(.disabled):active::after {
+        background-color: #000
+    }
+
+    #avail-size input[type="checkbox"] {
+        visibility: hidden
+    }
+
+    #avail-size input[type='checkbox']:checked {
+        background-color: #16c79a;
+        border: none
+    }
+
+    #avail-size .btn.btn-success {
+        background-color: #ddd;
+        color: #333;
+        border: none;
+        width: 20px;
+        font-size: 0.7rem;
+        border-radius: 0;
+        padding: 0
+    }
+
+    #avail-size .btn.btn-success:hover {
+        background-color: #aff1e1;
+        color: #444
+    }
+
+    #avail-size .btn-success:not(:disabled):not(.disabled).active,
+    #avail-size .btn-success:not(:disabled):not(.disabled):active {
+        background-color: #16c79a;
+        color: #fff
+    }
+
+    #avail-size label {
+        margin: 10px;
+        margin-left: 0px
+    }
+
+    #shirt {
+        height: 170px
+    }
+
+    .middle {
+        position: relative;
         width: 100%;
-        display: inline-block;
+        margin-top: 25px
     }
 
-    .pro-img-list a {
-        float: left;
-        margin-right: 10px;
-        margin-bottom: 10px;
+    .slider {
+        position: relative;
+        z-index: 1;
+        height: 5px;
+        margin: 0 15px
     }
 
-    .pro-d-head {
-        font-size: 18px;
-        font-weight: 300;
+    .slider>.track {
+        position: absolute;
+        z-index: 1;
+        left: 0;
+        right: 0;
+        top: 0;
+        bottom: 0;
+        border-radius: 5px;
+        background-color: #ddd
+    }
+
+    .slider>.range {
+        position: absolute;
+        z-index: 2;
+        left: 25%;
+        right: 25%;
+        top: 0;
+        bottom: 0;
+        border-radius: 5px;
+        background-color: #36a31b
+    }
+
+    .slider>.thumb {
+        position: absolute;
+        top: 2px;
+        z-index: 3;
+        width: 20px;
+        height: 20px;
+        background-color: #36a31b;
+        border-radius: 50%;
+        box-shadow: 0 0 0 0 rgba(63, 204, 75, 0.705);
+        transition: box-shadow .3s ease-in-out
+    }
+
+    .slider>.thumb::after {
+        position: absolute;
+        width: 8px;
+        height: 8px;
+        left: 28%;
+        top: 30%;
+        border-radius: 50%;
+        content: '';
+        background-color: #fff
+    }
+
+    .slider>.thumb.left {
+        left: 25%;
+        transform: translate(-15px, -10px)
+    }
+
+    .slider>.thumb.right {
+        right: 25%;
+        transform: translate(15px, -10px)
+    }
+
+    .slider>.thumb.hover {
+        box-shadow: 0 0 0 10px rgba(125, 230, 134, 0.507)
+    }
+
+    .slider>.thumb.active {
+        box-shadow: 0 0 0 10px rgba(63, 204, 75, 0.623)
+    }
+
+    input[type=range] {
+        position: absolute;
+        pointer-events: none;
+        -webkit-appearance: none;
+        z-index: 2;
+        height: 10px;
+        width: 100%;
+        opacity: 0
+    }
+
+    input[type=range]::-webkit-slider-thumb {
+        pointer-events: all;
+        width: 30px;
+        height: 30px;
+        border-radius: 0;
+        border: 0 none;
+        background-color: red;
+        -webkit-appearance: none
+    }
+
+    .del {
+        text-decoration: line-through;
+        color: red
+    }
+
+    @media(min-width:1199.6px) {
+        #filterbar {
+            width: 25%
+        }
+    }
+
+    @media(max-width:1199.5px) {
+        #filterbar {
+            width: 28%
+        }
+
+        .card {
+            height: 350px
+        }
+
+        .price {
+            font-size: 0.9rem
+        }
+
+        .product-name {
+            font-size: 0.8rem
+        }
+    }
+
+    @media(max-width: 991.5px) {
+        .navbar-nav {
+            min-width: 290px;
+            position: absolute;
+            left: -168px;
+            bottom: -146px;
+            padding: 20px 10px;
+            display: block;
+            background-image: none;
+            z-index: 2;
+            background-color: #1d1c1cb2
+        }
+
+        #filterbar {
+            width: 36%
+        }
+
+        #sort {
+            background-color: inherit;
+            color: #fff;
+            margin: 0;
+            margin-bottom: 20px;
+            width: 100%
+        }
+
+        #sort option,
+        #pro option {
+            color: #000
+        }
+
+        #pro,
+        #select2,
+        .result {
+            background-color: inherit;
+            color: #fff
+        }
+
+        .card {
+            height: 345px
+        }
+
+        .price {
+            font-size: 0.85rem
+        }
+    }
+
+    @media(max-width: 767.5px) {
+        #filterbar {
+            width: 50%
+        }
+    }
+
+    @media(max-width: 525.5px) {
+        #filterbar {
+            float: none;
+            width: 100%;
+            margin-bottom: 20px;
+            border-radius: 5px
+        }
+
+        #content.my-5 {
+            margin-top: 20px !important;
+            margin-bottom: 20px !important
+        }
+
+        .col-lg-4,
+        .col-md-6 {
+            padding-left: 0
+        }
+    }
+
+    @media(max-width: 500.5px) {
+        .pagination {
+            display: none
+        }
     }
 </style>
-</head>
 
 
 
-<div class="bodyne">
-</br>
-  
-    <div class="container bootdey">
-        <div class="col-md-3">
-            <section class="panel">
-                <div class="panel-body">
-                    <input type="text" placeholder="Keyword Search" class="form-control" />
-                </div>
-            </section>
-            <section class="panel">
-                <header class="panel-heading">
-                    Danh Mục
-                </header>
-                <div class="panel-body">
-                    <ul class="nav prod-cat">
-                        <li>
-                            <a href="#"><i class="fa fa-angle-right"></i> Bags &amp; Purses</a>
-                        </li>
-                        <li>
-                            <a href="#"><i class="fa fa-angle-right"></i> Beauty</a>
-                        </li>
-                        <li>
-                            <a href="#"><i class="fa fa-angle-right"></i> Coat &amp; Jacket</a>
-                        </li>
-                        <li>
-                            <a href="#"><i class="fa fa-angle-right"></i> Jeans</a>
-                        </li>
-                        <li>
-                            <a href="#"><i class="fa fa-angle-right"></i> Jewellery</a>
-                        </li>
-                        <li>
-                            <a href="#"><i class="fa fa-angle-right"></i> Electronics</a>
-                        </li>
-                        <li>
-                            <a href="#"><i class="fa fa-angle-right"></i> Sports</a>
-                        </li>
-                        <li>
-                            <a href="#"><i class="fa fa-angle-right"></i> Technology</a>
-                        </li>
-                        <li>
-                            <a href="#"><i class="fa fa-angle-right"></i> Watches</a>
-                        </li>
-                        <li>
-                            <a href="#"><i class="fa fa-angle-right"></i> Accessories</a>
-                        </li>
-                    </ul>
-                </div>
-            </section>
-           
-        
-            <section class="panel">
-                <header class="panel-heading">
-                    Phổ Biến
-                </header>
-                <div class="panel-body">
-                    <div class="best-seller">
-                        <article class="media">
-                            <a class="pull-left thumb p-thumb">
-                                <img src="https://www.bootdey.com/image/250x220/FFB6C1/000000" />
-                            </a>
-                            <div class="media-body">
-                                <a href="#" class="p-head">Item One Tittle</a>
-                                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-                            </div>
-                        </article>
-                        <article class="media">
-                            <a class="pull-left thumb p-thumb">
-                                <img src="https://www.bootdey.com/image/250x220/A2BE2/000000" />
-                            </a>
-                            <div class="media-body">
-                                <a href="#" class="p-head">Item Two Tittle</a>
-                                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-                            </div>
-                        </article>
-                        <article class="media">
-                            <a class="pull-left thumb p-thumb">
-                                <img src="https://www.bootdey.com/image/250x220/6495ED/000000" />
-                            </a>
-                            <div class="media-body">
-                                <a href="#" class="p-head">Item Three Tittle</a>
-                                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-                            </div>
-                        </article>
-                    </div>
-                </div>
-            </section>
-        </div>
-        <div class="col-md-9">
-           
-            <div class="row product-list">
-                <% sanpham.forEach((item) => { %>
-                  
-                <div class="col-md-4">
-                    <section class="panel">
-                        <div class="pro-img-box">
-                            <img src="https://www.bootdey.com/image/250x220/FFB6C1/000000" alt="" />
-                            <a href="#" class="adtocart">
-                                <i class="fa fa-shopping-cart"></i>
-                            </a>
-                        </div>
-                        <div class="panel-body text-center">
-                            <h4>
-                                <a href="#" class="pro-title">
-                                    <%= item.tensp %>
-                                </a>
-                            </h4>
-                            <p class="price"> <%= item.giaban %></p>
-                        </div>
-                    </section>
-                </div>
-                
 
-    <% }) %>
-    
-                <!-- <div class="col-md-4">
-                    <section class="panel">
-                        <div class="pro-img-box">
-                            <img src="https://www.bootdey.com/image/250x220/FFB6C1/000000" alt="" />
-                            <a href="#" class="adtocart">
-                                <i class="fa fa-shopping-cart"></i>
-                            </a>
+<div class="container">
+    <div class="bg-white rounded d-flex align-items-center justify-content-between" id="header" style="border:1px solid black"> 
+        <!-- <button
+            class="btn btn-hide text-uppercase" type="button" data-toggle="collapse" data-target="#filterbar"
+            aria-expanded="false" aria-controls="filterbar" id="filter-btn" onclick="changeBtnTxt()">
+             <span
+                class="fas fa-angle-left" id="filter-angle"></span> <span id="btn-txt">Hide filters</span> 
+            </button> -->
+        <!-- <nav class="navbar navbar-expand-lg navbar-light pl-lg-0 pl-auto"> <button class="navbar-toggler" type="button"
+                data-toggle="collapse" data-target="#mynav" aria-controls="mynav" aria-expanded="false"
+                aria-label="Toggle navigation" onclick="chnageIcon()" id="icon"> <span
+                    class="navbar-toggler-icon"></span> </button>
+            <div class="collapse navbar-collapse" id="mynav">
+                <ul class="navbar-nav d-lg-flex align-items-lg-center">
+                    <li class="nav-item active"> <select name="sort" id="sort">
+                            <option value="" hidden selected>Sort by</option>
+                            <option value="price">Price</option>
+                            <option value="popularity">Popularity</option>
+                            <option value="rating">Rating</option>
+                        </select> </li>
+                    <li class="nav-item d-inline-flex align-items-center justify-content-between mb-lg-0 mb-3">
+                        <div class="d-inline-flex align-items-center mx-lg-2" id="select2">
+                            <div class="pl-2">Products:</div> <select name="pro" id="pro">
+                                <option value="18">18</option>
+                                <option value="19">19</option>
+                                <option value="20">20</option>
+                            </select>
                         </div>
-                        <div class="panel-body text-center">
-                            <h4>
-                                <a href="#" class="pro-title">
-                                    Leopard Shirt Dress
-                                </a>
-                            </h4>
-                            <p class="price">$300.00</p>
-                        </div>
-                    </section>
-                </div> -->
+                        <div class="font-weight-bold mx-2 result">18 from 200</div>
+                    </li>
+                    <li class="nav-item d-lg-none d-inline-flex"> </li>
+                </ul>
             </div>
-            <section class="panel">
-                <div class="panel-body">
-                    <div class="pull-right">
-                        <ul class="pagination pagination-sm pro-page-list">
-                            <li><a href="#">1</a></li>
-                            <li><a href="#">2</a></li>
-                            <li><a href="#">3</a></li>
-                            <li><a href="#">»</a></li>
-                        </ul>
-                    </div>
-                </div>
-            </section>
+        </nav> -->
+        <div class="ml-auto mt-3 mr-2" >
+            <nav aria-label="Page navigation example">
+                <ul class="pagination">
+                    <li class="page-item"> <a class="page-link" href="#" aria-label="Previous"> <span aria-hidden="true"
+                                class="font-weight-bold">&lt;</span> <span class="sr-only">Previous</span> </a> </li>
+                    <li class="page-item active"><a class="page-link" href="#">1</a></li>
+                    <li class="page-item"><a class="page-link" href="#">..</a></li>
+                    <li class="page-item"><a class="page-link" href="#">24</a></li>
+                    <li class="page-item"> <a class="page-link" href="#" aria-label="Next"> <span aria-hidden="true"
+                                class="font-weight-bold">&gt;</span> <span class="sr-only">Next</span> </a> </li>
+                </ul>
+            </nav>
         </div>
     </div>
-    <script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
-    <script src="https://netdna.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-    <script type="text/javascript">
+    <div id="content" class="my-5">
+      
+        <div id="products">
+            <div class="row mx-0">
+                <% sanpham.forEach((item) => { %> 
+                <div class="col-lg-4 col-md-6 pt-md-4 pt-3">
+                    <div class="card d-flex flex-column align-items-center">
+                    
+                        <div class="card-img"> <img
+                                src="https://www.freepnglogos.com/uploads/women-shoes-png/download-women-shoes-png-image-png-image-pngimg-2.png"
+                                alt=""> </div>
+                        <div class="card-body pt-5">
+           
+                            <div class="product-name text-center"><%= item.tensp %></div>
 
-    </script>
+                            <div class="d-flex align-items-center justify-content-center price">
+                                <div class="font-weight-bold"><%= item.giaban %></div>
+                            </div>
+                            
+                            <div class="d-flex align-items-center justify-content-center colors my-2">
+                             <button class="genric-btn success circle">Thêm Vào Giỏ</button>
+                             <button class="genric-btn info circle">Xem</button>
+                            </div>
+                          
+                        </div>
+                    </div>
+                </div>
+                <% }) %>
+            </div>
+        </div>
+    </div>
 </div>

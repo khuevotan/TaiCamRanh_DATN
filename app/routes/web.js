@@ -30,14 +30,9 @@ module.exports = app => {
     var upload = multer({ storage: storage })
 
     router.post('/uploadfile', upload.single('myFile'), controller.uploadFile)
-
     router.post('/uploadmultiple', upload.array('myFiles'), controller.uploadMultiple)
 
-
-
-
     router.get('/baivietct/:mabv', controllerbv.chitiet);
-    
     router.get('/', controller.getIndex);
     router.get('/index', controller.getIndex);
     router.get('/dichvu', controllerdv.findAllKH);
@@ -46,6 +41,8 @@ module.exports = app => {
     router.get('/baiviet', controllerbv.findAllKH);
   
     router.get('/shop', controllersp.findAllKH);
+    // sản phẩm chi tiết
+    router.get('/sanphamct/:masp', controllersp.chitiet);
     router.get('/dangnhap', controller.dangNhap);
  
 
