@@ -123,10 +123,11 @@ KhachHang.updateBymakh = (makh, khachhang, result) => {
     );
 };
 
-KhachHang.updateBymakhAva = (makh, khachhang, result) => {
+
+KhachHang.updateBymakhAva = (makh, hinhdd, result) => {
     sql.query(
-        "UPDATE khachhang SET hinhdd =?  WHERE makh = ?",
-        [khachhang.hinhdd, makh],
+        "UPDATE khachhang SET hinhdd = ? WHERE makh = ?",
+        [hinhdd, makh],
         (err, res) => {
             if (err) {
                 console.log("error: ", err);
@@ -134,12 +135,10 @@ KhachHang.updateBymakhAva = (makh, khachhang, result) => {
                 return;
             }
             if (res.affectedRows == 0) {
-                // not found khachhang with the makh
                 result({ kind: "not_found" }, null);
                 return;
             }
-            console.log("updated khachhang: ", { makh: makh, ...khachhang });
-            result(null, { makh: makh, ...khachhang });
+            result(null, { makh: makh, hinhdd: hinhdd });
         }
     );
 };

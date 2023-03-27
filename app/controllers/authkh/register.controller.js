@@ -66,8 +66,9 @@ exports.register = (req, res) => {
                                         console.log(`${process.env.APP_URL}/verify?email=${khachhang.email}&token=${hashedEmail}`);
                                         mailer.sendMail(khachhang.email, "Verify Email", `<a href="${process.env.APP_URL}/verify?email=${khachhang.email}&token=${hashedEmail}"> Verify </a>`)
                                     });
-                                    const conflictError = 'Tạo tài khoản thành công, vui lòng check mail để xác nhận và đăng nhập!';
-                                    res.redirect('/login', { conflictError});
+                                    // const conflictError = 'Tạo tài khoản thành công, vui lòng check mail để xác nhận và đăng nhập!';
+                                    // res.redirect('/login', { conflictError});
+                                    res.redirect('/login?status=taotaikhoantc');
                                 }
                             })
                         });

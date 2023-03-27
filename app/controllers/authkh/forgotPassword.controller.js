@@ -33,18 +33,47 @@ exports.sendResetLinkEmail = (req, res) => {
 }
 
 exports.showResetForm = (req, res) => {
- 
- 
-  
-  
     if (!req.params.email || !req.query.token ) {
         res.redirect('/password/reset')
     } else {
-        res.render('auth/passwords/reset', { email: req.params.email, token: req.query.token})
-        console.log('khue');
-        console.log(token );
+        bcrypt.compare(req.params.email, req.query.token, (err, result) => {
+            if (result == true) {
+                console.log(result);
+                    if (!err) {
+                        res.render('auth/passwords/reset', { email: req.params.email, token: req.query.token})
+                    } else {
+                        res.redirect('/500');
+                    }
+            
+            } else {
+                res.redirect('/404');
+            }
+        })
+
+      
+    
     }
 }
+
+// exports.showResetForm = (req, res) => {
+//     bcrypt.compare(req.query.email, req.query.token, (err, result) => {
+//         if (result == true) {
+//                 if (!err) {
+//                     if (!req.params.email || !req.query.token ) {
+//                         res.redirect('/password/reset')
+//                     } else {
+//                         res.render('auth/passwords/reset', { email: req.params.email, token: req.query.token})
+//                     }
+//                 } else {
+//                     res.redirect('/500');
+//                 }
+        
+//         } else {
+//             res.redirect('/404');
+//         }
+//     })
+// }
+
 
 exports.reset = (req, res) => {
     const { email, token, matkhau } = req.body;

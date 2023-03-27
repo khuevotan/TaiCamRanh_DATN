@@ -45,7 +45,6 @@ exports.trangCaNhan = (req, res) => {
     res.locals.khachhang = req.session.khachhang
     const makh = res.locals.khachhang.makh;
 
-    console.log(makh);
     Khachhang.findByMakh(makh, (err, data) => {
         if (err)
             res.redirect('/500')
@@ -102,8 +101,8 @@ exports.update = (req, res) => {
         (err, data) => {
             if (err) {
                 if (err.kind === "not_found") {
-                    res.redirect('/404');
-                } else {
+                    res.redirect('/404'); 
+               } else {
                     res.redirect('/500');
                 }
             } else res.redirect('/khachhang/home/?status=success');
@@ -143,21 +142,20 @@ exports.uploadFile = (req, res) => {
       error.httpStatusCode = 400
       return next(error)
     }
-
-    Khachhang.updateBymakhAva(
-        req.params.makh,
-        new Khachhang(req.body),
-        (err, data) => {
-            if (err) {
-                if (err.kind === "not_found") {
-                    res.redirect('/404');
-                } else {
-                    res.redirect('/500');
-                }
-            } else res.redirect('/khachhang/home/?status=success');
-        }
-    );
+      res.locals.khachhang = req.session.khachhang
+      const makh = res.locals.khachhang.makh;
+     
+    //    res.send(file)
     
+     
+      Khachhang.updateBymakhAva(makh,file.filename, (err, result) => {
+        if (!err) {
+            res.redirect('/login');
+        } else {
+            res.redirect('/500');
+        }
+    });
+
     // res.send(file)
 }
 
