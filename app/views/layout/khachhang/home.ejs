@@ -67,8 +67,8 @@
               <div class="card-body">
                 <div class="d-flex flex-column align-items-center text-center">
                   <img
-                    src="https://bootdey.com/img/Content/avatar/avatar7.png"
-                    alt="Admin"
+                    src="/images/avatarkh/<%= khachhang.hinhdd %>"
+                    alt="Avatar khách hàng"
                     class="rounded-circle"
                     width="150"
                   />
@@ -80,11 +80,6 @@
               </div>
             </div>
             <div class="card mt-3" >
-
-           
-
-
-
                 <ul class="list-group list-group-flush card card-default rounded-0 shadow blur" style="border:1px solid black">
                     <li class="list-group-item  align-items-center flex-wrap center text-center" >
                         <a class="genric-btn info-border circle" href="/khachhang/dondathang">Đơn Đặt Hàng</a>
@@ -105,6 +100,8 @@
           <div class="col-md-8" >
             <div class="card mb-3" >
               <div class="card-body card card-default rounded-0 shadow blur" style="border:1px solid black">
+                <h1 class=" text-center">Thông Tin Cá Nhân</h1>
+                
                 <div class="row">
            
                     <div class="col-sm-4" >
@@ -201,24 +198,18 @@
                 <li class=" d-flex justify-content-between">
                     <a
                     class="genric-btn info circle"
-           
                     href="/khachhang/chinhsuatt/<%= khachhang.makh %>"
-                    >Chỉnh Sửa</a
-
-                  
-
-                  >
+                    >Chỉnh Sửa</a>
                   <a
                   class="genric-btn info circle"
           
-                  href=""
+                  href="/khachhang/doimatkhau/<%= khachhang.makh %>"
                   >Đổi Mật Khẩu</a>
-
                   <a
-                  class="genric-btn info circle"
+                  class=""
    
                   href=""
-                  >Xóa Tài Khoản</a
+                  ></a
                 >
                 </li>
               </div>

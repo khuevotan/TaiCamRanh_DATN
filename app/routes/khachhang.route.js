@@ -12,6 +12,10 @@ module.exports = app => {
 
     router.put("/khachhang/:makh", authMiddleware.loggedin, khachhang.update);
 
+    router.get("/khachhang/doimatkhau/:makh",authMiddleware.loggedin, khachhang.doimk)
+
+    router.put("/doimatkhau/:makh", authMiddleware.loggedin, khachhang.updatemk);
+    
     //file
     const multer = require("multer");
     const fsExtra = require('fs-extra');
@@ -78,14 +82,13 @@ module.exports = app => {
         res.render('thongtintt');
     });
 
-
-
-
     router.get('/khachhang/datlichrx', authMiddleware.loggedin, controllerlx.findAllKH,(req, res) => {
         res.render('datlichrx');
     });
 
+    router.get("/khachhang/chinhsuatt/:makh",authMiddleware.loggedin, khachhang.editkh);
 
+    router.post("/datlich/:makh", authMiddleware.loggedin, khachhang.datlich);
 
     app.use(router);
 }

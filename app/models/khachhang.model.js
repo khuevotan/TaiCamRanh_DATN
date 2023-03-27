@@ -210,6 +210,25 @@ KhachHang.resetPassword = (email, matkhau, result) => {
     );
 };
 
+KhachHang.resetPasswordKH = (taikhoan, matkhau, result) => {
+    sql.query(
+        "UPDATE khachhang SET matkhau = ? WHERE taikhoan = ?",
+        [matkhau, taikhoan],
+        (err, res) => {
+            if (err) {
+                console.log("error: ", err);
+                result(null, err);
+                return;
+            }
+            if (res.affectedRows == 0) {
+                result({ kind: "not_found" }, null);
+                return;
+            }
+            result(null, { taikhoan: taikhoan });
+        }
+    );
+};
+
 KhachHang.errDMK = (matkhau, result) => {
     result(null, res);
 }
