@@ -107,58 +107,93 @@
               <div class="card-body card card-default rounded-0 shadow blur" style="border:1px solid black">
                 <div class="row">
            
-                    <div class="col-sm-3" >
+                    <div class="col-sm-4" >
                     </br>
                       <h3 class="mb-0">Tên Tài Khoản</h3>
                     </div>
                 
-                    <div class="col-sm-9 text-secondary">   </br><%= khachhang.taikhoan %></div>
+                    <div class="col-sm-8 text-secondary">   </br><%= khachhang.taikhoan %></div>
                   </div>
                   <hr />
                 <div class="row">
-                  <div class="col-sm-3">
+                  <div class="col-sm-4">
                     <h3 class="mb-0">Họ Và Tên</h3>
                   </div>
-                  <div class="col-sm-9 text-secondary"><%= khachhang.hokh %> <%= khachhang.tenkh %></div>
+                  <div class="col-sm-8 text-secondary"><%= khachhang.hokh %> <%= khachhang.tenkh %></div>
                 </div>
                 <hr />
                 <div class="row">
-                    <div class="col-sm-3">
+                    <div class="col-sm-4">
                       <h3 class="mb-0">Ngày Sinh</h3>
                     </div>
-                    <div class="col-sm-9 text-secondary"><%= khachhang.ngaysinh %></div>
+                    <div class="col-sm-8 text-secondary">
+                 
+                      <%= moment(khachhang.ngaysinh).format('DD-MM-YYYY')  %>
+                    </div>
                   </div>
                   <hr />
                   <div class="row">
-                    <div class="col-sm-3">
+                    <div class="col-sm-4">
                       <h3 class="mb-0">Số Điện Thoại</h3>
                     </div>
-                    <div class="col-sm-9 text-secondary"> <%= khachhang.sodt %></div>
+                    <div class="col-sm-8 text-secondary"> <%= khachhang.sodt %></div>
                   </div>
                   <hr />
                 <div class="row">
-                  <div class="col-sm-3">
+                  <div class="col-sm-4">
                     <h3 class="mb-0">Email</h3>
                   </div>
-                  <div class="col-sm-9 text-secondary">
+                  <div class="col-sm-8 text-secondary">
                     <%= khachhang.email %>
                   </div>
                 </div>
                 <hr />
               
                 <div class="row">
-                  <div class="col-sm-3">
+                  <div class="col-sm-4">
                     <h3 class="mb-0">Giới Tính</h3>
                   </div>
-                  <div class="col-sm-9 text-secondary"><%= khachhang.gioitinh %></div>
+                  <div class="col-sm-8 text-secondary">
+                    <%if (khachhang.gioitinh == 1) { %>
+                     Nam
+                      <% }else{ %>
+                    
+                       Nữ
+                    <%}%>
+              
+                  </div>
                 </div>
                 <hr />
                 <div class="row">
-                  <div class="col-sm-3">
+                  <div class="col-sm-4">
                     <h3 class="mb-0">Địa Chỉ</h3>
                   </div>
-                  <div class="col-sm-9 text-secondary">
+                  <div class="col-sm-8 text-secondary">
                     <%= khachhang.diachi %>
+                  </div>
+                </div>
+                <hr />
+
+                <div class="row">
+                  <div class="col-sm-4">
+                    <h3 class="mb-0">Xác Thực Tài Khoản</h3>
+                  </div>
+                  <div class="col-sm-8 text-secondary">
+                    <%if (khachhang.kichhoat == 1) { %>
+                      Đã Xác Thực
+                       <% }else{ %>
+                      Chưa Xác Thực
+                   <%}%>
+                  </div>
+                </div>
+                <hr />
+
+                <div class="row">
+                  <div class="col-sm-4">
+                    <h3 class="mb-0">Ngày Tạo Tài Khoản</h3>
+                  </div>
+                  <div class="col-sm-8 text-secondary">
+                    <%= moment(khachhang.email_verified_at).format('DD-MM-YYYY')  %>
                   </div>
                 </div>
                 <hr />
@@ -167,8 +202,11 @@
                     <a
                     class="genric-btn info circle"
            
-                    href="/khachhang/chinhsuatt"
+                    href="/khachhang/chinhsuatt/<%= khachhang.makh %>"
                     >Chỉnh Sửa</a
+
+                  
+
                   >
                   <a
                   class="genric-btn info circle"
@@ -194,3 +232,23 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/js/bootstrap.bundle.min.js"></script>
  
 
+    <script>
+      function getUrlParameter(name) {
+        name = name.replace(/[\[]/, '\\[').replace(/[\]]/, '\\]');
+        var regex = new RegExp('[\\?&]' + name + '=([^&#]*)');
+        var results = regex.exec(location.search);
+        return results === null ? '' : decodeURIComponent(results[1].replace(/\+/g, ' '));
+      };
+    
+      var status = getUrlParameter('status');
+    
+    
+      if (status == 'success'){
+        alert("Chỉnh sửa thành công!");
+      }
+    
+      if (status == 'thatbai')
+      {
+        alert("Không thành công!");
+      }
+    </script>

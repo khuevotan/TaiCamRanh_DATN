@@ -16,8 +16,10 @@ const session = require('express-session');
 //CREATE EXPRESS APP
 app.use(bodyParser.urlencoded({ extended: true }));
 
- // call all the required packages
-const multer = require('multer');
+ // call all the required packages -> thay đổi datetime
+const moment = require("moment");
+
+
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -37,8 +39,11 @@ app.use(session({
     saveUninitialized: true,
 }))
 
+
+
 app.use(function (req, res, next) {
     res.locals.session = req.session;
+    res.locals.moment = moment;
     next();
 });
 

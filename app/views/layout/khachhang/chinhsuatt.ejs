@@ -58,14 +58,6 @@
   }
 </style>
 
-<% if (typeof status !== 'undefined') { %> <%if (status == 'success') { %>
-<div style="color: green">Updated Successfully</div>
-<% } else { %>
-<div style="color: red">Some error occurred while editing the khachhang</div>
-<% } %>
-<br />
-<% } %>
-
 <div class="container">
   <div class="main-body">
   <div class="row gutters-sm">
@@ -74,8 +66,8 @@
       <div class="card-body">
         <div class="d-flex flex-column align-items-center text-center">
           <img
-            src="https://bootdey.com/img/Content/avatar/avatar7.png"
-            alt="Admin"
+            src="/avatar7.png"
+            alt="Khách Hàng"
             class="rounded-circle"
             width="150"
           />
@@ -88,7 +80,11 @@
     </div>
       <div class=" mt-3" >
             <div class="  align-items-center center text-center" >
-                <a class="genric-btn info-border circle" href="">Đổi Ảnh Đại Diện</a>
+              <form action="/uploadfile" enctype="multipart/form-data" method="POST"> 
+                <input type="file" name="myFile" accept="image/*"/>
+                <input class="genric-btn info-border circle" type="submit" value="Đổi Ảnh Đại Diện"/>
+             </form>
+           
             </div>
      </div>
   </div>
@@ -99,13 +95,25 @@
       <form action="/khachhang/<%= khachhang.makh %>" method="post">
         <input type="hidden" name="_method" value="put" />
         <div class="card-body">
+
+          <div class="row mb-3" >
+            <div class="col-sm-3">
+       
+              <h3 class="mb-0">Tên Tài Khoản</h3>
+            </div>
+            <div class="col-sm-9 text-secondary" >
+              <input type="text" style="border:1px solid black" class="single-input" id="taikhoan" name="taikhoan" value="<%= khachhang.taikhoan %>" required readonly/>
+            </div>
+          </div>
+          <hr />
+          
           <div class="row mb-3">
             <div class="col-sm-3">
        
               <h3 class="mb-0">Họ</h3>
             </div>
-            <div class="col-sm-9 text-secondary">
-              <input type="text" class="single-input" id="hokh" name="hokh" value="<%= khachhang.hokh %>" />
+            <div class="col-sm-9 text-secondary"  >
+              <input type="text" style="border:1px solid black" class="single-input" id="hokh" name="hokh" value="<%= khachhang.hokh %>" />
             </div>
           </div>
           <hr />
@@ -114,8 +122,8 @@
             <div class="col-sm-3">
               <h3 class="mb-0">Tên</h3>
             </div>
-            <div class="col-sm-9 text-secondary">
-              <input type="text" class="single-input" id="tenkh" name="tenkh" value="<%= khachhang.tenkh %>" />
+            <div class="col-sm-9 text-secondary" >
+              <input type="text" style="border:1px solid black" class="single-input" id="tenkh" name="tenkh" value="<%= khachhang.tenkh %>" />
             </div>
           </div>
           <hr />
@@ -123,8 +131,10 @@
             <div class="col-sm-3">
               <h3 class="mb-0">Ngày Sinh</h3>
             </div>
-            <div class="col-sm-9 text-secondary">
-              <input type="text" class="single-input" id="ngaysinh" name="ngaysinh" value="<%= khachhang.ngaysinh %>" />
+            <div class="col-sm-9 text-secondary" >
+    
+              
+              <input type="date" style="border:1px solid black" class="single-input" id="ngaysinh" name="ngaysinh" value="<%= moment(khachhang.ngaysinh).format('YYYY-MM-DD')%>" />
             </div>
           </div>
           <hr />
@@ -132,8 +142,8 @@
             <div class="col-sm-3">
               <h3 class="mb-0">Số Điện Thoại</h3>
             </div>
-            <div class="col-sm-9 text-secondary">
-              <input type="text" class="single-input" id="sodt" name="sodt" value="<%= khachhang.sodt %>" />
+            <div class="col-sm-9 text-secondary" >
+              <input type="text" style="border:1px solid black" class="single-input" id="sodt" name="sodt" value="<%= khachhang.sodt %>" />
             </div>
           </div>
           <hr />
@@ -142,7 +152,7 @@
               <h3 class="mb-0">Email</h3>
             </div>
             <div class="col-sm-9 text-secondary">
-              <input type="text" class="single-input" id="email" name="email" value="<%= khachhang.email %>" />
+              <input type="email"  style="border:1px solid black" class="single-input" id="email" name="email" value="<%= khachhang.email %>" />
             </div>
           </div>
           <hr />
@@ -151,7 +161,25 @@
               <h3 class="mb-0">Giới Tính</h3>
             </div>
             <div class="col-sm-9 text-secondary">
-              <input type="text" class="single-input" id="gioitinh" name="gioitinh" value="<%= khachhang.gioitinh %>" />
+              <!-- <input type="text" class="single-input" id="gioitinh" name="gioitinh" value="<%= khachhang.gioitinh %>" /> -->
+            	<div >
+                <label for="nam">Nam</label>
+                <input type="radio" name="gioitinh" id="male" value="1"   
+                <%if (khachhang.gioitinh == 1) { %>
+                  checked
+                   <% } %>
+                >
+                <label for="khoangtrang"> </label>
+                <label for="nu">Nữ</label>
+                <input type="radio" name="gioitinh" id="female" value="2"
+                <%if (khachhang.gioitinh != 1) { %>
+                  checked
+                   <% } %>
+                >
+                
+                
+      
+              </div>
             </div>
           </div>
           <hr />
@@ -160,7 +188,7 @@
               <h3 class="mb-0">Địa Chỉ</h3>
             </div>
             <div class="col-sm-9 text-secondary">
-              <input type="text" class="single-input" id="diachi" name="diachi" value="<%= khachhang.diachi %>" />
+              <input type="text"  style="border:1px solid black" class="single-input" id="diachi" name="diachi" value="<%= khachhang.diachi %>" />
             </div>
           </div>
           <hr />

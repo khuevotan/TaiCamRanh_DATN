@@ -1,3 +1,4 @@
+const KhachHang = require("../../models/khachhang.model");
 const Khachhang = require("../../models/khachhang.model");
 
 // Show form create khachhang
@@ -30,7 +31,7 @@ exports.store = (req, res) => {
 exports.findAll = (req, res) => {
     res.locals.deleted = req.query.deleted;
     const tenkh = req.query.tenkh;
-    khachhang.getAll(tenkh, (err, data) => {
+    Khachhang.getAll(tenkh, (err, data) => {
         if (err)
             res.redirect('/500')
         else {
@@ -39,6 +40,23 @@ exports.findAll = (req, res) => {
    
     });
 };
+
+exports.trangCaNhan = (req, res) => {
+    res.locals.khachhang = req.session.khachhang
+    const makh = res.locals.khachhang.makh;
+
+    console.log(makh);
+    Khachhang.findByMakh(makh, (err, data) => {
+        if (err)
+            res.redirect('/500')
+        else {
+        console.log(data);
+            res.render('home',  {khachhang: data});
+        }
+   
+    });
+};
+
 
 // Find a single khachhang with a makh
 exports.edit = (req, res) => {
@@ -51,22 +69,22 @@ exports.edit = (req, res) => {
             } else {
                 res.redirect('/500');
             }
-        } else res.render('khachhang/editdm', { khachhang: data,  layout: './master2'});
+        } else res.render('khachhang/editkh', { khachhang: data,  layout: './master2'});
     });
 };
 
 // Edit bên phía khách hàng
-exports.edit = (req, res) => {
+exports.editkh = (req, res) => {
     res.locals.status = req.query.status;
 
-    Khachhang.findByTaikhoan(req.params.makh, (err, data) => {
+    Khachhang.findByMakh(req.params.makh, (err, data) => {
         if (err) {
             if (err.kind === "not_found") {
                 res.redirect('/404');
             } else {
                 res.redirect('/500');
             }
-        } else res.render('/khachhang/chinhsuatt', { khachhang: data});
+        } else res.render('chinhsuatt', { khachhang: data});
     });
 };
 
@@ -80,7 +98,7 @@ exports.update = (req, res) => {
 
     Khachhang.updateBymakh(
         req.params.makh,
-        new khachhang(req.body),
+        new Khachhang(req.body),
         (err, data) => {
             if (err) {
                 if (err.kind === "not_found") {
@@ -88,7 +106,7 @@ exports.update = (req, res) => {
                 } else {
                     res.redirect('/500');
                 }
-            } else res.redirect('/khachhang/edit/' + req.params.makh + '?status=success');
+            } else res.redirect('/khachhang/home/?status=success');
         }
     );
 };
@@ -116,3 +134,60 @@ exports.deleteAll = (req, res) => {
     });
 };
 
+
+// Upload fle ảnh
+exports.uploadFile = (req, res) => {
+    const file = req.file
+    if (!file) {
+      const error = new Error('Please upload a file')
+      error.httpStatusCode = 400
+      return next(error)
+    }
+
+    Khachhang.updateBymakhAva(
+        req.params.makh,
+        new Khachhang(req.body),
+        (err, data) => {
+            if (err) {
+                if (err.kind === "not_found") {
+                    res.redirect('/404');
+                } else {
+                    res.redirect('/500');
+                }
+            } else res.redirect('/khachhang/home/?status=success');
+        }
+    );
+    
+    // res.send(file)
+}
+
+// exports.updatehinhdd = (req, res) => {
+//     // Validate Request
+//     if (!req.body) {
+//         res.redirect('/khachhang/edit/' + req.params.makh + '?status=error')
+//     }
+
+//     Khachhang.updateBymakhAva(
+//         req.params.makh,
+//         new Khachhang(req.body),
+//         (err, data) => {
+//             if (err) {
+//                 if (err.kind === "not_found") {
+//                     res.redirect('/404');
+//                 } else {
+//                     res.redirect('/500');
+//                 }
+//             } else res.redirect('/khachhang/home/?status=success');
+//         }
+//     );
+// };
+
+exports.uploadMultiple = (req, res) => {
+    const files = req.files
+    if (!files) {
+      const error = new Error('Please choose files')
+      error.httpStatusCode = 400
+      return next(error)
+    }
+    res.send(files)
+}

@@ -1,6 +1,7 @@
 const sql = require("./db");
 
 const KhachHang = function(khachhang){
+    this.makh = khachhang.makh;
     this.taikhoan = khachhang.taikhoan;
     this.matkhau = khachhang.matkhau;
     this.hokh = khachhang.hokh;
@@ -29,6 +30,20 @@ KhachHang.create = (newKhachhang, result) => {
 
 KhachHang.findByTaikhoan = (taikhoan, result) => {
     sql.query(`SELECT * from khachhang WHERE taikhoan = '${taikhoan}'`, (err, res) => {
+        if (err) {
+            result(err, null);
+            return;
+        }
+        if (res.length) {
+            result(null, res[0])
+            return;
+        }
+        result(null, null);
+    });
+}
+
+KhachHang.findByMakh = (makh, result) => {
+    sql.query(`SELECT * from khachhang WHERE makh = '${makh}'`, (err, res) => {
         if (err) {
             result(err, null);
             return;
@@ -70,7 +85,7 @@ KhachHang.findByEmail = (email, result) => {
     });
 }
 
-// thêm
+
 KhachHang.getAll = (tenkh, result) => {
     let query = "SELECT * FROM khachhang";
     if (tenkh) {
@@ -91,6 +106,27 @@ KhachHang.updateBymakh = (makh, khachhang, result) => {
     sql.query(
         "UPDATE khachhang SET taikhoan =?, hokh = ?, tenkh = ?, ngaysinh = ?, sodt = ?, diachi = ? , email = ?, gioitinh = ? WHERE makh = ?",
         [khachhang.taikhoan, khachhang.hokh , khachhang.tenkh, khachhang.ngaysinh , khachhang.sodt, khachhang.diachi, khachhang.email, khachhang.gioitinh,  makh],
+        (err, res) => {
+            if (err) {
+                console.log("error: ", err);
+                result(null, err);
+                return;
+            }
+            if (res.affectedRows == 0) {
+                // not found khachhang with the makh
+                result({ kind: "not_found" }, null);
+                return;
+            }
+            console.log("updated khachhang: ", { makh: makh, ...khachhang });
+            result(null, { makh: makh, ...khachhang });
+        }
+    );
+};
+
+KhachHang.updateBymakhAva = (makh, khachhang, result) => {
+    sql.query(
+        "UPDATE khachhang SET hinhdd =?  WHERE makh = ?",
+        [khachhang.hinhdd, makh],
         (err, res) => {
             if (err) {
                 console.log("error: ", err);
@@ -136,9 +172,6 @@ KhachHang.removeAll = result => {
         result(null, res);
     });
 };
-
-
-
 
 KhachHang.verify = (email, result) => {
     sql.query(

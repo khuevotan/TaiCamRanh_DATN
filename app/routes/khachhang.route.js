@@ -2,18 +2,42 @@ const authMiddleware = require('../middlewares/auth.middleware');
 const controllerlx = require('../controllers/admin/loaixe.controller');
 const khachhang = require("../controllers/khachhang/khachhang.controller");
 
+
 module.exports = app => {
     var router = require('express').Router();
 
-    router.get('/khachhang/home', authMiddleware.loggedin, (req, res) => {
-        res.render('home');
+    router.get('/khachhang/home', authMiddleware.loggedin, khachhang.trangCaNhan);
+
+    router.get("/khachhang/chinhsuatt/:makh",authMiddleware.loggedin, khachhang.editkh);
+
+    router.put("/khachhang/:makh", authMiddleware.loggedin, khachhang.update);
+
+    //file
+    const multer = require("multer");
+    const fsExtra = require('fs-extra');
+
+    
+     // SET STORAGE
+     var storage = multer.diskStorage({
+        destination: function (req, file, cb) {
+            let path = 'app/public/images/avatarkh';
+            if (!fsExtra.existsSync(path)) {
+                fsExtra.mkdirSync(path)
+            }
+
+            cb(null, path)
+        },
+        filename: function (req, file, cb) {
+            cb(null, Date.now() + '-' + file.originalname)
+        }
     });
 
-    router.get('/khachhang/chinhsuatt', authMiddleware.loggedin, (req, res) => {
-        res.render('chinhsuatt');
-    });
+    //file
+    var upload = multer({ storage: storage })
 
-    router.put("/:makh", authMiddleware.loggedin, khachhang.update);
+    router.post('/uploadfile', upload.single('myFile'), khachhang.uploadFile)
+    router.post('/uploadmultiple', upload.array('myFiles'), khachhang.uploadMultiple)
+
 
     router.get('/khachhang/dondathang', authMiddleware.loggedin, (req, res) => {
         res.render('dondathang');

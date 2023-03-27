@@ -8,29 +8,29 @@ module.exports = app => {
     const controllersp = require('../controllers/admin/sanpham.controller');
 
     //file
-    const multer = require("multer");
-    const fsExtra = require('fs-extra');
+    // const multer = require("multer");
+    // const fsExtra = require('fs-extra');
 
      // SET STORAGE
-     var storage = multer.diskStorage({
-        destination: function (req, file, cb) {
-            let path = 'uploads';
-            if (!fsExtra.existsSync(path)) {
-                fsExtra.mkdirSync(path)
-            }
+    //  var storage = multer.diskStorage({
+    //     destination: function (req, file, cb) {
+    //         let path = 'uploads';
+    //         if (!fsExtra.existsSync(path)) {
+    //             fsExtra.mkdirSync(path)
+    //         }
 
-            cb(null, path)
-        },
-        filename: function (req, file, cb) {
-            cb(null, Date.now() + '-' + file.originalname)
-        }
-    });
+    //         cb(null, path)
+    //     },
+    //     filename: function (req, file, cb) {
+    //         cb(null, Date.now() + '-' + file.originalname)
+    //     }
+    // });
 
     //file
-    var upload = multer({ storage: storage })
+    // var upload = multer({ storage: storage })
 
-    router.post('/uploadfile', upload.single('myFile'), controller.uploadFile)
-    router.post('/uploadmultiple', upload.array('myFiles'), controller.uploadMultiple)
+    // router.post('/uploadfile', upload.single('myFile'), controller.uploadFile)
+    // router.post('/uploadmultiple', upload.array('myFiles'), controller.uploadMultiple)
 
     router.get('/baivietct/:mabv', controllerbv.chitiet);
     router.get('/', controller.getIndex);
@@ -53,8 +53,7 @@ module.exports = app => {
     router.get('/view/index', controller.showView);
 
     //file
-    router.get('/form/data', controller.showForm);
-
+    // router.get('/form/data', controller.showForm);
 
     app.use(router);
 }
