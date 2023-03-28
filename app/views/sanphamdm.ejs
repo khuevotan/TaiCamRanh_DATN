@@ -588,40 +588,7 @@
                 placeholder="Nhập tên sản phẩm...">
             <button class="genric-btn info circle" type="submit">Tìm Kiếm</button>
         </form>
-
-
-        <!-- <button
-            class="btn btn-hide text-uppercase" type="button" data-toggle="collapse" data-target="#filterbar"
-            aria-expanded="false" aria-controls="filterbar" id="filter-btn" onclick="changeBtnTxt()">
-             <span
-                class="fas fa-angle-left" id="filter-angle"></span> <span id="btn-txt">Hide filters</span> 
-            </button> -->
-        <!-- <nav class="navbar navbar-expand-lg navbar-light pl-lg-0 pl-auto"> <button class="navbar-toggler" type="button"
-                data-toggle="collapse" data-target="#mynav" aria-controls="mynav" aria-expanded="false"
-                aria-label="Toggle navigation" onclick="chnageIcon()" id="icon"> <span
-                    class="navbar-toggler-icon"></span> </button>
-            <div class="collapse navbar-collapse" id="mynav">
-                <ul class="navbar-nav d-lg-flex align-items-lg-center">
-                    <li class="nav-item active"> <select name="sort" id="sort">
-                            <option value="" hidden selected>Sort by</option>
-                            <option value="price">Price</option>
-                            <option value="popularity">Popularity</option>
-                            <option value="rating">Rating</option>
-                        </select> </li>
-                    <li class="nav-item d-inline-flex align-items-center justify-content-between mb-lg-0 mb-3">
-                        <div class="d-inline-flex align-items-center mx-lg-2" id="select2">
-                            <div class="pl-2">Products:</div> <select name="pro" id="pro">
-                                <option value="18">18</option>
-                                <option value="19">19</option>
-                                <option value="20">20</option>
-                            </select>
-                        </div>
-                        <div class="font-weight-bold mx-2 result">18 from 200</div>
-                    </li>
-                    <li class="nav-item d-lg-none d-inline-flex"> </li>
-                </ul>
-            </div>
-        </nav> -->
+        
         <div class="ml-auto mt-3 mr-2">
             <nav aria-label="Page navigation example">
                 <ul class="pagination">
@@ -644,7 +611,7 @@
                     <ul class="list cat-list">
                         <% danhmuc.forEach((item) => { %>
                         <li>
-                            <a href="/sanphamdm/<%= item.madm %>" class="d-flex">
+                            <a href="#" class="d-flex">
                                 <p><%= item.tendm %></p>
                         
                             </a>
@@ -662,7 +629,7 @@
                             <div class="card d-flex flex-column align-items-center">
 
                                 <div class="card-img"> <img
-                                        src="/images/sanpham/<%= item.hinhdd %>"
+                                        src="https://www.freepnglogos.com/uploads/women-shoes-png/download-women-shoes-png-image-png-image-pngimg-2.png"
                                         alt=""> </div>
                                 <div class="card-body pt-5">
 
@@ -674,9 +641,7 @@
 
                                     <div class="d-flex align-items-center justify-content-center colors my-2">
                                         <button class="genric-btn success circle">Thêm Vào Giỏ</button>
-                                        <a href="/sanphamct/<%= item.masp %>" class="genric-btn info circle">Xem</a>
-                                     
-                                        
+                                        <button class="genric-btn info circle">Xem</button>
                                     </div>
 
                                 </div>

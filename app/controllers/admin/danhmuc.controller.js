@@ -40,6 +40,22 @@ exports.findAll = (req, res) => {
     });
 };
 
+// Hiển thị danh mục bên phía khách hàng
+exports.findAllKHdm = (req, res) => {
+    res.locals.deleted = req.query.deleted;
+    const tendm = req.query.tendm;
+    Danhmuc.getAll(tendm, (err, danhmuc) => {
+        if (err)
+            res.redirect('/500')
+        else {
+            res.render('shop',  {danhmuc: danhmuc, layout: './master'});
+             console.log(danhmuc);
+        }
+   
+    });
+};
+
+
 // Find a single danhmuc with a madm
 exports.edit = (req, res) => {
     res.locals.status = req.query.status;

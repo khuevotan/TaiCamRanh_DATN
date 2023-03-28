@@ -6,33 +6,10 @@ module.exports = app => {
     const controllerdv = require('../controllers/admin/dichvu.controller');
     const controllerbv = require('../controllers/admin/baiviet.controller');
     const controllersp = require('../controllers/admin/sanpham.controller');
-
-    //file
-    // const multer = require("multer");
-    // const fsExtra = require('fs-extra');
-
-     // SET STORAGE
-    //  var storage = multer.diskStorage({
-    //     destination: function (req, file, cb) {
-    //         let path = 'uploads';
-    //         if (!fsExtra.existsSync(path)) {
-    //             fsExtra.mkdirSync(path)
-    //         }
-
-    //         cb(null, path)
-    //     },
-    //     filename: function (req, file, cb) {
-    //         cb(null, Date.now() + '-' + file.originalname)
-    //     }
-    // });
-
-    //file
-    // var upload = multer({ storage: storage })
-
-    // router.post('/uploadfile', upload.single('myFile'), controller.uploadFile)
-    // router.post('/uploadmultiple', upload.array('myFiles'), controller.uploadMultiple)
+    const controllerdm = require('../controllers/admin/danhmuc.controller');
 
     router.get('/baivietct/:mabv', controllerbv.chitiet);
+    router.get('/sanphamct/:masp', controllersp.chitietsp);
     router.get('/', controller.getIndex);
     router.get('/index', controller.getIndex);
     router.get('/dichvu', controllerdv.findAllKH);
@@ -40,9 +17,11 @@ module.exports = app => {
     router.get('/lienhe', controller.getLienhe);
     router.get('/baiviet', controllerbv.findAllKH);
   
-    router.get('/shop', controllersp.findAllKH);
-    // sản phẩm chi tiết
-    router.get('/sanphamct/:masp', controllersp.chitiet);
+    // router.get('/shop', controllersp.findAllKH);
+    router.get('/sanphamdm/:madm',  controllersp.findAllKHandDMct); 
+
+    router.get('/shop',  controllersp.findAllKHandDM);
+
     router.get('/dangnhap', controller.dangNhap);
  
 

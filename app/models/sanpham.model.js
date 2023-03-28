@@ -25,6 +25,8 @@ Sanpham.create = (newsanpham, result) => {
 };
 
 Sanpham.findBymasp = (masp, result) => {
+    console.log("khue==================================");
+    console.log(masp);
     sql.query(`SELECT * FROM sanpham WHERE masp = ${masp}`, (err, res) => {
         if (err) {
             console.log("error: ", err);
@@ -41,11 +43,44 @@ Sanpham.findBymasp = (masp, result) => {
     });
 };
 
+
 Sanpham.getAll = (tensp, result) => {
     let query = "SELECT * FROM sanpham";
     if (tensp) {
         query += ` WHERE tensp LIKE '%${tensp}%'`;
     }
+    sql.query(query, (err, res) => {
+        if (err) {
+            console.log("error: ", err);
+            result(null, err);
+            return;
+        }
+        console.log("sanpham: ", res);
+        result(null, res);
+    });
+};
+
+// hiển thị sản phẩm bên khánh hàng
+Sanpham.getAllKH = (tensp, result) => {
+    let query = "SELECT * FROM sanpham ;";
+    if (tensp) {
+        query += ` WHERE tensp LIKE '%${tensp}%'`;
+    }
+    sql.query(query, (err, res) => {
+        if (err) {
+            console.log("error: ", err);
+            result(null, err);
+            return;
+        }
+        console.log("sanpham: ", res);
+        result(null, res);
+    });
+};
+
+//hiển thị sản phẩm theo danh mục bên phía khách hàng
+Sanpham.getAllKHdmsp = (madm, result) => {
+    let query = `SELECT * FROM sanpham WHERE madm = ${madm} `;
+  
     sql.query(query, (err, res) => {
         if (err) {
             console.log("error: ", err);
@@ -107,21 +142,6 @@ Sanpham.removeAll = result => {
     });
 };
 
-Sanpham.findBymasp = (mabv, result) => {
-    sql.query(`SELECT * FROM sanpham WHERE masp = ${masp}`, (err, res) => {
-        if (err) {
-            console.log("error: ", err);
-            result(err, null);
-            return;
-        }
-        if (res.length) {
-            console.log("found sanpham: ", res[0]);
-            result(null, res[0]);
-            return;
-        }
-        // not found baiviet with the mabv
-        result({ kind: "not_found" }, null);
-    });
-};
+
 
 module.exports = Sanpham;

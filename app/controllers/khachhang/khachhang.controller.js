@@ -278,9 +278,9 @@ exports.datlich = (req, res) => {
         if (err){
              // res.redirect('/khachhang/datlichrx?status=error')
  const conflictError = "Đặt lịch thành công, vui lòng chọn hình thức thanh toán"
-            res.render('chonttrx', {
-                conflictError
-            });
+            // res.render('chonttrx', {
+            //     conflictError
+            // });
         }
            
         else res.redirect('/khachhang/datlichrx?status=success')
