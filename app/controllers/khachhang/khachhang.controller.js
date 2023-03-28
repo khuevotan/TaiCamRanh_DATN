@@ -247,8 +247,6 @@ exports.uploadMultiple = (req, res) => {
 
 // đặt lịch rửa xe
 exports.datlich = (req, res) => {
-
-
     res.locals.khachhang = req.session.khachhang
     const makh = res.locals.khachhang.makh;
 
@@ -256,8 +254,14 @@ exports.datlich = (req, res) => {
     if (!req.body) {
         res.redirect('/khachhang/datlichrx?status=error')
     }
+
+    const crypto = require("crypto");
+    const id = crypto.randomBytes(16).toString("hex");
+
       // Create a khachhang
       const hoadonrx = new HoaDonRX({
+        
+        mahdrx : id,
         tennguoidat: req.body.tennguoidat,
         ngaydat: new Date(),
         ngayrua: req.body.ngayrua,
@@ -275,15 +279,14 @@ exports.datlich = (req, res) => {
 
       // Save khachhang in the database
       HoaDonRX.create(hoadonrx, (err, data) => {
-        if (err){
-             // res.redirect('/khachhang/datlichrx?status=error')
- const conflictError = "Đặt lịch thành công, vui lòng chọn hình thức thanh toán"
-            // res.render('chonttrx', {
-            //     conflictError
-            // });
-        }
-           
-        else res.redirect('/khachhang/datlichrx?status=success')
+        console.log(err);
+        if (!err){
+            const mahdrx = data.mahdrx;
+             res.redirect('/khachhang/chonttrx/' + mahdrx + '?status=taothanhcong')
+        }else{
+            res.redirect('/khachhang/chonttrx?status=thatbai')
+        } 
     });
-
 };
+
+

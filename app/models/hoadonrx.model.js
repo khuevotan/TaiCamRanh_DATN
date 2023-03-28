@@ -17,6 +17,7 @@ const HoaDonRX = function(hoadonrx){
     this.makh = hoadonrx.makh;
 };
 
+// Tạo đơn rửa xe
 HoaDonRX.create = (newhoadonrx, result) => {
     sql.query("INSERT INTO hoadonrx SET ?", newhoadonrx, (err, res) => {
         if (err) {
@@ -24,13 +25,15 @@ HoaDonRX.create = (newhoadonrx, result) => {
             result(err, null);
             return;
         }
-        console.log("created hoadonrx: ", { mahdrx: res.insertmahdrx, ...newhoadonrx });
-        result(null, { mahdrx: res.insertmahdrx, ...newhoadonrx });
+        console.log("created hoadonrx: ", {  ...newhoadonrx });
+        result(null, { ...newhoadonrx });
     });
 };
 
-HoaDonRX.findBymahdrx = (mahdrx, result) => {
-    sql.query(`SELECT * FROM hoadonrx WHERE mahdrx = ${mahdrx}`, (err, res) => {
+//tìm kiếm 1 hóa đơn bằng mã đơn hàng
+HoaDonRX.findBymahdrx = (mahdrx, result) => { 
+    sql.query(`SELECT * FROM hoadonrx WHERE mahdrx = '${mahdrx}'`, (err, res) => {
+        
         if (err) {
             console.log("error: ", err);
             result(err, null);
@@ -46,11 +49,29 @@ HoaDonRX.findBymahdrx = (mahdrx, result) => {
     });
 };
 
-HoaDonRX.getAll = (tenbv, result) => {
-    let query = "SELECT * FROM hoadonrx";
-    if (tenbv) {
-        query += ` WHERE tenbv LIKE '%${tenbv}%'`;
-    }
+// hiển thị hóa đơn rửa xe bên phía khách hàng
+HoaDonRX.getAll = (makh, result) => {
+    let query = `SELECT * FROM hoadonrx WHERE makh = ${makh} and thanhtoan = 1`;
+    // if (tenbv) {
+    //     query += ` WHERE tenbv LIKE '%${tenbv}%'`;
+    // }
+    sql.query(query, (err, res) => {
+        if (err) {
+            console.log("error: ", err);
+            result(null, err);
+            return;
+        }
+        console.log("hoadonrx: ", res);
+        result(null, res);
+    });
+};
+
+// hiển thị lịch sử hóa đơn rửa xe bên phía khách hàng
+HoaDonRX.getLSAll = (makh, result) => {
+    let query = `SELECT * FROM hoadonrx WHERE makh = ${makh} and matt = 4 and thanhtoan = 2`;
+    // if (tenbv) {
+    //     query += ` WHERE tenbv LIKE '%${tenbv}%'`;
+    // }
     sql.query(query, (err, res) => {
         if (err) {
             console.log("error: ", err);

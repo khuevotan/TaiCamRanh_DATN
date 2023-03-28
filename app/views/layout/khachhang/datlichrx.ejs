@@ -47,11 +47,11 @@
                             <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
                              
                                 <div class="form-group mb-3 ">
-                                    <label for="loaixe"><b>Loại Xe</b></label>
+                                    <label for="malx"><b>Loại Xe</b></label>
                                   
                                     <select class="form-select single-input"  id="mySelect" name="malx"  style="border:1px solid black" onchange="myFunction()">
                                         <% loaixe.forEach((item) => { %> 
-                                            <option value="<%= item.gia %>"><%= item.tenlx %></option>
+                                            <option name="malx" value="<%= item.gia %>"><%= item.tenlx %></option>
                                          <% }) %>
                                     </select>
                                
@@ -145,8 +145,4 @@
 	if (status == 'success'){
 		alert("Đặt lịch thành công!");
 	}
-
-
-    
-
 </script>

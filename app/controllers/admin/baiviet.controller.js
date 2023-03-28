@@ -43,6 +43,7 @@ exports.findAll = (req, res) => {
 };
 
 
+// hiển thị bài viết bên phía khach hàng
 exports.findAllKH = (req, res) => {
     res.locals.deleted = req.query.deleted;
     const tenbv = req.query.tenbv;
@@ -53,7 +54,6 @@ exports.findAllKH = (req, res) => {
             res.render('baiviet',  {baiviet: data, layout: './master'});
             console.log(data);
         }
-   
     });
 };
 
@@ -115,7 +115,7 @@ exports.deleteAll = (req, res) => {
     });
 };
 
-
+// hiển thị chi tiết 1 bài viết
 exports.chitiet = (req, res) => {
     res.locals.status = req.query.status;
     Baiviet.findBymabv(req.params.mabv, (err, data) => {

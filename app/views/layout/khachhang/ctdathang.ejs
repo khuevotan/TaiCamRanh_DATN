@@ -55,7 +55,25 @@
                                     <span class="me-3">22-11-2021</span>
                                     <span class="me-3">#16123222</span>
                                     <span class="me-3">Visa -1234</span>
-                                    <span class="badge rounded-pill bg-info">SHIPPING</span>
+                                    <span class="badge rounded-pill bg-info">
+                                        Trạng Thái: 
+                                        <%if (item.matt == 1) { %>
+                                            <a data-placement="top" class="genric-btn warning circle" href="#"
+                                            title="Danger">Chờ Xác Nhận</a>
+                                         <% } %>
+        
+                                         <%if (item.matt == 2) { %>
+                                            <a data-placement="top" class="genric-btn success circle" href="#"
+                                            title="View">Đã Xác Nhận</a>
+                                         <% } %>
+                                           
+                                         <%if (item.matt == 3) { %>
+                                            <a data-placement="top" class="genric-btn danger circle" href="#"
+                                            title="Danger">Hủy</a>
+                                         <% } %>
+
+
+                                    </span>
                                 </div>
                                 <div class="d-flex">
                                     <button class="btn btn-link p-0 me-3 d-none d-lg-block btn-icon-text"><i

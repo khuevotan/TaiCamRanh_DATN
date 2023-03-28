@@ -67,36 +67,72 @@
     <div class="container bootdey" style="border: 1px solid black">
         <div class="panel panel-default panel-order">
             <div class="panel-body">
+
+                <% hoadonrx.forEach((item) => { %>
                 <div class="row">
                     <div class="col-md-1"><img src="https://bootdey.com/img/Content/user_3.jpg"
                             class="media-object img-thumbnail" /></div>
                     <div class="col-md-11">
                         <div class="row">
                             <div class="col-md-12">
-                                <div class="pull-right"><a href="" class="genric-btn info-border circle">Xem Chi Tiết</a></div>
+                                <div class="pull-right"><a href="/khachhang/ctdatlich/<%= item.mahdrx %>" class="genric-btn info-border circle">Xem Chi Tiết</a></div>
                                 <span>
-                                    <strong>Mã Hóa Đơn: </strong>
+                                    <strong>Mã Hóa Đơn: <%= item.mahdrx  %></strong>
                                 </span>
                                 <br />
-                                Ngày Đặt: 
+                             
+                                Ngày Đặt:      <%= moment(item.ngaydat).format('DD-MM-YYYY')  %> 
                                 <br />
-                                Trạng Thái: 
-                                <a data-placement="top" class="genric-btn success circle" href="#"
-                                    title="View">Đã Xác Nhận</a>
-                                <a data-placement="top" class="genric-btn warning circle" href="#"
-                                    title="Danger">Chờ Xác Nhận</a>
-                                <a data-placement="top" class="genric-btn danger circle" href="#"
-                                    title="Danger">Hủy</a>
+                            
+ 
+                                <div class="row">
+                                    <div class="ml-4">
+                                   
+                                        <%if (item.matt == 1) { %>
+                                            <a data-placement="top" class="genric-btn warning circle" href="#"
+                                            title="Danger">Chờ Xác Nhận</a>
+                                         <% } %>
+        
+                                         <%if (item.matt == 2) { %>
+                                            <a data-placement="top" class="genric-btn success circle" href="#"
+                                            title="View">Đã Xác Nhận</a>
+                                         <% } %>
+                                           
+                                         <%if (item.matt == 3) { %>
+                                            <a data-placement="top" class="genric-btn danger circle" href="#"
+                                            title="Danger">Hủy</a>
+                                         <% } %>
+                                    </div>
+                                    <div>
+                              
+                                        <%if (hoadonrx.thanhtoan != 1) { %>
+                                        <a data-placement="top" class="genric-btn danger circle" href="#" title="View">Chưa
+                                            Thanh Toán</a>
+                                        <% }else { %>
+                                        <a data-placement="top" class="genric-btn success circle" href="#" title="View">Đã
+                                            Thanh Toán</a>
+                                        <%  } %>
+                                    </div>
+                                </div>
+                                
+
+
                             </div>
                             <div class="col-md-12">
-                                Đơn hàng đã được duyện bởi: 
+                                   <%if (item.manv == 0) { %> 
+                                    Đơn hàng chưa được duyệt bởi nhân viên nào 
+                                    <% }else{ %>
+                                        Đơn hàng đã được duyện bởi nhân viên có mã:
+                                        <% item.manv %>
+                                     <%}%>
+
                             </div>
                         </div>
                     </div>
                 </div>
-           
+                <% }) %>
+             
             </div>
-          
         </div>
     </div>
     <script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>

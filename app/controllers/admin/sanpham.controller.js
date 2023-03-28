@@ -111,7 +111,7 @@ exports.findAllKHandDMct = (req, res) => {
 };
 
 
-
+// hiển thị chi tiết 1 sản phẩm
 exports.chitietsp = (req, res) => {
     res.locals.status = req.query.status;
     
