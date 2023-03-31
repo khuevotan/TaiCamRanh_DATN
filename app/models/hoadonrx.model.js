@@ -5,7 +5,7 @@ const HoaDonRX = function(hoadonrx){
     this.tennguoidat = hoadonrx.tennguoidat;
     this.ngaydat = hoadonrx.ngaydat;
     this.ngayrua = hoadonrx.ngayrua;
-    this.giorua = hoadonrx.giorua;
+    this.magio = hoadonrx.magio;
     this.sodt = hoadonrx.sodt;
     this.diachi = hoadonrx.diachi;
     this.ghichu = hoadonrx.ghichu;
@@ -64,6 +64,21 @@ HoaDonRX.getAll = (makh, result) => {
         console.log("hoadonrx: ", res);
         result(null, res);
     });
+};
+
+// cập nhật thanh toán hóa đơn
+HoaDonRX.updateBymahdrx = (mahdrx, result) => {
+    sql.query(
+        `UPDATE hoadonrx SET thanhtoan = 2 where mahdrx = ${mahdrx}`,
+        (err, res) => {
+            if (err) {
+                console.log("error: ", err);
+                result(null, err);
+                return;
+            }
+            result(null, { mahdrx: mahdrx});
+        }
+    );
 };
 
 // hiển thị lịch sử hóa đơn rửa xe bên phía khách hàng

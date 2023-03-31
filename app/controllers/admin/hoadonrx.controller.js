@@ -42,7 +42,6 @@ exports.findAll = (req, res) => {
     });
 };
 
-
 // Hiển thị hóa đơn đặt lịch bên phía khach hàng
 exports.findAllKH = (req, res) => {
     res.locals.deleted = req.query.deleted;

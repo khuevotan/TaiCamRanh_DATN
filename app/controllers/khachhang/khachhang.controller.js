@@ -2,7 +2,11 @@ const KhachHang = require("../../models/khachhang.model");
 const Khachhang = require("../../models/khachhang.model");
 const HoaDonRX = require("../../models/hoadonrx.model");
 
+
 const bcrypt = require('bcrypt');
+const {
+    log
+} = require("console");
 
 // Show form create khachhang
 exports.create = (req, res) => {
@@ -246,6 +250,35 @@ exports.uploadMultiple = (req, res) => {
 
 
 // đặt lịch rửa xe
+
+// hiển thị form chọn ngày
+exports.showDayForm = (req, res) => {
+    res.render('chonngay');
+}
+
+// chọn ngày rửa xe
+exports.chonNgay = (req, res) => {
+    res.locals.status = req.query.status;
+
+    const { ngayrua } = req.body;
+
+    date1 = new Date(ngayrua)
+    date2 = new Date()
+
+    if (ngayrua) {
+        if (date1.getYear() >= date2.getYear() && date1.getMonth() >= date2.getMonth() && date1.getDay() >= date2.getDay()) {
+            res.redirect('/khachhang/datlichrx/' + ngayrua)
+        } else {
+            const conflictError ='Không được chọn ngày quá khứ!';
+            res.render('chonngay', {conflictError});
+        }
+    } else {
+        res.redirect('/404');
+    }
+};
+
+
+// nhấn đặt lịch
 exports.datlich = (req, res) => {
     res.locals.khachhang = req.session.khachhang
     const makh = res.locals.khachhang.makh;
@@ -258,14 +291,14 @@ exports.datlich = (req, res) => {
     const crypto = require("crypto");
     const id = crypto.randomBytes(16).toString("hex");
 
-      // Create a khachhang
-      const hoadonrx = new HoaDonRX({
-        
-        mahdrx : id,
+    // Create a khachhang
+    const hoadonrx = new HoaDonRX({
+
+        mahdrx: id,
         tennguoidat: req.body.tennguoidat,
         ngaydat: new Date(),
         ngayrua: req.body.ngayrua,
-        giorua: req.body.giorua,
+        magio: req.body.magio,
         sodt: req.body.sodt,
         diachi: req.body.diachi,
         ghichu: req.body.ghichu,
@@ -277,16 +310,26 @@ exports.datlich = (req, res) => {
         makh: makh,
     });
 
-      // Save khachhang in the database
-      HoaDonRX.create(hoadonrx, (err, data) => {
+    // Save khachhang in the database
+    HoaDonRX.create(hoadonrx, (err, data) => {
         console.log(err);
-        if (!err){
+        if (!err) {
             const mahdrx = data.mahdrx;
-             res.redirect('/khachhang/chonttrx/' + mahdrx + '?status=taothanhcong')
-        }else{
+            res.redirect('/khachhang/chonttrx?mahdrx=' + mahdrx + '&status=taothanhcong')
+        } else {
             res.redirect('/khachhang/chonttrx?status=thatbai')
-        } 
+        }
     });
+
+    
 };
 
+// thanh toán
+exports.thanhToan = (mahdrx,req, res) => {
+    res.locals.deleted = req.query.deleted;
 
+    HoaDonRX.updateBymahdrx(mahdrx, (err, data) => {
+        if (err)
+            res.redirect('/500')
+    });
+};

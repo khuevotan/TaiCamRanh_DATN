@@ -7,116 +7,105 @@
     <h2>Liên Hệ</h2>
 </div> -->
 
-<div class="container" >
-    <div class="row justify-content-center" >
-        <div class="col-lg-8 col-md-10 col-sm-12 col-xs-12"  >
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-lg-8 col-md-10 col-sm-12 col-xs-12">
             <div class="card card-default rounded-0 shadow blur" style="border:1px solid black">
                 <h1 class="mb-20 text-center mt-20">Đặt Lịch Hẹn</h1>
                 <div class="card-body container-fluid">
                     <form action="/datlich/:makh" method="post" id="booking-form">
-             
+
                         <input type="hidden" name="id" value="">
                         <div class="row">
                             <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
                                 <div class="form-group mb-3">
-                                        <label for="tennguoidat"><b>Tên Người Đặt</b></label>
-                                        <input type="text" name="tennguoidat" placeholder="Nhập họ tên" class="single-input"
-                                            style="border:1px solid black" <% if (typeof tennguoidat != "undefined" && tennguoidat) { %>
-                                            value="<%= tennguoidat %>" <% } %> required>
+                                    <label for="tennguoidat"><b>Tên Người Đặt</b></label>
+                                    <input type="text" name="tennguoidat" placeholder="Nhập họ tên" class="single-input"
+                                        style="border:1px solid black"
+                                        <% if (typeof tennguoidat != "undefined" && tennguoidat) { %>
+                                        value="<%= tennguoidat %>" <% } %> required>
                                 </div>
                                 <div class="form-group mb-3">
                                     <label for="sdt"><b>Số Điện Thoại</b></label>
-                                    <input type="number" name="sodt" placeholder="Nhập số điện thoại" class="single-input"
-                                        style="border:1px solid black" <% if (typeof sodt != "undefined" && sodt) { %>
-                                        value="<%= sodt %>" <% } %> required>
+                                    <input type="number" name="sodt" placeholder="Nhập số điện thoại"
+                                        class="single-input" style="border:1px solid black"
+                                        <% if (typeof sodt != "undefined" && sodt) { %> value="<%= sodt %>" <% } %>
+                                        required>
                                 </div>
                                 <div class="form-group mb-3">
                                     <label for="diachi"><b>Địa Chỉ</b></label>
                                     <input type="text" name="diachi" placeholder="Nhập địa chỉ" class="single-input"
-                                        style="border:1px solid black" <% if (typeof diachi != "undefined" && diachi) { %>
-                                        value="<%= diachi %>" <% } %> required>
+                                        style="border:1px solid black"
+                                        <% if (typeof diachi != "undefined" && diachi) { %> value="<%= diachi %>"
+                                        <% } %> required>
                                 </div>
                                 <div class="form-group mb-3">
                                     <label for="ghichu"><b>Ghi Chú</b></label>
-                                  
+
                                     <textarea type="text" name="ghichu" placeholder="Nhập ghi chú" class="single-input"
-                                    style="border:1px solid black" <% if (typeof diachi != "undefined" && diachi) { %>
-                                    value="<%= diachi %>" <% } %> required></textarea>
+                                        style="border:1px solid black"
+                                        <% if (typeof diachi != "undefined" && diachi) { %> value="<%= diachi %>"
+                                        <% } %> required></textarea>
                                 </div>
                             </div>
                             <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-                             
+
                                 <div class="form-group mb-3 ">
                                     <label for="malx"><b>Loại Xe</b></label>
-                                  
-                                    <select class="form-select single-input"  id="mySelect" name="malx"  style="border:1px solid black" onchange="myFunction()">
-                                        <% loaixe.forEach((item) => { %> 
-                                            <option name="malx" value="<%= item.gia %>"><%= item.tenlx %></option>
-                                         <% }) %>
+
+                                    <select class="form-select single-input" id="box1" name="malx"
+                                        style="border:1px solid black" onChange="myNewFunction(this);">
+                                        <% loaixe.forEach((item) => { %>
+                                        <option name="malx" value="<%= item.malx %>" id="<%= item.gia %>">
+                                            <%= item.tenlx %></option>
+                                        <% }) %>
                                     </select>
-                               
+
                                 </div>
-                             
+
                                 <div class="form-group mb-3">
                                     <label for="ngayrua"><b>Ngày Rửa</b></label>
-                                    <div >
-                    
+                                    <div>
+
                                         <input type="date" name="ngayrua" placeholder="" class="single-input"
-                                            style="border:1px solid black" <% if (typeof ngayrua != "undefined" && ngayrua) { %>
-                                            value="<%= ngayrua %>" <% } %> required>
-                    
+                                            style="border:1px solid black"
+                                            <% if (typeof ngayrua != "undefined" && ngayrua) { %> value="<%= ngayrua %>"
+                                            <% } %> required readonly>
+
                                     </div>
                                 </div>
                                 <div class="form-group mb-3">
-                                    <label for="giorua"><b>Giờ Rửa</b></label>
-                                  
-                                    <select class="form-select single-input"  id="mySelect" name="giorua"  style="border:1px solid black">
-                                            <option value="7:00">7:00</option>
-                                            <option value="7:30">7:30</option>
-                                            <option value="8:00">8:00</option>
-                                            <option value="8:30">8:30</option>
-                                            <option value="9:00">9:00</option>
-                                            <option value="9:30">9:30</option>
-                                            <option value="10:00">10:00</option>
-                                            <option value="10:30">10:30</option>
-                                            <option value="11:00">11:00</option>
-                                            <option value="13:00">13:00</option>
-                                            <option value="13:30">13:30</option>
-                                            <option value="14:00">14:00</option>
-                                            <option value="14:30">14:30</option>
-                                            <option value="15:00">15:00</option>
-                                            <option value="15:30">15:30</option>
-                                            <option value="16:30">16:00</option>
-                                            <option value="16:30">16:30</option>
-                                            <option value="17:30">17:00</option>
+                                  <b>Giờ Rửa</b>   <b class="text-danger">(Lưu ý!)</b>
+
+                                    <select class="form-select single-input" name="magio" style="border:1px solid black"
+                                        onchange="myFunction()">
+                                        <% gio.forEach((item) => { %>
+                                        <option name="magio" value="<%= item.magio %>"><%= item.tengio %></option>
+                                        <% }) %>
                                     </select>
 
-                                 
-                                    <!-- <div >
-                    
-                                        <input type="time" name="giorua" placeholder="" class="single-input"
-                                            style="border:1px solid black" <% if (typeof giorua != "undefined" && giorua) { %>
-                                            value="<%= giorua %>" <% } %> required>
-                    
-                                    </div> -->
                                 </div>
                                 <div class="form-group mb-3">
                                     <label for="tongtienrx"><b>Tổng Tiền</b></label>
-                                    <div >
-                                    
-                                        <input id="tongtienrx" type="text" name="tongtienrx" placeholder="" class="single-input" readonly
-                                        style="border:1px solid black" >
+                                    <div>
+
+                                        <input id="tongtienrx" type="text" name="tongtienrx" placeholder=""
+                                            class="single-input" readonly style="border:1px solid black">
                                     </div>
                                 </div>
                             </div>
                         </div>
                         <hr>
-                        
 
+                        <div  class="text-danger text-left  mb-3">
+                      
+                        Hệ thống chỉ hiển thị những khung giờ đang còn trống. </br>
+                        Nếu không có khung giờ phù hợp vui lòng chọn ngày khác.
+                        </div>
                         <div class="text-center">
                             <input class="genric-btn info circle " type="submit" value="Đặt Lịch Ngay">
-                        
-                            </div>
+
+                        </div>
                     </form>
                 </div>
             </div>
@@ -124,25 +113,25 @@
     </div>
 </div>
 
-<script>
-    function myFunction() {
-      var x = document.getElementById("mySelect").value;
 
-      document.getElementById('tongtienrx').value = x;
+<script>
+    function myNewFunction(sel) {
+
+        document.getElementById('tongtienrx').value = sel.options[sel.selectedIndex].id;
     }
 
     function getUrlParameter(name) {
-		name = name.replace(/[\[]/, '\\[').replace(/[\]]/, '\\]');
-		var regex = new RegExp('[\\?&]' + name + '=([^&#]*)');
-		var results = regex.exec(location.search);
-		return results === null ? '' : decodeURIComponent(results[1].replace(/\+/g, ' '));
-	};
+        name = name.replace(/[\[]/, '\\[').replace(/[\]]/, '\\]');
+        var regex = new RegExp('[\\?&]' + name + '=([^&#]*)');
+        var results = regex.exec(location.search);
+        return results === null ? '' : decodeURIComponent(results[1].replace(/\+/g, ' '));
+    };
 
-	var status = getUrlParameter('status');
+    var status = getUrlParameter('status');
 
-	console.log(status);
+    console.log(status);
 
-	if (status == 'success'){
-		alert("Đặt lịch thành công!");
-	}
+    if (status == 'success') {
+        alert("Đặt lịch thành công!");
+    }
 </script>

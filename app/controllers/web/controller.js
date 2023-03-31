@@ -22,11 +22,6 @@ exports.showForm = (req, res) => {
     res.render('form.ejs');
 }
 
-
-// exports.getBaivietct = (req, res) => {
-//     res.render('baivietct.ejs');
-// }
-
 exports.showView = (req, res) => {
     res.render('view.ejs',{layout: './master2'});
 }
@@ -42,24 +37,4 @@ exports.dangNhap = (req, res) => {
 //         name: 'Vo Tan Khue',
 //         age:22,
 //     });
-// }
-
-// exports.uploadFile = (req, res) => {
-//     const file = req.file
-//     if (!file) {
-//       const error = new Error('Please upload a file')
-//       error.httpStatusCode = 400
-//       return next(error)
-//     }
-//     res.send(file)
-// }
-
-// exports.uploadMultiple = (req, res) => {
-//     const files = req.files
-//     if (!files) {
-//       const error = new Error('Please choose files')
-//       error.httpStatusCode = 400
-//       return next(error)
-//     }
-//     res.send(files)
 // }

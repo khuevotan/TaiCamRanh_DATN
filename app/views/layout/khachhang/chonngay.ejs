@@ -1,0 +1,68 @@
+<title>Liên Hệ</title>
+<section class=" section-padding">
+</section>
+<section class=" section-paddinghai">
+</section>
+<!-- <div class=" text-center">
+    <h2>Liên Hệ</h2>
+</div> -->
+
+<div class="container" >
+    <div class="row justify-content-center" >
+        <div class="col-lg-8 col-md-10 col-sm-12 col-xs-12"  >
+            <div class="card card-default rounded-0 shadow blur" style="border:1px solid black">
+                <h1 class="mb-20 text-center mt-20">Đặt Lịch Hẹn</h1>
+                <div class="card-body container-fluid">
+                    <form action="/khachhang/chonngay" method="post" id="booking-form">
+                        	<form action="/login" method="POST" > 
+             
+                  
+                                <div class="form-group mb-3">
+                                    <label for="ngayrua"><b>Chọn Ngày Rửa</b></label>
+                                    <div >
+                    
+                                        <input type="date" name="ngayrua" placeholder="" class="single-input"
+                                            style="border:1px solid black" <% if (typeof ngayrua != "undefined" && ngayrua) { %>
+                                            value="<%= ngayrua %>" <% } %> required>
+                    
+                                    </div>
+                                    <% if (typeof conflictError != "undefined" && conflictError) { %>
+                                        <div  class="text-danger text-left  mb-3"><%= conflictError %></div>
+                                    <% } %>
+                                </div>
+                        <hr>
+                        
+
+                        <div class="text-center">
+                            <input class="genric-btn info circle " type="submit" value="Nhập Thông Tin">
+                        
+                            </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    function myFunction() {
+      var x = document.getElementById("mySelect").value;
+
+      document.getElementById('tongtienrx').value = x;
+    }
+
+    function getUrlParameter(name) {
+		name = name.replace(/[\[]/, '\\[').replace(/[\]]/, '\\]');
+		var regex = new RegExp('[\\?&]' + name + '=([^&#]*)');
+		var results = regex.exec(location.search);
+		return results === null ? '' : decodeURIComponent(results[1].replace(/\+/g, ' '));
+	};
+
+	var status = getUrlParameter('status');
+
+	console.log(status);
+
+	if (status == 'success'){
+		alert("Đặt lịch thành công!");
+	}
+</script>

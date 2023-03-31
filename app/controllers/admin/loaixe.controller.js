@@ -1,4 +1,5 @@
 const LoaiXe = require("../../models/loaixe.model");
+const Gio = require("../../models/gio.model");
 
 // Show form create loaixe
 exports.create = (req, res) => {
@@ -45,11 +46,21 @@ exports.findAll = (req, res) => {
 exports.findAllKH = (req, res) => {
     res.locals.deleted = req.query.deleted;
     const tenlx = req.query.tenlx;
+    const ngayrua = req.params.ngayrua;
+   
     LoaiXe.getAll(tenlx, (err, data) => {
         if (err)
             res.redirect('/500')
-        else {
-            res.render('datlichrx',  {loaixe: data});
+        else { 
+            Gio.getAllKH(ngayrua, (err, gio) => {
+                if (err)
+                    res.redirect('/500')
+                else {
+                     res.render('datlichrx',  {loaixe: data, gio: gio,ngayrua , layout: './master'});
+                     console.log(data);
+                     console.log(gio);
+                }
+            });
         }
    
     });
