@@ -87,7 +87,7 @@ exports.findAllKHLS = (req, res) => {
 // Hiển thị chi tiết 1 đơn đặt lịch hẹn
 exports.chitietdatlich = (req, res) => {
     res.locals.status = req.query.status;
-    console.log(req.params.mahdrx);
+    
     HoaDonRX.findBymahdrx(req.params.mahdrx, (err, data) => {
         if (err) {
             if (err.kind === "not_found") {

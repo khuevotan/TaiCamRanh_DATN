@@ -64,7 +64,7 @@ module.exports = app => {
 
     // Đặt Lịch Rửa Xe
     router.get('/khachhang/chonngay', authMiddleware.loggedin, khachhang.showDayForm)
-    .post('/khachhang/chonngay',  authMiddleware.loggedin, khachhang.chonNgay)
+        .post('/khachhang/chonngay', authMiddleware.loggedin, khachhang.chonNgay)
 
     router.get('/khachhang/datlichrx/:ngayrua', authMiddleware.loggedin, controllerlx.findAllKH, (req, res) => {
         res.render('datlichrx');
@@ -73,10 +73,7 @@ module.exports = app => {
     // nhấn nút đặt lịch
     router.post("/datlich/:makh", authMiddleware.loggedin, khachhang.datlich);
 
-    // chọn phương thức thanh toán
-    router.get('/khachhang/chonttrx/:mahdrx', authMiddleware.loggedin, (req, res) => {
-        res.render('chonttrx');
-    });
+
 
     // hiển thị lịch sử đặt lịch
     router.get('/khachhang/lsdatlich', authMiddleware.loggedin, hoadonrx.findAllKHLS)
@@ -106,25 +103,35 @@ module.exports = app => {
         });
     });
 
-    router.get('/khachhang/thongtintt', authMiddleware.loggedin, (req, res) => {
+    // chọn phương thức thanh toán
+    router.get('/khachhang/chonttrx', authMiddleware.loggedin,(req, res) => {
+        res.render('chonttrx');
+    });
+
+
+    // thanh toán bằng COD
+    router.get('/khachhang/thongtintt', (req, res) => {
         res.render('thongtintt');
     });
 
     //Thanh toán bằng Stripe
-    router.get('/khachhang/ttcard', authMiddleware.loggedin, (req, res) => {
+    router.get('/khachhang/ttcard/:mahdrx', (req, res) => {
+        mahdrx = req.params.mahdrx
+        console.log(req.params.mahdrx);
         res.render('ttcard', {
-            key: Publishable_Key
+            key: Publishable_Key,
+            mahdrx: mahdrx,
         })
     });
 
-    app.post('/khachhang/payment', function (req, res) {
+    router.post('/khachhang/ttcard/payment/', khachhang.thanhToan, function (req, res) {
 
-        // Moreover you can take more details from user
-        // like Address, Name, etc from form
+        const mahdrxhai = req.body.mahdrx
+
         stripe.customers.create({
                 email: req.body.stripeEmail,
                 source: req.body.stripeToken,
-                name: 'Gautam Sharma',
+                name: 'TaiCamRanh',
                 address: {
                     line1: 'TC 9/4 Old MES colony',
                     postal_code: '110092',
@@ -134,16 +141,16 @@ module.exports = app => {
                 }
             })
             .then((customer) => {
-
                 return stripe.charges.create({
-                    amount: 7000, // Charing Rs 25
+                    amount: 8000, // Charing Rs 25
                     description: 'Web Development Product',
                     currency: 'USD',
                     customer: customer.id
                 });
             })
             .then((charge) => {
-                res.send("Success") // If no error occurs
+                res.redirect('/khachhang/thanhtoantc') // If no error occurs
+
             })
             .catch((err) => {
                 res.send(err) // If some error occurs
@@ -151,7 +158,7 @@ module.exports = app => {
     })
 
     // Thanh Toán Thành Công
-    router.get('/khachhang/thanhtoantc', authMiddleware.loggedin, (req, res) => {
+    router.get('/khachhang/thanhtoantc', (req, res) => {
         res.render('thanhtoantc');
     });
 

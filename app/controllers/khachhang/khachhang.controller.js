@@ -215,6 +215,18 @@ exports.deleteAll = (req, res) => {
 };
 
 
+
+// update thanh toán khi thanh toán xong
+exports.thanhToan = (req, res, next) => {
+    const mahdrxhai = req.body.mahdrx
+ 
+    HoaDonRX.updateThanhToan(mahdrxhai, (err, result) => {
+        console.log("thanhcong!");
+        next();
+    });
+}
+
+
 // Upload fle ảnh
 exports.uploadFile = (req, res) => {
     const file = req.file
@@ -324,12 +336,3 @@ exports.datlich = (req, res) => {
     
 };
 
-// thanh toán
-exports.thanhToan = (mahdrx,req, res) => {
-    res.locals.deleted = req.query.deleted;
-
-    HoaDonRX.updateBymahdrx(mahdrx, (err, data) => {
-        if (err)
-            res.redirect('/500')
-    });
-};

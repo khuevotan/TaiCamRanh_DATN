@@ -67,19 +67,47 @@ HoaDonRX.getAll = (makh, result) => {
 };
 
 // cập nhật thanh toán hóa đơn
-HoaDonRX.updateBymahdrx = (mahdrx, result) => {
+// HoaDonRX.updateBymahdrx = (mahdrx, result) => {
+//     sql.query(
+//         `UPDATE hoadonrx SET thanhtoan = 2 where mahdrx = ${mahdrx}`,
+//         (err, res) => {
+//             if (err) {
+//                 console.log("error: ", err);
+//                 result(null, err);
+//                 return;
+//             }
+//             if (res.affectedRows == 0) {
+//                 // not found hoadonrx with the mahdrx
+//                 result({ kind: "not_found" }, null);
+//                 return;
+//             }
+//             result(null, { mahdrx: mahdrx});
+//         }
+//     );
+// };
+
+HoaDonRX.updateThanhToan = (mahdrx, result) => {
     sql.query(
-        `UPDATE hoadonrx SET thanhtoan = 2 where mahdrx = ${mahdrx}`,
+        "UPDATE hoadonrx SET thanhtoan = ? WHERE mahdrx = ?",
+        ['2', mahdrx],
         (err, res) => {
             if (err) {
                 console.log("error: ", err);
                 result(null, err);
                 return;
             }
-            result(null, { mahdrx: mahdrx});
+            if (res.affectedRows == 0) {
+                result({ kind: "not_found" }, null);
+                return;
+            }
+            result(null, { mahdrx: mahdrx });
         }
     );
 };
+
+
+
+
 
 // hiển thị lịch sử hóa đơn rửa xe bên phía khách hàng
 HoaDonRX.getLSAll = (makh, result) => {

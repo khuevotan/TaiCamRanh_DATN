@@ -124,6 +124,7 @@ KhachHang.updateBymakh = (makh, khachhang, result) => {
 };
 
 
+// cập nhật ảnh đại diện
 KhachHang.updateBymakhAva = (makh, hinhdd, result) => {
     sql.query(
         "UPDATE khachhang SET hinhdd = ? WHERE makh = ?",
