@@ -81,10 +81,19 @@
                                 </span>
                                 <br />
                              
-                                Ngày Đặt:      <%= moment(item.ngaydat).format('DD-MM-YYYY')  %> 
-                                <br />
+                                Ngày Rửa Xe:      <%= moment(item.ngayrua).format('DD-MM-YYYY')  %> 
+                            </br>
+                                Giờ Rửa:      
                             
- 
+                                <% for(var i=0; i<gio.length; i++) { %>
+                                
+                                        <% if(gio[i].magio == item.magio){ %>
+                                            <%= gio[i].tengio %>
+                                            <% } else{ %>  
+                                       
+                                           <% } %>
+                                 <%} %>
+                                <br />
                                 <div class="row">
                                     <div class="ml-4">
                                    
@@ -105,7 +114,7 @@
                                     </div>
                                     <div>
                               
-                                        <%if (hoadonrx.thanhtoan != 1) { %>
+                                        <%if (hoadonrx.thanhtoan == 1) { %>
                                         <a data-placement="top" class="genric-btn danger circle" href="#" title="View">Chưa
                                             Thanh Toán</a>
                                         <% }else { %>

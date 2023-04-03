@@ -62,7 +62,7 @@ Sanpham.getAll = (tensp, result) => {
 
 // hiển thị sản phẩm bên khánh hàng
 Sanpham.getAllKH = (tensp, result) => {
-    let query = "SELECT * FROM sanpham ;";
+    let query = "SELECT * FROM sanpham ";
     if (tensp) {
         query += ` WHERE tensp LIKE '%${tensp}%'`;
     }

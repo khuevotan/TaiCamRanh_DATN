@@ -73,8 +73,6 @@ module.exports = app => {
     // nhấn nút đặt lịch
     router.post("/datlich/:makh", authMiddleware.loggedin, khachhang.datlich);
 
-
-
     // hiển thị lịch sử đặt lịch
     router.get('/khachhang/lsdatlich', authMiddleware.loggedin, hoadonrx.findAllKHLS)
 
@@ -110,12 +108,12 @@ module.exports = app => {
 
 
     // thanh toán bằng COD
-    router.get('/khachhang/thongtintt', (req, res) => {
+    router.get('/khachhang/thongtintt', authMiddleware.loggedin,(req, res) => {
         res.render('thongtintt');
     });
 
     //Thanh toán bằng Stripe
-    router.get('/khachhang/ttcard/:mahdrx', (req, res) => {
+    router.get('/khachhang/ttcard/:mahdrx',authMiddleware.loggedin, (req, res) => {
         mahdrx = req.params.mahdrx
         console.log(req.params.mahdrx);
         res.render('ttcard', {
@@ -124,7 +122,7 @@ module.exports = app => {
         })
     });
 
-    router.post('/khachhang/ttcard/payment/', khachhang.thanhToan, function (req, res) {
+    router.post('/khachhang/ttcard/payment/', khachhang.thanhToan,authMiddleware.loggedin, function (req, res) {
 
         const mahdrxhai = req.body.mahdrx
 
@@ -158,7 +156,7 @@ module.exports = app => {
     })
 
     // Thanh Toán Thành Công
-    router.get('/khachhang/thanhtoantc', (req, res) => {
+    router.get('/khachhang/thanhtoantc',authMiddleware.loggedin, (req, res) => {
         res.render('thanhtoantc');
     });
 

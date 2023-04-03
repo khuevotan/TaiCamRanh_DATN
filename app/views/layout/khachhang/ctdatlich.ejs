@@ -53,11 +53,30 @@
                             </tr>
                             <tr>
                                 <td >Giờ Rửa: </td>
-                                <td><%= hoadonrx.giorua  %></td>
+                                <td>
+                                    <% for(var i=0; i<gio.length; i++) { %>
+                                
+                                        <% if(gio[i].magio == hoadonrx.magio){ %>
+                                            <%= gio[i].tengio %>
+                                            <% } else{ %>  
+                                       
+                                           <% } %>
+                                 <%} %>
+                                </td>
                              </tr>
                              <tr>
                                 <td >Loại Xe Rửa: </td>
-                                <td><%= hoadonrx.malx  %></td>
+                                <td>
+                                    <% for(var i=0; i<tenlx.length; i++) { %>
+                                
+                                        <% if(tenlx[i].malx == hoadonrx.malx){ %>
+                                            <%= tenlx[i].tenlx %>
+                                            <% } else{ %>  
+                                       
+                                           <% } %>
+                                 <%} %>
+                                
+                                </td>
                              </tr>
                             <tr >
                                 <td>Tổng Tiền</td>

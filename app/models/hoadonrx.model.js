@@ -51,7 +51,7 @@ HoaDonRX.findBymahdrx = (mahdrx, result) => {
 
 // hiển thị hóa đơn rửa xe bên phía khách hàng
 HoaDonRX.getAll = (makh, result) => {
-    let query = `SELECT * FROM hoadonrx WHERE makh = ${makh} and thanhtoan = 1`;
+    let query = `SELECT * FROM hoadonrx WHERE makh = ${makh} and matt != 4`;
     // if (tenbv) {
     //     query += ` WHERE tenbv LIKE '%${tenbv}%'`;
     // }

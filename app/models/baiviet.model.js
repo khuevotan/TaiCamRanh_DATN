@@ -41,8 +41,9 @@ Baiviet.findBymabv = (mabv, result) => {
     });
 };
 
-Baiviet.getAll = (tenbv, result) => {
-    let query = "SELECT * FROM baiviet";
+// hiển thị bài viết bên phía khách hàng
+Baiviet.getAllKH = (tenbv, limit, offset,result) => {
+    let query = `SELECT * FROM baiviet LIMIT ${limit} OFFSET ${offset}`;
     if (tenbv) {
         query += ` WHERE tenbv LIKE '%${tenbv}%'`;
     }
@@ -56,6 +57,24 @@ Baiviet.getAll = (tenbv, result) => {
         result(null, res);
     });
 };
+
+// hiển thị bài viết bên phía admin
+// Baiviet.getAllAD = (tenbv, result) => {
+//     let query = "SELECT * FROM baiviet";
+//     if (tenbv) {
+//         query += ` WHERE tenbv LIKE '%${tenbv}%'`;
+//     }
+//     sql.query(query, (err, res) => {
+//         if (err) {
+//             console.log("error: ", err);
+//             result(null, err);
+//             return;
+//         }
+//         console.log("baiviet: ", res);
+//         result(null, res);
+//     });
+// };
+
 
 Baiviet.updateBymabv = (mabv, baiviet, result) => {
     sql.query(

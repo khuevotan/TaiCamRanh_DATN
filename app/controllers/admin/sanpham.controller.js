@@ -62,6 +62,7 @@ exports.findAllKH = (req, res) => {
 
 exports.findAllKHandDM = (req, res) => {
     res.locals.deleted = req.query.deleted;
+
     const tensp = req.query.tensp;
     const tendm = req.query.tendm;
     SanPham.getAllKH(tensp, (err, data) => {
@@ -74,7 +75,7 @@ exports.findAllKHandDM = (req, res) => {
                 else {
                      res.render('shop',  {sanpham: data, danhmuc: danhmuc, layout: './master'});
                      console.log(data);
-                     console.log(danhmuc);
+           
                 }
             });
         }
@@ -87,13 +88,6 @@ exports.findAllKHandDMct = (req, res) => {
     res.locals.status = req.query.status;
     const tensp = req.query.tensp;
     const madm = req.params.madm;
-    // console.log('khue=================================================');
-    // console.log('khue=================================================');
-    // console.log('khue=================================================');
-    // console.log('khue=================================================');
-    // console.log('khue=================================================');
-    // console.log(req.params.madm);
-    // console.log(madm);
     const tendm = req.params.tendm;
     SanPham.getAllKHdmsp(req.params.madm, (err, data) => {
         if (err)

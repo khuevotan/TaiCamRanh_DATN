@@ -1,8 +1,12 @@
-<!DOCTYPE html> 
-<html> 
-<title>Stripe Payment Demo</title> 
-<body> 
-	<h3>Welcome to Payment Gateway</h3> 
+<title>Thanh Toán</title>
+<section class=" section-padding">
+</section>
+<section class=" section-paddinghai">
+</section>
+
+<div class="container">
+    <div class="justify-content-center">
+	
 	<form action="payment" method="POST"> 
 	<script
 		src="//checkout.stripe.com/v2/checkout.js"
@@ -10,20 +14,17 @@
 		data-key="<%= key %>" 
 		data-amount="8000" 
 		data-currency="usd" 
-		data-name="Gautam Sharma" 
-		data-description="Buy React.js Complete Course" 
+		data-name="Tài Cam Ranh" 
+		data-description="Thanh Toán" 
 		data-locale="auto" > 
 		</script> 
 
+		<h3>Thanh toán cho hóa đơn: </h3> 
 
-<div class="mt-10" style="border:1px solid black" >
-	<input type="text" name="mahdrx" class="single-input" 
-	<% if (typeof mahdrx != "undefined" && mahdrx) { %> value="<%= mahdrx %>"<% } %>  required>
-</div>
+		<div class="mt-10"  >
+			<input type="text" name="mahdrx" class="single-input" 
+			<% if (typeof mahdrx != "undefined" && mahdrx) { %> value="<%= mahdrx %>"<% } %>  required readonly>
+		</div>
 	</form> 
-
-	<h1><%= mahdrx %></h1>
-
-
-</body> 
-</html> 
+</div>
+</div>

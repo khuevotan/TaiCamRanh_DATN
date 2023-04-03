@@ -27,7 +27,9 @@
                                 <ul class="blog-info-link">
 
                                     <li><a href="#">Người Đăng: <%= item.manv %></a></li>
-                                    <li><a href="#">Ngày Đăng: <%= item.ngaydang %></a></li>
+                                    <li><a href="#">Ngày Đăng: 
+                                        <%= moment(item.ngaydang).format('DD-MM-YYYY')  %>
+                                    </a></li>
 
                                 </ul>
                             </div>
@@ -38,24 +40,40 @@
 
                         <nav class="blog-pagination justify-content-center d-flex">
                             <ul class="pagination">
+                                <% if (baiviet.length > 0) { %>
+                               
+                                
+                                
+                                    
+                                  
+                               
+
                                 <li class="page-item">
-                                    <a href="#" class="page-link" aria-label="Previous">
+                                    <% if (page > 1) { %>
+                                        <a  class="page-link" href="/baiviet?page=<%= page - 1 %>&limit=<%= limit %>">Trang Trước</a>
+                                      <% } %>
+
+                                    <!-- <a href="#" class="page-link" aria-label="Previous">
                                         <i class="ti-angle-left"></i>
-                                    </a>
+                                    </a> -->
                                 </li>
+                             
                                 <li class="page-item">
-                                    <a href="#" class="page-link">1</a>
-                                </li>
-                                <li class="page-item active">
-                                    <a href="#" class="page-link">2</a>
-                                </li>
-                                <li class="page-item">
-                                    <a href="#" class="page-link" aria-label="Next">
+                                    <% if (baiviet.length === limit) { %>
+                                        <a  class="page-link" href="/baiviet?page=<%= page + 1 %>&limit=<%= limit %>">Trang Sau</a>
+                                      <% } %>
+                                    <!-- <a href="#" aria-label="Next">
                                         <i class="ti-angle-right"></i>
-                                    </a>
+                                    </a> -->
                                 </li>
+
+                                <% } %>
+
                             </ul>
                         </nav>
+
+                       
+
                     </div>
                 </div>
                 <div class="col-lg-4">

@@ -35,6 +35,7 @@ LoaiXe.findBymalx = (malx, result) => {
     });
 };
 
+// hiên thị loại xe rửa
 LoaiXe.getAll = (tenlx, result) => {
     let query = "SELECT * FROM loaixe";
     if (tenlx) {

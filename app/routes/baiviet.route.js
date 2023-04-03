@@ -1,27 +1,27 @@
 // module.exports = app => {
-//     const dichvu = require("../controllers/admin/dichvu.controller");
+//     const baiviet = require("../controllers/admin/baiviet.controller");
 //     var router = require("express").Router();
 
-//     // Retrieve all dichvu
-//     router.get("/", dichvu.findAll);
+//     // Retrieve all baiviet
+//     router.get("/", baiviet.findAll);
 
-//     // Show form create dichvu
-//     router.get("/create", dichvu.create);
-//     // Store dichvu
-//     router.post("/", dichvu.store);
+//     // Show form create baiviet
+//     router.get("/create", baiviet.create);
+//     // Store baiviet
+//     router.post("/", baiviet.store);
 
-//     // Retrieve a single dichvu with id
-//     router.get("/edit/:madv", dichvu.edit);
-//     // Update a dichvu with id
-//     router.put("/:madv", dichvu.update);
+//     // Retrieve a single baiviet with id
+//     router.get("/edit/:madv", baiviet.edit);
+//     // Update a baiviet with id
+//     router.put("/:madv", baiviet.update);
 
-//     // Delete a dichvu with id
-//     router.get("/delete/:madv", dichvu.delete);
+//     // Delete a baiviet with id
+//     router.get("/delete/:madv", baiviet.delete);
 
-//     // Delete all dichvu
-//     router.delete("/delete", dichvu.deleteAll);
+//     // Delete all baiviet
+//     router.delete("/delete", baiviet.deleteAll);
     
-//     app.use('/dichvu', router);
+//     app.use('/baiviet', router);
 //     app.get('/500', (req, res) => {
 //         res.render('err')
 //     });

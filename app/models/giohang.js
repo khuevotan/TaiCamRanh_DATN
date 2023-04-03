@@ -1,10 +1,9 @@
 const sql = require("./db")
 
-const Gio = function(gio){
-    this.magio  = gio.magio ;
-    this.tengio = gio.tengio;
+const GioHang = function(gio){
+    this.HinhDD  = gio.magio ;
+    this.HinhDD = gio.tengio;
 };
-
 
 Gio.create = (newgio, result) => {
     sql.query("INSERT INTO gio SET ?", newgio, (err, res) => {
@@ -34,25 +33,6 @@ Gio.findBymagio = (magio, result) => {
         result({ kind: "not_found" }, null);
     });
 };
-
-
-// phía admin
-// Gio.getAll = (tengio, result) => {
-//     let query = "SELECT * FROM gio";
-//     if (tengio) {
-//         query += ` WHERE tengio LIKE '%${tengio}%'`;
-//     }
-//     sql.query(query, (err, res) => {
-//         if (err) {
-//             console.log("error: ", err);
-//             result(null, err);
-//             return;
-//         }
-//         console.log("gio: ", res);
-//         result(null, res);
-//     });
-// };
-
 
 Gio.getAll = (tengio, result) => {
     let query = "SELECT * FROM gio";

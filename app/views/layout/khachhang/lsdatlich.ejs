@@ -81,9 +81,18 @@
                                 </span>
                                 <br />
                              
-                                Ngày Đặt:      <%= moment(item.ngaydat).format('DD-MM-YYYY')  %> 
+                                Ngày Rửa:      <%= moment(item.ngayrua).format('DD-MM-YYYY')  %> 
                                 <br />
+                                Giờ Rửa:      
                             
+                                <% for(var i=0; i<gio.length; i++) { %>
+                                
+                                        <% if(gio[i].magio == item.magio){ %>
+                                            <%= gio[i].tengio %>
+                                            <% } else{ %>  
+                                       
+                                           <% } %>
+                                 <%} %>
  
                                 <div class="row">
                                     <div class="ml-4">

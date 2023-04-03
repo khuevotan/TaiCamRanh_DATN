@@ -45,13 +45,18 @@ exports.findAll = (req, res) => {
 
 // hiển thị bài viết bên phía khach hàng
 exports.findAllKH = (req, res) => {
+    const page = parseInt(req.query.page) || 1;
+    const limit = parseInt(req.query.limit) || 3;
+    const offset = (page - 1) * limit;
+
     res.locals.deleted = req.query.deleted;
     const tenbv = req.query.tenbv;
-    Baiviet.getAll(tenbv, (err, data) => {
+
+    Baiviet.getAllKH(tenbv,limit, offset, (err, data) => {
         if (err)
             res.redirect('/500')
         else {
-            res.render('baiviet',  {baiviet: data, layout: './master'});
+            res.render('baiviet',  {baiviet: data, page, limit, layout: './master'});
             console.log(data);
         }
     });
