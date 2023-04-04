@@ -4,5 +4,6 @@ module.exports = app => {
     require("./danhmuc.route")(app);
     require("./khachhang.route")(app);
     require("./auth.route")(app);
+    require("./cart.route")(app);
     // require("./shop.route")(app);
 }

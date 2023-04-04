@@ -1,6 +1,8 @@
 const express = require('express');
 const app = express();
 
+const cookieParser = require('cookie-parser');
+
 // khai bao thu muc staic de co the truy cap tu moi noi
 app.use(express.static('app/public'));
 app.use(express.static('app/public/admin'));
@@ -37,6 +39,8 @@ app.use(methodOverride(function (req, res) {
         return method;
     }
 }));
+
+app.use(cookieParser());
 
 // dung seesion
 app.use(session({

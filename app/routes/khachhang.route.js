@@ -95,21 +95,23 @@ module.exports = app => {
         res.render('lsdathang');
     });
 
-    router.get('/khachhang/giohang', authMiddleware.loggedin, (req, res) => {
-        res.render('giohang', {
-            layout: false
-        });
+    // router.get('/khachhang/giohang', authMiddleware.loggedin, (req, res) => {
+    //     res.render('giohang', {
+    //         layout: false
+    //     });
+    // });
+
+    // nhập thông hóa đơn đặt hàng
+    router.get('/khachhang/thongtintt', authMiddleware.loggedin, khachhang.nhapThongTinDonHang, (req, res) => {
+        res.render('thongtintt');
     });
+
+    // nhấn nút đặt hàng
+    router.post("/dathang/:makh", authMiddleware.loggedin, khachhang.datlich);
 
     // chọn phương thức thanh toán
     router.get('/khachhang/chonttrx', authMiddleware.loggedin,(req, res) => {
         res.render('chonttrx');
-    });
-
-
-    // thanh toán bằng COD
-    router.get('/khachhang/thongtintt', authMiddleware.loggedin,(req, res) => {
-        res.render('thongtintt');
     });
 
     //Thanh toán bằng Stripe

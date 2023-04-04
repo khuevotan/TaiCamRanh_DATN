@@ -45,7 +45,7 @@ Baiviet.findBymabv = (mabv, result) => {
 Baiviet.getAllKH = (tenbv, limit, offset,result) => {
     let query = `SELECT * FROM baiviet LIMIT ${limit} OFFSET ${offset}`;
     if (tenbv) {
-        query += ` WHERE tenbv LIKE '%${tenbv}%'`;
+        query = `SELECT * FROM baiviet WHERE tenbv LIKE '%${tenbv}%' LIMIT ${limit} OFFSET ${offset}`;
     }
     sql.query(query, (err, res) => {
         if (err) {

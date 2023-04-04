@@ -61,11 +61,15 @@ exports.findAllKH = (req, res) => {
 
 
 exports.findAllKHandDM = (req, res) => {
+    const page = parseInt(req.query.page) || 1;
+    const limit = parseInt(req.query.limit) || 9;
+    const offset = (page - 1) * limit;
+    
     res.locals.deleted = req.query.deleted;
 
     const tensp = req.query.tensp;
     const tendm = req.query.tendm;
-    SanPham.getAllKH(tensp, (err, data) => {
+    SanPham.getAllKH(tensp, limit, offset, (err, data) => {
         if (err)
             res.redirect('/500')
         else {
@@ -73,9 +77,7 @@ exports.findAllKHandDM = (req, res) => {
                 if (err)
                     res.redirect('/500')
                 else {
-                     res.render('shop',  {sanpham: data, danhmuc: danhmuc, layout: './master'});
-                     console.log(data);
-           
+                     res.render('shop',  {sanpham: data, danhmuc: danhmuc, page, limit ,layout: './master'});
                 }
             });
         }

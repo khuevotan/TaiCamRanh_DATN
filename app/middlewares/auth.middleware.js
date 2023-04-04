@@ -1,8 +1,13 @@
 
+const Cart = require("../models/cart.model");
+
 // khong vo dc trang home (chua dang nhap)
 exports.loggedin = (req, res, next) => {
     if (req.session.loggedin) {
+
         res.locals.khachhang = req.session.khachhang
+     
+        
         next();
     } else {
         res.redirect('/login')
@@ -15,6 +20,10 @@ exports.isAuth = (req, res, next) => {
         res.locals.khachhang = req.session.khachhang
         res.redirect('khachhang/home');
     } else {
+        var cart = new Cart(req.session.cart ? req.session.cart : {});
+        req.session.cart = cart;
+        res.locals.cart = req.session.cart;
+        
         next();
     }
 }

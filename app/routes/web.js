@@ -30,10 +30,7 @@ module.exports = app => {
     // });
 
     router.get('/view/index', controller.showView);
-
-    //file
-    // router.get('/form/data', controller.showForm);
-
+    
     app.use(router);
 }
 

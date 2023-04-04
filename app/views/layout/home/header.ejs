@@ -35,8 +35,20 @@
                                                 <% }else{ %>
                                               
                                                     <li><a href="/khachhang/home">Cá Nhân</a></li>
-                                                    <li><a href="/khachhang/giohang">Giỏ Hàng</a></li>
+                                                    <!-- <li><a href="/khachhang/giohang">Giỏ Hàng</a></li> -->
+                                                    <li>
 
+                                                      
+                                                        <a href="/cart">
+                                                           Giỏ Hàng
+                                                            <% if (session.cart.totalItems) {%>
+                                                            <span>[<%= session.cart.totalItems %>]</span>
+                                                            <% }%>
+
+                                                        </a>
+
+
+                                                    </li>
                                                     <li><a href="/logout">LogOut</a></li>
                                             <%}%>
                                             

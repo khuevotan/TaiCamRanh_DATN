@@ -25,16 +25,14 @@ Sanpham.create = (newsanpham, result) => {
 };
 
 Sanpham.findBymasp = (masp, result) => {
-    console.log("khue==================================");
-    console.log(masp);
     sql.query(`SELECT * FROM sanpham WHERE masp = ${masp}`, (err, res) => {
         if (err) {
-            console.log("error: ", err);
+            // console.log("error: ", err);
             result(err, null);
             return;
         }
         if (res.length) {
-            console.log("found sanpham: ", res[0]);
+            // console.log("found sanpham: ", res[0]);
             result(null, res[0]);
             return;
         }
@@ -42,6 +40,8 @@ Sanpham.findBymasp = (masp, result) => {
         result({ kind: "not_found" }, null);
     });
 };
+
+
 
 
 Sanpham.getAll = (tensp, result) => {
@@ -61,10 +61,10 @@ Sanpham.getAll = (tensp, result) => {
 };
 
 // hiển thị sản phẩm bên khánh hàng
-Sanpham.getAllKH = (tensp, result) => {
-    let query = "SELECT * FROM sanpham ";
+Sanpham.getAllKH = (tensp, limit, offset, result) => {
+    let query = `SELECT * FROM sanpham LIMIT ${limit} OFFSET ${offset}`;
     if (tensp) {
-        query += ` WHERE tensp LIKE '%${tensp}%'`;
+        query = `SELECT * FROM sanpham WHERE tensp LIKE '%${tensp}%' LIMIT ${limit} OFFSET ${offset}`;
     }
     sql.query(query, (err, res) => {
         if (err) {
