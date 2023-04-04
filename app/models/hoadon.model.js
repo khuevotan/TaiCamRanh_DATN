@@ -1,38 +1,36 @@
 const sql = require("./db")
 
-const HoaDonRX = function(hoadonrx){
-    this.mahdrx  = hoadonrx.mahdrx;
-    this.tennguoidat = hoadonrx.tennguoidat;
-    this.ngaydat = hoadonrx.ngaydat;
-    this.ngayrua = hoadonrx.ngayrua;
-    this.magio = hoadonrx.magio;
-    this.sodt = hoadonrx.sodt;
-    this.diachi = hoadonrx.diachi;
-    this.ghichu = hoadonrx.ghichu;
-    this.tongtienrx = hoadonrx.tongtienrx;
-    this.thanhtoan = hoadonrx.thanhtoan;
-    this.malx = hoadonrx.malx;
-    this.matt = hoadonrx.matt;
-    this.manv = hoadonrx.manv;
-    this.makh = hoadonrx.makh;
+const HoaDon = function(hoadon){
+    this.mahd   = hoadon.mahd ;
+    this.ngaydat = hoadon.ngaydat;
+    this.ngaygiao = hoadon.ngaygiao;
+    this.tennguoinhan = hoadon.tennguoinhan;
+    this.sodt = hoadon.sodt;
+    this.diachi = hoadon.diachi;
+    this.ghichu = hoadon.ghichu;
+    this.tongtiensp = hoadon.tongtiensp;
+    this.thanhtoan = hoadon.thanhtoan;
+    this.matt = hoadon.matt;
+    this.manv = hoadon.manv;
+    this.makh = hoadon.makh;
 };
 
-// Tạo đơn rửa xe
-HoaDonRX.create = (newhoadonrx, result) => {
-    sql.query("INSERT INTO hoadonrx SET ?", newhoadonrx, (err, res) => {
+// Tạo đơn đặt hàng
+HoaDon.create = (newhoadon, result) => {
+    sql.query("INSERT INTO hoadon SET ?", newhoadon, (err, res) => {
         if (err) {
             console.log("error: ", err);
             result(err, null);
             return;
         }
-        console.log("created hoadonrx: ", {  ...newhoadonrx });
-        result(null, { ...newhoadonrx });
+        console.log("created hoadon: ", {  ...newhoadon });
+        result(null, { ...newhoadon });
     });
 };
 
 //tìm kiếm 1 hóa đơn bằng mã đơn hàng
-HoaDonRX.findBymahdrx = (mahdrx, result) => { 
-    sql.query(`SELECT * FROM hoadonrx WHERE mahdrx = '${mahdrx}'`, (err, res) => {
+HoaDon.findBymahd  = (mahd , result) => { 
+    sql.query(`SELECT * FROM hoadon WHERE mahd  = '${mahd }'`, (err, res) => {
         
         if (err) {
             console.log("error: ", err);
@@ -40,18 +38,18 @@ HoaDonRX.findBymahdrx = (mahdrx, result) => {
             return;
         }
         if (res.length) {
-            console.log("found hoadonrx: ", res[0]);
+            console.log("found hoadon: ", res[0]);
             result(null, res[0]);
             return;
         }
-        // not found hoadonrx with the mahdrx
+        // not found hoadon with the mahd 
         result({ kind: "not_found" }, null);
     });
 };
 
 // hiển thị hóa đơn rửa xe bên phía khách hàng
-HoaDonRX.getAll = (makh, result) => {
-    let query = `SELECT * FROM hoadonrx WHERE makh = ${makh} and matt != 4`;
+HoaDon.getAll = (makh, result) => {
+    let query = `SELECT * FROM hoadon WHERE makh = ${makh} and matt != 4`;
     // if (tenbv) {
     //     query += ` WHERE tenbv LIKE '%${tenbv}%'`;
     // }
@@ -61,35 +59,16 @@ HoaDonRX.getAll = (makh, result) => {
             result(null, err);
             return;
         }
-        console.log("hoadonrx: ", res);
+        console.log("hoadon: ", res);
         result(null, res);
     });
 };
 
-// cập nhật thanh toán hóa đơn
-// HoaDonRX.updateBymahdrx = (mahdrx, result) => {
-//     sql.query(
-//         `UPDATE hoadonrx SET thanhtoan = 2 where mahdrx = ${mahdrx}`,
-//         (err, res) => {
-//             if (err) {
-//                 console.log("error: ", err);
-//                 result(null, err);
-//                 return;
-//             }
-//             if (res.affectedRows == 0) {
-//                 // not found hoadonrx with the mahdrx
-//                 result({ kind: "not_found" }, null);
-//                 return;
-//             }
-//             result(null, { mahdrx: mahdrx});
-//         }
-//     );
-// };
 
-HoaDonRX.updateThanhToan = (mahdrx, result) => {
+HoaDon.updateThanhToan = (mahd , result) => {
     sql.query(
-        "UPDATE hoadonrx SET thanhtoan = ? WHERE mahdrx = ?",
-        ['2', mahdrx],
+        "UPDATE hoadon SET thanhtoan = ? WHERE mahd  = ?",
+        ['2', mahd ],
         (err, res) => {
             if (err) {
                 console.log("error: ", err);
@@ -100,18 +79,15 @@ HoaDonRX.updateThanhToan = (mahdrx, result) => {
                 result({ kind: "not_found" }, null);
                 return;
             }
-            result(null, { mahdrx: mahdrx });
+            result(null, { mahd : mahd  });
         }
     );
 };
 
 
-
-
-
-// hiển thị lịch sử hóa đơn rửa xe bên phía khách hàng
-HoaDonRX.getLSAll = (makh, result) => {
-    let query = `SELECT * FROM hoadonrx WHERE makh = ${makh} and matt = 4 and thanhtoan = 2`;
+// hiển thị lịch sử hóa đơn đặt hàng bên phía khách hàng
+HoaDon.getLSAll = (makh, result) => {
+    let query = `SELECT * FROM hoadon WHERE makh = ${makh} and matt = 4 and thanhtoan = 2`;
     // if (tenbv) {
     //     query += ` WHERE tenbv LIKE '%${tenbv}%'`;
     // }
@@ -121,15 +97,15 @@ HoaDonRX.getLSAll = (makh, result) => {
             result(null, err);
             return;
         }
-        console.log("hoadonrx: ", res);
+        console.log("hoadon: ", res);
         result(null, res);
     });
 };
 
-HoaDonRX.updateBymahdrx = (mahdrx, hoadonrx, result) => {
+HoaDon.updateBymahd  = (mahd , hoadon, result) => {
     sql.query(
-        "UPDATE hoadonrx SET tenbv = ?, noidung = ?, hinhdd = ?, hinhdd = ? , ngaydang = ? WHERE mahdrx = ?",
-        [hoadonrx.tenbv, hoadonrx.noidung , hoadonrx.hinhdd, hoadonrx.hinhdd , hoadonrx.ngaydang,  mahdrx],
+        "UPDATE hoadon SET tenbv = ?, noidung = ?, hinhdd = ?, hinhdd = ? , ngaydang = ? WHERE mahd  = ?",
+        [hoadon.tenbv, hoadon.noidung , hoadon.hinhdd, hoadon.hinhdd , hoadon.ngaydang,  mahd ],
         (err, res) => {
             if (err) {
                 console.log("error: ", err);
@@ -137,43 +113,63 @@ HoaDonRX.updateBymahdrx = (mahdrx, hoadonrx, result) => {
                 return;
             }
             if (res.affectedRows == 0) {
-                // not found hoadonrx with the mahdrx
+                // not found hoadon with the mahd 
                 result({ kind: "not_found" }, null);
                 return;
             }
-            console.log("updated hoadonrx: ", { mahdrx: mahdrx, ...hoadonrx });
-            result(null, { mahdrx: mahdrx, ...hoadonrx });
+            console.log("updated hoadon: ", { mahd : mahd , ...hoadon });
+            result(null, { mahd : mahd , ...hoadon });
         }
     );
 };
 
-HoaDonRX.remove = (mahdrx, result) => {
-    sql.query("DELETE FROM hoadonrx WHERE mahdrx = ?", mahdrx, (err, res) => {
+HoaDon.remove = (mahd , result) => {
+    sql.query("DELETE FROM hoadon WHERE mahd  = ?", mahd , (err, res) => {
         if (err) {
             console.log("error: ", err);
             result(null, err);
             return;
         }
         if (res.affectedRows == 0) {
-            // not found hoadonrx with the mahdrx
+            // not found hoadon with the mahd 
             result({ kind: "not_found" }, null);
             return;
         }
-        console.log("deleted hoadonrx with mahdrx: ", mahdrx);
+        console.log("deleted hoadon with mahd : ", mahd );
         result(null, res);
     });
 };
 
-HoaDonRX.removeAll = result => {
-    sql.query("DELETE FROM hoadonrx", (err, res) => {
+HoaDon.removeAll = result => {
+    sql.query("DELETE FROM hoadon", (err, res) => {
         if (err) {
             console.log("error: ", err);
             result(null, err);
             return;
         }
-        console.log(`deleted ${res.affectedRows} hoadonrx`);
+        console.log(`deleted ${res.affectedRows} hoadon`);
         result(null, res);
     });
 };
 
-module.exports = HoaDonRX;
+
+HoaDon.updateThanhToan = (mahd, result) => {
+    sql.query(
+        "UPDATE hoadon SET thanhtoan = ? WHERE mahd = ?",
+        ['2', mahd],
+        (err, res) => {
+            if (err) {
+                console.log("error: ", err);
+                result(null, err);
+                return;
+            }
+            if (res.affectedRows == 0) {
+                result({ kind: "not_found" }, null);
+                return;
+            }
+            result(null, { mahd: mahd });
+        }
+    );
+};
+
+module.exports = HoaDon;

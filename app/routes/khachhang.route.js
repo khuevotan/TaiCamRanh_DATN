@@ -2,6 +2,7 @@ const authMiddleware = require('../middlewares/auth.middleware');
 const controllerlx = require('../controllers/admin/loaixe.controller');
 const khachhang = require("../controllers/khachhang/khachhang.controller");
 const hoadonrx = require("../controllers/admin/hoadonrx.controller");
+const hoadon = require("../controllers/admin/hoadon.controller");
 
 // thanh toán bằng Stripe
 const Publishable_Key = 'pk_test_51MqHEXDWd2W6upWFp32vuRnPei7IjHDNJMJ0rQ8vBc6L4AetU7RqtYP6zXizThorGPFP5d08e76hAcAfWRcUMXPZ00xCXY4HTv'
@@ -9,8 +10,6 @@ const Secret_Key = 'sk_test_51MqHEXDWd2W6upWF1VZ7dn4skGPysk27NeODNhPsXlPgoyMbjqo
 const stripe = require('stripe')(Secret_Key)
 
 const bodyparser = require('body-parser')
-
-
 
 module.exports = app => {
     var router = require('express').Router();
@@ -82,42 +81,76 @@ module.exports = app => {
     // hiển thị chi tiết 1 đơn đặt lịch
     router.get('/khachhang/ctdatlich/:mahdrx', authMiddleware.loggedin, hoadonrx.chitietdatlich)
 
-    // Đặt hàng
-    router.get('/khachhang/dondathang', authMiddleware.loggedin, (req, res) => {
-        res.render('dondathang');
-    });
+     // hiển thị đơn đặt hàng bên phía khách hàng
+    router.get('/khachhang/dondathang', authMiddleware.loggedin, hoadon.findAllKH)
 
-    router.get('/khachhang/ctdathang', authMiddleware.loggedin, (req, res) => {
-        res.render('ctdathang');
-    });
+    // hiển thị chi tiết 1 đơn đặt hàng
+    router.get('/khachhang/ctdathang/:mahd', authMiddleware.loggedin , hoadon.chitietdathang)
 
-    router.get('/khachhang/lsdathang', authMiddleware.loggedin, (req, res) => {
-        res.render('lsdathang');
-    });
-
-    // router.get('/khachhang/giohang', authMiddleware.loggedin, (req, res) => {
-    //     res.render('giohang', {
-    //         layout: false
-    //     });
-    // });
+     // hiển thị lịch sử đặt hàng
+    router.get('/khachhang/lsdathang', authMiddleware.loggedin, hoadon.findAllKHLS)
 
     // nhập thông hóa đơn đặt hàng
-    router.get('/khachhang/thongtintt', authMiddleware.loggedin, khachhang.nhapThongTinDonHang, (req, res) => {
-        res.render('thongtintt');
-    });
+    router.get('/khachhang/thongtintt', khachhang.showFormTTDH);
 
     // nhấn nút đặt hàng
-    router.post("/dathang/:makh", authMiddleware.loggedin, khachhang.datlich);
+    router.post("/dathang",  khachhang.nhapThongTinDonHang);
 
-    // chọn phương thức thanh toán
+       // thnah toán bằng online bên đặt hàng
+       router.get('/khachhang/ttcarddh/:mahd', authMiddleware.loggedin, (req, res) => {
+        mahd = req.params.mahd
+        res.render('ttcarddh', {
+            key: Publishable_Key,
+            mahd: mahd,
+        })
+    });
+
+    router.post('/khachhang/ttcarddh/payment/', khachhang.thanhToanDH,authMiddleware.loggedin, function (req, res) {
+
+        const mahdhai = req.body.mahd
+
+        stripe.customers.create({
+                email: req.body.stripeEmail,
+                source: req.body.stripeToken,
+                name: 'TaiCamRanh',
+                address: {
+                    line1: 'TC 9/4 Old MES colony',
+                    postal_code: '110092',
+                    city: 'New Delhi',
+                    state: 'Delhi',
+                    country: 'India',
+                }
+            })
+            .then((customer) => {
+                return stripe.charges.create({
+                    amount: 8000, // Charing Rs 25
+                    description: 'Web Development Product',
+                    currency: 'USD',
+                    customer: customer.id
+                });
+            })
+            .then((charge) => {
+                res.redirect('/khachhang/thanhtoantc') // If no error occurs
+
+            })
+            .catch((err) => {
+                res.send(err) // If some error occurs
+            });
+    })
+
+    // chọn phương thức thanh toán rửa xe
     router.get('/khachhang/chonttrx', authMiddleware.loggedin,(req, res) => {
         res.render('chonttrx');
     });
 
-    //Thanh toán bằng Stripe
+     // chọn phương thức thanh toán đặt hàng
+    router.get('/khachhang/chonttdh', authMiddleware.loggedin,(req, res) => {
+        res.render('chonttdh');
+    });
+
+    //Thanh toán bằng Stripe bên đặt lịch
     router.get('/khachhang/ttcard/:mahdrx',authMiddleware.loggedin, (req, res) => {
         mahdrx = req.params.mahdrx
-        console.log(req.params.mahdrx);
         res.render('ttcard', {
             key: Publishable_Key,
             mahdrx: mahdrx,

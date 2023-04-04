@@ -1,0 +1,40 @@
+<title>Liên Hệ</title>
+<section class=" section-padding">
+</section>
+<section class=" section-paddinghai">
+</section>
+
+<div class="container">
+    <h1>ĐƠN HÀNG</h1>
+    <div class="row justify-content-center">
+      
+        <a href="/khachhang/thanhtoantc?status=dhtctaich" class="genric-btn info circle ">Thanh Toán COD</a>
+        <!-- <a href="/khachhang/ttcard?mahdrx" class="genric-btn info circle ">Thanh Toán Online</a> -->
+        <a id="link2" class="genric-btn info circle ">Thanh Toán Online</a>
+      
+    </div>
+</div>
+
+    <script>
+        function getUrlParameter(name) {
+            name = name.replace(/[\[]/, '\\[').replace(/[\]]/, '\\]');
+            var regex = new RegExp('[\\?&]' + name + '=([^&#]*)');
+            var results = regex.exec(location.search);
+            return results === null ? '' : decodeURIComponent(results[1].replace(/\+/g, ' '));
+        };
+    
+        var status = getUrlParameter('status');
+
+        (function() {
+            var mahd = getUrlParameter('mahd')
+            var strLink = "/khachhang/ttcarddh/" + mahd;
+            document.getElementById("link2").setAttribute("href",strLink);
+        })();
+    
+        if (status == 'taothanhcong'){
+            alert("Tạo đơn hàng thành công, vui lòng chọn cách thức thanh toán!");
+        }
+
+    </script>
+
+    

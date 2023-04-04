@@ -1,0 +1,30 @@
+<title>Thanh Toán</title>
+<section class=" section-padding">
+</section>
+<section class=" section-paddinghai">
+</section>
+
+<div class="container">
+    <div class="justify-content-center">
+	
+	<form action="payment" method="POST"> 
+	<script
+		src="//checkout.stripe.com/v2/checkout.js"
+		class="stripe-button"
+		data-key="<%= key %>" 
+		data-amount="8000" 
+		data-currency="usd" 
+		data-name="Tài Cam Ranh" 
+		data-description="Thanh Toán" 
+		data-locale="auto" > 
+		</script> 
+
+		<h3>Thanh toán cho hóa đơn: </h3> 
+
+		<div class="mt-10"  >
+			<input type="text" name="mahd" class="single-input" 
+			<% if (typeof mahd != "undefined" && mahd) { %> value="<%= mahd %>"<% } %>  required readonly>
+		</div>
+	</form> 
+</div>
+</div>

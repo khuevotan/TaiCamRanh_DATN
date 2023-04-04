@@ -1,6 +1,8 @@
 const KhachHang = require("../../models/khachhang.model");
 const Khachhang = require("../../models/khachhang.model");
 const HoaDonRX = require("../../models/hoadonrx.model");
+const HoaDon = require("../../models/hoadon.model");
+const CTHoaDon = require("../../models/cthoadon.model");
 
 
 const bcrypt = require('bcrypt');
@@ -216,15 +218,26 @@ exports.deleteAll = (req, res) => {
 
 
 
-// update thanh toán khi thanh toán xong
+// update thanh toán khi đặt lịch xong
 exports.thanhToan = (req, res, next) => {
     const mahdrxhai = req.body.mahdrx
- 
+
     HoaDonRX.updateThanhToan(mahdrxhai, (err, result) => {
         console.log("thanhcong!");
         next();
     });
 }
+
+// update thanh toán khi đặt hàng xong
+exports.thanhToanDH = (req, res, next) => {
+    const mahdhai = req.body.mahd
+
+    HoaDon.updateThanhToan(mahdhai, (err, result) => {
+        console.log("thanhcong!");
+        next();
+    });
+}
+
 
 
 // Upload fle ảnh
@@ -272,7 +285,9 @@ exports.showDayForm = (req, res) => {
 exports.chonNgay = (req, res) => {
     res.locals.status = req.query.status;
 
-    const { ngayrua } = req.body;
+    const {
+        ngayrua
+    } = req.body;
 
     date1 = new Date(ngayrua)
     date2 = new Date()
@@ -281,8 +296,10 @@ exports.chonNgay = (req, res) => {
         if (date1.getYear() >= date2.getYear() && date1.getMonth() >= date2.getMonth() && date1.getDay() >= date2.getDay()) {
             res.redirect('/khachhang/datlichrx/' + ngayrua)
         } else {
-            const conflictError ='Không được chọn ngày quá khứ!';
-            res.render('chonngay', {conflictError});
+            const conflictError = 'Không được chọn ngày quá khứ!';
+            res.render('chonngay', {
+                conflictError
+            });
         }
     } else {
         res.redirect('/404');
@@ -305,7 +322,6 @@ exports.datlich = (req, res) => {
 
     // Create a khachhang
     const hoadonrx = new HoaDonRX({
-
         mahdrx: id,
         tennguoidat: req.body.tennguoidat,
         ngaydat: new Date(),
@@ -333,110 +349,89 @@ exports.datlich = (req, res) => {
         }
     });
 
-    
+
 };
 
-// đặt đơn hàng
+// hiển thị form thêm thông tin đặt hàng
+exports.showFormTTDH = (req, res) => {
+    res.render('thongtintt');
+};
 
+// nhấn nút đặt đơn hàng
 exports.nhapThongTinDonHang = (req, res) => {
+    res.locals.khachhang = req.session.khachhang
+    const makh = res.locals.khachhang.makh;
+
+    res.locals.cart = req.session.cart
+    const tongtiensp = res.locals.cart.totalPrice;
+    const tongsosp = Object.keys(res.locals.cart.items).length;
+
+    const crypto = require("crypto");
+    const id = crypto.randomBytes(16).toString("hex");
+
     const {
-        tennn,
+        tennguoinhan,
         sodt,
         diachi,
         ghichu,
     } = req.body;
 
+    if (tennguoinhan && sodt && diachi && ghichu) {
 
-    if (tennn && sodt && diachi && ghichu ) {
-        Khachhang.findByTaikhoanvaEmail(taikhoan, email, (err, khachhang) => {
-            if (err || khachhang) {
-                // A khachhang with that email address does not exists
-                const conflictError = 'Tên tài khoản hoặc email này đã tồn tại';
-                res.render('auth/register', {
-                    hokh,
-                    tenkh,
-                    matkhauxn,
-                    gioitinh,
-                    diachi,
-                    sodt,
-                    ngaysinh,
-                    taikhoan,
-                    matkhau,
-                    email,
-                    conflictError
-                });
-            } else {
-                if(matkhau == matkhauxn){
+        // Create a hoadon
+        const hoadon = new HoaDon({
+            mahd : id,
+            ngaydat: new Date(),
+            ngaygiao: new Date(),
+            tennguoinhan: req.body.tennguoinhan,
+            sodt: req.body.sodt,
+            diachi: req.body.diachi,
+            ghichu: req.body.ghichu,
+            tongtiensp: tongtiensp,
+            thanhtoan: 1,
+            matt: 1,
+            manv: 0,
+            makh: makh,
+        });
 
-                    if(matkhau.length >= 8 && matkhau.match(/[a-z]/) && matkhau.match(/[A-Z]/) && matkhau.match(/\d/) && matkhau.match(/[^a-zA-Z\d]/) ){
-                        bcrypt.hash(matkhau, parseInt(process.env.BCRYPT_SALT_ROUND)).then((hashed) => {
-                            // Create a khachhang
-                            const khachhang = new Khachhang({
-                                taikhoan: taikhoan,
-                                matkhau: hashed,
-                                email: email,
-                                hokh: hokh,
-                                tenkh: tenkh,
-                                gioitinh: gioitinh,
-                                diachi: diachi,
-                                hinhdd: "khachhang.png",
-                                kichhoat: 0,
-                                email_verified_at: new Date(),
-                                sodt: sodt,
-                                ngaysinh: ngaysinh,
-                            });
-                            Khachhang.create(khachhang, (err, khachhang) => {
-                                if (!err) {
-                                    bcrypt.hash(khachhang.email, parseInt(process.env.BCRYPT_SALT_ROUND)).then((hashedEmail) => {
-                                        console.log(`${process.env.APP_URL}/verify?email=${khachhang.email}&token=${hashedEmail}`);
-                                        mailer.sendMail(khachhang.email, "Verify Email", `<a href="${process.env.APP_URL}/verify?email=${khachhang.email}&token=${hashedEmail}"> Verify </a>`)
-                                    });
-                                    // const conflictError = 'Tạo tài khoản thành công, vui lòng check mail để xác nhận và đăng nhập!';
-                                    // res.redirect('/login', { conflictError});
-                                    res.redirect('/login?status=taotaikhoantc');
-                                }
-                            })
-                        });
-                    }else{
-                        const conflictError = 'Mật khẩu phải dài hơn 8 ký tự, cả chữ thường và chữ in hoa, ít nhất một số và một ký tự đặc biệt ví dụ: 012345Kh*';
-                        res.render('auth/register', {
-                            hokh,
-                            tenkh,
-                            matkhauxn,
-                            gioitinh,
-                            diachi,
-                            sodt,
-                            ngaysinh,
-                            taikhoan,
-                            matkhau,
-                            email,
-                            conflictError
-                        });
-                    }
+         // Save hoadon in the database
+        HoaDon.create(hoadon, (err, data) => {
+            console.log(err);
+            if (!err) {
 
-                  
-                }else{
-                    const conflictError = 'Bạn phải xác nhận mật khẩu đúng!';
-                    res.render('auth/register', {
-                        hokh,
-                        tenkh,
-                        matkhauxn,
-                        gioitinh,
-                        diachi,
-                        sodt,
-                        ngaysinh,
-                        taikhoan,
-                        matkhau,
-                        email,
-                        conflictError
+                const mahd = data.mahd;
+
+                for(var i = 1; i <= tongsosp; i++) { 
+                    masp =  res.locals.cart.items[i].item.masp;
+                    soluong = res.locals.cart.items[i].quantity;
+                    giatien = res.locals.cart.items[i].price;
+
+                    const cthoadon = new CTHoaDon({
+                        mahd : mahd,
+                        masp: masp,
+                        soluong: soluong,
+                        giatien: giatien,
+
+                    });
+
+                    CTHoaDon.create(cthoadon, (err, data) => {
+                        if (!err) {
+                            console.log("không lỗi");
+                        }else{
+                            console.log("lỗi nhập chi tiết hóa đơn");
+                        }
                     });
                 }
+
+                res.redirect('/khachhang/chonttdh?mahd=' + mahd + '&status=taothanhcong')
+            } else {
+                res.redirect('/khachhang/chonttdh?status=thatbai')
             }
-        })
+        });
     } else {
         const conflictError = 'Bạn phải nhập đầy đủ thông tin!';
         res.render('thongtintt', {
-            tennn,
+            tennguoinhan,
             sodt,
             diachi,
             ghichu,
@@ -444,122 +439,3 @@ exports.nhapThongTinDonHang = (req, res) => {
         });
     }
 }
-
-// exports.register = (req, res) => {
-//     const {
-//         hokh,
-//         tenkh,
-//         taikhoan,
-//         matkhau,
-//         matkhauxn,
-//         email,
-//         gioitinh,
-//         diachi,
-//         sodt,
-//         ngaysinh
-//     } = req.body;
-
-
-//     if (hokh && tenkh && taikhoan && matkhau && matkhauxn && gioitinh && diachi && sodt && ngaysinh && email) {
-//         Khachhang.findByTaikhoanvaEmail(taikhoan, email, (err, khachhang) => {
-//             if (err || khachhang) {
-//                 // A khachhang with that email address does not exists
-//                 const conflictError = 'Tên tài khoản hoặc email này đã tồn tại';
-//                 res.render('auth/register', {
-//                     hokh,
-//                     tenkh,
-//                     matkhauxn,
-//                     gioitinh,
-//                     diachi,
-//                     sodt,
-//                     ngaysinh,
-//                     taikhoan,
-//                     matkhau,
-//                     email,
-//                     conflictError
-//                 });
-//             } else {
-//                 if(matkhau == matkhauxn){
-
-//                     if(matkhau.length >= 8 && matkhau.match(/[a-z]/) && matkhau.match(/[A-Z]/) && matkhau.match(/\d/) && matkhau.match(/[^a-zA-Z\d]/) ){
-//                         bcrypt.hash(matkhau, parseInt(process.env.BCRYPT_SALT_ROUND)).then((hashed) => {
-//                             // Create a khachhang
-//                             const khachhang = new Khachhang({
-//                                 taikhoan: taikhoan,
-//                                 matkhau: hashed,
-//                                 email: email,
-//                                 hokh: hokh,
-//                                 tenkh: tenkh,
-//                                 gioitinh: gioitinh,
-//                                 diachi: diachi,
-//                                 hinhdd: "khachhang.png",
-//                                 kichhoat: 0,
-//                                 email_verified_at: new Date(),
-//                                 sodt: sodt,
-//                                 ngaysinh: ngaysinh,
-//                             });
-//                             Khachhang.create(khachhang, (err, khachhang) => {
-//                                 if (!err) {
-//                                     bcrypt.hash(khachhang.email, parseInt(process.env.BCRYPT_SALT_ROUND)).then((hashedEmail) => {
-//                                         console.log(`${process.env.APP_URL}/verify?email=${khachhang.email}&token=${hashedEmail}`);
-//                                         mailer.sendMail(khachhang.email, "Verify Email", `<a href="${process.env.APP_URL}/verify?email=${khachhang.email}&token=${hashedEmail}"> Verify </a>`)
-//                                     });
-//                                     // const conflictError = 'Tạo tài khoản thành công, vui lòng check mail để xác nhận và đăng nhập!';
-//                                     // res.redirect('/login', { conflictError});
-//                                     res.redirect('/login?status=taotaikhoantc');
-//                                 }
-//                             })
-//                         });
-//                     }else{
-//                         const conflictError = 'Mật khẩu phải dài hơn 8 ký tự, cả chữ thường và chữ in hoa, ít nhất một số và một ký tự đặc biệt ví dụ: 012345Kh*';
-//                         res.render('auth/register', {
-//                             hokh,
-//                             tenkh,
-//                             matkhauxn,
-//                             gioitinh,
-//                             diachi,
-//                             sodt,
-//                             ngaysinh,
-//                             taikhoan,
-//                             matkhau,
-//                             email,
-//                             conflictError
-//                         });
-//                     }
-
-                  
-//                 }else{
-//                     const conflictError = 'Bạn phải xác nhận mật khẩu đúng!';
-//                     res.render('auth/register', {
-//                         hokh,
-//                         tenkh,
-//                         matkhauxn,
-//                         gioitinh,
-//                         diachi,
-//                         sodt,
-//                         ngaysinh,
-//                         taikhoan,
-//                         matkhau,
-//                         email,
-//                         conflictError
-//                     });
-//                 }
-//             }
-//         })
-//     } else {
-//         const conflictError = 'Bạn phải nhập đầy đủ thông tin!';
-//         res.render('auth/register', {
-//             hokh,
-//             tenkh,
-//             matkhauxn,
-//             gioitinh,
-//             diachi,
-//             sodt,
-//             ngaysinh,
-//             taikhoan,
-//             matkhau,
-//             email,
-//             conflictError
-//         });
-//     }
-// }
