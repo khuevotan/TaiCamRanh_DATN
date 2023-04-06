@@ -1,6 +1,5 @@
 const authMiddleware = require('../middlewares/authad.middleware');
 
-
 module.exports = app => {
     const danhMuc = require("../controllers/admin/danhmuc.controller");
     var router = require("express").Router();
@@ -42,6 +41,9 @@ module.exports = app => {
 
     // Lưu danh mục mới khi nhấn nút lưu
     router.post("/", authMiddleware.loggedinad, upload.single('hinhdd'), danhMuc.store);
+
+    // Xem thông tin chi tiết 1 danh mục
+    router.get("/details/:madm", authMiddleware.loggedinad, danhMuc.details);
 
     // Chỉnh sửa 1 danh mục khi nhấn nút chỉnh sửa -> hiển thị form
     router.get("/edit/:madm", authMiddleware.loggedinad, danhMuc.edit);

@@ -11,9 +11,8 @@ exports.login = (req, res) => {
     if (taikhoan && matkhau) {
         NhanVien.findByTaikhoan(taikhoan, (err, nhanvien) => {
             if (!nhanvien) {
-                // res.redirect('/login');
                 const conflictError = 'Tài khoản này không tồn tại!';
-                res.render('authad/login', { taikhoan, conflictError });
+                res.render('authad/login', { taikhoan, conflictError, layout: false });
             } else {
                 bcrypt.compare(matkhau,nhanvien.matkhau, (err, result) => {      
                     if (result == true) {
@@ -22,15 +21,14 @@ exports.login = (req, res) => {
                         res.redirect('/admin/index');
                     } else {
                         const conflictError = 'Sai Password!';
-                        res.render('authad/login', { taikhoan, matkhau, conflictError });
+                        res.render('authad/login', { taikhoan, matkhau, conflictError , layout: false});
                     }
                 })
             }
         })
     } else {
-        // A khach hang with that taikhoan address does not exists
         const conflictError = 'Bạn phải nhập Tài khoản và Password!';
-        res.render('authad/login', { taikhoan, matkhau, conflictError });
+        res.render('authad/login', { taikhoan, matkhau, conflictError, layout: false });
     }
 }
 

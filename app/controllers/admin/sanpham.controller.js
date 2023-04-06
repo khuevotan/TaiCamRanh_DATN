@@ -2,10 +2,10 @@
 const Danhmuc = require("../../models/danhmuc.model");
 const SanPham = require("../../models/sanpham.model");
 
-// Hiển thị form sản phẩm
+// Hiển thị form tạo mới sản phẩm
 exports.create = (req, res) => {
     res.locals.status = req.query.status;
-    res.render('sanpham/create');
+    res.render('sanpham/createsp', {layout: './master2'});
 }
 
 // Create and Save a new sanpham
@@ -30,7 +30,7 @@ exports.store = (req, res) => {
     });
 };
 
-// Retrieve all sanpham from the database (with condition).
+// Hiển thị danh sách sản phẩm
 exports.findAll = (req, res) => {
     res.locals.deleted = req.query.deleted;
     const tensp = req.query.tensp;
@@ -38,9 +38,23 @@ exports.findAll = (req, res) => {
         if (err)
             res.redirect('/500')
         else {
-            res.render('sanpham/indexsp',  {sanpham: data, layout: './master2'});
+            res.render('sanpham/indexsp',  {sanpham: data, layout: './master3'});
         }
-   
+    });
+};
+
+exports.details = (req, res) => {
+    res.locals.status = req.query.status;
+  
+
+    SanPham.findBymasp(req.params.masp, (err, data) => {
+        if (err) {
+            if (err.kind === "not_found") {
+                res.redirect('/404');
+            } else {
+                res.redirect('/500');
+            }
+        } else res.render('sanpham/detailssp', { sanpham: data,  layout: './master2'});
     });
 };
 
@@ -126,14 +140,14 @@ exports.chitietsp = (req, res) => {
 exports.edit = (req, res) => {
     res.locals.status = req.query.status;
 
-    SanPham.findByMaDM(req.params.madm, (err, data) => {
+    SanPham.findBymasp(req.params.masp, (err, data) => {
         if (err) {
             if (err.kind === "not_found") {
                 res.redirect('/404');
             } else {
                 res.redirect('/500');
             }
-        } else res.render('sanpham/edit', { sanpham: data });
+        } else res.render('sanpham/editsp', { sanpham: data,   layout: './master2'});
     });
 };
 
@@ -141,12 +155,12 @@ exports.edit = (req, res) => {
 exports.update = (req, res) => {
     // Validate Request
     if (!req.body) {
-        res.redirect('/sanpham/edit/' + req.params.madm + '?status=error')
+        res.redirect('/admin/sanpham/edit/' + req.params.masp + '?status=error')
     }
 
-    SanPham.updateByMaDM(
-        req.params.madm,
-        new sanpham(req.body),
+    SanPham.updateBymasp(
+        req.params.masp,
+        new SanPham(req.body),
         (err, data) => {
             if (err) {
                 if (err.kind === "not_found") {
@@ -154,7 +168,7 @@ exports.update = (req, res) => {
                 } else {
                     res.redirect('/500');
                 }
-            } else res.redirect('/sanpham/edit/' + req.params.madm + '?status=success');
+            } else res.redirect('/admin/sanpham/edit/' + req.params.masp + '?status=success');
         }
     );
 };

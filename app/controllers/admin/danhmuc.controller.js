@@ -73,6 +73,21 @@ exports.edit = (req, res) => {
     });
 };
 
+
+exports.details = (req, res) => {
+    res.locals.status = req.query.status;
+
+    Danhmuc.findByMaDM(req.params.madm, (err, data) => {
+        if (err) {
+            if (err.kind === "not_found") {
+                res.redirect('/404');
+            } else {
+                res.redirect('/500');
+            }
+        } else res.render('danhmuc/detailsdm', { danhmuc: data,  layout: './master2'});
+    });
+};
+
 // Update a danhmuc identified by the id in the request
 exports.update = (req, res) => {
 

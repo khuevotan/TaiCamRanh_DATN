@@ -1,27 +1,10 @@
-const { log } = require("console");
 const Cart = require("../models/cart.model");
 const SanPham = require("../models/SanPham.model");
-
-
-
-// var Cart = require('../models/cart');
-
-// var products = JSON.parse(fs.readFileSync('./data/products.json', 'utf8'));
-
-// router.get('/', function (req, res, next) {
-//   res.render('index', 
-//   { 
-//     title: 'NodeJS Shopping Cart',
-//     products: products
-//   }
-//   );
-// });
 
 module.exports = app => {
   var router = require('express').Router();
 
   var fs = require('fs');
- 
 
   router.get('/add/:id', function (req, res, next) {
     var productId = req.params.id;

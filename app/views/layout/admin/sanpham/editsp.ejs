@@ -35,7 +35,7 @@
                             <div class="ibox-title">
                               
                                     <div style="color: rgb(255, 255, 255);">
-                                        Đã xảy ra lỗi khi cập nhật Danh Mục!
+                                        Đã xảy ra lỗi khi cập nhật Sản Phẩm!
                                     </div>
                             </div>
                             <div class="ibox-tools">
@@ -46,7 +46,7 @@
                             <div class="ibox ibox-info">
                                 <div class="ibox-head">
                                     <div class="ibox-title">
-                                        MÃ DANH MỤC: <%= danhmuc.madm %>
+                                        MÃ Sản Phẩm: <%= sanpham.masp %>
                                         <div style="color: rgb(255, 255, 255);">
                                           
                                         </div>
@@ -61,7 +61,7 @@
             <div class="ibox ibox-info">
                 <div class="ibox-head">
                     <div class="ibox-title">
-                        MÃ DANH MỤC: <%= danhmuc.madm %>
+                        MÃ Sản Phẩm: <%= sanpham.masp %>
                         <div style="color: rgb(255, 255, 255);">
                           
                         </div>
@@ -74,17 +74,17 @@
                 </div>
 
                 <div class="ibox-body">
-                    <form action="/admin/danhmuc/<%= danhmuc.madm %>" class="form-horizontal"
+                    <form action="/admin/sanpham/<%= sanpham.masp %>" class="form-horizontal"
                         id="form-sample-1" method="post" novalidate="novalidate"
                         onSubmit="return confirm('Bạn có chắc chắn muốn thay đổi thông tin?') "
                         >
                         <input type="hidden" name="_method" value="put" />
 
                         <div class="form-group row">
-                            <label class="col-sm-2 col-form-label">Tên Danh Mục</label>
+                            <label class="col-sm-2 col-form-label">Tên Sản Phẩm</label>
                             <div class="col-sm-10">
-                                <input class="form-control" type="text" name="tendm"
-                                    value="<%= danhmuc.tendm %>">
+                                <input class="form-control" type="text" name="tensp"
+                                    value="<%= sanpham.tensp %>">
                             </div>
                         </div>
 
@@ -92,7 +92,7 @@
                             <label class="col-sm-2 col-form-label">Hình Đại Diện</label>
                             <div class="col-sm-10">
                                 <input class="form-control" type="text" name="hinhdd"
-                                    value="<%= danhmuc.hinhdd %>" readonly />
+                                    value="<%= sanpham.hinhdd %>" readonly />
                                     </br>
                             </div>
                         </div>
@@ -101,7 +101,7 @@
                             <label class="col-sm-2 col-form-label">Mô Tả Chi Tiết</label>
                             <div class="col-sm-10">
                                 <textarea class="form-control" rows="6"
-                                    name="motact"><%= danhmuc.motact %></textarea>
+                                    name="motact"><%= sanpham.motact %></textarea>
                             </div>
                         </div>
                         <div class="form-group row">
@@ -174,7 +174,7 @@
             <% } %>
                 </div>
                 <div class="ibox-body">
-                    <form action="/admin/danhmuc/anhdaidien/<%= danhmuc.madm %>" 
+                    <form action="/admin/sanpham/anhdaidien/<%= sanpham.masp %>" 
                         class="form-horizontal" enctype="multipart/form-data" 
                         method="POST"
                         onSubmit="return confirm('Bạn có chắc chắn muốn đổi?') "
@@ -184,9 +184,9 @@
                             <label class="col-sm-2 col-form-label">Hình Cũ</label>
                             <div class="col-sm-10">
                                 <input class="form-control" type="text" name="hinhdd"
-                                    value="<%= danhmuc.hinhdd %>" readonly />
+                                    value="<%= sanpham.hinhdd %>" readonly />
                                     </br>
-                                <img src="/images/danhmuc/<%= danhmuc.hinhdd %>" width="200px" />
+                                <img src="/images/sanpham/<%= sanpham.hinhdd %>" width="200px" />
                             </div>
                         </div>
 
@@ -214,7 +214,7 @@
 <script type="text/javascript">
     $("#form-sample-1").validate({
         rules: {
-            tendm: {
+            tensp: {
                 rangelength: [2, 50],
                 required: !0
             },
