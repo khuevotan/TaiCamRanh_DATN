@@ -6,9 +6,6 @@ const CTHoaDon = require("../../models/cthoadon.model");
 
 
 const bcrypt = require('bcrypt');
-const {
-    log
-} = require("console");
 
 // Show form create khachhang
 exports.create = (req, res) => {

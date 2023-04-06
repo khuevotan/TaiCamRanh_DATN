@@ -1,0 +1,42 @@
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" />
+
+<section class="section-padding"></section>
+<section class="section-paddinghai"></section>
+
+<div class="row">
+	<div class="col-lg-3 col-md-4 mt-sm-30">
+	</div>
+	<div class="col-lg-6 col-md-4 card card-default rounded-0 shadow blur" style="border:1px solid black">
+		<h1 class="mb-20 text-center mt-20">Đổi Mật Khẩu</h1>
+		<form action="/password/reset" method="POST">
+			<input type="hidden" value="<%= token %>" name="token">
+			
+			<div class="" style="border:1px solid black" >
+				<input type="text" name="email" class="single-input" placeholder="Email"
+				value="<%= email %>"  required readonly>
+			</div>
+					<div class="mt-10" style="border:1px solid black" >
+						<input  id="password-field" type="password" name="matkhau" placeholder="Nhập Password mới" required class="single-input">
+					</div>
+		
+				<div class="mt-10" >
+					Hiển thị
+				<span toggle="#password-field"
+						class="fa fa-fw fa-eye field-icon toggle-password"></span> 
+				</div>
+
+				<div class="text-danger text-left  mb-3">
+					Chú Ý: Mật khẩu phải dài hơn 8 ký tự, cả chữ thường và chữ in hoa, ít nhất một số và một ký tự đặc biệt ví dụ: 012345Kh*
+				</div>
+			<div class="mt-10 text-center  mb-10">
+				<input class="genric-btn info circle " type="submit">
+			</div>
+		</form>
+		
+	</div>
+
+</div>
+
+
+<script src="/home/login/js/jquery.min.js"></script>
+<script src="/home/login/js/main.js"></script> 

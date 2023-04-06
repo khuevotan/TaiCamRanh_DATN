@@ -3,6 +3,8 @@ const app = express();
 
 const cookieParser = require('cookie-parser');
 
+global.__basedir = "http://localhost:3000";
+
 // khai bao thu muc staic de co the truy cap tu moi noi
 app.use(express.static('app/public'));
 app.use(express.static('app/public/admin'));

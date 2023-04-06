@@ -1,0 +1,45 @@
+<section class="section-padding"></section>
+<section class="section-paddinghai"></section>
+
+<div class="row">
+	<div class="col-lg-3 col-md-4 mt-sm-30">
+	</div>
+	<div class="col-lg-6 col-md-4 card card-default rounded-0 shadow blur" style="border:1px solid black">
+		<h1 class="mb-20 text-center mt-20">Quên Mật Khẩu</h1>
+		<form action="/password/email" method="POST">
+			<div class="mt-10" style="border:1px solid black">
+				<input type="email" name="email" placeholder="Nhập Email" class="single-input"
+					<% if (typeof email != "undefined" && email) { %> value="<%= email %>" <% } %> required>
+			</div>
+
+			<div class="mt-10 text-center  mb-10">
+				<input class="genric-btn info circle " type="submit">
+			</div>
+		</form>
+		<!-- <div id="status" class="text-danger text-left mb-3"></div> -->
+
+	</div>
+
+</div>
+
+
+
+<script>
+	function getUrlParameter(name) {
+		name = name.replace(/[\[]/, '\\[').replace(/[\]]/, '\\]');
+		var regex = new RegExp('[\\?&]' + name + '=([^&#]*)');
+		var results = regex.exec(location.search);
+		return results === null ? '' : decodeURIComponent(results[1].replace(/\+/g, ' '));
+	};
+
+	var status = getUrlParameter('status');
+
+	console.log(status);
+	if (status == 'thatbai') {
+		alert("Mail này không thuộc tài khoản nào!"); 
+	} 
+
+	if (status == 'thanhcong'){
+		alert("Vui lòng check Mail!"); 
+	}
+</script>

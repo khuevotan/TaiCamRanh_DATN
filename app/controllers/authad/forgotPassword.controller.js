@@ -1,4 +1,4 @@
-const Khachhang = require('../../models/khachhang.model');
+const NhanVien = require('../../models/nhanvien.model');
 const bcrypt = require('bcrypt');
 const mailer = require('../../utils/mailer');
 require('dotenv/config');
@@ -12,17 +12,17 @@ exports.sendResetLinkEmail = (req, res) => {
         res.redirect('/password/reset')
     } else {
         // tim tai khoan
-        Khachhang.findByEmail(req.body.email, (err, khachhang) => {
-            if (!khachhang) {
+        NhanVien.findByEmail(req.body.email, (err, nhanvien) => {
+            if (!nhanvien) {
                 // const conflictError = 'Mail này không thuộc tài khoản nào!';
                 res.redirect('/password/reset?status=thatbai');
                 // const conflictError = 'Mail này không thuộc tài khoản nào!';
                 // res.render('/password/reset', {  conflictError });
         
             } else {
-                bcrypt.hash(khachhang.email, parseInt(process.env.BCRYPT_SALT_ROUND)).then((hashedEmail) => {
-                    mailer.sendMail(khachhang.email, "Reset password", `<a href="${process.env.APP_URL}/password/reset/${khachhang.email}?token=${hashedEmail}"> Reset Password </a>`)
-                    console.log(`${process.env.APP_URL}/password/reset/${khachhang.email}?token=${hashedEmail}`);
+                bcrypt.hash(nhanvien.email, parseInt(process.env.BCRYPT_SALT_ROUND)).then((hashedEmail) => {
+                    mailer.sendMail(nhanvien.email, "Reset password", `<a href="${process.env.APP_URL}/password/reset/${nhanvien.email}?token=${hashedEmail}"> Reset Password </a>`)
+                    console.log(`${process.env.APP_URL}/password/reset/${nhanvien.email}?token=${hashedEmail}`);
                 })
                 // const conflictError = 'Vui lòng check mail!';
                 // res.render('/password/reset', { email, conflictError });
@@ -66,7 +66,7 @@ exports.reset = (req, res) => {
                 console.log('compare', result);
                 if (result == true) {
                     bcrypt.hash(matkhau, parseInt(process.env.BCRYPT_SALT_ROUND)).then((hashedMatkhau) => {
-                        Khachhang.resetPassword(email, hashedMatkhau, (err, result) => {
+                        NhanVien.resetPassword(email, hashedMatkhau, (err, result) => {
                             if (!err) {
                                 res.redirect('/login?status=thanhcong');
     

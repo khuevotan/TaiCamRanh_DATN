@@ -71,22 +71,46 @@ Danhmuc.updateBymadm = (madm, danhmuc, result) => {
         }
     );
 };
+
+Danhmuc.updateADD = (madm, hinhdd, result) => {
+    sql.query(
+        "UPDATE danhmuc SET hinhdd = ? WHERE madm = ?",
+        [hinhdd, madm],
+        (err, res) => {
+            if (err) {
+                console.log("error: ", err);
+                result(null, err);
+                return;
+            }
+            if (res.affectedRows == 0) {
+                result({ kind: "not_found" }, null);
+                return;
+            }
+            result(null, { madm: madm, hinhdd: hinhdd });
+        }
+    );
+};
+
 Danhmuc.remove = (madm, result) => {
     sql.query("DELETE FROM danhmuc WHERE madm = ?", madm, (err, res) => {
+
         if (err) {
             console.log("error: ", err);
             result(null, err);
             return;
         }
+
         if (res.affectedRows == 0) {
             // not found danhmuc with the madm
             result({ kind: "not_found" }, null);
             return;
         }
+        
         console.log("deleted danhmuc with madm: ", madm);
         result(null, res);
     });
 };
+
 Danhmuc.removeAll = result => {
     sql.query("DELETE FROM danhmuc", (err, res) => {
         if (err) {
