@@ -1,0 +1,258 @@
+<div class="page-heading">
+    <h1 class="page-title">Chỉnh Sửa Thông Tin</h1>
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item">
+            <a href="index.html"><i class="la la-home font-20"></i></a>
+        </li>
+
+    </ol>
+</div>
+
+
+<div class="page-content fade-in-up">
+
+            <% if (typeof status !== 'undefined') { %>
+                <%if (status == 'success') { %>
+
+                <div class="ibox ibox-success">
+                    <div class="ibox-head">
+                        <div class="ibox-title">
+                            <div style="color: rgb(255, 255, 255);">
+                                Cập Nhật Thành Công!
+                            </div>
+                        </div>
+                        <div class="ibox-tools">
+                            <a class="ibox-collapse"><i class="fa fa-minus"></i></a>
+                            <a class="fullscreen-link"><i class="fa fa-expand"></i></a>
+                        </div>
+
+                <% } else { %>
+                    <%if (status == 'error') { %>
+                <div class=" ibox ibox-danger">
+                    <div class="ibox-head">
+                            <div class="ibox-title">
+                              
+                                    <div style="color: rgb(255, 255, 255);">
+                                        Đã xảy ra lỗi khi cập nhật Hóa Đơn RX!
+                                    </div>
+                            </div>
+                            <div class="ibox-tools">
+                                    <a class="ibox-collapse"><i class="fa fa-minus"></i></a>
+                                    <a class="fullscreen-link"><i class="fa fa-expand"></i></a>
+                            </div>
+                        <% } else { %>
+                            <div class="ibox ibox-info">
+                                <div class="ibox-head">
+                                    <div class="ibox-title">
+                                        MÃ Hóa Đơn RX: <%= hoadonrx.mahdrx %>
+                                        <div style="color: rgb(255, 255, 255);">
+                                          
+                                        </div>
+                                    </div>
+                                    <div class="ibox-tools">
+                                        <a class="ibox-collapse"><i class="fa fa-minus"></i></a>
+                                        <a class="fullscreen-link"><i class="fa fa-expand"></i></a>
+                                    </div>
+                            <% } %>
+                <% } %>
+            <% } else { %>
+            <div class="ibox ibox-info">
+                <div class="ibox-head">
+                    <div class="ibox-title">
+                        MÃ Hóa Đơn RX: <%= hoadonrx.mahdrx %>
+                        <div style="color: rgb(255, 255, 255);">
+                          
+                        </div>
+                    </div>
+                    <div class="ibox-tools">
+                        <a class="ibox-collapse"><i class="fa fa-minus"></i></a>
+                        <a class="fullscreen-link"><i class="fa fa-expand"></i></a>
+                    </div>
+            <% } %>
+                </div>
+
+                <div class="ibox-body">
+                    <form action="/admin/hoadonrx/<%= hoadonrx.mahdrx %>" class="form-horizontal"
+                        id="form-sample-1" method="post" novalidate="novalidate"
+                        onSubmit="return confirm('Bạn có chắc chắn muốn thay đổi thông tin?') "
+                        >
+                        <input type="hidden" name="_method" value="put" />
+
+                        <div class="form-group row">
+                            <label class="col-sm-2 col-form-label">Tên Hóa Đơn RX</label>
+                            <div class="col-sm-10">
+                                <input class="form-control" type="text" name="tennguoidat"
+                                    value="<%= hoadonrx.tennguoidat %>">
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label class="col-sm-2 col-form-label">Ngày Đặt</label>
+                            <div class="col-sm-10">
+                                <input class="form-control" type="date" name="ngaydat"
+                                    value="<%= moment(hoadonrx.ngaydat).format('YYYY-MM-DD')%>">
+                            </div>
+                        </div>
+
+                        
+
+                        <div class="form-group row">
+                            <label class="col-sm-2 col-form-label">Ngày Rửa</label>
+                            <div class="col-sm-10">
+                                <input class="form-control" type="date" name="ngayrua"
+                                    value="<%= moment(hoadonrx.ngayrua).format('YYYY-MM-DD')%>">
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label class="col-sm-2 col-form-label">Giờ</label>
+                            <div class="col-sm-10">
+                                <select class="form-control" name="magio">
+                                    <% for(var i=0; i < gio.length; i++) { %>
+                                        <% if(gio[i].magio == hoadonrx.magio){ %>
+                                            <option name="magio" selected value="<%= gio[i].magio %>"> <%= gio[i].tengio %></option>
+                                            <% } else{ %>  
+                                                <option name="magio" value="<%= gio[i].magio %>"> <%= gio[i].tengio %></option>
+                                           <% } %>
+                                     <%} %>
+                                </select>
+
+                               
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label class="col-sm-2 col-form-label">Số Điện Thoại</label>
+                            <div class="col-sm-10">
+                                <input class="form-control" type="text" name="sodt"
+                                    value="<%= hoadonrx.sodt %>">
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label class="col-sm-2 col-form-label">Địa Chỉ</label>
+                            <div class="col-sm-10">
+                                <input class="form-control" type="text" name="diachi"
+                                    value="<%= hoadonrx.diachi %>">
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label class="col-sm-2 col-form-label">Ghi Chú</label>
+                            <div class="col-sm-10">
+                                <textarea class="form-control" rows="6"
+                                    name="ghichu"><%= hoadonrx.ghichu %></textarea>
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label class="col-sm-2 col-form-label">Tổng Tiền Rửa Xe</label>
+                            <div class="col-sm-10">
+                                <input class="form-control" type="text" name="tongtienrx"
+                                value="<%= hoadonrx.tongtienrx %>">
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label class="col-sm-2 col-form-label">Thanh Toán</label>
+                            <div class="col-sm-10">
+
+                                <select class="form-control" name="thanhtoan">
+                                        <% if(hoadonrx.thanhtoan == 2){ %>
+                                            <option name="thanhtoan" selected value="2">Đã Thanh Toán</option>
+                                            <option name="thanhtoan"  value="1"> Chưa Thanh Toán</option>
+                                            <% } else{ %>  
+                                                <option name="thanhtoan"  value="2">Đã Thanh Toán</option>
+                                                <option name="thanhtoan" selected value="1"> Chưa Thanh Toán</option>
+                                        <% } %>
+                                </select>
+
+
+                           
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label class="col-sm-2 col-form-label">Loại Xe</label>
+                            <div class="col-sm-10">
+                                <select class="form-control" name="malx">
+                                    <% for(var i=0; i < loaixe.length; i++) { %>
+                                        <% if(loaixe[i].malx == hoadonrx.malx){ %>
+                                            <option name="malx" selected value="<%= loaixe[i].malx %>"> <%= loaixe[i].tenlx %></option>
+                                            <% } else{ %>  
+                                                <option value="<%= loaixe[i].malx %>"> <%= loaixe[i].tenlx %></option>
+                                           <% } %>
+                                     <%} %>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label class="col-sm-2 col-form-label">Trạng Thái</label>
+                            <div class="col-sm-10">
+
+                                <select class="form-control" name="matt">
+                                    <% for(var i=0; i < trangthai.length; i++) { %>
+                                        <% if(trangthai[i].matt == hoadonrx.matt){ %>
+                                            <option name="matt" selected value="<%= trangthai[i].matt %>"> <%= trangthai[i].tentt %></option>
+                                            <% } else{ %>  
+                                                <option value="<%= trangthai[i].matt %>"> <%= trangthai[i].tentt %></option>
+                                           <% } %>
+                                     <%} %>
+                                </select>
+
+                          
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label class="col-sm-2 col-form-label">Mã Khách Hàng</label>
+                            <div class="col-sm-10">
+                                <input class="form-control" type="text" name="makh"
+                                value="<%= hoadonrx.makh %>" readonly>
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label class="col-sm-2 col-form-label">Mã Nhân Viên Chỉnh Sửa Gần Nhất</label>
+                            <div class="col-sm-10">
+                                <input class="form-control" type="text" name="manv"
+                                value="<%= hoadonrx.manv %>" readonly>
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <div class="col-sm-10 ml-sm-auto">
+                                <button class="btn btn-info btn-rounded " type="submit">Cập Nhật</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+        </div> 
+</div>
+
+
+<!-- Sử dụng cho jquery - validation -->
+<script src="/assets/vendors/jquery/dist/jquery.min.js" type="text/javascript"></script>
+<script src="/assets/vendors/jquery-validation/dist/jquery.validate.min.js" type="text/javascript"></script>
+<script type="text/javascript">
+    $("#form-sample-1").validate({
+        rules: {
+            tennguoidat: {
+                rangelength: [2, 50],
+                required: !0
+            },
+            motact: {
+                required: !0,
+                rangelength: [2, 300],
+            }
+        },
+        errorClass: "help-block error",
+        highlight: function(e) {
+            $(e).closest(".form-group.row").addClass("has-error")
+        },
+        unhighlight: function(e) {
+            $(e).closest(".form-group.row").removeClass("has-error")
+        },
+    });
+</script>

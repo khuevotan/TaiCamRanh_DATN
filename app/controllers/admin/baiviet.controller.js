@@ -3,14 +3,14 @@ const Baiviet = require("../../models/baiviet.model");
 // Show form create baiviet
 exports.create = (req, res) => {
     res.locals.status = req.query.status;
-    res.render('baiviet/create');
+    res.render('baiviet/createbv', {layout: './master2'});
 }
 
 // Create and Save a new baiviet
 exports.store = (req, res) => {
     // Validate request
     if (!req.body) {
-        res.redirect('/baiviet/create?status=error')
+        res.redirect('/admin/baiviet/create?status=error')
     }
     
     // Create a baiviet
@@ -23,8 +23,8 @@ exports.store = (req, res) => {
     // Save baiviet in the database
     Baiviet.create(baiviet, (err, data) => {
         if (err)
-            res.redirect('/baiviet/create?status=error')
-        else res.redirect('/baiviet/create?status=success')
+            res.redirect('/admin/baiviet/create?status=error')
+        else res.redirect('/admin/baiviet/create?status=success')
     });
 };
 
@@ -32,13 +32,12 @@ exports.store = (req, res) => {
 exports.findAll = (req, res) => {
     res.locals.deleted = req.query.deleted;
     const tenbv = req.query.tenbv;
-    Baiviet.getAll(tenbv, (err, data) => {
+    Baiviet.getAllAD(tenbv, (err, data) => {
         if (err)
             res.redirect('/500')
         else {
-            res.render('baiviet/indexdv',  {baiviet: data, layout: './master2'});
+            res.render('baiviet/indexbv',  {baiviet: data, layout: './master3'});
         }
-   
     });
 };
 
@@ -63,18 +62,18 @@ exports.findAllKH = (req, res) => {
 };
 
 
-// Find a single baiviet with a madm
+// Find a single baiviet with a mabv
 exports.edit = (req, res) => {
     res.locals.status = req.query.status;
 
-    Baiviet.findByMaDM(req.params.madm, (err, data) => {
+    Baiviet.findBymabv(req.params.mabv, (err, data) => {
         if (err) {
             if (err.kind === "not_found") {
                 res.redirect('/404');
             } else {
                 res.redirect('/500');
             }
-        } else res.render('baiviet/edit', { baiviet: data });
+        } else res.render('baiviet/editbv', { baiviet: data ,  layout: './master2'});
     });
 };
 
@@ -99,16 +98,17 @@ exports.update = (req, res) => {
         }
     );
 };
+
 // Delete a baiviet with the specified id in the request
 exports.delete = (req, res) => {
-    Baiviet.remove(req.params.madm, (err, data) => {
+    Baiviet.remove(req.params.mabv, (err, data) => {
         if (err) {
             if (err.kind === "not_found") {
                 res.redirect('/404');
             } else {
                 res.redirect('/500');
             }
-        } else res.redirect('/baiviet?deleted=true')
+        } else res.redirect('/admin/baiviet/index?deleted=true')
     });
 };
 // Delete all baiviet from the database.
@@ -134,3 +134,47 @@ exports.chitiet = (req, res) => {
     });
 };
 
+
+// Upload fle ảnh
+exports.updateADD = (req, res, next) => {
+    const file = req.file
+    if (!file) {
+        const error = new Error('Vui Lòng Up Ảnh')
+        error.httpStatusCode = 400
+        return next(error);
+    }
+
+        if(req.body.hinhdd != ''){
+            const fs = require('fs');
+            const fileNameCu = req.body.hinhdd;
+            const filePath = '/images/baiviet/' + fileNameCu; 
+          
+            fs.unlink("app/public"+ filePath,function(err){
+                if(err) throw err;
+                console.log('File deleted!');
+            });
+        }
+    
+    Baiviet.updateADD(req.params.mabv, file.filename, (err, result) => {
+        if (!err) {
+            res.redirect('/admin/baiviet/edit/' + req.params.mabv + '?status=successhdd');
+        } else {
+            res.redirect('/admin/baiviet/edit/' + req.params.mabv + '?status=errorhdd')
+        }
+    });
+}
+
+
+// hiển thị chi tiết 1 bài viết
+exports.details = (req, res) => {
+    res.locals.status = req.query.status;
+    Baiviet.findBymabv(req.params.mabv, (err, data) => {
+        if (err) {
+            if (err.kind === "not_found") {
+                res.redirect('/404');
+            } else {
+                res.redirect('/500');
+            }
+        } else res.render('baiviet/detailsbv', { baiviet: data,  layout: './master2'});
+    });
+};

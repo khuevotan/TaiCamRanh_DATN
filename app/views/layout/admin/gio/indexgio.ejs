@@ -1,0 +1,79 @@
+
+    <div class="page-heading">
+        <h1 class="page-title">Danh Sách Giờ Rửa</h1>
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item">
+                <a href="index.html"><i class="la la-home font-20"></i></a>
+            </li>
+            <!-- <li class="breadcrumb-item">DataTables</li> -->
+        </ol>
+    </div>
+    <div class="page-content fade-in-up">
+       
+
+            <% if (typeof deleted !== 'undefined') { %>
+                <%if (deleted == 'true') { %>
+
+                    <div class="ibox ibox-success">
+                        <div class="ibox-head">
+                            <div class="ibox-title">   
+                                <div style="color: rgb(255, 255, 255);">
+                                    Xóa Thành Công!
+                                </div>
+                            </div>
+                        </div>
+                <% } %>
+           
+          <% } else { %>
+
+            <div class="ibox ibox-info">
+                <div class="ibox-head">
+                    <div class="ibox-title">   
+                       
+                    </div>
+                </div>
+            <% } %>
+            <div class="ibox-body">
+                
+                <table class="table table-striped table-bordered table-hover" id="example-table" cellspacing="0" width="100%">
+                    <thead>
+                        <tr>
+                            <th>Mã Giờ</th>
+                            <th>Tên Giờ</th>
+                            <th>HànhĐộng</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <% gio.forEach((item) => { %>
+                        <tr>
+                            <td><%= item.magio %></td>
+                            <td><%= item.tengio %></td>
+                      
+                                <td>
+                                    <a href="/admin/gio/details/<%= item.magio %>" class="btn btn-default btn-xs m-r-5" data-toggle="tooltip" data-original-title="Details"><i class="fa fa-info font-14"></i></a>
+                                    <a href="/admin/gio/edit/<%= item.magio %>" class="btn btn-default btn-xs m-r-5" data-toggle="tooltip" data-original-title="Edit"><i class="fa fa-pencil font-14"></i></a>
+                                    <a href="/admin/gio/delete/<%= item.magio %>" onclick="return confirm('Bạn có chắc chăn muốn xóa không?')" class="btn btn-default btn-xs" data-toggle="tooltip" data-original-title="Delete"><i class="fa fa-trash font-14"></i></a>
+                                </td>
+                        </tr>     
+                        <% }) %>  
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+<script type="text/javascript">
+    $(function() {
+        $('#example-table').DataTable({
+            pageLength: 10,
+            dom: 'Bfrtip',
+            buttons: [
+                'copy', 'csv', 'excel', 'pdf', 'print'
+            ]
+           
+        });
+    })
+</script>
+
+
+

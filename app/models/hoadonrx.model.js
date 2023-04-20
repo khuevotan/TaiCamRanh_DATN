@@ -30,6 +30,21 @@ HoaDonRX.create = (newhoadonrx, result) => {
     });
 };
 
+// hiển thị hóa đơn rửa xe bên phía admin
+HoaDonRX.getAllAD = (result) => {
+    let query = `SELECT * FROM hoadonrx `;
+  
+    sql.query(query, (err, res) => {
+        if (err) {
+            console.log("error: ", err);
+            result(null, err);
+            return;
+        }
+        console.log("hoadonrx: ", res);
+        result(null, res);
+    });
+};
+
 //tìm kiếm 1 hóa đơn bằng mã đơn hàng
 HoaDonRX.findBymahdrx = (mahdrx, result) => { 
     sql.query(`SELECT * FROM hoadonrx WHERE mahdrx = '${mahdrx}'`, (err, res) => {
@@ -128,8 +143,8 @@ HoaDonRX.getLSAll = (makh, result) => {
 
 HoaDonRX.updateBymahdrx = (mahdrx, hoadonrx, result) => {
     sql.query(
-        "UPDATE hoadonrx SET tenbv = ?, noidung = ?, hinhdd = ?, hinhdd = ? , ngaydang = ? WHERE mahdrx = ?",
-        [hoadonrx.tenbv, hoadonrx.noidung , hoadonrx.hinhdd, hoadonrx.hinhdd , hoadonrx.ngaydang,  mahdrx],
+        "UPDATE hoadonrx SET tennguoidat = ?, ngaydat = ?, ngayrua = ?, magio = ? , sodt = ? , diachi = ? , ghichu = ? , tongtienrx = ? , thanhtoan = ? , malx = ? , matt = ? , manv = ? , makh = ? WHERE mahdrx = ?",
+        [hoadonrx.tennguoidat, hoadonrx.ngaydat , hoadonrx.ngayrua, hoadonrx.magio , hoadonrx.sodt,  hoadonrx.diachi,hoadonrx.ghichu,hoadonrx.tongtienrx,hoadonrx.thanhtoan,hoadonrx.malx,hoadonrx.matt, hoadonrx.manv, hoadonrx.makh, mahdrx],
         (err, res) => {
             if (err) {
                 console.log("error: ", err);

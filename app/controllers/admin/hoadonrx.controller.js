@@ -1,6 +1,7 @@
 const HoaDonRX = require("../../models/HoaDonRX.model");
 const Gio = require("../../models/Gio.model");
 const LoaiXe = require("../../models/LoaiXe.model");
+const TrangThai = require("../../models/TrangThai.model");
 
 // Show form create hoadonrx
 exports.create = (req, res) => {
@@ -33,14 +34,180 @@ exports.store = (req, res) => {
 // Retrieve all hoadonrx from the database (with condition).
 exports.findAll = (req, res) => {
     res.locals.deleted = req.query.deleted;
-    const tenbv = req.query.tenbv;
-    HoaDonRX.getAll(tenbv, (err, data) => {
+    const tengio = req.query.tengio;
+    const tenlx = req.query.tenlx;
+    const tentt = req.query.tentt;
+
+    HoaDonRX.getAllAD((err, data) => {
         if (err)
             res.redirect('/500')
         else {
-            res.render('hoadonrx/indexdv',  {hoadonrx: data, layout: './master2'});
+            LoaiXe.getAll( tenlx,(err, loaixe) => {
+                if (err)
+                    res.redirect('/500')
+                else {
+                   
+                    Gio.getAll(tengio, (err, gio) => {
+                        if (err)
+                            res.redirect('/500')
+                        else {
+                            TrangThai.getAll(tentt, (err, trangthai) => {
+                                if (err)
+                                    res.redirect('/500')
+                                else {
+                                    res.render('hoadonrx/indexhdr',  {hoadonrx: data,loaixe: loaixe, gio: gio, 
+                                        trangthai: trangthai, layout: './master3'});
+                                }
+                           
+                            });
+
+                        }
+                   
+                    });
+
+                }
+           
+            });
         }
-   
+    });
+};
+
+// Find a single hoadonrx with a mahdrx
+exports.edit = (req, res) => {
+    res.locals.status = req.query.status;
+    const tengio = req.query.tengio;
+    const tenlx = req.query.tenlx;
+    const tentt = req.query.tentt;
+
+    HoaDonRX.findBymahdrx(req.params.mahdrx, (err, data) => {
+        if (err) {
+            if (err.kind === "not_found") {
+                res.redirect('/404');
+            } else {
+                res.redirect('/500');
+            }
+        } else {
+            
+            LoaiXe.getAll( tenlx,(err, loaixe) => {
+                if (err)
+                    res.redirect('/500')
+                else {
+                   
+                    Gio.getAll(tengio, (err, gio) => {
+                        if (err)
+                            res.redirect('/500')
+                        else {
+                            TrangThai.getAll(tentt, (err, trangthai) => {
+                                if (err)
+                                    res.redirect('/500')
+                                else {
+                                    res.render('hoadonrx/edithdr',  {hoadonrx: data,loaixe: loaixe, gio: gio, 
+                                        trangthai: trangthai, layout: './master2'});
+                                }
+                            });
+                        }
+                    });
+                }
+            });
+        }
+    });
+};
+
+// Update a hoadonrx identified by the id in the request
+exports.update = (req, res) => {
+    // Validate Request
+    if (!req.body) {
+        res.redirect('/admin/hoadonrx/edit/' + req.params.mahdrx + '?status=error')
+    }
+
+    res.locals.nhanvien = req.session.nhanvien
+    const manv = res.locals.nhanvien.manv;
+
+    // Create a hoadonrx
+    const hoadonrx = new HoaDonRX({
+        tennguoidat: req.body.tennguoidat,
+        ngaydat: req.body.ngaydat,
+        ngayrua: req.body.ngayrua,
+        magio: req.body.magio,
+        sodt: req.body.sodt,
+        diachi: req.body.diachi,
+        ghichu: req.body.ghichu,
+        tongtienrx: req.body.tongtienrx,
+        thanhtoan: req.body.thanhtoan,
+        malx: req.body.malx,
+        matt: req.body.matt,
+        manv: manv,
+        makh: req.body.makh,
+    });
+
+    HoaDonRX.updateBymahdrx(
+        req.params.mahdrx,
+        hoadonrx,
+        (err, data) => {
+            if (err) {
+                if (err.kind === "not_found") {
+                    res.redirect('/404');
+                } else {
+                    res.redirect('/500');
+                }
+            } else res.redirect('/admin/hoadonrx/edit/' + req.params.mahdrx + '?status=success');
+        }
+    );
+};
+// Delete a hoadonrx with the specified id in the request
+exports.delete = (req, res) => {
+    HoaDonRX.remove(req.params.madm, (err, data) => {
+        if (err) {
+            if (err.kind === "not_found") {
+                res.redirect('/404');
+            } else {
+                res.redirect('/500');
+            }
+        } else res.redirect('/admin/hoadonrx?deleted=true')
+    });
+};
+
+exports.details = (req, res) => {
+    res.locals.status = req.query.status;
+
+    HoaDonRX.findBymahdrx(req.params.mahdrx, (err, data) => {
+        if (err) {
+            if (err.kind === "not_found") {
+                res.redirect('/404');
+            } else {
+                res.redirect('/500');
+            }
+        } else {
+            
+            LoaiXe.findBymalx( data.malx,(err, loaixe) => {
+                if (err)
+                    res.redirect('/500')
+                else {
+                   
+                    Gio.findBymagio(data.magio, (err, gio) => {
+                        if (err)
+                            res.redirect('/500')
+                        else {
+                            TrangThai.findBymatt(data.matt, (err, trangthai) => {
+                                if (err)
+                                    res.redirect('/500')
+                                else {
+                                    res.render('hoadonrx/detailshdr',  {hoadonrx: data,loaixe: loaixe, gio: gio, 
+                                        trangthai: trangthai, layout: './master2'});
+                                }
+                           
+                            });
+
+                        }
+                   
+                    });
+
+                }
+           
+            });
+         
+    
+        }
     });
 };
 
@@ -93,9 +260,7 @@ exports.findAllKHLS = (req, res) => {
     });
 };
 
-
-
-// Hiển thị chi tiết 1 đơn đặt lịch hẹn
+// Hiển thị chi tiết 1 đơn đặt lịch hẹn bên phía khách hàng
 exports.chitietdatlich = (req, res) => {
     res.locals.status = req.query.status;
     const tengio = req.query.tendm;
@@ -117,7 +282,6 @@ exports.chitietdatlich = (req, res) => {
                             res.redirect('/500')
                         else {
                             res.render('ctdatlich', { hoadonrx: data, gio : gio, tenlx: tenlx , layout: './master'});
-                            console.log(gio);
                         }
                     });
                 }
@@ -125,62 +289,3 @@ exports.chitietdatlich = (req, res) => {
         }
     });
 };
-
-// Find a single hoadonrx with a madm
-exports.edit = (req, res) => {
-    res.locals.status = req.query.status;
-
-    HoaDonRX.findByMaDM(req.params.madm, (err, data) => {
-        if (err) {
-            if (err.kind === "not_found") {
-                res.redirect('/404');
-            } else {
-                res.redirect('/500');
-            }
-        } else res.render('hoadonrx/edit', { hoadonrx: data });
-    });
-};
-
-// Update a hoadonrx identified by the id in the request
-exports.update = (req, res) => {
-    // Validate Request
-    if (!req.body) {
-        res.redirect('/hoadonrx/edit/' + req.params.madm + '?status=error')
-    }
-
-    HoaDonRX.updateByMaDM(
-        req.params.madm,
-        new hoadonrx(req.body),
-        (err, data) => {
-            if (err) {
-                if (err.kind === "not_found") {
-                    res.redirect('/404');
-                } else {
-                    res.redirect('/500');
-                }
-            } else res.redirect('/hoadonrx/edit/' + req.params.madm + '?status=success');
-        }
-    );
-};
-// Delete a hoadonrx with the specified id in the request
-exports.delete = (req, res) => {
-    HoaDonRX.remove(req.params.madm, (err, data) => {
-        if (err) {
-            if (err.kind === "not_found") {
-                res.redirect('/404');
-            } else {
-                res.redirect('/500');
-            }
-        } else res.redirect('/hoadonrx?deleted=true')
-    });
-};
-
-// Delete all hoadonrx from the database.
-exports.deleteAll = (req, res) => {
-    HoaDonRX.removeAll((err, data) => {
-        if (err)
-            res.redirect('/500');
-        else res.redirect('/hoadonrx?deleted=true')
-    });
-};
-

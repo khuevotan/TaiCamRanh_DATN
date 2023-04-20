@@ -37,23 +37,6 @@ Gio.findBymagio = (magio, result) => {
 
 
 // phía admin
-// Gio.getAll = (tengio, result) => {
-//     let query = "SELECT * FROM gio";
-//     if (tengio) {
-//         query += ` WHERE tengio LIKE '%${tengio}%'`;
-//     }
-//     sql.query(query, (err, res) => {
-//         if (err) {
-//             console.log("error: ", err);
-//             result(null, err);
-//             return;
-//         }
-//         console.log("gio: ", res);
-//         result(null, res);
-//     });
-// };
-
-
 Gio.getAll = (tengio, result) => {
     let query = "SELECT * FROM gio";
     if (tengio) {
@@ -104,8 +87,8 @@ Gio.getAllKH = (ngayrua, result) => {
 
 Gio.updateBymagio = (magio, gio, result) => {
     sql.query(
-        "UPDATE gio SET tengio = ?, noidung = ?, hinhdd = ?, hinhdd = ? , ngaydang = ? WHERE magio = ?",
-        [gio.tengio, gio.noidung , gio.hinhdd, gio.hinhdd , gio.ngaydang,  magio],
+        "UPDATE gio SET tengio = ? WHERE magio = ?",
+        [gio.tengio,  magio],
         (err, res) => {
             if (err) {
                 console.log("error: ", err);

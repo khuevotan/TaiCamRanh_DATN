@@ -1,0 +1,60 @@
+
+
+<div class="page-content fade-in-up">
+  
+             <div class="ibox ibox-info">
+                    <div class="ibox-head">
+                        <div class="ibox-title">
+                            <div style="color: rgb(255, 255, 255);">
+                                Thông Tin Chi Tiết
+                            </div>
+                        </div>
+                        <div class="ibox-tools">
+                            <a class="ibox-collapse"><i class="fa fa-minus"></i></a>
+                        </div>
+                </div>
+
+                <div class="ibox-body">
+                        <div class="form-group row">
+                            <label class="col-sm-2 col-form-label">Mã Tham Số</label>
+                            <div class="col-sm-10">
+                                <input class="form-control" type="text" name="mats"
+                                    value="<%= thamso.mats %>" readonly>
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label class="col-sm-2 col-form-label">Tên Tham Số</label>
+                            <div class="col-sm-10">
+                                <input class="form-control" type="text" name="tents"
+                                    value="<%= thamso.tents %>" readonly>
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label class="col-sm-2 col-form-label">Giá Trị</label>
+                            <div class="col-sm-10">
+                                <input class="form-control" type="text" name="giatri"
+                                    value="<%= thamso.giatri %>" readonly>
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label class="col-sm-2 col-form-label">Chú Thích</label>
+                            <div class="col-sm-10">
+                                <input class="form-control" type="text" name="chuthich"
+                                    value="<%= thamso.chuthich %>" readonly>
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <div class="col-sm-10 ml-sm-auto">
+                                <a href="/admin/thamso/edit/<%= thamso.mats %>" class="btn btn-info btn-rounded" >Chỉnh Sửa </a>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div> 
+</div>
+
+

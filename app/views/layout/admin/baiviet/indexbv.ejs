@@ -1,0 +1,90 @@
+
+    <div class="page-heading">
+        <h1 class="page-title">Danh Sách Các Bài Viết</h1>
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item">
+                <a href="index.html"><i class="la la-home font-20"></i></a>
+            </li>
+            <!-- <li class="breadcrumb-item">DataTables</li> -->
+        </ol>
+    </div>
+    <div class="page-content fade-in-up">
+       
+
+            <% if (typeof deleted !== 'undefined') { %>
+                <%if (deleted == 'true') { %>
+
+                    <div class="ibox ibox-success">
+                        <div class="ibox-head">
+                            <div class="ibox-title">   
+                                <div style="color: rgb(255, 255, 255);">
+                                    Xóa Thành Công!
+                                </div>
+                            </div>
+                        </div>
+                <% } %>
+           
+          <% } else { %>
+
+            <div class="ibox ibox-info">
+                <div class="ibox-head">
+                    <div class="ibox-title">   
+                       
+                    </div>
+                </div>
+            <% } %>
+            <div class="ibox-body">
+                
+                <table class="table table-striped table-bordered table-hover" id="example-table" cellspacing="0" width="100%">
+                    <thead>
+                        <tr>
+                            <th>MãBàiViết</th>
+                            <th>TênBàiViết</th>
+                            <th>MôTả</th>
+                            <th>HìnhĐạiDiện</th>
+                            <th>NgàyĐăng</th>
+                            <th>MãNV</th>
+                            <th>HànhĐộng</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <% baiviet.forEach((item) => { %>
+                        <tr>
+                            <td><%= item.mabv %></td>
+                            <td><%= item.tenbv %></td>
+                            <td><%= item.mota %></td>
+                            <td> 
+                                <div class="popup">
+                                    <img src="/images/baiviet/<%= item.hinhdd %>" />
+                                  </div>
+                            </td>
+                            <td><%= moment(item.ngaydang).format('DD-MM-YYYY')  %></td>
+                            <td><%= item.manv %></td>
+                                <td>
+                                    <a href="/admin/baiviet/details/<%= item.mabv %>" class="btn btn-default btn-xs m-r-5" data-toggle="tooltip" data-original-title="Details"><i class="fa fa-info font-14"></i></a>
+                                    <a href="/admin/baiviet/edit/<%= item.mabv %>" class="btn btn-default btn-xs m-r-5" data-toggle="tooltip" data-original-title="Edit"><i class="fa fa-pencil font-14"></i></a>
+                                    <a href="/admin/baiviet/delete/<%= item.mabv %>" onclick="return confirm('Bạn có chắc chăn muốn xóa không?')" class="btn btn-default btn-xs" data-toggle="tooltip" data-original-title="Delete"><i class="fa fa-trash font-14"></i></a>
+                                </td>
+                        </tr>     
+                        <% }) %>  
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+<script type="text/javascript">
+    $(function() {
+        $('#example-table').DataTable({
+            pageLength: 10,
+            dom: 'Bfrtip',
+            buttons: [
+                'copy', 'csv', 'excel', 'pdf', 'print'
+            ]
+           
+        });
+    })
+</script>
+
+
+

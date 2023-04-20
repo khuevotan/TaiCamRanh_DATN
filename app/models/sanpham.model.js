@@ -142,6 +142,25 @@ Sanpham.removeAll = result => {
     });
 };
 
+// update ảnh đại diện sản phẩm
+Sanpham.updateADD = (masp, hinhdd, result) => {
+    sql.query(
+        "UPDATE sanpham SET hinhdd = ? WHERE masp = ?",
+        [hinhdd, masp],
+        (err, res) => {
+            if (err) {
+                console.log("error: ", err);
+                result(null, err);
+                return;
+            }
+            if (res.affectedRows == 0) {
+                result({ kind: "not_found" }, null);
+                return;
+            }
+            result(null, { masp: masp, hinhdd: hinhdd });
+        }
+    );
+};
 
 
 module.exports = Sanpham;

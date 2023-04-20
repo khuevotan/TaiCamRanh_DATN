@@ -43,6 +43,7 @@ exports.findAll = (req, res) => {
     });
 };
 
+// chi tiết một sản phẩm
 exports.details = (req, res) => {
     res.locals.status = req.query.status;
   
@@ -195,3 +196,33 @@ exports.deleteAll = (req, res) => {
     });
 };
 
+
+
+// Upload fle ảnh
+exports.updateADD = (req, res, next) => {
+    const file = req.file
+    if (!file) {
+        const error = new Error('Vui Lòng Up Ảnh')
+        error.httpStatusCode = 400
+        return next(error);
+    }
+
+        if(req.body.hinhdd != ''){
+            const fs = require('fs');
+            const fileNameCu = req.body.hinhdd;
+            const filePath = '/images/sanpham/' + fileNameCu; 
+          
+            fs.unlink("app/public"+ filePath,function(err){
+                if(err) throw err;
+                console.log('File deleted!');
+            });
+        }
+    
+    SanPham.updateADD(req.params.masp, file.filename, (err, result) => {
+        if (!err) {
+            res.redirect('/admin/danhmuc/edit/' + req.params.masp + '?status=successhdd');
+        } else {
+            res.redirect('/admin/danhmuc/edit/' + req.params.masp + '?status=errorhdd')
+        }
+    });
+}

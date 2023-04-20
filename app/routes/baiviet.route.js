@@ -1,32 +1,62 @@
+const authMiddleware = require('../middlewares/authad.middleware');
+
 module.exports = app => {
     const baiviet = require("../controllers/admin/baiviet.controller");
     var router = require("express").Router();
 
-    // Retrieve all baiviet
-    router.get("/", baiviet.findAll);
+    // Hiển thị danh sách các bài viết
+    router.get("/index", authMiddleware.loggedinad, baiviet.findAll);
 
-    // // Show form create baiviet
-    // router.get("/create", baiviet.create);
-    // // Store baiviet
-    // router.post("/", baiviet.store);
+    // Hiển thị form tạo bài viết
 
-    // // Retrieve a single baiviet with id
-    // router.get("/edit/:madv", baiviet.edit);
-    // // Update a baiviet with id
-    // router.put("/:madv", baiviet.update);
+     //File upload images Danh Muc
+     const multer = require("multer");
+     const fsExtra = require('fs-extra');
+ 
+     // SET STORAGE
+     var storage = multer.diskStorage({
+         destination: function (req, file, cb) {
+             let path = 'app/public/images/baiviet';
+             if (!fsExtra.existsSync(path)) {
+                 fsExtra.mkdirSync(path)
+             }
+             cb(null, path)
+         },
+         filename: function (req, file, cb) {
+             cb(null, Date.now() + '-' + file.originalname)
+         }
+     });
+ 
+     //file
+     var upload = multer({
+         storage: storage
+     })
 
-    // // Delete a baiviet with id
-    // router.get("/delete/:madv", baiviet.delete);
+    //file
+    var uploadctanh = multer({
+        storage: storage
+    })
+
+    router.get("/create", authMiddleware.loggedinad, baiviet.create);
+
+    // Lưu bài viết mới khi nhấn nút lưu
+    router.post("/", authMiddleware.loggedinad, upload.single('hinhdd'), baiviet.store);
+
+    // Xem thông tin chi tiết 1 bài viết
+    router.get("/details/:mabv", authMiddleware.loggedinad, baiviet.details);
+
+    // Chỉnh sửa 1 bài viết khi nhấn nút chỉnh sửa -> hiển thị form
+    router.get("/edit/:mabv", authMiddleware.loggedinad, baiviet.edit);
+    // Lưu bài viết khi nhấn nút update
+    router.put("/:mabv", authMiddleware.loggedinad, baiviet.update);
+
+    router.post("/anhdaidien/:mabv", authMiddleware.loggedinad, upload.single('hinhddmoi'), baiviet.updateADD);
+
+    // Delete a baiviet with id
+    router.get("/delete/:mabv", authMiddleware.loggedinad, baiviet.delete);
 
     // // Delete all baiviet
     // router.delete("/delete", baiviet.deleteAll);
-    
-    // app.use('/baiviet', router);
-    // app.get('/500', (req, res) => {
-    //     res.render('err')
-    // });
-    // app.get('/404', (req, res) => {
-    //     res.render('404')
-    // });
+
     app.use('/admin/baiviet', router);
 }

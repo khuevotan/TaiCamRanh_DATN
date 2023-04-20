@@ -1,0 +1,136 @@
+<div class="page-content fade-in-up">
+             <div class="ibox ibox-info">
+                    <div class="ibox-head">
+                        <div class="ibox-title">
+                            <div style="color: rgb(255, 255, 255);">
+                                Thông Tin Chi Tiết
+                            </div>
+                        </div>
+                        <div class="ibox-tools">
+                            <a class="ibox-collapse"><i class="fa fa-minus"></i></a>
+                        </div>
+                </div>
+
+                <div class="ibox-body">
+                        <div class="form-group row">
+                            <label class="col-sm-2 col-form-label">Mã Hóa Đơn Rửa Xe</label>
+                            <div class="col-sm-10">
+                                <input class="form-control" type="text" name="mahdrx"
+                                    value="<%= hoadonrx.mahdrx %>" readonly>
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label class="col-sm-2 col-form-label">Tên Người Đặt</label>
+                            <div class="col-sm-10">
+                                <input class="form-control" type="text" name="tennguoidat"
+                                    value="<%= hoadonrx.tennguoidat %>" readonly>
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label class="col-sm-2 col-form-label">Ngày Đặt</label>
+                            <div class="col-sm-10">
+                                <input class="form-control" type="text" name="ngaydat"
+                                    value="<%= moment(hoadonrx.ngaydat).format('DD-MM-YYYY')  %>" readonly>
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label class="col-sm-2 col-form-label">Ngày Rửa</label>
+                            <div class="col-sm-10">
+                                <input class="form-control" type="text" name="ngayrua"
+                                    value="<%= moment(hoadonrx.ngayrua).format('DD-MM-YYYY')  %>" readonly>
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label class="col-sm-2 col-form-label">Mã Giờ</label>
+                            <div class="col-sm-10">
+                                <input class="form-control" type="text" name="magio" value="<%= gio.tengio %>" readonly>
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label class="col-sm-2 col-form-label">Số Điện Thoại</label>
+                            <div class="col-sm-10">
+                                <input class="form-control" type="text" name="sodt"
+                                    value="<%= hoadonrx.sodt %>" readonly>
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label class="col-sm-2 col-form-label">Địa Chỉ</label>
+                            <div class="col-sm-10">
+                                <input class="form-control" type="text" name="diachi"
+                                    value="<%= hoadonrx.diachi  %> " readonly>
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label class="col-sm-2 col-form-label">Ghi Chú</label>
+                            <div class="col-sm-10">
+                                <textarea class="form-control" rows="6"
+                                    name="ghichu" readonly><%= hoadonrx.ghichu %></textarea>
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label class="col-sm-2 col-form-label">Tổng Tiền Rửa Xe</label>
+                            <div class="col-sm-10">
+                                <input class="form-control" type="text" name="tongtienrx"
+                                    value=" <%= hoadonrx.tongtienrx  %> " readonly>
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label class="col-sm-2 col-form-label">Thanh Toán</label>
+                            <div class="col-sm-10">
+                                <input class="form-control" type="text" name="thanhtoan"
+                                    value="<%if (hoadonrx.thanhtoan == 1) { %> Chưa Thanh Toán <% }else { %> Đã Thanh Toán <%  } %>" readonly>
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label class="col-sm-2 col-form-label">Mã Loại Xe</label>
+                            <div class="col-sm-10">
+                                <input class="form-control" type="text" name="malx"
+                                    value="<%= loaixe.tenlx %>" readonly>
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label class="col-sm-2 col-form-label">Mã Trạng Thái</label>
+                            <div class="col-sm-10">
+                                <input class="form-control" type="text" name="matt"
+                                    value="<%= trangthai.tentt %>" readonly>
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label class="col-sm-2 col-form-label">Mã Nhân Viên</label>
+                            <div class="col-sm-10">
+                                <input class="form-control" type="text" name="manv"
+                                    value=" <%= hoadonrx.manv %> " readonly>
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label class="col-sm-2 col-form-label">Mã Khách Hàng</label>
+                            <div class="col-sm-10">
+                                <input class="form-control" type="text" name="makh"
+                                    value=" <%= hoadonrx.makh %> " readonly>
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <div class="col-sm-10 ml-sm-auto">
+                                <a href="/admin/hoadonrx/edit/<%= hoadonrx.mahdrx %>" class="btn btn-info btn-rounded" >Chỉnh Sửa </a>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div> 
+</div>
+
+

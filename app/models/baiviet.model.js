@@ -59,21 +59,21 @@ Baiviet.getAllKH = (tenbv, limit, offset,result) => {
 };
 
 // hiển thị bài viết bên phía admin
-// Baiviet.getAllAD = (tenbv, result) => {
-//     let query = "SELECT * FROM baiviet";
-//     if (tenbv) {
-//         query += ` WHERE tenbv LIKE '%${tenbv}%'`;
-//     }
-//     sql.query(query, (err, res) => {
-//         if (err) {
-//             console.log("error: ", err);
-//             result(null, err);
-//             return;
-//         }
-//         console.log("baiviet: ", res);
-//         result(null, res);
-//     });
-// };
+Baiviet.getAllAD = (tenbv, result) => {
+    let query = "SELECT * FROM baiviet";
+    if (tenbv) {
+        query += ` WHERE tenbv LIKE '%${tenbv}%'`;
+    }
+    sql.query(query, (err, res) => {
+        if (err) {
+            console.log("error: ", err);
+            result(null, err);
+            return;
+        }
+        console.log("baiviet: ", res);
+        result(null, res);
+    });
+};
 
 
 Baiviet.updateBymabv = (mabv, baiviet, result) => {
@@ -125,5 +125,27 @@ Baiviet.removeAll = result => {
         result(null, res);
     });
 };
+
+
+// update ảnh đại diện sản phẩm
+Baiviet.updateADD = (mabv, hinhdd, result) => {
+    sql.query(
+        "UPDATE baiviet SET hinhdd = ? WHERE mabv = ?",
+        [hinhdd, mabv],
+        (err, res) => {
+            if (err) {
+                console.log("error: ", err);
+                result(null, err);
+                return;
+            }
+            if (res.affectedRows == 0) {
+                result({ kind: "not_found" }, null);
+                return;
+            }
+            result(null, { mabv: mabv, hinhdd: hinhdd });
+        }
+    );
+};
+
 
 module.exports = Baiviet;

@@ -1,7 +1,7 @@
 
 
     <div class="page-heading">
-        <h1 class="page-title">Thêm Sản Phẩm Mới</h1>
+        <h1 class="page-title">Thêm Bài Viết Mới</h1>
         <ol class="breadcrumb">
             <li class="breadcrumb-item">
                 <a href="/admin/index"><i class="la la-home font-20"></i></a>
@@ -28,7 +28,7 @@
                                 <div class="ibox-head">
                                     <div class="ibox-title">   
                                         <div style="color: rgb(255, 255, 255);">
-                                            Đã xảy ra lỗi khi tạo Sản Phẩm!
+                                            Đã xảy ra lỗi khi tạo Bài Viết!
                                         </div>
                                     </div>
 
@@ -52,16 +52,24 @@
               
             </div>
             <div class="ibox-body">
-                <form action="/admin/sanpham/" 
+                <form action="/admin/baiviet/" 
                 class="form-horizontal"  
                 id="form-sample-1" 
                 method="post" 
                 enctype="multipart/form-data"
                 onSubmit="return confirm('Bạn có chắc chắn muốn thêm mới?') ">
                     <div class="form-group row">
-                        <label class="col-sm-2 col-form-label">Tên Sản Phẩm</label>
+                        <label class="col-sm-2 col-form-label">Tên Bài Viết</label>
                         <div class="col-sm-10">
-                            <input class="form-control" type="text" name="tensp" >
+                            <input class="form-control" type="text" name="tenbv" >
+                        </div>
+                        
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-sm-2 col-form-label">Mô Tả</label>
+                        <div class="col-sm-10">
+                       
+                            <textarea class="form-control" rows="3" name="mota"></textarea>
                         </div>
                         
                     </div>
@@ -72,9 +80,9 @@
                         </div>
                     </div>
                     <div class="form-group row">
-                        <label class="col-sm-2 col-form-label">Mô Tả Chi Tiết</label>
+                        <label class="col-sm-2 col-form-label">Nội Dung</label>
                         <div class="col-sm-10">
-                            <textarea class="form-control" rows="3" name="motact"></textarea>
+                            <textarea class="form-control" rows="3" name="noidung"></textarea>
                         </div>
                     </div>
                     <div class="form-group row">
@@ -97,28 +105,17 @@
 <script type="text/javascript">
     $("#form-sample-1").validate({
         rules: {
-            tensp: {
-                rangelength: [2, 200],
+            tenbv: {
+                rangelength: [2, 50],
                 required: !0
             },
             motact: {
                 required: !0,
-                rangelength: [2, 1000],
+                rangelength: [2, 300],
             },
             hinhdd: {
                 required: !0,
-            },
-            soluong: {
-                number: true,
-                required: !0
-            },
-            giaban: {
-                number: true,
-                required: !0
-            },
-            madm: {
-                required: !0
-            },
+            }
         },
         errorClass: "help-block error",
         highlight: function(e) {

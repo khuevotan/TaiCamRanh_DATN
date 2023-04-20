@@ -4,14 +4,15 @@ const Gio = require("../../models/gio.model");
 // Show form create loaixe
 exports.create = (req, res) => {
     res.locals.status = req.query.status;
-    res.render('loaixe/create');
+    res.render('loaixe/createlx', {layout: './master2'});
 }
 
 // Create and Save a new loaixe
 exports.store = (req, res) => {
+
     // Validate request
     if (!req.body) {
-        res.redirect('/loaixe/create?status=error')
+        res.redirect('/admin/loaixe/create?status=error')
     }
     
     // Create a loaixe
@@ -22,8 +23,8 @@ exports.store = (req, res) => {
     // Save loaixe in the database
     LoaiXe.create(loaixe, (err, data) => {
         if (err)
-            res.redirect('/loaixe/create?status=error')
-        else res.redirect('/loaixe/create?status=success')
+            res.redirect('/admin/loaixe/create?status=error')
+        else res.redirect('/admin/loaixe/create?status=success')
     });
 };
 
@@ -35,7 +36,7 @@ exports.findAll = (req, res) => {
         if (err)
             res.redirect('/500')
         else {
-            res.render('loaixe/indexlx',  {loaixe: data, layout: './master2'});
+            res.render('loaixe/indexlx',  {loaixe: data, layout: './master3'});
         }
    
     });
@@ -66,7 +67,7 @@ exports.findAllKH = (req, res) => {
     });
 };
 
-// Find a single loaixe with a malx
+// Tìm Loại xe qua mã loại xe
 exports.edit = (req, res) => {
     res.locals.status = req.query.status;
 
@@ -77,7 +78,7 @@ exports.edit = (req, res) => {
             } else {
                 res.redirect('/500');
             }
-        } else res.render('loaixe/editdm', { loaixe: data,  layout: './master2'});
+        } else res.render('loaixe/editlx', { loaixe: data,  layout: './master2'});
     });
 };
 
@@ -85,12 +86,12 @@ exports.edit = (req, res) => {
 exports.update = (req, res) => {
     // Validate Request
     if (!req.body) {
-        res.redirect('/loaixe/edit/' + req.params.malx + '?status=error')
+        res.redirect('/admin/loaixe/edit/' + req.params.malx + '?status=error')
     }
 
     LoaiXe.updateBymalx(
         req.params.malx,
-        new loaixe(req.body),
+        new LoaiXe(req.body),
         (err, data) => {
             if (err) {
                 if (err.kind === "not_found") {
@@ -98,7 +99,7 @@ exports.update = (req, res) => {
                 } else {
                     res.redirect('/500');
                 }
-            } else res.redirect('/loaixe/edit/' + req.params.malx + '?status=success');
+            } else res.redirect('/admin/loaixe/edit/' + req.params.malx + '?status=success');
         }
     );
 };
@@ -112,7 +113,7 @@ exports.delete = (req, res) => {
             } else {
                 res.redirect('/500');
             }
-        } else res.redirect('/loaixe?deleted=true')
+        } else res.redirect('/admin/loaixe/index?deleted=true')
     });
 };
 
@@ -125,3 +126,16 @@ exports.deleteAll = (req, res) => {
     });
 };
 
+exports.details = (req, res) => {
+    res.locals.status = req.query.status;
+
+    LoaiXe.findBymalx(req.params.malx, (err, data) => {
+        if (err) {
+            if (err.kind === "not_found") {
+                res.redirect('/404');
+            } else {
+                res.redirect('/500');
+            }
+        } else res.render('loaixe/detailslx', { loaixe: data,  layout: './master2'});
+    });
+};

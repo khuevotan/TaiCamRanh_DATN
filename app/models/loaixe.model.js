@@ -54,8 +54,8 @@ LoaiXe.getAll = (tenlx, result) => {
 
 LoaiXe.updateBymalx = (malx, loaixe, result) => {
     sql.query(
-        "UPDATE loaixe SET tenlx = ?, noidung = ?, hinhdd = ?, hinhdd = ? , ngaydang = ? WHERE malx = ?",
-        [loaixe.tenlx, loaixe.noidung , loaixe.hinhdd, loaixe.hinhdd , loaixe.ngaydang,  malx],
+        "UPDATE loaixe SET tenlx = ?, gia = ? WHERE malx = ?",
+        [loaixe.tenlx, loaixe.gia, malx],
         (err, res) => {
             if (err) {
                 console.log("error: ", err);
