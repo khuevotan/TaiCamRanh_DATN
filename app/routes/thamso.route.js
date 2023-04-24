@@ -16,8 +16,5 @@ module.exports = app => {
     // Lưu tham số khi nhấn nút update
     router.put("/:mats", authMiddleware.loggedinad, thamso.update);
 
-    // Delete a thamso with id
-    router.get("/delete/:mats", authMiddleware.loggedinad, thamso.delete);
-
     app.use('/admin/thamso', router);
 }

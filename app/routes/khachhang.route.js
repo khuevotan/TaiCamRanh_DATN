@@ -20,6 +20,7 @@ module.exports = app => {
     }))
     app.use(bodyparser.json())
 
+    // ======================= THÔNG TIN KHÁCH HÀNG ======================= 
     router.get('/khachhang/home', authMiddleware.loggedin, khachhang.trangCaNhan);
 
     router.get("/khachhang/chinhsuatt/:makh", authMiddleware.loggedin, khachhang.editkh);
@@ -59,8 +60,9 @@ module.exports = app => {
     })
 
     router.post('/uploadfile', upload.single('myFile'), khachhang.uploadFile)
-    router.post('/uploadmultiple', upload.array('myFiles'), khachhang.uploadMultiple)
+   
 
+    // ======================= Đặt Lịch Rửa Xe ======================= 
     // Đặt Lịch Rửa Xe
     router.get('/khachhang/chonngay', authMiddleware.loggedin, khachhang.showDayForm)
         .post('/khachhang/chonngay', authMiddleware.loggedin, khachhang.chonNgay)
@@ -72,22 +74,23 @@ module.exports = app => {
     // nhấn nút đặt lịch
     router.post("/datlich/:makh", authMiddleware.loggedin, khachhang.datlich);
 
-    // hiển thị lịch sử đặt lịch
+    // Hiển thị lịch sử đặt lịch
     router.get('/khachhang/lsdatlich', authMiddleware.loggedin, hoadonrx.findAllKHLS)
 
-    // hiển thị đơn đặt lịch bên phía khách hàng
+    // Hiển thị đơn đặt lịch.
     router.get('/khachhang/dondatlich', authMiddleware.loggedin, hoadonrx.findAllKH)
 
-    // hiển thị chi tiết 1 đơn đặt lịch
+    // Hiển thị chi tiết 1 đơn đặt lịch
     router.get('/khachhang/ctdatlich/:mahdrx', authMiddleware.loggedin, hoadonrx.chitietdatlich)
 
-     // hiển thị đơn đặt hàng bên phía khách hàng
+    // ======================= Đặt Hàng ======================= 
+    // Hiển thị đơn đặt hàng bên phía khách hàng
     router.get('/khachhang/dondathang', authMiddleware.loggedin, hoadon.findAllKH)
 
-    // hiển thị chi tiết 1 đơn đặt hàng
+    // Hiển thị chi tiết 1 đơn đặt hàng
     router.get('/khachhang/ctdathang/:mahd', authMiddleware.loggedin , hoadon.chitietdathang)
 
-     // hiển thị lịch sử đặt hàng
+     // Hiển thị lịch sử đặt hàng
     router.get('/khachhang/lsdathang', authMiddleware.loggedin, hoadon.findAllKHLS)
 
     // nhập thông hóa đơn đặt hàng
@@ -96,8 +99,21 @@ module.exports = app => {
     // nhấn nút đặt hàng
     router.post("/dathang",  khachhang.nhapThongTinDonHang);
 
-       // thnah toán bằng online bên đặt hàng
-       router.get('/khachhang/ttcarddh/:mahd', authMiddleware.loggedin, (req, res) => {
+    
+     // ======================= THANH TOÁN ======================= 
+    // chọn phương thức thanh toán rửa xe
+    router.get('/khachhang/chonttrx', authMiddleware.loggedin,(req, res) => {
+        res.render('chonttrx');
+    });
+
+     // chọn phương thức thanh toán đặt hàng
+    router.get('/khachhang/chonttdh', authMiddleware.loggedin,(req, res) => {
+        res.render('chonttdh');
+    });
+
+
+    // thnah toán bằng online bên đặt hàng
+    router.get('/khachhang/ttcarddh/:mahd', authMiddleware.loggedin, (req, res) => {
         mahd = req.params.mahd
         res.render('ttcarddh', {
             key: Publishable_Key,
@@ -138,15 +154,6 @@ module.exports = app => {
             });
     })
 
-    // chọn phương thức thanh toán rửa xe
-    router.get('/khachhang/chonttrx', authMiddleware.loggedin,(req, res) => {
-        res.render('chonttrx');
-    });
-
-     // chọn phương thức thanh toán đặt hàng
-    router.get('/khachhang/chonttdh', authMiddleware.loggedin,(req, res) => {
-        res.render('chonttdh');
-    });
 
     //Thanh toán bằng Stripe bên đặt lịch
     router.get('/khachhang/ttcard/:mahdrx',authMiddleware.loggedin, (req, res) => {

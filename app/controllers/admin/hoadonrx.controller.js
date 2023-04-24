@@ -2,6 +2,89 @@ const HoaDonRX = require("../../models/HoaDonRX.model");
 const Gio = require("../../models/Gio.model");
 const LoaiXe = require("../../models/LoaiXe.model");
 const TrangThai = require("../../models/TrangThai.model");
+const ThamSo = require("../../models/ThamSo.model");
+
+//======================= GIAO DIEN ADMIN ======================= 
+// Hiển thị form đặt lịch hẹn.
+exports.showDayForm = (req, res) => {
+    res.render('hoadonrx/chonngayhdr', {
+        layout: './master2'
+    });
+}
+
+// Chọn ngày rửa xe
+exports.chonNgay = (req, res) => {
+    res.locals.status = req.query.status;
+
+    const {
+        ngayrua
+    } = req.body;
+
+    const currentDate = new Date();
+    const chonDate = new Date(ngayrua);
+
+    // Chuyển đổi đối tượng Date thành chuỗi ngày tháng năm
+    const dateString1 = chonDate.toDateString();
+    const dateString2 = currentDate.toDateString();
+
+    // So sánh chuỗi ngày tháng năm
+    if (dateString1 === dateString2) {
+        res.redirect('/admin/hoadonrx/create/' + ngayrua)
+    } else {
+        if (chonDate > currentDate) {
+            res.redirect('/admin/hoadonrx/create/' + ngayrua)
+        } else {
+            const conflictError = 'Không được chọn ngày quá khứ!';
+            res.render('hoadonrx/chonngayhdr', {
+                conflictError,
+                layout: './master2'
+            });
+        }
+    }
+};
+
+// Hiển thị ra màn hình đặt lịch bên phía admin
+exports.showDLForm = (req, res) => {
+   
+    res.locals.status = req.query.status;
+    const tenlx = req.query.tenlx;
+    const ngayrua = req.params.ngayrua;
+
+    LoaiXe.getAll(tenlx, (err, data) => {
+        if (err)
+            res.redirect('/500')
+        else {
+            ThamSo.findBymats(1, (err, MAX_ĐL) => {
+                if (err)
+                    res.redirect('/500')
+                else {
+
+
+                    Gio.getAllKH(ngayrua, MAX_ĐL.giatri, (err, gio) => {
+                        if (err)
+                            res.redirect('/500')
+                        else {
+                            res.render('hoadonrx/datlichrxad', {
+                                loaixe: data,
+                                gio: gio,
+                                ngayrua,
+                                layout: './master2'
+                            });
+                        }
+                    });
+                }
+            });
+        }
+    });
+};
+
+// TEST
+exports.showDLForm2 = (req, res) => {
+    res.locals.status = req.query.status;
+    res.render('loaixe/createlx', {
+        layout: './master2'
+    });
+};
 
 // Show form create hoadonrx
 exports.create = (req, res) => {
@@ -9,29 +92,47 @@ exports.create = (req, res) => {
     res.render('hoadonrx/create');
 }
 
-// Create and Save a new hoadonrx
-exports.store = (req, res) => {
-    // Validate request
+// Nhấn đặt lịch
+exports.datlich = (req, res) => {
+    res.locals.nhanvien = req.session.nhanvien
+    const manv = res.locals.nhanvien.manv;
+
+    // Validate Request
     if (!req.body) {
-        res.redirect('/hoadonrx/create?status=error')
+        res.redirect('/admin/hoadonrx/create/' + ngayrua + '?status=error')
     }
-    
-    // Create a hoadonrx
+
+    const crypto = require("crypto");
+    const id = crypto.randomBytes(16).toString("hex");
+
+    // Create a khachhang
     const hoadonrx = new HoaDonRX({
-        tenbv: req.body.tenbv,
-        thoigian: req.body.thoigian,
-        motact: req.body.motact,
-        giatien: req.body.giatien
+        mahdrx: id,
+        tennguoidat: req.body.tennguoidat,
+        ngaydat: new Date(),
+        ngayrua: req.body.ngayrua,
+        magio: req.body.magio,
+        sodt: req.body.sodt,
+        diachi: req.body.diachi,
+        ghichu: req.body.ghichu,
+        tongtienrx: req.body.tongtienrx,
+        thanhtoan: 1,
+        malx: req.body.malx,
+        matt: 1,
+        manv: manv,
+        makh: 0,
     });
-    // Save hoadonrx in the database
+
+    // Save khachhang in the database
     HoaDonRX.create(hoadonrx, (err, data) => {
         if (err)
-            res.redirect('/hoadonrx/create?status=error')
-        else res.redirect('/hoadonrx/create?status=success')
+            res.redirect('/admin/hoadonrx/create/' + ngayrua + '?status=error')
+        else res.redirect('/admin/hoadonrx/create/' + ngayrua + '?status=success')
+
     });
 };
 
-// Retrieve all hoadonrx from the database (with condition).
+// Hiển thị danh sách hóa đơn đặt lịch
 exports.findAll = (req, res) => {
     res.locals.deleted = req.query.deleted;
     const tengio = req.query.tengio;
@@ -42,11 +143,11 @@ exports.findAll = (req, res) => {
         if (err)
             res.redirect('/500')
         else {
-            LoaiXe.getAll( tenlx,(err, loaixe) => {
+            LoaiXe.getAll(tenlx, (err, loaixe) => {
                 if (err)
                     res.redirect('/500')
                 else {
-                   
+
                     Gio.getAll(tengio, (err, gio) => {
                         if (err)
                             res.redirect('/500')
@@ -55,24 +156,29 @@ exports.findAll = (req, res) => {
                                 if (err)
                                     res.redirect('/500')
                                 else {
-                                    res.render('hoadonrx/indexhdr',  {hoadonrx: data,loaixe: loaixe, gio: gio, 
-                                        trangthai: trangthai, layout: './master3'});
+                                    res.render('hoadonrx/indexhdr', {
+                                        hoadonrx: data,
+                                        loaixe: loaixe,
+                                        gio: gio,
+                                        trangthai: trangthai,
+                                        layout: './master3'
+                                    });
                                 }
-                           
+
                             });
 
                         }
-                   
+
                     });
 
                 }
-           
+
             });
         }
     });
 };
 
-// Find a single hoadonrx with a mahdrx
+// Chỉnh sửa thông tin một hóa đơn đặt lịch.
 exports.edit = (req, res) => {
     res.locals.status = req.query.status;
     const tengio = req.query.tengio;
@@ -87,12 +193,12 @@ exports.edit = (req, res) => {
                 res.redirect('/500');
             }
         } else {
-            
-            LoaiXe.getAll( tenlx,(err, loaixe) => {
+
+            LoaiXe.getAll(tenlx, (err, loaixe) => {
                 if (err)
                     res.redirect('/500')
                 else {
-                   
+
                     Gio.getAll(tengio, (err, gio) => {
                         if (err)
                             res.redirect('/500')
@@ -101,8 +207,13 @@ exports.edit = (req, res) => {
                                 if (err)
                                     res.redirect('/500')
                                 else {
-                                    res.render('hoadonrx/edithdr',  {hoadonrx: data,loaixe: loaixe, gio: gio, 
-                                        trangthai: trangthai, layout: './master2'});
+                                    res.render('hoadonrx/edithdr', {
+                                        hoadonrx: data,
+                                        loaixe: loaixe,
+                                        gio: gio,
+                                        trangthai: trangthai,
+                                        layout: './master2'
+                                    });
                                 }
                             });
                         }
@@ -113,7 +224,7 @@ exports.edit = (req, res) => {
     });
 };
 
-// Update a hoadonrx identified by the id in the request
+// Cập nhật thông tin một hóa đơn đặt lịch.
 exports.update = (req, res) => {
     // Validate Request
     if (!req.body) {
@@ -154,19 +265,21 @@ exports.update = (req, res) => {
         }
     );
 };
-// Delete a hoadonrx with the specified id in the request
+
+// Xóa lịch.
 exports.delete = (req, res) => {
-    HoaDonRX.remove(req.params.madm, (err, data) => {
+    HoaDonRX.remove(req.params.mahdrx, (err, data) => {
         if (err) {
             if (err.kind === "not_found") {
                 res.redirect('/404');
             } else {
                 res.redirect('/500');
             }
-        } else res.redirect('/admin/hoadonrx?deleted=true')
+        } else res.redirect('/admin/hoadonrx/index?deleted=true')
     });
 };
 
+// Xem chi tiết một đơn đặt lịch.
 exports.details = (req, res) => {
     res.locals.status = req.query.status;
 
@@ -178,12 +291,12 @@ exports.details = (req, res) => {
                 res.redirect('/500');
             }
         } else {
-            
-            LoaiXe.findBymalx( data.malx,(err, loaixe) => {
+
+            LoaiXe.findBymalx(data.malx, (err, loaixe) => {
                 if (err)
                     res.redirect('/500')
                 else {
-                   
+
                     Gio.findBymagio(data.magio, (err, gio) => {
                         if (err)
                             res.redirect('/500')
@@ -192,26 +305,33 @@ exports.details = (req, res) => {
                                 if (err)
                                     res.redirect('/500')
                                 else {
-                                    res.render('hoadonrx/detailshdr',  {hoadonrx: data,loaixe: loaixe, gio: gio, 
-                                        trangthai: trangthai, layout: './master2'});
+                                    res.render('hoadonrx/detailshdr', {
+                                        hoadonrx: data,
+                                        loaixe: loaixe,
+                                        gio: gio,
+                                        trangthai: trangthai,
+                                        layout: './master2'
+                                    });
                                 }
-                           
+
                             });
 
                         }
-                   
+
                     });
 
                 }
-           
+
             });
-         
-    
+
+
         }
     });
 };
 
-// Hiển thị hóa đơn đặt lịch bên phía khach hàng
+//======================= GIAO DIEN KHACH HANG ======================= 
+
+// Hiển thị hóa đơn đặt lịch bên phía khach hàng.
 exports.findAllKH = (req, res) => {
     res.locals.deleted = req.query.deleted;
 
@@ -222,22 +342,26 @@ exports.findAllKH = (req, res) => {
         if (err)
             res.redirect('/500')
         else {
-            Gio.getAll(tengio,(err, gio) => {
+            Gio.getAll(tengio, (err, gio) => {
                 if (err)
                     res.redirect('/500')
                 else {
-                    res.render('dondatlich',  {hoadonrx: data, gio: gio, layout: './master'});
+                    res.render('dondatlich', {
+                        hoadonrx: data,
+                        gio: gio,
+                        layout: './master'
+                    });
                     console.log(gio);
-             
+
                 }
             });
         }
     });
 
-    
+
 };
 
-// Hiển thị hóa đơn lịch sử đặt lịch bên phía khách hàng
+// Hiển thị hóa đơn lịch sử đặt lịch bên phía khách hàng.
 exports.findAllKHLS = (req, res) => {
     res.locals.deleted = req.query.deleted;
 
@@ -248,11 +372,15 @@ exports.findAllKHLS = (req, res) => {
         if (err)
             res.redirect('/500')
         else {
-            Gio.getAll(tengio,(err, gio) => {
+            Gio.getAll(tengio, (err, gio) => {
                 if (err)
                     res.redirect('/500')
                 else {
-                    res.render('lsdatlich',  {hoadonrx: data, gio: gio, layout: './master'});
+                    res.render('lsdatlich', {
+                        hoadonrx: data,
+                        gio: gio,
+                        layout: './master'
+                    });
                     console.log(gio);
                 }
             });
@@ -260,7 +388,7 @@ exports.findAllKHLS = (req, res) => {
     });
 };
 
-// Hiển thị chi tiết 1 đơn đặt lịch hẹn bên phía khách hàng
+// Hiển thị chi tiết 1 đơn đặt lịch hẹn bên phía khách hàng.
 exports.chitietdatlich = (req, res) => {
     res.locals.status = req.query.status;
     const tengio = req.query.tendm;
@@ -273,15 +401,20 @@ exports.chitietdatlich = (req, res) => {
                 res.redirect('/500');
             }
         } else {
-            Gio.getAll(tengio,(err, gio) => {
+            Gio.getAll(tengio, (err, gio) => {
                 if (err)
                     res.redirect('/500')
                 else {
-                    LoaiXe.getAll(tenlx,(err, tenlx) => {
+                    LoaiXe.getAll(tenlx, (err, tenlx) => {
                         if (err)
                             res.redirect('/500')
                         else {
-                            res.render('ctdatlich', { hoadonrx: data, gio : gio, tenlx: tenlx , layout: './master'});
+                            res.render('ctdatlich', {
+                                hoadonrx: data,
+                                gio: gio,
+                                tenlx: tenlx,
+                                layout: './master'
+                            });
                         }
                     });
                 }

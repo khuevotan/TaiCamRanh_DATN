@@ -120,10 +120,6 @@ HoaDonRX.updateThanhToan = (mahdrx, result) => {
     );
 };
 
-
-
-
-
 // hiển thị lịch sử hóa đơn rửa xe bên phía khách hàng
 HoaDonRX.getLSAll = (makh, result) => {
     let query = `SELECT * FROM hoadonrx WHERE makh = ${makh} and matt = 4 and thanhtoan = 2`;
@@ -179,16 +175,32 @@ HoaDonRX.remove = (mahdrx, result) => {
     });
 };
 
-HoaDonRX.removeAll = result => {
-    sql.query("DELETE FROM hoadonrx", (err, res) => {
-        if (err) {
-            console.log("error: ", err);
-            result(null, err);
-            return;
-        }
-        console.log(`deleted ${res.affectedRows} hoadonrx`);
+// Thống kê
+// HoaDon.Where(x => x.matt == "1" ).Count();
+HoaDonRX.getAllChuaDuyet = (result) => {
+    let query = `SELECT COUNT(*) FROM hoadonrx WHERE matt = 1`;
+
+    sql.query(query, (err, res) => {
         result(null, res);
     });
 };
+
+// Doanh thu ngày hôm nay
+HoaDonRX.doanhThuNgayHN = (result) => {
+    let query = `SELECT SUM(tongtienrx) FROM hoadonrx WHERE DATE(ngaydat) = CURDATE()`;
+    sql.query(query, (err, res) => {
+        result(null, res);
+    });
+};
+
+// Doanh thu tháng này
+HoaDonRX.doanhThuThangNay = (result) => {
+    let query = `SELECT SUM(tongtienrx) FROM hoadonrx WHERE MONTH(ngaydat) = MONTH(CURDATE()) AND YEAR(ngaydat) = YEAR(CURDATE())`;
+    sql.query(query, (err, res) => {
+        result(null, res);
+    });
+};
+
+
 
 module.exports = HoaDonRX;

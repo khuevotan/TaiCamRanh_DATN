@@ -8,8 +8,9 @@ module.exports = app => {
     router.get("/index", authMiddleware.loggedinad, baiviet.findAll);
 
     // Hiển thị form tạo bài viết
+    router.get("/create", authMiddleware.loggedinad, baiviet.create);
 
-     //File upload images Danh Muc
+     //File upload images Bài Viết
      const multer = require("multer");
      const fsExtra = require('fs-extra');
  
@@ -37,8 +38,7 @@ module.exports = app => {
         storage: storage
     })
 
-    router.get("/create", authMiddleware.loggedinad, baiviet.create);
-
+    
     // Lưu bài viết mới khi nhấn nút lưu
     router.post("/", authMiddleware.loggedinad, upload.single('hinhdd'), baiviet.store);
 
@@ -47,16 +47,14 @@ module.exports = app => {
 
     // Chỉnh sửa 1 bài viết khi nhấn nút chỉnh sửa -> hiển thị form
     router.get("/edit/:mabv", authMiddleware.loggedinad, baiviet.edit);
+
     // Lưu bài viết khi nhấn nút update
     router.put("/:mabv", authMiddleware.loggedinad, baiviet.update);
 
     router.post("/anhdaidien/:mabv", authMiddleware.loggedinad, upload.single('hinhddmoi'), baiviet.updateADD);
 
-    // Delete a baiviet with id
+    // Xóa một bài viết
     router.get("/delete/:mabv", authMiddleware.loggedinad, baiviet.delete);
-
-    // // Delete all baiviet
-    // router.delete("/delete", baiviet.deleteAll);
 
     app.use('/admin/baiviet', router);
 }

@@ -1,33 +1,34 @@
 const ThamSo = require("../../models/thamso.model");
 
-// Show form create thamso
-exports.create = (req, res) => {
-    res.locals.status = req.query.status;
-    res.render('thamso/createts',  {layout: './master2'});
-}
+//======================= GIAO DIEN ADMIN ======================= 
+// Hiển thị form tạo mới tham số.
+// exports.create = (req, res) => {
+//     res.locals.status = req.query.status;
+//     res.render('thamso/createts',  {layout: './master2'});
+// }
 
 // Create and Save a new thamso
-exports.store = (req, res) => {
-    // Validate request
-    if (!req.body) {
-        res.redirect('/admin/thamso/create?status=error')
-    }
+// exports.store = (req, res) => {
+//     // Validate request
+//     if (!req.body) {
+//         res.redirect('/admin/thamso/create?status=error')
+//     }
 
-    const file = req.file
+//     const file = req.file
 
-    // Create a thamso
-    const thamso = new ThamSo({
-        tents: req.body.tents,
-    });
-    // Save thamso in the database
-    thamso.create(thamso, (err, data) => {
-        if (err)
-            res.redirect('/admin/thamso/create?status=error')
-        else res.redirect('/admin/thamso/create?status=success')
-    });
-};
+//     // Create a thamso
+//     const thamso = new ThamSo({
+//         tents: req.body.tents,
+//     });
+//     // Save thamso in the database
+//     thamso.create(thamso, (err, data) => {
+//         if (err)
+//             res.redirect('/admin/thamso/create?status=error')
+//         else res.redirect('/admin/thamso/create?status=success')
+//     });
+// };
 
-// Retrieve all thamso from the database (with condition).
+// Hiển thị danh sách tham số.
 exports.findAll = (req, res) => {
     res.locals.deleted = req.query.deleted;
     const tents = req.query.tents;
@@ -40,7 +41,7 @@ exports.findAll = (req, res) => {
     });
 };
 
-// Find a single thamso with a mats
+// Chỉnh sửa thông tin một tham số.
 exports.edit = (req, res) => {
     res.locals.status = req.query.status;
 
@@ -55,6 +56,7 @@ exports.edit = (req, res) => {
     });
 };
 
+// Xem chi tiết một tham số.
 exports.details = (req, res) => {
     res.locals.status = req.query.status;
 
@@ -69,7 +71,7 @@ exports.details = (req, res) => {
     });
 };
 
-// Update a thamso identified by the id in the request
+// Cập nhật tham số khi nhấn nút cập nhật.
 exports.update = (req, res) => {
 
     // Validate Request
@@ -98,26 +100,17 @@ exports.update = (req, res) => {
     );
 };
 
-// Delete a thamso with the specified id in the request
-exports.delete = (req, res) => {
-    ThamSo.remove(req.params.mats, (err, data) => {
-        if (err) {
-            if (err.kind === "not_found") {
-                res.redirect('/404');
-            } else {
-                res.redirect('/500');
-            }
-        } else res.redirect('/admin/thamso/index?deleted=true')
-    });
-};
-
-// Delete all thamso from the database.
-exports.deleteAll = (req, res) => {
-    thamso.removeAll((err, data) => {
-        if (err)
-            res.redirect('/500');
-        else res.redirect('/thamso?deleted=true')
-    });
-};
+// Xóa tham số
+// exports.delete = (req, res) => {
+//     ThamSo.remove(req.params.mats, (err, data) => {
+//         if (err) {
+//             if (err.kind === "not_found") {
+//                 res.redirect('/404');
+//             } else {
+//                 res.redirect('/500');
+//             }
+//         } else res.redirect('/admin/thamso/index?deleted=true')
+//     });
+// };
 
 

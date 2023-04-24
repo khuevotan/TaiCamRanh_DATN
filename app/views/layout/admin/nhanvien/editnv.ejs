@@ -35,7 +35,7 @@
                             <div class="ibox-title">
                               
                                     <div style="color: rgb(255, 255, 255);">
-                                        Đã xảy ra lỗi khi cập nhật Danh Mục!
+                                        Đã xảy ra lỗi khi cập nhật nhân viên!
                                     </div>
                             </div>
                             <div class="ibox-tools">
@@ -46,14 +46,14 @@
                             <div class="ibox ibox-info">
                                 <div class="ibox-head">
                                     <div class="ibox-title">
-                                        MÃ DANH MỤC: <%= danhmuc.madm %>
+                                        MÃ NHÂN VIÊN: <%= nhanvien.manv %>
                                         <div style="color: rgb(255, 255, 255);">
                                           
                                         </div>
                                     </div>
                                     <div class="ibox-tools">
                                         <a class="ibox-collapse"><i class="fa fa-minus"></i></a>
-                                        <a class="fullscreen-link"><i class="fa fa-expand"></i></a>
+                                        <a class="fulênlscreen-link"><i class="fa fa-expand"></i></a>
                                     </div>
                             <% } %>
                 <% } %>
@@ -61,7 +61,7 @@
             <div class="ibox ibox-info">
                 <div class="ibox-head">
                     <div class="ibox-title">
-                        MÃ DANH MỤC: <%= danhmuc.madm %>
+                        MÃ NHÂN VIÊN: <%= nhanvien.manv %>
                         <div style="color: rgb(255, 255, 255);">
                           
                         </div>
@@ -74,17 +74,34 @@
                 </div>
 
                 <div class="ibox-body">
-                    <form action="/admin/danhmuc/<%= danhmuc.madm %>" class="form-horizontal"
+                    <form action="/admin/nhanvien/<%= nhanvien.manv %>" class="form-horizontal"
                         id="form-sample-1" method="post" novalidate="novalidate"
                         onSubmit="return confirm('Bạn có chắc chắn muốn thay đổi thông tin?') "
                         >
                         <input type="hidden" name="_method" value="put" />
 
                         <div class="form-group row">
-                            <label class="col-sm-2 col-form-label">Tên Danh Mục</label>
+                            <label class="col-sm-2 col-form-label">Tài Khoản</label>
                             <div class="col-sm-10">
-                                <input class="form-control" type="text" name="tendm"
-                                    value="<%= danhmuc.tendm %>">
+                                <input class="form-control" type="text" name="taikhoan"
+                                    value="<%= nhanvien.taikhoan %>">
+                            </div>
+                        </div>
+
+                        
+                        <div class="form-group row">
+                            <label class="col-sm-2 col-form-label">Họ</label>
+                            <div class="col-sm-10">
+                                <input class="form-control" type="text" name="hokh"
+                                    value="<%= nhanvien.hokh %>">
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label class="col-sm-2 col-form-label">Tên</label>
+                            <div class="col-sm-10">
+                                <input class="form-control" type="text" name="tennv"
+                                    value="<%= nhanvien.tennv %>">
                             </div>
                         </div>
 
@@ -92,18 +109,85 @@
                             <label class="col-sm-2 col-form-label">Hình Đại Diện</label>
                             <div class="col-sm-10">
                                 <input class="form-control" type="text" name="hinhdd"
-                                    value="<%= danhmuc.hinhdd %>" readonly />
+                                    value="<%= nhanvien.hinhdd %>" readonly />
                                     </br>
                             </div>
                         </div>
                       
                         <div class="form-group row">
-                            <label class="col-sm-2 col-form-label">Mô Tả Chi Tiết</label>
+                            <label class="col-sm-2 col-form-label">Ngày Sinh</label>
                             <div class="col-sm-10">
-                                <textarea class="form-control" rows="6"
-                                    name="motact"><%= danhmuc.motact %></textarea>
+                                <input class="form-control" type="date" id="ngaysinh" name="ngaysinh" value="<%= moment(nhanvien.ngaysinh).format('YYYY-MM-DD')%>">
                             </div>
                         </div>
+
+                        <div class="form-group row">
+                            <label class="col-sm-2 col-form-label">Số ĐT</label>
+                            <div class="col-sm-10">
+                                <input class="form-control" type="text" name="sodt"
+                                    value="<%= nhanvien.sodt %>">
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label class="col-sm-2 col-form-label">Địa Chỉ</label>
+                            <div class="col-sm-10">
+                                <input class="form-control" type="text" name="diachi"
+                                    value="<%= nhanvien.diachi %>">
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label class="col-sm-2 col-form-label">Email</label>
+                            <div class="col-sm-10">
+                                <input class="form-control" type="text" name="email"
+                                    value="<%= nhanvien.email %>">
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label class="col-sm-2 col-form-label">Lương</label>
+                            <div class="col-sm-10">
+                                <input class="form-control" type="text" name="luong"
+                                    value="<%= nhanvien.luong %>">
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label class="col-sm-2 col-form-label">Giới Tính</label>
+                            <div class="col-sm-10">
+                                <label for="nam">Nam</label>
+                                <input type="radio" name="gioitinh" id="male" value="1"   
+                                        <%if (nhanvien.gioitinh == 1) { %>
+                                        checked
+                                        <% } %>
+                                    >
+                                <label for="khoangtrang"> </label>
+                                <label for="nu">Nữ</label>
+                                    <input type="radio" name="gioitinh" id="female" value="2"
+                                        <%if (nhanvien.gioitinh != 1) { %>
+                                        checked
+                                        <% } %>
+                                    >
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label class="col-sm-2 col-form-label">Kích Hoạt</label>
+                            <div class="col-sm-10">
+                                <input class="form-control" type="text" name="kichhoat"
+                                    value="<%= nhanvien.kichhoat %>">
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label class="col-sm-2 col-form-label">Ngày Tạo TK</label>
+                            <div class="col-sm-10">
+                                <input class="form-control" type="date" id="email_verified_at" name="email_verified_at" value="<%= moment(nhanvien.email_verified_at).format('YYYY-MM-DD')%>">
+                            </div>
+                        </div>
+
+
                         <div class="form-group row">
                             <div class="col-sm-10 ml-sm-auto">
                                 <button class="btn btn-info btn-rounded " type="submit">Cập Nhật</button>
@@ -174,7 +258,7 @@
             <% } %>
                 </div>
                 <div class="ibox-body">
-                    <form action="/admin/danhmuc/anhdaidien/<%= danhmuc.madm %>" 
+                    <form action="/admin/nhanvien/anhdaidien/<%= nhanvien.manv %>" 
                         class="form-horizontal" enctype="multipart/form-data" 
                         method="POST"
                         onSubmit="return confirm('Bạn có chắc chắn muốn đổi?') "
@@ -184,9 +268,9 @@
                             <label class="col-sm-2 col-form-label">Hình Cũ</label>
                             <div class="col-sm-10">
                                 <input class="form-control" type="text" name="hinhdd"
-                                    value="<%= danhmuc.hinhdd %>" readonly />
+                                    value="<%= nhanvien.hinhdd %>" readonly />
                                     </br>
-                                <img src="/images/danhmuc/<%= danhmuc.hinhdd %>" width="200px" />
+                                <img src="/images/avatarad/<%= nhanvien.hinhdd %>" width="200px" />
                             </div>
                         </div>
 

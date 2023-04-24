@@ -1,58 +1,170 @@
-
-
 <div class="page-content fade-in-up">
-  
-             <div class="ibox ibox-info">
-                    <div class="ibox-head">
-                        <div class="ibox-title">
-                            <div style="color: rgb(255, 255, 255);">
-                                Thông Tin Chi Tiết
-                            </div>
-                        </div>
-                        <div class="ibox-tools">
-                            <a class="ibox-collapse"><i class="fa fa-minus"></i></a>
-                        </div>
+    <div class="ibox ibox-info">
+        <div class="ibox-head">
+            <div class="ibox-title">
+                <div style="color: rgb(255, 255, 255);">
+                    Thông Tin Chi Tiết
                 </div>
+            </div>
+            <div class="ibox-tools">
+                <a class="ibox-collapse"><i class="fa fa-minus"></i></a>
+            </div>
+        </div>
 
-                <div class="ibox-body">
-                        <div class="form-group row">
-                            <label class="col-sm-2 col-form-label">Mã Danh Mục</label>
-                            <div class="col-sm-10">
-                                <input class="form-control" type="text" name="madm"
-                                    value="<%= danhmuc.madm %>" readonly>
-                            </div>
-                        </div>
-
-                        <div class="form-group row">
-                            <label class="col-sm-2 col-form-label">Tên Danh Mục</label>
-                            <div class="col-sm-10">
-                                <input class="form-control" type="text" name="tendm"
-                                    value="<%= danhmuc.tendm %>" readonly>
-                            </div>
-                        </div>
-
-                        <div class="form-group row">
-                            <label class="col-sm-2 col-form-label">Hình Đại Diện</label>
-                            <div class="col-sm-10">
-                                <img src="/images/danhmuc/<%= danhmuc.hinhdd %>" width="200px" />
-                            </div>
-                        </div>
-                      
-                        <div class="form-group row">
-                            <label class="col-sm-2 col-form-label">Mô Tả Chi Tiết</label>
-                            <div class="col-sm-10">
-                                <textarea class="form-control" rows="6"
-                                    name="motact" readonly><%= danhmuc.motact %></textarea>
-                            </div>
-                        </div>
-                        <div class="form-group row">
-                            <div class="col-sm-10 ml-sm-auto">
-                                <a href="/admin/danhmuc/edit/<%= danhmuc.madm %>" class="btn btn-info btn-rounded" >Chỉnh Sửa </a>
-                            </div>
-                        </div>
-                    </form>
+    <div class="ibox-body">
+            <div class="form-group row">
+                <label class="col-sm-2 col-form-label">Mã Nhân Viên</label>
+                <div class="col-sm-10">
+                    <input class="form-control" type="text" name="manv"
+                        value="<%= nhanvien.manv %>" readonly>
                 </div>
-            </div> 
+            </div>
+
+            <div class="form-group row">
+                <label class="col-sm-2 col-form-label">Tên Tài Khoản</label>
+                <div class="col-sm-10">
+                    <input class="form-control" type="text" name="taikhoan"
+                        value="<%= nhanvien.taikhoan %>" readonly>
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label class="col-sm-2 col-form-label">Họ</label>
+                <div class="col-sm-10">
+                    <input class="form-control" type="text" name="honv"
+                    value="<%= nhanvien.honv %>" readonly>
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label class="col-sm-2 col-form-label">Tên</label>
+                <div class="col-sm-10">
+                    <input class="form-control" type="text" name="tennv"
+                    value="<%= nhanvien.tennv %>" readonly>
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label class="col-sm-2 col-form-label">Lương</label>
+                <div class="col-sm-10">
+                    <input class="form-control" type="text" name="luong"
+                    value="<%= nhanvien.luong %>" readonly>
+                </div>
+            </div>
+
+
+            <div class="form-group row">
+                <label class="col-sm-2 col-form-label">Ngày Sinh</label>
+                <div class="col-sm-10">
+                    <input class="form-control" type="text" name="ngaysinh"
+                    value="<%= moment(nhanvien.ngaysinh).format('DD-MM-YYYY') %>" readonly>
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label class="col-sm-2 col-form-label">Số Điện Thoại</label>
+                <div class="col-sm-10">
+                    <input class="form-control" type="text" name="sodt"
+                    value="<%= nhanvien.sodt %>" readonly>
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label class="col-sm-2 col-form-label">Địa Chỉ</label>
+                <div class="col-sm-10">
+                    <input class="form-control" type="text" name="diachi"
+                    value="<%= nhanvien.diachi %>" readonly>
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label class="col-sm-2 col-form-label">Email</label>
+                <div class="col-sm-10">
+                    <input class="form-control" type="text" name="email"
+                    value="<%= nhanvien.email %>" readonly>
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label class="col-sm-2 col-form-label">Giới Tính</label>
+                <div class="col-sm-10">
+                    <input class="form-control" type="text" name="gioitinh"
+                    readonly
+                    <%if (nhanvien.gioitinh == 1) { %>
+                        value="Nam"
+                         <% }else{ %>
+                       
+                            value="Nữ"
+                    <%}%>
+                    >
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label class="col-sm-2 col-form-label">Hình Đại Diện</label>
+                <div class="col-sm-10">
+                    <img src="/images/avatarnv/<%= nhanvien.hinhdd %>" width="200px" />
+                </div>
+            </div>
+
+
+            <div class="form-group row">
+                <label class="col-sm-2 col-form-label">Nhóm</label>
+                <div class="col-sm-10">
+                    <input class="form-control" type="text" name="manhom"
+                    value="<%= nhom.tennhom %>" readonly>
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label class="col-sm-2 col-form-label">Nhóm</label>
+                <div class="col-sm-10">
+                    <select class="form-control" name="manhom">
+                        <% for(var i=0; i < nhom.length; i++) { %>
+                            <% if(nhom[i].manhom == nhanvien.manhom){ %>
+                                <option name="manhom" selected value="<%= nhom[i].manhom %>"> <%= nhom[i].tennhom %></option>
+                                <% } else{ %>  
+                                    <option value="<%= nhom[i].manhom %>"> <%= nhom[i].tennhom %></option>
+                               <% } %>
+                         <%} %>
+                    </select>
+                </div>
+            </div>
+
+            
+
+            <div class="form-group row">
+                <label class="col-sm-2 col-form-label">Kích Hoạt</label>
+                <div class="col-sm-10">
+                    <input class="form-control" type="text" name="email"
+                    <%if (nhanvien.kichhoat == 2) { %>
+                        value="Đã Xác Thực"
+                         <% }else{ %>
+                            value="Chưa Xác Thực"
+                     <%}%>
+                     readonly>
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label class="col-sm-2 col-form-label">Ngày Tạo Tài Khoản</label>
+                <div class="col-sm-10">
+                    <input class="form-control" type="text" name="ngaysinh"
+                    value="<%= moment(nhanvien.email_verified_at).format('DD-MM-YYYY') %>" readonly>
+                </div>
+            </div>
+
+
+            
+        
+            <div class="form-group row">
+                <div class="col-sm-10 ml-sm-auto">
+                    <a href="/admin/nhanvien/edit/<%= nhanvien.manv %>" class="btn btn-info btn-rounded" >Chỉnh Sửa </a>
+                </div>
+            </div>
+        </form>
+    </div>
+    </div> 
 </div>
 
 

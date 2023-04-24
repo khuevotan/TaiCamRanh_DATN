@@ -44,7 +44,7 @@
                             <th>SốLượng</th>
                             <th>GiáBán</th>
                             <th>NgàyĐăng</th>
-                            <th>MãDanhMục</th>
+                            <th>DanhMục</th>
                             <th>MãNhânViên</th>
                             <th>HànhĐộng</th>
                         </tr>
@@ -63,8 +63,15 @@
                             <td><%= item.giaban %> VNĐ</td>
                             <td><%= moment(item.ngaydang).format('DD-MM-YYYY')  %> </td>
                            
-                            <td><%= item.madm %> </td>
-                            <td><%= item.manv %> </td>
+                            <td>
+                                <% for(var i=0; i<danhmuc.length; i++) { %>
+                                    <% if(danhmuc[i].madm == item.madm){ %>
+                                        <%= danhmuc[i].tendm %>
+                                        <% } else{ %>  
+                                       <% } %>
+                                 <%} %>
+                            </td>
+                            <td><%= item.manv %></td>
                        
                                 <td>
                                     <a href="/admin/sanpham/details/<%= item.masp %>" class="btn btn-default btn-xs m-r-5" data-toggle="tooltip" data-original-title="Details"><i class="fa fa-info font-14"></i></a>

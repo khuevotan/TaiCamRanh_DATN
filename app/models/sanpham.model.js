@@ -7,11 +7,12 @@ const Sanpham = function(sanpham){
     this.soluong = sanpham.soluong;
     this.motact = sanpham.motact;
     this.giaban = sanpham.giaban;
-    this.phobien = sanpham.phobien;
     this.ngaydang = sanpham.ngaydang;
     this.madm = sanpham.madm;
+    this.manv = sanpham.manv;
 };
 
+// ======================= GIAO DIỆN ADMIN ======================
 Sanpham.create = (newsanpham, result) => {
     sql.query("INSERT INTO sanpham SET ?", newsanpham, (err, res) => {
         if (err) {
@@ -41,9 +42,6 @@ Sanpham.findBymasp = (masp, result) => {
     });
 };
 
-
-
-
 Sanpham.getAll = (tensp, result) => {
     let query = "SELECT * FROM sanpham";
     if (tensp) {
@@ -55,11 +53,69 @@ Sanpham.getAll = (tensp, result) => {
             result(null, err);
             return;
         }
-        console.log("sanpham: ", res);
         result(null, res);
     });
 };
 
+Sanpham.remove = (masp, result) => {
+    sql.query("DELETE FROM sanpham WHERE masp = ?", masp, (err, res) => {
+        if (err) {
+            console.log("error: ", err);
+            result(null, err);
+            return;
+        }
+        if (res.affectedRows == 0) {
+            // not found sanpham with the masp
+            result({ kind: "not_found" }, null);
+            return;
+        }
+        console.log("deleted sanpham with masp: ", masp);
+        result(null, res);
+    });
+};
+
+Sanpham.updateBymasp = (masp, sanpham, result) => {
+    sql.query(
+        "UPDATE sanpham SET tensp = ?, soluong = ?, motact = ? , giaban = ?, madm = ? , manv = ? WHERE masp = ?",
+        [sanpham.tensp , sanpham.soluong, sanpham.motact , sanpham.giaban, sanpham.madm, sanpham.manv, masp],
+        (err, res) => {
+            if (err) {
+                console.log("error: ", err);
+                result(null, err);
+                return;
+            }
+            if (res.affectedRows == 0) {
+                // not found sanpham with the masp
+                result({ kind: "not_found" }, null);
+                return;
+            }
+            console.log("updated sanpham: ", { masp: masp, ...sanpham });
+            result(null, { masp: masp, ...sanpham });
+        }
+    );
+};
+
+// update ảnh đại diện sản phẩm
+Sanpham.updateADD = (masp, hinhdd, result) => {
+    sql.query(
+        "UPDATE sanpham SET hinhdd = ? WHERE masp = ?",
+        [hinhdd, masp],
+        (err, res) => {
+            if (err) {
+                console.log("error: ", err);
+                result(null, err);
+                return;
+            }
+            if (res.affectedRows == 0) {
+                result({ kind: "not_found" }, null);
+                return;
+            }
+            result(null, { masp: masp, hinhdd: hinhdd });
+        }
+    );
+};
+
+// ======================= GIAO DIỆN KHÁCH HÀNG ======================
 // hiển thị sản phẩm bên khánh hàng
 Sanpham.getAllKH = (tensp, limit, offset, result) => {
     let query = `SELECT * FROM sanpham LIMIT ${limit} OFFSET ${offset}`;
@@ -92,75 +148,7 @@ Sanpham.getAllKHdmsp = (madm, result) => {
     });
 };
 
-Sanpham.updateBymasp = (masp, sanpham, result) => {
-    sql.query(
-        "UPDATE sanpham SET tensp = ?, hinhdd = ?, hinhdd = ?, soluong = ? , motact = ? WHERE masp = ?",
-        [sanpham.tensp, sanpham.hinhdd , sanpham.hinhdd, sanpham.soluong , sanpham.motact,  masp],
-        (err, res) => {
-            if (err) {
-                console.log("error: ", err);
-                result(null, err);
-                return;
-            }
-            if (res.affectedRows == 0) {
-                // not found sanpham with the masp
-                result({ kind: "not_found" }, null);
-                return;
-            }
-            console.log("updated sanpham: ", { masp: masp, ...sanpham });
-            result(null, { masp: masp, ...sanpham });
-        }
-    );
-};
 
-Sanpham.remove = (masp, result) => {
-    sql.query("DELETE FROM sanpham WHERE masp = ?", masp, (err, res) => {
-        if (err) {
-            console.log("error: ", err);
-            result(null, err);
-            return;
-        }
-        if (res.affectedRows == 0) {
-            // not found sanpham with the masp
-            result({ kind: "not_found" }, null);
-            return;
-        }
-        console.log("deleted sanpham with masp: ", masp);
-        result(null, res);
-    });
-};
-
-Sanpham.removeAll = result => {
-    sql.query("DELETE FROM sanpham", (err, res) => {
-        if (err) {
-            console.log("error: ", err);
-            result(null, err);
-            return;
-        }
-        console.log(`deleted ${res.affectedRows} sanpham`);
-        result(null, res);
-    });
-};
-
-// update ảnh đại diện sản phẩm
-Sanpham.updateADD = (masp, hinhdd, result) => {
-    sql.query(
-        "UPDATE sanpham SET hinhdd = ? WHERE masp = ?",
-        [hinhdd, masp],
-        (err, res) => {
-            if (err) {
-                console.log("error: ", err);
-                result(null, err);
-                return;
-            }
-            if (res.affectedRows == 0) {
-                result({ kind: "not_found" }, null);
-                return;
-            }
-            result(null, { masp: masp, hinhdd: hinhdd });
-        }
-    );
-};
 
 
 module.exports = Sanpham;

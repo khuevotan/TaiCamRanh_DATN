@@ -46,7 +46,6 @@ Danhmuc.getAll = (tendm, result) => {
             result(null, err);
             return;
         }
-        console.log("danhmuc: ", res);
         result(null, res);
     });
 };
@@ -111,16 +110,5 @@ Danhmuc.remove = (madm, result) => {
     });
 };
 
-Danhmuc.removeAll = result => {
-    sql.query("DELETE FROM danhmuc", (err, res) => {
-        if (err) {
-            console.log("error: ", err);
-            result(null, err);
-            return;
-        }
-        console.log(`deleted ${res.affectedRows} danhmuc`);
-        result(null, res);
-    });
-};
 
 module.exports = Danhmuc;

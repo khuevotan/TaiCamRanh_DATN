@@ -36,7 +36,7 @@ Gio.findBymagio = (magio, result) => {
 };
 
 
-// phía admin
+// Hiển thị danh sách giờ bên phía admin.
 Gio.getAll = (tengio, result) => {
     let query = "SELECT * FROM gio";
     if (tengio) {
@@ -53,14 +53,13 @@ Gio.getAll = (tengio, result) => {
     });
 };
 
-// Hiển thị giờ để bên phía khách hàng đặt
-Gio.getAllKH = (ngayrua, result) => {
-
+// Hiển thị giờ đặt lịch.
+Gio.getAllKH = (ngayrua, MAX_ĐL, result) => {
     date1 = new Date(ngayrua)
     date2 = new Date()
 
     if(date1.getYear() == date2.getYear() && date1.getMonth() == date2.getMonth() && date1.getDay() == date2.getDay()){
-        let query = `SELECT * FROM gio where magio not in (select magio from hoadonrx where ngayrua = '${ngayrua}' group by magio having count(magio) >2) and (tengio > CURTIME())`;
+        let query = `SELECT * FROM gio where magio not in (select magio from hoadonrx where ngayrua = '${ngayrua}' group by magio having count(magio) >= '${MAX_ĐL}') and (tengio > CURTIME())`;
         sql.query(query, (err, res) => {
             if (err) {
                 console.log("error: ", err);
@@ -71,7 +70,7 @@ Gio.getAllKH = (ngayrua, result) => {
             result(null, res);
         });
     }else{
-        let query = `SELECT * FROM gio where magio not in (select magio from hoadonrx where ngayrua = '${ngayrua}' group by magio having count(magio) >2)`;
+        let query = `SELECT * FROM gio where magio not in (select magio from hoadonrx where ngayrua = '${ngayrua}' group by magio having count(magio) >= '${MAX_ĐL}')`;
         sql.query(query, (err, res) => {
             if (err) {
                 console.log("error: ", err);
@@ -123,16 +122,5 @@ Gio.remove = (magio, result) => {
     });
 };
 
-Gio.removeAll = result => {
-    sql.query("DELETE FROM gio", (err, res) => {
-        if (err) {
-            console.log("error: ", err);
-            result(null, err);
-            return;
-        }
-        console.log(`deleted ${res.affectedRows} gio`);
-        result(null, res);
-    });
-};
 
 module.exports = Gio;

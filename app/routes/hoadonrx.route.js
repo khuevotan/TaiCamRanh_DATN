@@ -1,4 +1,5 @@
 const authMiddleware = require('../middlewares/authad.middleware');
+const controllerlx = require('../controllers/admin/loaixe.controller');
 
 module.exports = app => {
     const hoadonrx = require("../controllers/admin/hoadonrx.controller");
@@ -7,11 +8,21 @@ module.exports = app => {
     // Hiển thị danh sách các hóa đơn rx
     router.get("/index",authMiddleware.loggedinad, hoadonrx.findAll);
 
+    router.get('/chonngay', authMiddleware.loggedinad, hoadonrx.showDayForm)
+        .post('/chonngay', authMiddleware.loggedinad, hoadonrx.chonNgay)
+
+    router.get('/create/:ngayrua', authMiddleware.loggedinad, hoadonrx.showDLForm)
+    router.get('/create/', authMiddleware.loggedinad, hoadonrx.showDLForm2)
+        
+    // Nhấn nút đặt lịch
+    router.post("/datlich", authMiddleware.loggedinad, hoadonrx.datlich);
+
+
     // Hiển thị form tạo hóa đơn rx
-    router.get("/create", authMiddleware.loggedinad, hoadonrx.create);
+    // router.get("/create", authMiddleware.loggedinad, hoadonrx.create);
 
     // Lưu hóa đơn rx mới khi nhấn nút lưu
-    router.post("/", authMiddleware.loggedinad, hoadonrx.store);
+    // router.post("/", authMiddleware.loggedinad, hoadonrx.store);
 
     // Xem thông tin chi tiết 1 hóa đơn rx
     router.get("/details/:mahdrx", authMiddleware.loggedinad, hoadonrx.details);

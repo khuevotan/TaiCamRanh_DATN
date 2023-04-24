@@ -1,4 +1,7 @@
 const NhanVien = require("../../models/NhanVien.model");
+const HoaDon = require("../../models/HoaDon.model");
+const HoaDonRX = require("../../models/HoaDonRX.model");
+
 const bcrypt = require('bcrypt');
 
 exports.Login = (req, res) => {
@@ -6,7 +9,102 @@ exports.Login = (req, res) => {
 }
 
 exports.getIndex = (req, res) => {
-    res.render('trangchuad.ejs',{layout: './master2'});
+
+    HoaDon.getAllChuaDuyet((err, data, data2) => {
+        console.log("KHUE0");
+        console.log(data);
+        console.log(data2);
+
+
+        const mot = 60;
+        const hai = 0;
+
+
+        res.render('trangchuad.ejs',{ 
+            HoaDonNgay: mot,
+            HoaDonRXNgay: hai,
+            // DoanhThuNgay: doanhThuNgayHN + dtNgayRX,
+            // DoanhThuThang: doanhThuThangNay + dtthangRX,
+            layout: './master2'});
+
+        // const HoaDonNgay = data[0]['COUNT(*)'];
+        // console.log("KHUE1");
+        // console.log(HoaDonNgay);
+    });
+
+
+
+
+    // HoaDonRX.getAllChuaDuyet((err, datb) => {
+    //     const HoaDonRXNgay = datb[0]['COUNT(*)'];
+    //     res.render('trangchuad.ejs',{ 
+    //         HoaDonNgay: HoaDonNgay,
+    //         HoaDonRXNgay: HoaDonRXNgay,
+    //         // DoanhThuNgay: doanhThuNgayHN + dtNgayRX,
+    //         // DoanhThuThang: doanhThuThangNay + dtthangRX,
+    //         layout: './master2'});
+    // });
+
+  
+
+    // HoaDon.getAllChuaDuyet((err, data) => {
+    //     const HoaDonNgay = data[0]['COUNT(*)'];
+
+    //     HoaDonRX.getAllChuaDuyet((err, datb) => {
+    //         const HoaDonRXNgay = datb[0]['COUNT(*)'];
+
+    //         HoaDon.doanhThuNgayHN((err, datc) => {
+    //             const doanhThuNgayHN = datc[0]['SUM(tongtiensp)'];
+
+    //             HoaDon.doanhThuThangNay((err, datd) => {
+    //                 const doanhThuThangNay = datc[0]['SUM(tongtiensp)'];
+
+    //                 HoaDonRX.doanhThuNgayHN((err, date) => {
+    //                     const dtNgayRX = date[0]['SUM(tongtienrx)'];
+
+    //                     HoaDonRX.doanhThuThangNay((err, datf) => {
+    //                         const dtthangRX = datf[0]['SUM(tongtienrx)'];
+
+    //                         HoaDon.dtTungNgay((err, tuongngay) => {
+
+    //                             res.render('trangchuad.ejs',{ 
+    //                                 HoaDonNgay: HoaDonNgay,
+    //                                 HoaDonRXNgay: HoaDonRXNgay,
+    //                                 DoanhThuNgay: doanhThuNgayHN + dtNgayRX,
+    //                                 DoanhThuThang: doanhThuThangNay + dtthangRX,
+    //                                 layout: './master2'});
+    //                             });
+
+    //                         });
+    //                     });        
+    //                 });
+    //             });
+    //         });
+    // });
+
+   
+    // const loaixe = [
+    //     RowDataPacket { malx: 1, tenlx: 'Xe Máy', gia: 40000 },
+    //     RowDataPacket { malx: 2, tenlx: 'Xe Ô Tô Nhỏ', gia: 100000 },
+    //     RowDataPacket { malx: 3, tenlx: 'Xe Bán Tải', gia: 60000 },
+    //     RowDataPacket { malx: 4, tenlx: 'Xe Ô Tô Lớn', gia: 150000 }
+    //   ]; // Input array of objects
+      
+    //   const sum = loaixe.reduce((acc, obj) => acc + obj.gia, 0); // Use reduce() to accumulate the sum
+      
+    //   console.log(sum); // Output: 350000
+
+
+    // const loaixe = [
+    //     RowDataPacket { malx: 1, tenlx: 'Xe Máy', gia: 40000 },
+    //     RowDataPacket { malx: 2, tenlx: 'Xe Ô Tô Nhỏ', gia: 100000 },
+    //     RowDataPacket { malx: 3, tenlx: 'Xe Bán Tải', gia: 60000 },
+    //     RowDataPacket { malx: 4, tenlx: 'Xe Ô Tô Lớn', gia: 150000 }
+    //   ]; // Input array of objects
+      
+    //   const count = loaixe.length; // Get the length of the array
+      
+    //   console.log(count); // Output: 4
 }
 
 exports.trangCaNhan = (req, res) => {

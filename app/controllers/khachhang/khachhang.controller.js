@@ -4,13 +4,12 @@ const HoaDonRX = require("../../models/hoadonrx.model");
 const HoaDon = require("../../models/hoadon.model");
 const CTHoaDon = require("../../models/cthoadon.model");
 
-
 const bcrypt = require('bcrypt');
 
 // Show form create khachhang
 exports.create = (req, res) => {
     res.locals.status = req.query.status;
-    res.render('khachhang/create');
+    res.render('khachhang/createkh',  {layout: './master2'});
 }
 
 // Create and Save a new khachhang
@@ -34,7 +33,7 @@ exports.store = (req, res) => {
     });
 };
 
-// Retrieve all khachhang from the database (with condition).
+// Hiển thị khách hàng bên phía admin
 exports.findAll = (req, res) => {
     res.locals.deleted = req.query.deleted;
     const tenkh = req.query.tenkh;
@@ -44,12 +43,60 @@ exports.findAll = (req, res) => {
         else {
             res.render('khachhang/indexkh', {
                 khachhang: data,
-                layout: './master2'
+                layout: './master3'
             });
         }
 
     });
 };
+
+// Xem chi tiết thông tin một khách hàng bên phía admin
+exports.details = (req, res) => {
+    res.locals.status = req.query.status;
+
+    Khachhang.findByMakh(req.params.makh, (err, data) => {
+        if (err) {
+            if (err.kind === "not_found") {
+                res.redirect('/404');
+            } else {
+                res.redirect('/500');
+            }
+        } else res.render('khachhang/detailskh', { khachhang: data,  layout: './master2'});
+    });
+};
+
+// Chỉnh sửa thông tin một khách hàng bên phía admin
+exports.edit = (req, res) => {
+    res.locals.status = req.query.status;
+
+    Khachhang.findByMakh(req.params.makh, (err, data) => {
+        if (err) {
+            if (err.kind === "not_found") {
+                res.redirect('/404');
+            } else {
+                res.redirect('/500');
+            }
+        } else res.render('khachhang/editkh', {
+            khachhang: data,
+            layout: './master2'
+        });
+    });
+};
+
+
+// Xóa một khách hàng bên phía admin
+exports.delete = (req, res) => {
+    Khachhang.remove(req.params.makh, (err, data) => {
+        if (err) {
+            if (err.kind === "not_found") {
+                res.redirect('/404');
+            } else {
+                res.redirect('/500');
+            }
+        } else res.redirect('/admin/khachhang?deleted=true')
+    });
+};
+
 
 exports.trangCaNhan = (req, res) => {
     res.locals.khachhang = req.session.khachhang
@@ -68,23 +115,7 @@ exports.trangCaNhan = (req, res) => {
     });
 };
 
-// Find a single khachhang with a makh
-exports.edit = (req, res) => {
-    res.locals.status = req.query.status;
 
-    Khachhang.findBymakh(req.params.makh, (err, data) => {
-        if (err) {
-            if (err.kind === "not_found") {
-                res.redirect('/404');
-            } else {
-                res.redirect('/500');
-            }
-        } else res.render('khachhang/editkh', {
-            khachhang: data,
-            layout: './master2'
-        });
-    });
-};
 
 // Edit bên phía khách hàng
 exports.editkh = (req, res) => {
@@ -190,30 +221,6 @@ exports.updatemk = (req, res) => {
 
 };
 
-// Delete a khachhang with the specified id in the request
-exports.delete = (req, res) => {
-    Khachhang.remove(req.params.makh, (err, data) => {
-        if (err) {
-            if (err.kind === "not_found") {
-                res.redirect('/404');
-            } else {
-                res.redirect('/500');
-            }
-        } else res.redirect('/khachhang?deleted=true')
-    });
-};
-
-
-// Delete all khachhang from the database.
-exports.deleteAll = (req, res) => {
-    Khachhang.removeAll((err, data) => {
-        if (err)
-            res.redirect('/500');
-        else res.redirect('/khachhang?deleted=true')
-    });
-};
-
-
 
 // update thanh toán khi đặt lịch xong
 exports.thanhToan = (req, res, next) => {
@@ -234,8 +241,6 @@ exports.thanhToanDH = (req, res, next) => {
         next();
     });
 }
-
-
 
 // Upload fle ảnh
 exports.uploadFile = (req, res) => {
@@ -260,20 +265,10 @@ exports.uploadFile = (req, res) => {
     // res.send(file)
 }
 
-exports.uploadMultiple = (req, res) => {
-    const files = req.files
-    if (!files) {
-        const error = new Error('Please choose files')
-        error.httpStatusCode = 400
-        return next(error)
-    }
-    res.send(files)
-}
 
+// ====================== ĐẶT LỊCH RỬA XE =========================
 
-// đặt lịch rửa xe
-
-// hiển thị form chọn ngày
+// Hiển thị form để người dùng chọn ngày
 exports.showDayForm = (req, res) => {
     res.render('chonngay');
 }
@@ -286,25 +281,30 @@ exports.chonNgay = (req, res) => {
         ngayrua
     } = req.body;
 
-    date1 = new Date(ngayrua)
-    date2 = new Date()
+    const currentDate = new Date();
+    const chonDate = new Date(ngayrua);
 
-    if (ngayrua) {
-        if (date1.getYear() >= date2.getYear() && date1.getMonth() >= date2.getMonth() && date1.getDay() >= date2.getDay()) {
+    // Chuyển đổi đối tượng Date thành chuỗi ngày tháng năm
+    const dateString1 = chonDate.toDateString();
+    const dateString2 = currentDate.toDateString();
+
+     // So sánh chuỗi ngày tháng năm
+    if (dateString1 === dateString2) {
+        res.redirect('/khachhang/datlichrx/' + ngayrua)
+    } else {
+        if (chonDate > currentDate){
             res.redirect('/khachhang/datlichrx/' + ngayrua)
-        } else {
+        }else{
             const conflictError = 'Không được chọn ngày quá khứ!';
             res.render('chonngay', {
                 conflictError
             });
         }
-    } else {
-        res.redirect('/404');
     }
 };
 
 
-// nhấn đặt lịch
+// Nhấn nút đặt lịch
 exports.datlich = (req, res) => {
     res.locals.khachhang = req.session.khachhang
     const makh = res.locals.khachhang.makh;
@@ -345,8 +345,6 @@ exports.datlich = (req, res) => {
             res.redirect('/khachhang/chonttrx?status=thatbai')
         }
     });
-
-
 };
 
 // hiển thị form thêm thông tin đặt hàng

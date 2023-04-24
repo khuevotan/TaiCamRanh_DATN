@@ -10,6 +10,8 @@ module.exports = app => {
     // Hiển thị form tạo nhân viên
     router.get("/create", authMiddleware.loggedinad, nhanvien.create);
 
+    router.get("/verify", nhanvien.verify);
+
     // Lưu nhân viên mới khi nhấn nút lưu
     router.post("/", authMiddleware.loggedinad, nhanvien.store);
 

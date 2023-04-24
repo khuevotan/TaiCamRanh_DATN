@@ -70,7 +70,6 @@ KhachHang.findByTaikhoanvaEmail = (taikhoan, email, result) => {
     });
 }
 
-
 KhachHang.findByEmail = (email, result) => {
     sql.query(`SELECT * from khachhang WHERE email = '${email}'`, (err, res) => {
         if (err) {

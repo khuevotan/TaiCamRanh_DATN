@@ -2,51 +2,74 @@
 const Danhmuc = require("../../models/danhmuc.model");
 const SanPham = require("../../models/sanpham.model");
 
-// Hiển thị form tạo mới sản phẩm
+//======================= GIAO DIEN ADMIN ======================= 
+// Hiển thị form tạo mới sản phẩm.
 exports.create = (req, res) => {
     res.locals.status = req.query.status;
-    res.render('sanpham/createsp', {layout: './master2'});
+    const tendm = req.query.tensp;
+    Danhmuc.getAll(tendm, (err, data) => {
+        if (err)
+            res.redirect('/500')
+        else { 
+            res.render('sanpham/createsp', { danhmuc: data, layout: './master2'});
+        }
+    });
 }
 
-// Create and Save a new sanpham
+// Lưu sản phẩm mới khi nhấn nút.
 exports.store = (req, res) => {
     // Validate request
     if (!req.body) {
         res.redirect('/sanpham/create?status=error')
     }
+
+    res.locals.nhanvien = req.session.nhanvien
+    const manv = res.locals.nhanvien.manv;
+    ngaydang = new Date()
+    const file = req.file
     
     // Create a sanpham
     const sanpham = new SanPham({
         tensp: req.body.tensp,
-        thoigian: req.body.thoigian,
+        hinhdd: file.filename,
+        soluong: req.body.soluong,
         motact: req.body.motact,
-        giatien: req.body.giatien
+        giaban: req.body.giaban,
+        ngaydang: ngaydang,
+        madm: req.body.madm,
+        manv: manv,
     });
     // Save sanpham in the database
     SanPham.create(sanpham, (err, data) => {
         if (err)
-            res.redirect('/sanpham/create?status=error')
-        else res.redirect('/sanpham/create?status=success')
+            res.redirect('/admin/sanpham/create?status=error')
+        else res.redirect('/admin/sanpham/create?status=success')
     });
 };
 
-// Hiển thị danh sách sản phẩm
+// Hiển thị danh sách sản phẩm.
 exports.findAll = (req, res) => {
     res.locals.deleted = req.query.deleted;
     const tensp = req.query.tensp;
+    const tendm = req.query.tensp;
     SanPham.getAll(tensp, (err, data) => {
         if (err)
             res.redirect('/500')
         else {
-            res.render('sanpham/indexsp',  {sanpham: data, layout: './master3'});
+            Danhmuc.getAll(tendm, (err, danhmuc) => {
+                if (err)
+                    res.redirect('/500')
+                else {
+                     res.render('sanpham/indexsp',  {sanpham: data, danhmuc: danhmuc, layout: './master3'});
+                }
+            });
         }
     });
 };
 
-// chi tiết một sản phẩm
+// Hiển thị chi tiết một sản phẩm.
 exports.details = (req, res) => {
     res.locals.status = req.query.status;
-  
 
     SanPham.findBymasp(req.params.masp, (err, data) => {
         if (err) {
@@ -55,12 +78,139 @@ exports.details = (req, res) => {
             } else {
                 res.redirect('/500');
             }
-        } else res.render('sanpham/detailssp', { sanpham: data,  layout: './master2'});
+        } else {
+            Danhmuc.findByMaDM(data.madm, (err, danhmuc) => {
+                if (err)
+                    res.redirect('/500')
+                else {
+                    res.render('sanpham/detailssp', { sanpham: data, danhmuc:danhmuc, layout: './master4'});
+                }
+            });
+            }
     });
 };
 
+// Chỉnh sửa thông tin một sản phẩm.
+exports.edit = (req, res) => {
+    res.locals.status = req.query.status;
 
-// hiển thị sản phẩm bên phía khách hàng
+    const tendm = req.query.tensp;
+   
+    SanPham.findBymasp(req.params.masp, (err, data) => {
+        if (err) {
+            if (err.kind === "not_found") {
+                res.redirect('/404');
+            } else {
+                res.redirect('/500');
+            }
+        } else {
+            Danhmuc.getAll(tendm, (err, danhmuc) => {
+                if (err)
+                    res.redirect('/500')
+                else { 
+                    res.render('sanpham/editsp', { sanpham: data, danhmuc: danhmuc,   layout: './master2'});
+                }
+            });
+        }
+    });
+};
+
+// Cập nhật sản phẩm khi nhấn nút cập nhật.
+exports.update = (req, res) => {
+    // Validate Request
+    if (!req.body) {
+        res.redirect('/admin/sanpham/edit/' + req.params.masp + '?status=error')
+    }
+
+    res.locals.nhanvien = req.session.nhanvien
+    const manv = res.locals.nhanvien.manv;
+
+    const sanpham = new SanPham({
+        tensp: req.body.tensp,
+        soluong: req.body.soluong,
+        motact: req.body.motact,
+        giaban: req.body.giaban,
+        madm: req.body.madm,
+        manv: manv,
+    });
+
+    SanPham.updateBymasp(
+        req.params.masp,
+        sanpham,
+        (err, data) => {
+            if (err) {
+                if (err.kind === "not_found") {
+                    res.redirect('/404');
+                } else {
+                    res.redirect('/500');
+                }
+            } else res.redirect('/admin/sanpham/edit/' + req.params.masp + '?status=success');
+        }
+    );
+};
+
+// Xóa một sản phẩm
+exports.delete = (req, res) => {
+    SanPham.findBymasp(req.params.masp, (err, sanpham) => {
+        if (err)
+            res.redirect('/500')
+        else {
+
+            if(sanpham.hinhdd != ''){
+                const fs = require('fs');
+                const fileNameCu = sanpham.hinhdd;
+                const filePath = '/images/sanpham/' + fileNameCu; 
+                
+                fs.unlink("app/public"+ filePath,function(err){
+                    if(err) throw err;
+                    console.log('File deleted!');
+                });
+            }
+
+            SanPham.remove(req.params.masp, (err, data) => {
+                if (err) {
+                    if (err.kind === "not_found") {
+                        res.redirect('/404');
+                    } else {
+                        res.redirect('/500');
+                    }
+                } else res.redirect('/admin/sanpham/index?deleted=true')
+            });
+        }
+    });
+};
+
+// Update ảnh đại diện sản phẩm
+exports.updateADD = (req, res, next) => {
+    const file = req.file
+    if (!file) {
+        const error = new Error('Vui Lòng Up Ảnh')
+        error.httpStatusCode = 400
+        return next(error);
+    }
+
+    if(req.body.hinhdd != ''){
+        const fs = require('fs');
+        const fileNameCu = req.body.hinhdd;
+        const filePath = '/images/sanpham/' + fileNameCu; 
+        
+        fs.unlink("app/public"+ filePath,function(err){
+            if(err) throw err;
+            console.log('File deleted!');
+        });
+    }
+    
+    SanPham.updateADD(req.params.masp, file.filename, (err, result) => {
+        if (!err) {
+            res.redirect('/admin/sanpham/edit/' + req.params.masp + '?status=successhdd');
+        } else {
+            res.redirect('/admin/sanpham/edit/' + req.params.masp + '?status=errorhdd')
+        }
+    });
+}
+
+//======================= GIAO DIEN KHACH HANG ======================= 
+// Hiển thị sản phẩm bên phía khách hàng.
 exports.findAllKH = (req, res) => {
     res.locals.deleted = req.query.deleted;
     const tensp = req.query.tensp;
@@ -73,7 +223,6 @@ exports.findAllKH = (req, res) => {
         }
     });
 };
-
 
 exports.findAllKHandDM = (req, res) => {
     const page = parseInt(req.query.page) || 1;
@@ -99,7 +248,7 @@ exports.findAllKHandDM = (req, res) => {
     });
 };
 
-//giao diện hiển thị sản phẩm danh mục chi tiết
+// Hiển thị sản phẩm danh mục chi tiết
 exports.findAllKHandDMct = (req, res) => {
  
     res.locals.status = req.query.status;
@@ -121,8 +270,7 @@ exports.findAllKHandDMct = (req, res) => {
     });
 };
 
-
-// hiển thị chi tiết 1 sản phẩm
+// Hiển thị chi tiết 1 sản phẩm
 exports.chitietsp = (req, res) => {
     res.locals.status = req.query.status;
     
@@ -137,92 +285,3 @@ exports.chitietsp = (req, res) => {
     });
 };
 
-// Find a single sanpham with a madm
-exports.edit = (req, res) => {
-    res.locals.status = req.query.status;
-
-    SanPham.findBymasp(req.params.masp, (err, data) => {
-        if (err) {
-            if (err.kind === "not_found") {
-                res.redirect('/404');
-            } else {
-                res.redirect('/500');
-            }
-        } else res.render('sanpham/editsp', { sanpham: data,   layout: './master2'});
-    });
-};
-
-// Update a sanpham identified by the id in the request
-exports.update = (req, res) => {
-    // Validate Request
-    if (!req.body) {
-        res.redirect('/admin/sanpham/edit/' + req.params.masp + '?status=error')
-    }
-
-    SanPham.updateBymasp(
-        req.params.masp,
-        new SanPham(req.body),
-        (err, data) => {
-            if (err) {
-                if (err.kind === "not_found") {
-                    res.redirect('/404');
-                } else {
-                    res.redirect('/500');
-                }
-            } else res.redirect('/admin/sanpham/edit/' + req.params.masp + '?status=success');
-        }
-    );
-};
-
-// Delete a sanpham with the specified id in the request
-exports.delete = (req, res) => {
-    SanPham.remove(req.params.madm, (err, data) => {
-        if (err) {
-            if (err.kind === "not_found") {
-                res.redirect('/404');
-            } else {
-                res.redirect('/500');
-            }
-        } else res.redirect('/sanpham?deleted=true')
-    });
-};
-
-// Delete all sanpham from the database.
-exports.deleteAll = (req, res) => {
-    SanPham.removeAll((err, data) => {
-        if (err)
-            res.redirect('/500');
-        else res.redirect('/sanpham?deleted=true')
-    });
-};
-
-
-
-// Upload fle ảnh
-exports.updateADD = (req, res, next) => {
-    const file = req.file
-    if (!file) {
-        const error = new Error('Vui Lòng Up Ảnh')
-        error.httpStatusCode = 400
-        return next(error);
-    }
-
-        if(req.body.hinhdd != ''){
-            const fs = require('fs');
-            const fileNameCu = req.body.hinhdd;
-            const filePath = '/images/sanpham/' + fileNameCu; 
-          
-            fs.unlink("app/public"+ filePath,function(err){
-                if(err) throw err;
-                console.log('File deleted!');
-            });
-        }
-    
-    SanPham.updateADD(req.params.masp, file.filename, (err, result) => {
-        if (!err) {
-            res.redirect('/admin/danhmuc/edit/' + req.params.masp + '?status=successhdd');
-        } else {
-            res.redirect('/admin/danhmuc/edit/' + req.params.masp + '?status=errorhdd')
-        }
-    });
-}

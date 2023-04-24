@@ -12,6 +12,7 @@ const NhanVien = function(nhanvien){
     this.gioitinh= nhanvien.gioitinh;
     this.hinhdd= nhanvien.hinhdd;
     this.email = nhanvien.email;
+    this.manhom = nhanvien.manhom;
     this.luong = nhanvien.luong;
     this.kichhoat = nhanvien.kichhoat;
     this.ngaytaotk = nhanvien.ngaytaotk;
@@ -125,9 +126,6 @@ NhanVien.updateByMaNV = (manv, nhanvien, result) => {
 };
 
 
-
-
-
 // cập nhật ảnh đại diện
 NhanVien.updateAvaByMaNV = (manv, hinhdd, result) => {
     sql.query(
@@ -180,7 +178,7 @@ NhanVien.removeAll = result => {
 NhanVien.verify = (email, result) => {
     sql.query(
         "UPDATE nhanvien SET kichhoat = ? WHERE email = ?",
-        [1, email],
+        [2, email],
         (err, res) => {
             if (err) {
                 console.log("error: ", err);

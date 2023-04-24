@@ -1,0 +1,193 @@
+<div class="page-heading">
+    <h2 class="page-title">Đặt Lịch Hẹn</h2>
+</div>
+
+<div class="page-content fade-in-up">
+    <% if (typeof status !== 'undefined') { %>
+        <%if (status == 'success') { %>
+            <div class="ibox ibox-success">
+                <div class="ibox-head">
+                    <div class="ibox-title">   
+                        <div style="color: rgb(255, 255, 255);">
+                            Tạo Thành Công!
+                        </div>
+                    </div>
+        <% } else { %>
+            <div class=" ibox ibox-danger">
+                <div class="ibox-head">
+                    <div class="ibox-title">   
+                        <div style="color: rgb(255, 255, 255);">
+                            Đã xảy ra lỗi khi tạo mới đơn!
+                        </div>
+                    </div>
+        <% } %>
+  <% } else { %>
+
+    <div class="ibox ibox-info">
+        <div class="ibox-head">
+            <div class="ibox-title">   
+                <div style="color: rgb(255, 255, 255);">
+                    Nhập đầy đủ thông tin!
+                </div>
+            </div>
+    <% } %>
+
+<div class="ibox-tools">
+    <a class="ibox-collapse"><i class="fa fa-minus"></i></a>
+    <a class="fullscreen-link"><i class="fa fa-expand"></i></a>
+</div>
+
+</div>
+
+                <div class="ibox-body">
+                    <form action="/admin/hoadonrx/datlich/" method="post" id="form-sample-1" 
+                    onSubmit="return confirm('Bạn có chắc chắn muốn thêm đặt lịch?') ">
+                        <input type="hidden" name="id" value="">
+                        <div class="row">
+                            <div class="col-sm-6 form-group">
+                                <label>Tên Người Đặt</label>
+                                <input type="text" name="tennguoidat" placeholder="Nhập họ tên" class="form-control"
+                                    <% if (typeof tennguoidat != "undefined" && tennguoidat) { %>
+                                    value="<%= tennguoidat %>" <% } %> required>
+                            </div>
+                            <div class="col-sm-6 form-group">
+                                <label for="malx">Loại Xe</label>
+
+                                <select class="form-select form-control" id="box1" name="malx"
+                                    onChange="myNewFunction(this);">
+                                    <% loaixe.forEach((item) => { %>
+                                    <option name="malx" value="<%= item.malx %>" id="<%= item.gia %>">
+                                        <%= item.tenlx %></option>
+                                    <% }) %>
+                                </select>
+                            </div>
+                        </div>
+
+
+                        <div class="row">
+                            <div class="col-sm-6 form-group">
+                                <label>Số Điện Thoại</label>
+                                <input type="number" name="sodt" placeholder="Nhập số điện thoại" class="form-control"
+                                    <% if (typeof sodt != "undefined" && sodt) { %> value="<%= sodt %>" <% } %>
+                                    required>
+                            </div>
+                            <div class="col-sm-6 form-group">
+                                <label for="ngayrua">Ngày Rửa</label>
+                                <div>
+                                    <input type="date" name="ngayrua" placeholder="" class="form-control"
+                                        <% if (typeof ngayrua != "undefined" && ngayrua) { %> value="<%= ngayrua %>"
+                                        <% } %> required readonly>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-sm-6 form-group">
+                                <label for="diachi">Địa Chỉ</label>
+                                <input type="text" name="diachi" placeholder="Nhập địa chỉ" class="form-control"
+                                    <% if (typeof diachi != "undefined" && diachi) { %> value="<%= diachi %>" <% } %>
+                                    required>
+                            </div>
+                            <div class="col-sm-6 form-group">
+                                Giờ Rửa <b class="text-danger">(Lưu ý!)</b>
+                                <select class="form-select form-control" name="magio" onchange="myFunction()">
+                                    <% gio.forEach((item) => { %>
+                                    <option name="magio" value="<%= item.magio %>"><%= item.tengio %></option>
+                                    <% }) %>
+                                </select>
+                            </div>
+                        </div>
+
+
+                        <div class="row">
+                            <div class="col-sm-6 form-group">
+                                <label for="ghichu">Ghi Chú</label>
+
+                                <textarea type="text" name="ghichu" placeholder="Nhập ghi chú" class="form-control"
+                                    <% if (typeof diachi != "undefined" && diachi) { %> value="<%= diachi %>" <% } %>
+                                    ></textarea>
+                            </div>
+                            <div class="col-sm-6 form-group">
+                                <label for="tongtienrx">Tổng Tiền</label>
+                                <div>
+
+                                    <input id="tongtienrx" type="text" name="tongtienrx" placeholder=""
+                                        class="form-control" readonly>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="text-danger text-left  mb-3">
+
+                                Hệ thống chỉ hiển thị những khung giờ đang còn trống. </br>
+                                Nếu không có khung giờ phù hợp vui lòng chọn ngày khác.
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <button class="btn btn-default" type="submit">Đặt Lịch Ngay</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+  
+
+
+
+<script>
+    function myNewFunction(sel) {
+        document.getElementById('tongtienrx').value = sel.options[sel.selectedIndex].id;
+    }
+
+    function getUrlParameter(name) {
+        name = name.replace(/[\[]/, '\\[').replace(/[\]]/, '\\]');
+        var regex = new RegExp('[\\?&]' + name + '=([^&#]*)');
+        var results = regex.exec(location.search);
+        return results === null ? '' : decodeURIComponent(results[1].replace(/\+/g, ' '));
+    };
+
+    var status = getUrlParameter('status');
+
+    if (status == 'success') {
+        alert("Đặt lịch thành công!");
+    }
+</script>
+
+
+<!-- Sử dụng cho jquery - validation -->
+<script src="/assets/vendors/jquery/dist/jquery.min.js" type="text/javascript"></script>
+<script src="/assets/vendors/jquery-validation/dist/jquery.validate.min.js" type="text/javascript"></script>
+<script type="text/javascript">
+    $("#form-sample-1").validate({
+        rules: {
+            tennguoidat: {
+                rangelength: [2, 255],
+                required: !0
+            },
+            sodt: {
+                number: true,
+                rangelength: [2, 15],
+                required: !0
+            },
+            diachi: {
+                rangelength: [2, 100],
+                required: !0
+            },
+            ghichu: {
+                rangelength: [2, 255],
+            }
+            
+            
+        },
+        errorClass: "help-block error",
+        highlight: function(e) {
+            $(e).closest(".form-group.row").addClass("has-error")
+        },
+        unhighlight: function(e) {
+            $(e).closest(".form-group.row").removeClass("has-error")
+        },
+    });
+</script>
+

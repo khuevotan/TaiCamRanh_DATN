@@ -20,23 +20,19 @@ ThamSo.create = (newthamso, result) => {
 };
 
 ThamSo.findBymats = (mats, result) => {
-    sql.query(`SELECT * FROM thamso WHERE mats = ${mats}`, (err, res) => {
+    sql.query(`SELECT * from thamso WHERE mats = '${mats}'`, (err, res) => {
         if (err) {
-            console.log("error: ", err);
             result(err, null);
             return;
         }
         if (res.length) {
-            console.log("found thamso: ", res[0]);
-            result(null, res[0]);
+            result(null, res[0])
             return;
         }
-        // not found thamso with the mats
-        result({ kind: "not_found" }, null);
+        result(null, null);
     });
 };
 
-// hiên thị trạng thái đơn hàng
 ThamSo.getAll = (tents, result) => {
     let query = "SELECT * FROM thamso";
     if (tents) {
@@ -72,35 +68,6 @@ ThamSo.updateBymats = (mats, thamso, result) => {
             result(null, { mats: mats, ...thamso });
         }
     );
-};
-
-ThamSo.remove = (mats, result) => {
-    sql.query("DELETE FROM thamso WHERE mats = ?", mats, (err, res) => {
-        if (err) {
-            console.log("error: ", err);
-            result(null, err);
-            return;
-        }
-        if (res.affectedRows == 0) {
-            // not found thamso with the mats
-            result({ kind: "not_found" }, null);
-            return;
-        }
-        console.log("deleted thamso with mats: ", mats);
-        result(null, res);
-    });
-};
-
-ThamSo.removeAll = result => {
-    sql.query("DELETE FROM thamso", (err, res) => {
-        if (err) {
-            console.log("error: ", err);
-            result(null, err);
-            return;
-        }
-        console.log(`deleted ${res.affectedRows} thamso`);
-        result(null, res);
-    });
 };
 
 module.exports = ThamSo;

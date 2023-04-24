@@ -15,6 +15,23 @@ const HoaDon = function(hoadon){
     this.makh = hoadon.makh;
 };
 
+// Hiển thị hóa đơn đặt hàng bên phía admin.
+HoaDon.getAllAD = (tenhd,result) => {
+    let query = "SELECT * FROM hoadon";
+    if (tenhd) {
+        query += ` WHERE tenhd LIKE '%${tenhd}%'`;
+    }
+    sql.query(query, (err, res) => {
+        if (err) {
+            console.log("error: ", err);
+            result(null, err);
+            return;
+        }
+        console.log("hoadon: ", res);
+        result(null, res);
+    });
+};
+
 // Tạo đơn đặt hàng
 HoaDon.create = (newhoadon, result) => {
     sql.query("INSERT INTO hoadon SET ?", newhoadon, (err, res) => {
@@ -64,6 +81,50 @@ HoaDon.getAll = (makh, result) => {
     });
 };
 
+// Thống kê
+// HoaDon.Where(x => x.matt == "1" ).Count();
+// Số lượng hóa đơn đặt hàng chưa duyệt
+HoaDon.getAllChuaDuyet = (result) => {
+    let query = `SELECT COUNT(*) FROM hoadon WHERE matt = 1`;
+
+    let query2 = `SELECT COUNT(*) FROM hoadon WHERE matt = 2`;
+
+    sql.query(query, (err, res1) => {
+        sql.query(query2, (err, res2) => {
+            result(null, res1, res2);
+        });
+    });
+
+   
+};
+
+// Doanh thu ngày hôm nay
+HoaDon.doanhThuNgayHN = (result) => {
+    let query = `SELECT SUM(tongtiensp) FROM hoadon WHERE DATE(ngaydat) = CURDATE()`;
+    sql.query(query, (err, res) => {
+        result(null, res);
+    });
+};
+
+// Doanh thu tháng này
+HoaDon.doanhThuThangNay = (result) => {
+    let query = `SELECT SUM(tongtiensp) FROM hoadon WHERE MONTH(ngaydat) = MONTH(CURDATE()) AND YEAR(ngaydat) = YEAR(CURDATE())`;
+    sql.query(query, (err, res) => {
+        result(null, res);
+    });
+};
+
+
+HoaDon.dtTungNgay = (result) => {
+    let query6 = `SELECT SUM(tongtiensp) FROM hoadon WHERE DATEDIFF(NOW(), ngaydat) = 6;`;
+  
+   
+    sql.query(query6, (err, res) => {
+            result(null, res);
+    });
+};
+
+
 
 HoaDon.updateThanhToan = (mahd , result) => {
     sql.query(
@@ -84,13 +145,10 @@ HoaDon.updateThanhToan = (mahd , result) => {
     );
 };
 
-
 // hiển thị lịch sử hóa đơn đặt hàng bên phía khách hàng
 HoaDon.getLSAll = (makh, result) => {
     let query = `SELECT * FROM hoadon WHERE makh = ${makh} and matt = 4 and thanhtoan = 2`;
-    // if (tenbv) {
-    //     query += ` WHERE tenbv LIKE '%${tenbv}%'`;
-    // }
+   
     sql.query(query, (err, res) => {
         if (err) {
             console.log("error: ", err);
@@ -104,8 +162,8 @@ HoaDon.getLSAll = (makh, result) => {
 
 HoaDon.updateBymahd  = (mahd , hoadon, result) => {
     sql.query(
-        "UPDATE hoadon SET tenbv = ?, noidung = ?, hinhdd = ?, hinhdd = ? , ngaydang = ? WHERE mahd  = ?",
-        [hoadon.tenbv, hoadon.noidung , hoadon.hinhdd, hoadon.hinhdd , hoadon.ngaydang,  mahd ],
+        "UPDATE hoadon SET tennguoinhan = ?, ngaygiao = ?, sodt = ?, diachi = ? , ghichu = ? ,  thanhtoan = ? , matt = ? , manv = ?  WHERE mahd  = ?",
+        [hoadon.tennguoinhan, hoadon.ngaygiao , hoadon.sodt, hoadon.diachi , hoadon.ghichu,  hoadon.thanhtoan,  hoadon.matt , hoadon.manv,  mahd ],
         (err, res) => {
             if (err) {
                 console.log("error: ", err);

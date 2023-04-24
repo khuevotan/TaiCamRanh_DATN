@@ -9,11 +9,11 @@ module.exports = app => {
     require("./sanpham.route")(app);
     require("./baiviet.route")(app);
     require("./thamso.route")(app);
-    require("./trangthai.route")(app);
     require("./hoadonrx.route")(app);
     require("./hoadon.route")(app);
     require("./nhanvien.route")(app);
     require("./loaixe.route")(app);
     require("./gio.route")(app);
     require("./nhom.route")(app);
+    require("./khachhang_ad.route")(app);
 }

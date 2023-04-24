@@ -1,16 +1,17 @@
 const Danhmuc = require("../../models/danhmuc.model");
 
-// Show form create danhmuc
+//======================= GIAO DIEN ADMIN ======================= 
+// Hiển thị form tạo mới danh mục.
 exports.create = (req, res) => {
     res.locals.status = req.query.status;
     res.render('danhmuc/create',  {layout: './master2'});
 }
 
-// Create and Save a new danhmuc
+// Lưu danh mục mới khi nhấn nút.
 exports.store = (req, res) => {
     // Validate request
     if (!req.body) {
-        res.redirect('/danhmuc/create?status=error')
+        res.redirect('/admin/danhmuc/create?status=error')
     }
 
     const file = req.file
@@ -21,6 +22,7 @@ exports.store = (req, res) => {
         hinhdd: file.filename,
         motact: req.body.motact,
     });
+
     // Save danhmuc in the database
     Danhmuc.create(danhmuc, (err, data) => {
         if (err)
@@ -29,7 +31,7 @@ exports.store = (req, res) => {
     });
 };
 
-// Retrieve all danhmuc from the database (with condition).
+// Hiển thị danh sách danh mục.
 exports.findAll = (req, res) => {
     res.locals.deleted = req.query.deleted;
     const tendm = req.query.tendm;
@@ -42,38 +44,7 @@ exports.findAll = (req, res) => {
     });
 };
 
-// Hiển thị danh mục bên phía khách hàng
-exports.findAllKHdm = (req, res) => {
-    res.locals.deleted = req.query.deleted;
-    const tendm = req.query.tendm;
-    Danhmuc.getAll(tendm, (err, danhmuc) => {
-        if (err)
-            res.redirect('/500')
-        else {
-            res.render('shop',  {danhmuc: danhmuc, layout: './master'});
-             console.log(danhmuc);
-        }
-   
-    });
-};
-
-
-// Find a single danhmuc with a madm
-exports.edit = (req, res) => {
-    res.locals.status = req.query.status;
-
-    Danhmuc.findByMaDM(req.params.madm, (err, data) => {
-        if (err) {
-            if (err.kind === "not_found") {
-                res.redirect('/404');
-            } else {
-                res.redirect('/500');
-            }
-        } else res.render('danhmuc/editdm', { danhmuc: data,  layout: './master2'});
-    });
-};
-
-
+// Xem chi tiết một danh mục.
 exports.details = (req, res) => {
     res.locals.status = req.query.status;
 
@@ -88,7 +59,22 @@ exports.details = (req, res) => {
     });
 };
 
-// Update a danhmuc identified by the id in the request
+// Chỉnh sửa thông tin một danh mục.
+exports.edit = (req, res) => {
+    res.locals.status = req.query.status;
+
+    Danhmuc.findByMaDM(req.params.madm, (err, data) => {
+        if (err) {
+            if (err.kind === "not_found") {
+                res.redirect('/404');
+            } else {
+                res.redirect('/500');
+            }
+        } else res.render('danhmuc/editdm', { danhmuc: data,  layout: './master2'});
+    });
+};
+
+// Cập nhật danh mục khi nhấn nút cập nhật.
 exports.update = (req, res) => {
 
     // Validate Request
@@ -117,30 +103,38 @@ exports.update = (req, res) => {
     );
 };
 
-// Delete a danhmuc with the specified id in the request
+// Xóa một danh mục
 exports.delete = (req, res) => {
-    Danhmuc.remove(req.params.madm, (err, data) => {
-        if (err) {
-            if (err.kind === "not_found") {
-                res.redirect('/404');
-            } else {
-                res.redirect('/500');
-            }
-        } else res.redirect('/admin/danhmuc/index?deleted=true')
-    });
-};
-
-// Delete all danhmuc from the database.
-exports.deleteAll = (req, res) => {
-    Danhmuc.removeAll((err, data) => {
+    Danhmuc.findByMaDM(req.params.madm, (err, danhmuc) => {
         if (err)
-            res.redirect('/500');
-        else res.redirect('/danhmuc?deleted=true')
+            res.redirect('/500')
+        else {
+
+            if(danhmuc.hinhdd != ''){
+                const fs = require('fs');
+                const fileNameCu = danhmuc.hinhdd;
+                const filePath = '/images/danhmuc/' + fileNameCu; 
+                
+                fs.unlink("app/public"+ filePath,function(err){
+                    if(err) throw err;
+                    console.log('File deleted!');
+                });
+            }
+
+            Danhmuc.remove(req.params.madm, (err, data) => {
+                if (err) {
+                    if (err.kind === "not_found") {
+                        res.redirect('/404');
+                    } else {
+                        res.redirect('/500');
+                    }
+                } else res.redirect('/admin/danhmuc/index?deleted=true')
+            });
+        }
     });
 };
 
-
-// Upload fle ảnh
+// Update ảnh đại diện danh mục
 exports.updateADD = (req, res, next) => {
     const file = req.file
     if (!file) {
@@ -149,16 +143,16 @@ exports.updateADD = (req, res, next) => {
         return next(error);
     }
 
-        if(req.body.hinhdd != ''){
-            const fs = require('fs');
-            const fileNameCu = req.body.hinhdd;
-            const filePath = '/images/danhmuc/' + fileNameCu; 
-          
-            fs.unlink("app/public"+ filePath,function(err){
-                if(err) throw err;
-                console.log('File deleted!');
-            });
-        }
+    if(req.body.hinhdd != ''){
+        const fs = require('fs');
+        const fileNameCu = req.body.hinhdd;
+        const filePath = '/images/danhmuc/' + fileNameCu; 
+        
+        fs.unlink("app/public"+ filePath,function(err){
+            if(err) throw err;
+            console.log('File deleted!');
+        });
+    }
     
     Danhmuc.updateADD(req.params.madm, file.filename, (err, result) => {
         if (!err) {
@@ -168,5 +162,22 @@ exports.updateADD = (req, res, next) => {
         }
     });
 }
+
+//======================= GIAO DIEN KHACHHANG ======================= 
+// Hiển thị danh mục bên phía khách hàng
+exports.findAllKHdm = (req, res) => {
+    res.locals.deleted = req.query.deleted;
+    const tendm = req.query.tendm;
+    Danhmuc.getAll(tendm, (err, danhmuc) => {
+        if (err)
+            res.redirect('/500')
+        else {
+            res.render('shop',  {danhmuc: danhmuc, layout: './master'});
+             console.log(danhmuc);
+        }
+   
+    });
+};
+
 
 

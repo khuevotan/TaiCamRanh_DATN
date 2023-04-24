@@ -11,7 +11,6 @@ const Baiviet = function(baiviet){
 };
 
 
-
 Baiviet.create = (newbaiviet, result) => {
     sql.query("INSERT INTO baiviet SET ?", newbaiviet, (err, res) => {
         if (err) {
@@ -75,11 +74,11 @@ Baiviet.getAllAD = (tenbv, result) => {
     });
 };
 
-
+// Cập nhật bài viết tin tức bên phía admin.
 Baiviet.updateBymabv = (mabv, baiviet, result) => {
     sql.query(
-        "UPDATE baiviet SET tenbv = ?, noidung = ?, hinhdd = ?, hinhdd = ? , ngaydang = ? WHERE mabv = ?",
-        [baiviet.tenbv, baiviet.noidung , baiviet.hinhdd, baiviet.hinhdd , baiviet.ngaydang,  mabv],
+        "UPDATE baiviet SET tenbv = ?, mota = ?, hinhdd = ?, noidung = ? WHERE mabv = ?",
+        [baiviet.tenbv, baiviet.mota , baiviet.hinhdd, baiviet.noidung ,  mabv],
         (err, res) => {
             if (err) {
                 console.log("error: ", err);
@@ -114,20 +113,7 @@ Baiviet.remove = (mabv, result) => {
     });
 };
 
-Baiviet.removeAll = result => {
-    sql.query("DELETE FROM baiviet", (err, res) => {
-        if (err) {
-            console.log("error: ", err);
-            result(null, err);
-            return;
-        }
-        console.log(`deleted ${res.affectedRows} baiviet`);
-        result(null, res);
-    });
-};
-
-
-// update ảnh đại diện sản phẩm
+// update ảnh đại diện bài viết
 Baiviet.updateADD = (mabv, hinhdd, result) => {
     sql.query(
         "UPDATE baiviet SET hinhdd = ? WHERE mabv = ?",
@@ -146,6 +132,5 @@ Baiviet.updateADD = (mabv, hinhdd, result) => {
         }
     );
 };
-
 
 module.exports = Baiviet;

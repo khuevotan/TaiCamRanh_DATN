@@ -35,7 +35,7 @@
                             <div class="ibox-title">
                               
                                     <div style="color: rgb(255, 255, 255);">
-                                        Đã xảy ra lỗi khi cập nhật Danh Mục!
+                                        Đã xảy ra lỗi khi cập nhật TRẠNG THÁI!
                                     </div>
                             </div>
                             <div class="ibox-tools">
@@ -46,7 +46,7 @@
                             <div class="ibox ibox-info">
                                 <div class="ibox-head">
                                     <div class="ibox-title">
-                                        MÃ DANH MỤC: <%= trangthai.matt %>
+                                        MÃ TRẠNG THÁI: <%= trangthai.matt %>
                                         <div style="color: rgb(255, 255, 255);">
                                           
                                         </div>
@@ -61,7 +61,7 @@
             <div class="ibox ibox-info">
                 <div class="ibox-head">
                     <div class="ibox-title">
-                        MÃ DANH MỤC: <%= trangthai.matt %>
+                        MÃ TRẠNG THÁI: <%= trangthai.matt %>
                         <div style="color: rgb(255, 255, 255);">
                           
                         </div>
@@ -112,12 +112,8 @@
     $("#form-sample-1").validate({
         rules: {
             tentt: {
-                rangelength: [2, 50],
+                rangelength: [2, 255],
                 required: !0
-            },
-            motact: {
-                required: !0,
-                rangelength: [2, 300],
             }
         },
         errorClass: "help-block error",

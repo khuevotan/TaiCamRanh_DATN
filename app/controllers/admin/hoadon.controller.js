@@ -3,51 +3,161 @@ const CTHoaDon = require("../../models/CTHoaDon.model");
 const TrangThai = require("../../models/TrangThai.model");
 const SanPham = require("../../models/SanPham.model");
 
-// Show form create hoadon
-exports.create = (req, res) => {
-    res.locals.status = req.query.status;
-    res.render('hoadon/create');
-}
-
-// Create and Save a new hoadon
-exports.store = (req, res) => {
-    // Validate request
-    if (!req.body) {
-        res.redirect('/hoadon/create?status=error')
-    }
-
-    // Create a hoadon
-    const hoadon = new hoadon({
-        tenbv: req.body.tenbv,
-        thoigian: req.body.thoigian,
-        motact: req.body.motact,
-        giatien: req.body.giatien
-    });
-    // Save hoadon in the database
-    HoaDon.create(hoadon, (err, data) => {
-        if (err)
-            res.redirect('/hoadon/create?status=error')
-        else res.redirect('/hoadon/create?status=success')
-    });
-};
-
-// Retrieve all hoadon from the database (with condition).
+//======================= GIAO DIEN ADMIN ======================= 
+// Hiển thị danh sách hóa đơn.
 exports.findAll = (req, res) => {
     res.locals.deleted = req.query.deleted;
-    const tenbv = req.query.tenbv;
-    HoaDon.getAll(tenbv, (err, data) => {
+    const tenhd = req.query.tenhd;
+    const tentt = req.query.tentt;
+    HoaDon.getAllAD(tenhd, (err, data) => {
         if (err)
             res.redirect('/500')
         else {
-            res.render('hoadon/indexdv', {
-                hoadon: data,
-                layout: './master2'
+            TrangThai.getAll(tentt, (err, trangthai) => {
+                if (err)
+                    res.redirect('/500')
+                else {
+                    res.render('hoadon/indexhd', {
+                        hoadon: data,
+                        trangthai: trangthai,
+                        layout: './master3'
+                    });
+                }
             });
         }
 
     });
 };
 
+// Chỉnh sửa thông tin hóa đơn.
+exports.edit = (req, res) => {
+    res.locals.status = req.query.status;
+    const tentt = req.query.tentt;
+    HoaDon.findBymahd(req.params.mahd, (err, data) => {
+        if (err) {
+            if (err.kind === "not_found") {
+                res.redirect('/404');
+            } else {
+                res.redirect('/500');
+            }
+        } else {
+
+            TrangThai.getAll(tentt, (err, trangthai) => {
+                if (err)
+                    res.redirect('/500')
+                else {
+                    res.render('hoadon/edithd', {
+                        hoadon: data,
+                        trangthai: trangthai,
+                        layout: './master2'
+                    });
+                }
+            });
+        }
+    });
+};
+
+// Cập nhật hóa đơn khi nhấn nút Update.
+exports.update = (req, res) => {
+    // Validate Request
+    if (!req.body) {
+        res.redirect('/admin/hoadon/edit/' + req.params.mahd + '?status=error')
+    }
+
+    res.locals.nhanvien = req.session.nhanvien
+    const manv = res.locals.nhanvien.manv;
+
+     // Create a hoadon
+     const hoadon = new HoaDon({
+        tennguoinhan: req.body.tennguoinhan,
+        ngaygiao: req.body.ngaygiao,
+        sodt: req.body.sodt,
+        diachi: req.body.diachi,
+        ghichu: req.body.ghichu,
+        thanhtoan: req.body.thanhtoan,
+        matt: req.body.matt,
+        manv: manv,
+    });
+
+    HoaDon.updateBymahd(
+        req.params.mahd,
+        hoadon,
+        (err, data) => {
+            if (err) {
+                if (err.kind === "not_found") {
+                    res.redirect('/404');
+                } else {
+                    res.redirect('/500');
+                }
+            } else res.redirect('/admin/hoadon/edit/' + req.params.mahd + '?status=success');
+        }
+    );
+};
+
+// Xóa thông tin hóa đơn đặt hàng.
+exports.delete = (req, res) => {
+
+    CTHoaDon.remove(req.params.mahd, (err, data) => {if (err) {
+        if (err.kind === "not_found") {
+            res.redirect('/404');
+        } else {
+            res.redirect('/500');
+        }
+    } else {
+            HoaDon.remove(req.params.mahd, (err, data) => {
+                res.redirect('/admin/hoadon/index?deleted=true')
+        });
+    }
+    });
+};
+
+// Xem chi tiết một đơn đặt hàng.
+exports.details = (req, res) => {
+    res.locals.status = req.query.status;
+    const tensp = req.query.tensp;
+    HoaDon.findBymahd(req.params.mahd, (err, data) => {
+        if (err) {
+            if (err.kind === "not_found") {
+                res.redirect('/404');
+            } else {
+                res.redirect('/500');
+            }
+        } else {
+            TrangThai.findBymatt(data.matt, (err, trangthai) => {
+                if (err)
+                    res.redirect('/500')
+                else {
+                    CTHoaDon.findBymahd(req.params.mahd, (err, cthd) => {
+                        if (err)
+                            res.redirect('/500')
+                          
+                        else {
+                           
+                            SanPham.getAll(tensp, (err, sanpham) => {
+                                if (err)
+                                    res.redirect('/500')
+                                else {
+                                    res.render('hoadon/detailshd', {
+                                        hoadon: data,
+                                        trangthai: trangthai,
+                                        cthd: cthd,
+                                        sanpham: sanpham,
+                                        layout: './master2'
+                                    });
+
+                                    
+                                }
+                            });
+
+                        }
+                    });
+                }
+            });
+        }
+    });
+};
+
+//======================= GIAO DIEN KHACH HANG ======================= 
 // Hiển thị hóa đơn đặt hàng bên phía khach hàng
 exports.findAllKH = (req, res) => {
     res.locals.deleted = req.query.deleted;
@@ -74,34 +184,7 @@ exports.findAllKH = (req, res) => {
     });
 };
 
-// Hiển thị hóa đơn lịch sử đặt lịch bên phía khách hàng
-exports.findAllKHLS = (req, res) => {
-
-    res.locals.deleted = req.query.deleted;
-
-    res.locals.khachhang = req.session.khachhang
-    const makh = res.locals.khachhang.makh;
-    const tentt = req.query.tentt;
-    HoaDon.getLSAll(makh, (err, data) => {
-        if (err)
-            res.redirect('/500')
-        else {
-            TrangThai.getAll(tentt, (err, trangthai) => {
-                if (err)
-                    res.redirect('/500')
-                else {
-                    res.render('lsdathang', {
-                        hoadon: data,
-                        trangthai: trangthai,
-                        layout: './master'
-                    });
-                }
-            });
-        }
-    });
-};
-
-// Hiển thị chi tiết 1 đơn đặt hàng
+// Hiển thị chi tiết một đơn đặt hàng bên phía khach hàng
 exports.chitietdathang = (req, res) => {
     res.locals.status = req.query.status;
     const tensp = req.query.tenlx;
@@ -135,62 +218,29 @@ exports.chitietdathang = (req, res) => {
     });
 };
 
-// Find a single hoadon with a madm
-exports.edit = (req, res) => {
-    res.locals.status = req.query.status;
+// Hiển thị hóa đơn lịch sử đặt lịch bên phía khách hàng
+exports.findAllKHLS = (req, res) => {
 
-    HoaDon.findByMaDM(req.params.madm, (err, data) => {
-        if (err) {
-            if (err.kind === "not_found") {
-                res.redirect('/404');
-            } else {
-                res.redirect('/500');
-            }
-        } else res.render('hoadon/edit', {
-            hoadon: data
-        });
-    });
-};
+    res.locals.deleted = req.query.deleted;
 
-// Update a hoadon identified by the id in the request
-exports.update = (req, res) => {
-    // Validate Request
-    if (!req.body) {
-        res.redirect('/hoadon/edit/' + req.params.madm + '?status=error')
-    }
-
-    HoaDon.updateByMaDM(
-        req.params.madm,
-        new hoadon(req.body),
-        (err, data) => {
-            if (err) {
-                if (err.kind === "not_found") {
-                    res.redirect('/404');
-                } else {
-                    res.redirect('/500');
-                }
-            } else res.redirect('/hoadon/edit/' + req.params.madm + '?status=success');
-        }
-    );
-};
-// Delete a hoadon with the specified id in the request
-exports.delete = (req, res) => {
-    HoaDon.remove(req.params.madm, (err, data) => {
-        if (err) {
-            if (err.kind === "not_found") {
-                res.redirect('/404');
-            } else {
-                res.redirect('/500');
-            }
-        } else res.redirect('/hoadon?deleted=true')
-    });
-};
-
-// Delete all hoadon from the database.
-exports.deleteAll = (req, res) => {
-    HoaDon.removeAll((err, data) => {
+    res.locals.khachhang = req.session.khachhang
+    const makh = res.locals.khachhang.makh;
+    const tentt = req.query.tentt;
+    HoaDon.getLSAll(makh, (err, data) => {
         if (err)
-            res.redirect('/500');
-        else res.redirect('/hoadon?deleted=true')
+            res.redirect('/500')
+        else {
+            TrangThai.getAll(tentt, (err, trangthai) => {
+                if (err)
+                    res.redirect('/500')
+                else {
+                    res.render('lsdathang', {
+                        hoadon: data,
+                        trangthai: trangthai,
+                        layout: './master'
+                    });
+                }
+            });
+        }
     });
 };

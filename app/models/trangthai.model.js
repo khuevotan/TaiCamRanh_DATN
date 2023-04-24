@@ -89,16 +89,4 @@ TrangThai.remove = (matt, result) => {
     });
 };
 
-TrangThai.removeAll = result => {
-    sql.query("DELETE FROM trangthai", (err, res) => {
-        if (err) {
-            console.log("error: ", err);
-            result(null, err);
-            return;
-        }
-        console.log(`deleted ${res.affectedRows} trangthai`);
-        result(null, res);
-    });
-};
-
 module.exports = TrangThai;

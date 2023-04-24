@@ -1,9 +1,9 @@
 const Nhom = require("../../models/nhom.model");
 
-// Show form create nhom
+// Hiển thị form thêm mới nhóm
 exports.create = (req, res) => {
     res.locals.status = req.query.status;
-    res.render('nhom/createts',  {layout: './master2'});
+    res.render('nhom/createnh',  {layout: './master2'});
 }
 
 // Create and Save a new nhom
@@ -27,64 +27,62 @@ exports.store = (req, res) => {
     });
 };
 
-// Retrieve all nhom from the database (with condition).
+// Hiển thị danh sách nhóm bên phía admin.
 exports.findAll = (req, res) => {
     res.locals.deleted = req.query.deleted;
-    const tents = req.query.tents;
-    Nhom.getAll(tents, (err, data) => {
+    Nhom.getAll((err, data) => {
         if (err)
             res.redirect('/500')
         else {
-            res.render('nhom/indexts',  {nhom: data, layout: './master3'});
+            res.render('nhom/indexnh',  {nhom: data, layout: './master3'});
         }
     });
 };
 
-// Find a single nhom with a mats
+// Chỉnh sửa thông tin một nhóm bên phía admin.
 exports.edit = (req, res) => {
     res.locals.status = req.query.status;
 
-    Nhom.findBymats(req.params.mats, (err, data) => {
+    Nhom.findByNhom(req.params.manhom, (err, data) => {
         if (err) {
             if (err.kind === "not_found") {
                 res.redirect('/404');
             } else {
                 res.redirect('/500');
             }
-        } else res.render('nhom/editts', { nhom: data,  layout: './master2'});
+        } else res.render('nhom/editnh', { nhom: data,  layout: './master2'});
     });
 };
 
+// Xem chi tiết thông tin một nhóm bên phía admin.
 exports.details = (req, res) => {
     res.locals.status = req.query.status;
 
-    Nhom.findBymats(req.params.mats, (err, data) => {
+    Nhom.findByNhom(req.params.manhom, (err, data) => {
         if (err) {
             if (err.kind === "not_found") {
                 res.redirect('/404');
             } else {
                 res.redirect('/500');
             }
-        } else res.render('nhom/detailsts', { nhom: data,  layout: './master2'});
+        } else res.render('nhom/detailsnh', { nhom: data,  layout: './master2'});
     });
 };
 
-// Update a nhom identified by the id in the request
+// Cập nhật thông tin nhóm bên phía admin.
 exports.update = (req, res) => {
 
     // Validate Request
     if (!req.body) {
-        res.redirect('/admin/nhom/edit/' + req.params.mats + '?status=error')
+        res.redirect('/admin/nhom/edit/' + req.params.manhom + '?status=error')
     }
 
     const nhom = new Nhom({
-        tents: req.body.tents,
-        hinhdd: req.body.hinhdd,
-        motact: req.body.motact,
+        tennhom: req.body.tennhom,
     });
 
-    Nhom.updateBymats(
-        req.params.mats,
+    Nhom.updateByMaNhom(
+        req.params.manhom,
         nhom,
         (err, data) => {
             if (err) {
@@ -93,31 +91,8 @@ exports.update = (req, res) => {
                 } else {
                     res.redirect('/500');
                 }
-            } else res.redirect('/admin/nhom/edit/' + req.params.mats + '?status=success');
+            } else res.redirect('/admin/nhom/edit/' + req.params.manhom + '?status=success');
         }
     );
 };
-
-// Delete a nhom with the specified id in the request
-exports.delete = (req, res) => {
-    Nhom.remove(req.params.mats, (err, data) => {
-        if (err) {
-            if (err.kind === "not_found") {
-                res.redirect('/404');
-            } else {
-                res.redirect('/500');
-            }
-        } else res.redirect('/admin/nhom/index?deleted=true')
-    });
-};
-
-// Delete all nhom from the database.
-exports.deleteAll = (req, res) => {
-    Nhom.removeAll((err, data) => {
-        if (err)
-            res.redirect('/500');
-        else res.redirect('/nhom?deleted=true')
-    });
-};
-
 

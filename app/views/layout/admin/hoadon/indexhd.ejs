@@ -1,6 +1,6 @@
 
     <div class="page-heading">
-        <h1 class="page-title">Danh Sách Các Danh Mục</h1>
+        <h1 class="page-title">Danh Sách Các Hóa Đơn Đặt Hàng</h1>
         <ol class="breadcrumb">
             <li class="breadcrumb-item">
                 <a href="index.html"><i class="la la-home font-20"></i></a>
@@ -38,28 +38,49 @@
                 <table class="table table-striped table-bordered table-hover" id="example-table" cellspacing="0" width="100%">
                     <thead>
                         <tr>
-                            <th>MãDanhMục</th>
-                            <th>TênDanhMục</th>
-                            <th>HìnhĐạiDiện</th>
-                            <th>MôTảCT</th>
+                            <th>MãHóaĐơn</th>
+                            <th>NgàyĐặt</th>
+                            <th>NgàyGiao</th>
+                            <th>TênNgườiNhận</th>
+                            <th>SốĐT</th>
+                            <th>ĐịaChỉ</th>
+                            <th>GhiChú</th>
+                            <th>TổngTiền</th>
+                            <th>ThanhToán</th>
+                            <th>TrạngThái</th>
+                            <th>MãNV</th>
+                            <th>MãKH</th>
                             <th>HànhĐộng</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <% danhmuc.forEach((item) => { %>
+                        <% hoadon.forEach((item) => { %>
                         <tr>
-                            <td><%= item.madm %></td>
-                            <td><%= item.tendm %></td>
-                            <td> 
-                                <div class="popup">
-                                    <img src="/images/danhmuc/<%= item.hinhdd %>" />
-                                  </div>
-                            </td>
-                            <td><%= item.motact %></td>
+                            <td><%= item.mahd %></td>
+                            <td><%= moment(item.ngaydat).format('DD-MM-YYYY')  %></td>
+                            <td><%= moment(item.ngaygiao).format('DD-MM-YYYY')  %></td>
+                            <td><%= item.tennguoinhan %></td>
+                            <td><%= item.sodt %></td>
+                            <td><%= item.diachi %></td>
+                          
+                            <td><%= item.ghichu %></td>  
+                            <td><%= item.tongtiensp %></td>  
+                            <td>
+                                <%if (item.thanhtoan == 1) { %>
+                                    Chưa Thanh Toán
+                                    <% }else { %>
+                                        Đã Thanh Toán
+                                    <%  } %>
+                            </td>  
+
+                            <td><%= item.matt %></td>  
+                            <td><%= item.manv %></td>  
+                            <td><%= item.makh %></td>  
+
                                 <td>
-                                    <a href="/admin/danhmuc/details/<%= item.madm %>" class="btn btn-default btn-xs m-r-5" data-toggle="tooltip" data-original-title="Details"><i class="fa fa-info font-14"></i></a>
-                                    <a href="/admin/danhmuc/edit/<%= item.madm %>" class="btn btn-default btn-xs m-r-5" data-toggle="tooltip" data-original-title="Edit"><i class="fa fa-pencil font-14"></i></a>
-                                    <a href="/admin/danhmuc/delete/<%= item.madm %>" onclick="return confirm('Bạn có chắc chăn muốn xóa không?')" class="btn btn-default btn-xs" data-toggle="tooltip" data-original-title="Delete"><i class="fa fa-trash font-14"></i></a>
+                                    <a href="/admin/hoadon/details/<%= item.mahd %>" class="btn btn-default btn-xs m-r-5" data-toggle="tooltip" data-original-title="Details"><i class="fa fa-info font-14"></i></a>
+                                    <a href="/admin/hoadon/edit/<%= item.mahd %>" class="btn btn-default btn-xs m-r-5" data-toggle="tooltip" data-original-title="Edit"><i class="fa fa-pencil font-14"></i></a>
+                                    <a href="/admin/hoadon/delete/<%= item.mahd %>" onclick="return confirm('Bạn có chắc chăn muốn xóa không?')" class="btn btn-default btn-xs" data-toggle="tooltip" data-original-title="Delete"><i class="fa fa-trash font-14"></i></a>
                                 </td>
                         </tr>     
                         <% }) %>  
@@ -74,6 +95,7 @@
         $('#example-table').DataTable({
             pageLength: 10,
             dom: 'Bfrtip',
+            scrollX: true,
             buttons: [
                 'copy', 'csv', 'excel', 'pdf', 'print'
             ]

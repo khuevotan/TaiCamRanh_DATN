@@ -49,7 +49,21 @@
                         <img src="/images/avatarad/<%= nhanvien.hinhdd %>" width="45px" />
                     </div>
                     <div class="admin-info">
-                        <div class="font-strong"><%= nhanvien.honv %><%= nhanvien.tennv %></div><small><%= nhanvien.manhom %></small></div>
+                        <div class="font-strong"><%= nhanvien.honv %><%= nhanvien.tennv %></div>
+                        <small>
+                            <% if(nhanvien.manhom == 1){ %>
+                                Quản Lý
+                            <% } %>
+
+                            <% if(nhanvien.manhom == 2){ %>
+                                Nhân Viên Bán Hàng
+                            <% } %>
+
+                            <% if(nhanvien.manhom == 3){ %>
+                                Nhân Viên Rửa Xe
+                            <% } %>
+                        </small>
+                    </div>
                 </div>
                 <ul class="side-menu metismenu">
                     <li>
@@ -80,7 +94,7 @@
                     </li>
 
                     <!-- Loại Xe - Giờ Rửa -->
-                    <li>
+                      <li>
                         <a href="javascript:;"><i class="sidebar-item-icon fa fa-car"></i>
                             <span class="nav-label">Loại Xe - Giờ Rửa</span><i class="fa fa-angle-left arrow"></i></a>
                             
@@ -108,9 +122,9 @@
                             <li>
                                 <a href="/admin/hoadonrx/index">Xem Danh Sách</a>
                             </li>
-                            <!-- <li>
-                                <a href="datatables.html">Datatables</a>
-                            </li> -->
+                            <li>
+                                <a href="/admin/hoadonrx/chonngay">Thêm Đơn Đặt Lịch</a>
+                            </li>
                         </ul>
                     </li>
 
@@ -121,6 +135,9 @@
                         <ul class="nav-2-level collapse">
                             <li>
                                 <a href="/admin/hoadon/index">Xem Danh Sách</a>
+                            </li>
+                            <li>
+                                <a href="/admin/hoadon/create">Thêm Đơn Đặt Hàng</a>
                             </li>
                         </ul>
                     </li>
@@ -138,9 +155,6 @@
                             </li>
                             <li>
                                 <a href="/admin/nhom/index">Danh Sách Nhóm</a>
-                            </li>
-                            <li>
-                                <a href="/admin/nhom/create">Thêm Nhóm</a>
                             </li>
                         </ul>
                     </li>
@@ -171,19 +185,7 @@
                         </ul>
                     </li>
 
-                    <!-- Trạng Thái -->
-                    <li>
-                        <a href="javascript:;"><i class="sidebar-item-icon fa fa-battery-half"></i>
-                            <span class="nav-label">Trạng Thái</span><i class="fa fa-angle-left arrow"></i></a>
-                        <ul class="nav-2-level collapse">
-                            <li>
-                                <a href="/admin/trangthai/index">Xem Danh Sách</a>
-                            </li>
-                            <li>
-                                <a href="/admin/trangthai/create">Thêm Trạng Thái</a>
-                            </li>
-                        </ul>
-                    </li>
+                   
 
                     <!-- Bài Viết -->
                     <li>
@@ -202,7 +204,7 @@
                     <!-- thống kê -->
                     <li>
                         <a href="javascript:;"><i class="sidebar-item-icon fa fa-map"></i>
-                            <span class="nav-label">Thống Kê</span><i class="fa fa-angle-left arrow"></i></a>
+                            <span class="nav-label">Thống Kê</span></a>
                     </li>
                     
                     <li class="heading">Hệ Thống</li>
