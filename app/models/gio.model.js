@@ -26,7 +26,7 @@ Gio.findBymagio = (magio, result) => {
             return;
         }
         if (res.length) {
-            console.log("found gio: ", res[0]);
+            // console.log("found gio: ", res[0]);
             result(null, res[0]);
             return;
         }

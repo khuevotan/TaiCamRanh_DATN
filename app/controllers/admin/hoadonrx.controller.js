@@ -76,7 +76,6 @@ exports.showDLForm = (req, res) => {
     });
 };
 
-
 // Show form create hoadonrx
 exports.create = (req, res) => {
     res.locals.status = req.query.status;

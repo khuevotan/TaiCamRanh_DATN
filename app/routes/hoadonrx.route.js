@@ -5,6 +5,10 @@ module.exports = app => {
     const hoadonrx = require("../controllers/admin/hoadonrx.controller");
     var router = require("express").Router();
 
+    const pdfController = require('../controllers/admin/pdf.controller');
+
+    router.get('/pdf/:mahdrx', pdfController.print); 
+
     // Hiển thị danh sách các hóa đơn rx
     router.get("/index",authMiddleware.loggedinad, hoadonrx.findAll);
 

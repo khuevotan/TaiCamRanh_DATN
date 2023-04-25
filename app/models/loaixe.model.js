@@ -26,7 +26,7 @@ LoaiXe.findBymalx = (malx, result) => {
             return;
         }
         if (res.length) {
-            console.log("found loaixe: ", res[0]);
+            // console.log("found loaixe: ", res[0]);
             result(null, res[0]);
             return;
         }
