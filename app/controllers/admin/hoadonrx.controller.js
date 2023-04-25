@@ -58,8 +58,6 @@ exports.showDLForm = (req, res) => {
                 if (err)
                     res.redirect('/500')
                 else {
-
-
                     Gio.getAllKH(ngayrua, MAX_ĐL.giatri, (err, gio) => {
                         if (err)
                             res.redirect('/500')
@@ -78,13 +76,6 @@ exports.showDLForm = (req, res) => {
     });
 };
 
-// TEST
-exports.showDLForm2 = (req, res) => {
-    res.locals.status = req.query.status;
-    res.render('loaixe/createlx', {
-        layout: './master2'
-    });
-};
 
 // Show form create hoadonrx
 exports.create = (req, res) => {
@@ -125,6 +116,9 @@ exports.datlich = (req, res) => {
 
     // Save khachhang in the database
     HoaDonRX.create(hoadonrx, (err, data) => {
+
+        const ngayrua = req.body.ngayrua;
+
         if (err)
             res.redirect('/admin/hoadonrx/create/' + ngayrua + '?status=error')
         else res.redirect('/admin/hoadonrx/create/' + ngayrua + '?status=success')

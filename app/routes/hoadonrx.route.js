@@ -12,8 +12,7 @@ module.exports = app => {
         .post('/chonngay', authMiddleware.loggedinad, hoadonrx.chonNgay)
 
     router.get('/create/:ngayrua', authMiddleware.loggedinad, hoadonrx.showDLForm)
-    router.get('/create/', authMiddleware.loggedinad, hoadonrx.showDLForm2)
-        
+ 
     // Nhấn nút đặt lịch
     router.post("/datlich", authMiddleware.loggedinad, hoadonrx.datlich);
 

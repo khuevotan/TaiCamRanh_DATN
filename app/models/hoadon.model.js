@@ -81,46 +81,61 @@ HoaDon.getAll = (makh, result) => {
     });
 };
 
-// Thống kê
-// HoaDon.Where(x => x.matt == "1" ).Count();
-// Số lượng hóa đơn đặt hàng chưa duyệt
-HoaDon.getAllChuaDuyet = (result) => {
+// Thống kê đơn giản khi admin đăng nhập vào.
+HoaDon.thongKeDG = (result) => {
+    // Số lượng hóa đơn chưa được duyệt.
     let query = `SELECT COUNT(*) FROM hoadon WHERE matt = 1`;
 
-    let query2 = `SELECT COUNT(*) FROM hoadon WHERE matt = 2`;
+    // Doanh thu hóa đơn đặt hàng ngày hôm nay.
+    let query2 = `SELECT SUM(tongtiensp) FROM hoadon WHERE DATE(ngaydat) = CURDATE()`;
+
+    // Doanh thu hóa đơn đặt hàng tháng này.
+    let query3 = `SELECT SUM(tongtiensp) FROM hoadon WHERE MONTH(ngaydat) = MONTH(CURDATE()) AND YEAR(ngaydat) = YEAR(CURDATE())`;
+
+    // Doanh thu hóa đơn đặt hàng 7 ngày gần nhất.
+    let queryn6 = `SELECT SUM(tongtiensp) FROM hoadon WHERE DATEDIFF(NOW(), ngaydat) = 6;`;
+    let queryn5 = `SELECT SUM(tongtiensp) FROM hoadon WHERE DATEDIFF(NOW(), ngaydat) = 5;`;
+    let queryn4 = `SELECT SUM(tongtiensp) FROM hoadon WHERE DATEDIFF(NOW(), ngaydat) = 4;`;
+    let queryn3 = `SELECT SUM(tongtiensp) FROM hoadon WHERE DATEDIFF(NOW(), ngaydat) = 3;`;
+    let queryn2 = `SELECT SUM(tongtiensp) FROM hoadon WHERE DATEDIFF(NOW(), ngaydat) = 2;`;
+    let queryn1 = `SELECT SUM(tongtiensp) FROM hoadon WHERE DATEDIFF(NOW(), ngaydat) = 1;`;
+    let queryn0 = `SELECT SUM(tongtiensp) FROM hoadon WHERE DATEDIFF(NOW(), ngaydat) = 0;`;
 
     sql.query(query, (err, res1) => {
         sql.query(query2, (err, res2) => {
-            result(null, res1, res2);
+            sql.query(query3, (err, res3) => {
+                sql.query(queryn6, (err, ngay6) => {
+                    sql.query(queryn5, (err, ngay5) => {
+                        sql.query(queryn4, (err, ngay4) => {
+                            sql.query(queryn3, (err, ngay3) => {
+                                sql.query(queryn2, (err, ngay2) => {
+                                    sql.query(queryn1, (err, ngay1) => {
+                                        sql.query(queryn0, (err, ngay0) => {
+                                            result(null, res1, res2, res3,ngay6, ngay5, ngay4, ngay3, ngay2, ngay1, ngay0);
+                                        });
+                                    });
+                                });
+                            });
+                        });
+                    });
+                });
+            });
         });
     });
-
-   
 };
 
-// Doanh thu ngày hôm nay
-HoaDon.doanhThuNgayHN = (result) => {
-    let query = `SELECT SUM(tongtiensp) FROM hoadon WHERE DATE(ngaydat) = CURDATE()`;
-    sql.query(query, (err, res) => {
-        result(null, res);
-    });
-};
+// Thống kê so sánh
+HoaDon.thongKeSS = (result) => {
+     // Số lượng đơn đặt hàng trong tuần này.
+     let sldathangttuan = `SELECT COUNT(*) FROM hoadon WHERE ngaydat >= DATE_SUB(CURDATE(), INTERVAL WEEKDAY(CURDATE()) DAY) AND ngaydat < DATE_ADD(DATE_SUB(CURDATE(), INTERVAL WEEKDAY(CURDATE()) DAY), INTERVAL 7 DAY)`;
 
-// Doanh thu tháng này
-HoaDon.doanhThuThangNay = (result) => {
-    let query = `SELECT SUM(tongtiensp) FROM hoadon WHERE MONTH(ngaydat) = MONTH(CURDATE()) AND YEAR(ngaydat) = YEAR(CURDATE())`;
-    sql.query(query, (err, res) => {
-        result(null, res);
-    });
-};
+     // Số lượng đơn đặt hàng trong tuần trước.
+     let sldathangttruoc = `SELECT COUNT(*) FROM hoadon WHERE ngaydat >= DATE_SUB(CURDATE(), INTERVAL WEEKDAY(CURDATE()) + 7 DAY) AND ngaydat < DATE_ADD(DATE_SUB(CURDATE(), INTERVAL WEEKDAY(CURDATE()) + 7 DAY), INTERVAL 7 DAY)`;
 
-
-HoaDon.dtTungNgay = (result) => {
-    let query6 = `SELECT SUM(tongtiensp) FROM hoadon WHERE DATEDIFF(NOW(), ngaydat) = 6;`;
-  
-   
-    sql.query(query6, (err, res) => {
-            result(null, res);
+     sql.query(sldathangttuan, (err, sldathangttuan) => {
+        sql.query(sldathangttruoc, (err, sldathangttruoc) => {
+            result(null, sldathangttuan, sldathangttruoc);
+        });
     });
 };
 
@@ -145,7 +160,7 @@ HoaDon.updateThanhToan = (mahd , result) => {
     );
 };
 
-// hiển thị lịch sử hóa đơn đặt hàng bên phía khách hàng
+// Hiển thị lịch sử hóa đơn đặt hàng bên phía khách hàng
 HoaDon.getLSAll = (makh, result) => {
     let query = `SELECT * FROM hoadon WHERE makh = ${makh} and matt = 4 and thanhtoan = 2`;
    
@@ -197,19 +212,6 @@ HoaDon.remove = (mahd , result) => {
         result(null, res);
     });
 };
-
-HoaDon.removeAll = result => {
-    sql.query("DELETE FROM hoadon", (err, res) => {
-        if (err) {
-            console.log("error: ", err);
-            result(null, err);
-            return;
-        }
-        console.log(`deleted ${res.affectedRows} hoadon`);
-        result(null, res);
-    });
-};
-
 
 HoaDon.updateThanhToan = (mahd, result) => {
     sql.query(

@@ -21,10 +21,11 @@ exports.register = (req, res) => {
         luong,
         diachi,
         sodt,
+        manhom,
         ngaysinh
     } = req.body;
 
-    if (honv && tennv && taikhoan && matkhau && luong && matkhauxn && gioitinh && diachi && sodt && ngaysinh && email) {
+    if (honv && tennv && taikhoan && matkhau && luong && matkhauxn && gioitinh && diachi && sodt && ngaysinh && email && manhom) {
         NhanVien.findByTaikhoanvaEmail(taikhoan, email, (err, nhanvien) => {
             if (err || nhanvien) {
                 // A nhanvien with that email address does not exists
@@ -60,6 +61,7 @@ exports.register = (req, res) => {
                                 diachi: diachi,
                                 hinhdd: "nhanvien.png",
                                 kichhoat: 1,
+                                manhom: manhom, 
                                 ngaytaotk: new Date(),
                                 sodt: sodt,
                                 ngaysinh: ngaysinh,

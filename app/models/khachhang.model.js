@@ -13,7 +13,7 @@ const KhachHang = function(khachhang){
     this.hinhdd= khachhang.hinhdd;
     this.email = khachhang.email;
     this.kichhoat = khachhang.kichhoat;
-    this.email_verified_at = khachhang.email_verified_at;
+    this.ngaytaotk = khachhang.ngaytaotk;
 };
 
 KhachHang.create = (newKhachhang, result) => {

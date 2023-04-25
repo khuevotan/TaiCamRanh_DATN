@@ -175,32 +175,63 @@ HoaDonRX.remove = (mahdrx, result) => {
     });
 };
 
-// Thống kê
-// HoaDon.Where(x => x.matt == "1" ).Count();
-HoaDonRX.getAllChuaDuyet = (result) => {
+// Thống kê đơn giản khi admin đăng nhập vào.
+HoaDonRX.thongKeDG = (result) => {
+    
+    // Số lượng hóa đơn rửa xe chưa được duyệt.
     let query = `SELECT COUNT(*) FROM hoadonrx WHERE matt = 1`;
 
-    sql.query(query, (err, res) => {
-        result(null, res);
+    // Doanh thu hóa đơn rửa xe ngày hôm nay.
+    let query2 = `SELECT SUM(tongtienrx) FROM hoadonrx WHERE DATE(ngaydat) = CURDATE()`;
+
+    // Doanh thu hóa đơn rửa xe tháng này.
+    let query3 = `SELECT SUM(tongtienrx) FROM hoadonrx WHERE MONTH(ngaydat) = MONTH(CURDATE()) AND YEAR(ngaydat) = YEAR(CURDATE())`;
+
+    // Doanh thu hóa đơn rửa xe ngày gần nhất.
+    let queryn6 = `SELECT SUM(tongtienrx) FROM hoadonrx WHERE DATEDIFF(NOW(), ngaydat) = 6;`;
+    let queryn5 = `SELECT SUM(tongtienrx) FROM hoadonrx WHERE DATEDIFF(NOW(), ngaydat) = 5;`;
+    let queryn4 = `SELECT SUM(tongtienrx) FROM hoadonrx WHERE DATEDIFF(NOW(), ngaydat) = 4;`;
+    let queryn3 = `SELECT SUM(tongtienrx) FROM hoadonrx WHERE DATEDIFF(NOW(), ngaydat) = 3;`;
+    let queryn2 = `SELECT SUM(tongtienrx) FROM hoadonrx WHERE DATEDIFF(NOW(), ngaydat) = 2;`;
+    let queryn1 = `SELECT SUM(tongtienrx) FROM hoadonrx WHERE DATEDIFF(NOW(), ngaydat) = 1;`;
+    let queryn0 = `SELECT SUM(tongtienrx) FROM hoadonrx WHERE DATEDIFF(NOW(), ngaydat) = 0;`;
+
+    sql.query(query, (err, hdrxcd) => {
+        sql.query(query2, (err, dtrxn) => {
+            sql.query(query3, (err, dtrxt) => {
+                sql.query(queryn6, (err, ngayrx6) => {
+                    sql.query(queryn5, (err, ngayrx5) => {
+                        sql.query(queryn4, (err, ngayrx4) => {
+                            sql.query(queryn3, (err, ngayrx3) => {
+                                sql.query(queryn2, (err, ngayrx2) => {
+                                    sql.query(queryn1, (err, ngayrx1) => {
+                                        sql.query(queryn0, (err, ngayrx0) => {
+                                            result(null, hdrxcd, dtrxn , dtrxt, ngayrx6, ngayrx5, ngayrx4, ngayrx3, ngayrx2, ngayrx1, ngayrx0);
+                                        });
+                                    });
+                                });
+                            });
+                        });
+                    });
+                });
+            });
+        });
     });
 };
 
-// Doanh thu ngày hôm nay
-HoaDonRX.doanhThuNgayHN = (result) => {
-    let query = `SELECT SUM(tongtienrx) FROM hoadonrx WHERE DATE(ngaydat) = CURDATE()`;
-    sql.query(query, (err, res) => {
-        result(null, res);
-    });
-};
+// thống kê số lượng xe đặt rửa xe trong 1 tháng này.
+HoaDonRX.thongkeSLXT = (result) => {
 
-// Doanh thu tháng này
-HoaDonRX.doanhThuThangNay = (result) => {
-    let query = `SELECT SUM(tongtienrx) FROM hoadonrx WHERE MONTH(ngaydat) = MONTH(CURDATE()) AND YEAR(ngaydat) = YEAR(CURDATE())`;
-    sql.query(query, (err, res) => {
-        result(null, res);
-    });
-};
+    // Số lượng xe ứng với mỗi hóa đơn rửa xe trong tháng này.
+    let slxe = `SELECT malx, COUNT(*) AS soluong FROM hoadonrx WHERE MONTH(ngaydat) = MONTH(CURRENT_DATE()) AND YEAR(ngaydat) = YEAR(CURRENT_DATE()) GROUP BY malx;`;
 
+    let query = "SELECT * FROM loaixe";
+    sql.query(slxe, (err, slxe) => {
+       sql.query(query, (err, xe) => {
+           result(null, slxe, xe);
+       });
+   });
+};
 
 
 module.exports = HoaDonRX;

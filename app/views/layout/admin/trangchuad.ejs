@@ -3,7 +3,7 @@
         <div class="col-lg-3 col-md-6">
             <div class="ibox bg-success color-white widget-stat">
                 <div class="ibox-body">
-                    <h2 class="m-b-5 font-strong"> <%= HoaDonNgay %> </h2>
+                    <h2 class="m-b-5 font-strong"> <%= SLHDCD %> </h2>
                     <div class="m-b-5">ĐƠN HÀNG CẦN DUYỆT</div><i class="ti-shopping-cart widget-stat-icon"></i>
                     <div><i class="fa fa-level-up m-r-5"></i><small>25% higher</small></div>
                 </div>
@@ -12,7 +12,7 @@
         <div class="col-lg-3 col-md-6">
             <div class="ibox bg-info color-white widget-stat">
                 <div class="ibox-body">
-                    <h2 class="m-b-5 font-strong"> <%= HoaDonRXNgay %> </h2>
+                    <h2 class="m-b-5 font-strong"> <%= SLHDRXCD %> </h2>
                     <div class="m-b-5">ĐƠN RỬA XE CẦN DUYỆT</div><i class="ti-car widget-stat-icon"></i>
                     <div><i class="fa fa-level-up m-r-5"></i><small>17% higher</small></div>
                 </div>
@@ -21,7 +21,7 @@
         <div class="col-lg-3 col-md-6">
             <div class="ibox bg-warning color-white widget-stat">
                 <div class="ibox-body">
-                    <h2 class="m-b-5 font-strong"><%=  %></h2>
+                    <h2 class="m-b-5 font-strong"><%= (DTN).toLocaleString() %></h2>
                     <div class="m-b-5">DOANH THU NGÀY (VNĐ)</div><i class="fa fa-money widget-stat-icon"></i>
                     <div><i class="fa fa-level-up m-r-5"></i><small>22% higher</small></div>
                 </div>
@@ -30,32 +30,41 @@
         <div class="col-lg-3 col-md-6">
             <div class="ibox bg-danger color-white widget-stat">
                 <div class="ibox-body">
-                    <h2 class="m-b-5 font-strong"><%=  %> </h2>
+                    <h2 class="m-b-5 font-strong"><%= (DTT).toLocaleString() %> </h2>
                     <div class="m-b-5">DOANH THU THÁNG (VNĐ)</div><i class="ti-bar-chart widget-stat-icon"></i>
                     <div><i class="fa fa-level-down m-r-5"></i><small>-12% Lower</small></div>
                 </div>
             </div>
         </div>
     </div>
+
     <div class="row">
         <div class="col-lg-8">
             <div class="ibox">
                 <div class="ibox-body">
                     <div class="flexbox mb-4">
                         <div>
-                            <h3 class="m-0">Statistics</h3>
-                            <div>Your shop sales analytics</div>
+                            <h3 class="m-0">Doanh Thu</h3>
+                            <div>7 ngày qua gần nhất</div>
                         </div>
                         <div class="d-inline-flex">
                             <div class="px-3" style="border-right: 1px solid rgba(0,0,0,.1);">
-                                <div class="text-muted">WEEKLY INCOME</div>
+                                <div class="text-muted">SL ĐƠN HÀNG TUẦN NÀY</div>
                                 <div>
-                                    <span class="h2 m-0">$850</span>
-                                    <span class="text-success ml-2"><i class="fa fa-level-up"></i> +25%</span>
+                                    <span class="h2 m-0"><%= SLDHTuan %> </span>
+
+                                    <% if(tyleTuanDH > 0){ %>
+                                        <span class="text-success ml-2"><i class="fa fa-level-up"></i> <%= tyleTuanDH %>%</span>
+                                    <% } else{ %>  
+                                        <span class="text-warning ml-2"><i class="fa fa-level-down"></i> <%= tyleTuanDH %>%</span>
+                                     <% } %>
+                                   
+
+                                 
                                 </div>
                             </div>
                             <div class="px-3">
-                                <div class="text-muted">WEEKLY SALES</div>
+                                <div class="text-muted">SL ĐƠN ĐẶT LỊCH TUẦN NÀY</div>
                                 <div>
                                     <span class="h2 m-0">240</span>
                                     <span class="text-warning ml-2"><i class="fa fa-level-down"></i> -12%</span>
@@ -80,9 +89,15 @@
                             <canvas id="doughnut_chart" style="height:160px;"></canvas>
                         </div>
                         <div class="col-md-6">
-                            <div class="m-b-20 text-success"><i class="fa fa-circle-o m-r-10"></i>Desktop 52%</div>
-                            <div class="m-b-20 text-info"><i class="fa fa-circle-o m-r-10"></i>Tablet 27%</div>
-                            <div class="m-b-20 text-warning"><i class="fa fa-circle-o m-r-10"></i>Mobile 21%</div>
+                            <% slxe.forEach((item) => { %>
+                              <% loaixe.forEach((itemhai) => { %>
+                                <%  if(item.malx == itemhai.malx){ %>
+                                    <div class="m-b-20 text-success"><i class="fa fa-circle-o m-r-10"></i><%= itemhai.tenlx %></div>  
+                                    <% }  %> 
+                                <% }) %>
+                            <!-- <div class="m-b-20 text-info"><i class="fa fa-circle-o m-r-10"></i>Tablet 27%</div>
+                            <div class="m-b-20 text-warning"><i class="fa fa-circle-o m-r-10"></i>Mobile 21%</div> -->
+                            <% }) %>
                         </div>
                     </div>
                     <ul class="list-group list-group-divider list-group-full">
@@ -95,11 +110,43 @@
                         <li class="list-group-item">Opera
                             <span class="float-right text-danger"><i class="fa fa-caret-down"></i> 4%</span>
                         </li>
+                    
                     </ul>
                 </div>
             </div>
         </div>
     </div>
+
+
+    <div class="row">
+        <div class="col-md-6">
+            <div class="ibox">
+                <div class="ibox-head">
+                    <div class="ibox-title">Bar Chart</div>
+                </div>
+                <div class="ibox-body">
+                    <div>
+                        <canvas id="bar_chartne" style="height:200px;"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <div class="ibox">
+                <div class="ibox-head">
+                    <div class="ibox-title">Doughnut Chart</div>
+                </div>
+                <div class="ibox-body">
+                    <div>
+                        <canvas id="doughnut_chartne" style="height:200px;"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+    </div>
+    
     <style>
         .visitors-table tbody tr td:last-child {
             display: flex;
@@ -118,25 +165,100 @@
   
 </div>
 
-<script>
-    var age = <%= HoaDonNgay %>;
-    console.log(age);
+<%  cslxe %>
 
+<script>
+
+   
+
+    var dhn6 = <%= dhn6 %>;
+    var dhn5 = <%= dhn5 %>;
+    var dhn4 = <%= dhn4 %>;
+    var dhn3 = <%= dhn3 %>;
+    var dhn2 = <%= dhn2 %>;
+    var dhn1 = <%= dhn1 %>;
+    var dhn0 = <%= dhn0 %>;
+
+
+    var dhrxn6 = <%= dhrxn6 %>;
+    var dhrxn5 = <%= dhrxn5 %>;
+    var dhrxn4 = <%= dhrxn4 %>;
+    var dhrxn3 = <%= dhrxn3 %>;
+    var dhrxn2 = <%= dhrxn2 %>;
+    var dhrxn1 = <%= dhrxn1 %>;
+    var dhrxn0 = <%= dhrxn0 %>;
+
+    var chuoislxe = '<%= cslxe %>';
+    var chuoitenxe = '<%= ctx %>';
+
+    const mangslxe = chuoislxe.split(",");
+    const mangtenxe = chuoitenxe.split(",");
+
+   
     $(function() {
 
-    var a = {
-            labels: ["Sunday", "Munday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"],
-            datasets: [{
+
+        // doughnut chart example
+
+var doughnutData = {
+        labels: ["App","Software","LaptopLaptopLaptopLaptopLaptopLaptopLaptopLaptopLaptop" ],
+        datasets: [{
+            data: [200,40,60],
+            backgroundColor: ["rgb(255, 99, 132)","rgb(54, 162, 235)","rgb(255, 205, 86)"]
+        }]
+    } ;
+
+
+    var doughnutOptions = {
+        responsive: true
+    };
+
+
+    var ctx4 = document.getElementById("doughnut_chartne").getContext("2d");
+    new Chart(ctx4, {type: 'doughnut', data: doughnutData, options:doughnutOptions});
+
+     // Bar Chart example
+
+     var barData = {
+        labels: ["Sunday", "Munday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"],
+        datasets: [
+            {
                 label: "Data 1",
+                backgroundColor:'#DADDE0',
+                data: [45, 80, 58, 74, 54, 59, 40]
+            },
+            {
+                label: "Data 2",
+                backgroundColor: '#2ecc71',
+                borderColor: "#fff",
+                data: [29, 48, 40, 19, 78, 31, 85]
+            }
+        ]
+    };
+    var barOptions = {
+        responsive: true,
+        maintainAspectRatio: false
+    };
+
+    var ctx = document.getElementById("bar_chartne").getContext("2d");
+    new Chart(ctx, {type: 'bar', data: barData, options:barOptions}); 
+
+
+
+    ///////////////////////
+    var a = {
+            labels: ["6 Ngày Trước ", "5 Ngày Trước", "4 Ngày Trước", "3 Ngày Trước", "2 Ngày Trước", "Hôm Qua", "Hôm Nay"],
+            datasets: [{
+                label: "Đơn Đặt Hàng",
                 borderColor: 'rgba(52,152,219,1)',
                 backgroundColor: 'rgba(52,152,219,1)',
                 pointBackgroundColor: 'rgba(52,152,219,1)',
-                data: [ age , age, 40, 19, 78, 31, 85]
+                data: [ dhn6 , dhn5, dhn4, dhn3, dhn2, dhn1, dhn0]
             },{
-                label: "Data 2",
+                label: "Đơn Rửa Xe",
                 backgroundColor: "#DADDE0",
                 borderColor: "#DADDE0",
-                data: [45, 80, 58, 74, 54, 59, 40]
+                data: [dhrxn6, dhrxn5, dhrxn4, dhrxn3, dhrxn2, dhrxn1, dhrxn0]
             }]
         },
         t = {
@@ -150,7 +272,9 @@
         options: t
     });
 
-    // World Map
+    
+ 
+  // World Map
   var mapData = {
     "US": 7402,
     'RU': 5105,
@@ -214,13 +338,17 @@
   });
 
   
+  
   var doughnutData = {
-      labels: ["Desktop","Tablet","Mobile" ],
+      labels: mangtenxe,
       datasets: [{
-          data: [47,30,23],
+          data: mangslxe,
           backgroundColor: ["rgb(255, 99, 132)","rgb(54, 162, 235)","rgb(255, 205, 86)"]
       }]
   } ;
+
+
+  
 
 
   var doughnutOptions = {
@@ -234,6 +362,6 @@
   var ctx4 = document.getElementById("doughnut_chart").getContext("2d");
   new Chart(ctx4, {type: 'doughnut', data: doughnutData, options:doughnutOptions});
 
-
 });
 </script>
+
