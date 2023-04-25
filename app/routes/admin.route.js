@@ -13,7 +13,18 @@ module.exports = app => {
     router.get('/index', authMiddleware.loggedinad, nhanVien.getIndex);
 
     router.get('/huongdansd', authMiddleware.loggedinad, nhanVien.huongDanSD);
+
+    router.get('/soanmail', authMiddleware.loggedinad, nhanVien.soanMail);
+
+    router.post('/guimail', authMiddleware.loggedinad, nhanVien.guiMail);
+
+   
+
+    router.get('/nhanvien/thongke/sltk', authMiddleware.loggedinad, nhanVien.thongkeSoLieu);
     
+    router.get('/nhanvien/thongke/bdtk', authMiddleware.loggedinad, nhanVien.thongKeBieuDo);
+    router.post('/doanhthutuychinh', authMiddleware.loggedinad, nhanVien.doanhThuTuyChinh);
+
     router.get('/trangcanhan', authMiddleware.loggedinad, nhanVien.trangCaNhan);
 
     router.get("/chinhsuatt/:manv", authMiddleware.loggedinad, nhanVien.chinhSuaTT);
@@ -48,7 +59,6 @@ module.exports = app => {
     })
 
     router.post('/uploadfile', upload.single('myFile'), nhanVien.uploadFile)
-    router.post('/uploadmultiple', upload.array('myFiles'), nhanVien.uploadMultiple)
 
     app.use('/admin', router);
 }

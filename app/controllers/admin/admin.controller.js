@@ -1,6 +1,10 @@
 const NhanVien = require("../../models/NhanVien.model");
 const HoaDon = require("../../models/HoaDon.model");
 const HoaDonRX = require("../../models/HoaDonRX.model");
+const mailer = require('../../utils/mailer');
+const moment = require('moment');
+
+require('dotenv/config');
 
 const bcrypt = require('bcrypt');
 
@@ -176,17 +180,16 @@ exports.getIndex = (req, res) => {
                 var colIndex = 0; 
                 var colIndexne = 1;
 
+                // lấy mảng gốc
                 var slxegoc = [].concat(slxe);
                 var loaixegoc = [].concat(xe);
             
-                console.log("KHUEEEEEEE");
-                console.log(slxegoc);
-                console.log(loaixegoc);
-
+                // tạo mảng để hứng dữ liệu
                 var mangdlxe = [];
                 var mangsl = [];
                 var mantenxe = [];
 
+                // tạo mảng 2 chiều với cột thứ 2 là tên xe
                 for(var i=0; i< slxegoc.length; i++){  
                     for(var j=0; j< loaixegoc.length; j++){  
                         if(slxegoc[i].malx == loaixegoc[j].malx){  
@@ -195,14 +198,17 @@ exports.getIndex = (req, res) => {
                     }  
                 } 
 
+                // tạo mảng 1 chiều là số lượng
                 for (let i = 0; i < mangdlxe.length; i++) {
                     mangsl[i] = mangdlxe[i][colIndex];
                 }
 
+                // tạo mảng 1 chiều là tên xe ứng với số lượng
                 for (let i = 0; i < mangdlxe.length; i++) {
                     mantenxe[i] = mangdlxe[i][colIndexne];
                 }
 
+                // chuyển đổi mảng thành chuỗi
                 const chuoisl = mangsl.join(', ');
                 const chuoitenxe = mantenxe.join(', ');
 
@@ -251,7 +257,158 @@ exports.getIndex = (req, res) => {
     });
 }
 
+// gửi mail
+exports.soanMail = (req, res) => {
+    res.render('soanmail.ejs',{layout: './master2'});
+    
+}
 
+exports.guiMail = (req, res) => {
+
+    // Validate request
+    if (!req.body) {
+        res.redirect('/admin/soanmail?status=error')
+    }
+
+    var to = req.body.to;
+    var subject = req.body.subject;
+    var message = req.body.message;
+
+    mailer.sendMail(to, subject, message);
+   
+    res.redirect('/admin/soanmail?status=success');
+}
+
+
+// thống kê số liệu
+exports.thongkeSoLieu = (req, res) => {
+    res.render('thongke/thongkesl.ejs',{layout: './master2'});
+}
+
+// thống kê biểu đồ
+exports.thongKeBieuDo = (req, res) => {
+    var chuoidate = '';
+    var chuoitienhd = '';
+    var chuoitienhdrx = '';
+    var ngaybatdau = new Date();
+    var ngayketthuc = new Date();
+    var thanhtoan = 1;
+    var trangthai  =  1;
+
+    var changengaybatdau = moment(ngaybatdau).format('YYYY-MM-DD');
+    var changengayketthuc = moment(ngayketthuc).format('YYYY-MM-DD');
+
+    res.render('thongke/thongkebd.ejs',{ 
+        chuoidate: chuoidate ,
+        chuoitienhd: chuoitienhd,
+        chuoitienhdrx : chuoitienhdrx,
+        ngaybatdau: changengaybatdau,
+        ngayketthuc: changengayketthuc,
+        thanhtoan : thanhtoan,
+        trangthai: trangthai,
+        layout: './master2'
+    });
+ 
+}
+
+exports.doanhThuTuyChinh= (req, res) => {
+
+    const ngaybatdau = req.body.ngaybatdau;
+    const ngayketthuc = req.body.ngayketthuc;
+    const thanhtoan = req.body.thanhtoan;
+    const trangthai = req.body.trangthai;
+
+    HoaDonRX.doanhThuTC(ngaybatdau, ngayketthuc, thanhtoan, trangthai, (err, dtHDRX, dtHD) => {
+
+        console.log("Khue");
+        console.log(dtHDRX);
+        console.log(dtHD);
+
+
+        // Lấy giá trị date và tongtienrx thành một mảng 2 chiều
+        const manghdrx = dtHDRX.map(item => [item.date, item.tongtienrx]);
+        const manghd = dtHD.map(item => [item.date , item.tongtiensp]);
+
+        
+        let mang2chieu = [];
+        
+        for (let i = 0; i < manghd.length; i++) {
+            const ngayhd = new Date(manghd[i][0]);
+            let row = [manghd[i][0], manghd[i][1], 0];
+            for (let j = 0; j < manghdrx.length; j++) {
+                const ngayrx = new Date(manghdrx[j][0]);
+                if (ngayhd.getTime() === ngayrx.getTime()) {
+                    row[2] = manghdrx[j][1];
+                    break;
+                }
+            }
+            mang2chieu.push(row);
+        }
+
+        console.log("KHUE TEST1");
+        
+        for (let i = 0; i < manghdrx.length; i++) {
+            const ngayrx = new Date(manghdrx[i][0]);
+            let isExists = false;
+            for (let j = 0; j < mang2chieu.length; j++) {
+                const ngaym2c = new Date(mang2chieu[j][0]);
+                if (ngayrx.getTime() === ngaym2c.getTime()) {
+                    isExists = true;
+                    break;
+                }
+            }
+            if (!isExists) {
+                mang2chieu.push([manghdrx[i][0], 0, manghdrx[i][1]]);
+            }
+        }
+        
+        console.log("KHUE TEST2");
+        console.log(mang2chieu);
+
+        mang2chieu.sort((a, b) => {
+            return new Date(a[0]) - new Date(b[0]);
+        });
+        
+        console.log(mang2chieu);
+      
+        console.log("KHUE TEST3");
+
+
+
+       // lấy giá trị phần tử thứ 3 và chuyển thành chuỗi
+       
+       const chuoidate = mang2chieu.map( item => moment(item[0]).format('DD-MM-YYYY').toString()).join(', ');
+       const chuoitienhd = mang2chieu.map(item => item[1].toString()).join(', ');
+       const chuoitienhdrx = mang2chieu.map(item => item[2].toString()).join(', ');
+
+       console.log("KHUE TES5");
+
+       console.log(chuoidate);
+       console.log(chuoitienhd);
+       console.log(chuoitienhdrx);
+
+       // Hiển thị data lần 2
+       var ngaybatdau = req.body.ngaybatdau;
+       var ngayketthuc =  req.body.ngayketthuc;
+       var thanhtoan =  req.body.thanhtoan;
+       var trangthai  =  req.body.trangthai;
+
+       var changengaybatdau = moment(ngaybatdau).format('YYYY-MM-DD');
+       var changengayketthuc = moment(ngayketthuc).format('YYYY-MM-DD');
+
+       
+
+        res.render('thongke/thongkebd.ejs',{ 
+            chuoidate: chuoidate ,
+            chuoitienhd: chuoitienhd,
+            chuoitienhdrx : chuoitienhdrx,
+            ngaybatdau: changengaybatdau,
+            ngayketthuc: changengayketthuc,
+            thanhtoan : thanhtoan,
+            trangthai: trangthai,
+            layout: './master2'});
+        });
+}
 
 
 exports.trangCaNhan = (req, res) => {
@@ -393,17 +550,6 @@ exports.uploadFile = (req, res) => {
 
     // res.send(file)
 }
-
-exports.uploadMultiple = (req, res) => {
-    const files = req.files
-    if (!files) {
-        const error = new Error('Please choose files')
-        error.httpStatusCode = 400
-        return next(error)
-    }
-    res.send(files)
-}
-
 
 
 // exports.showView = (req, res) => {

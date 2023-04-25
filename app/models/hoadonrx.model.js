@@ -233,5 +233,32 @@ HoaDonRX.thongkeSLXT = (result) => {
    });
 };
 
+// Thống kê doanh thu tùy chọn.
+HoaDonRX.doanhThuTC = (ngaybatdau, ngayketthuc, thanhtoan, trangthai, result) => {
+
+    const query = `SELECT DATE(ngaydat) AS date, SUM(tongtienrx) AS tongtienrx FROM hoadonrx WHERE ngaydat BETWEEN '${ngaybatdau}' AND '${ngayketthuc}' AND thanhtoan = ${thanhtoan} AND matt =  ${trangthai} GROUP BY DATE(ngaydat) ORDER BY DATE(ngaydat);`
+
+    const query2 = `SELECT DATE(ngaydat) AS date, SUM(tongtiensp) AS tongtiensp FROM hoadon WHERE ngaydat BETWEEN '${ngaybatdau}' AND '${ngayketthuc}' AND thanhtoan = ${thanhtoan} AND matt =  ${trangthai} GROUP BY DATE(ngaydat) ORDER BY DATE(ngaydat);`
+
+    sql.query(query, (err, dtHDRX) => {
+        if (err) {
+            console.log("error: ", err);
+            result(null, err);
+            return;
+        }
+
+        sql.query(query2, (err, dtHD) => {
+            if (err) {
+                console.log("error: ", err);
+                result(null, err);
+                return;
+            }
+           
+            result(null, dtHDRX, dtHD);
+        });
+    });
+};
+
+
 
 module.exports = HoaDonRX;

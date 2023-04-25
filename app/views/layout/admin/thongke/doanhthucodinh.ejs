@@ -1,0 +1,182 @@
+<link href="/assets/vendors/bootstrap-datepicker/dist/css/bootstrap-datepicker3.min.css" rel="stylesheet" />
+
+
+SELECT MONTH(ngaydat) AS thang, SUM(tongtienrx) AS tong_doanh_thu
+FROM hoadonrx
+WHERE YEAR(ngaydat) = YEAR(CURRENT_DATE())
+GROUP BY MONTH(ngaydat)
+
+<style>
+    .page-title {
+        text-align: center;
+        margin-bottom: 30px;
+    }
+
+    #canvas {
+        width: 100%;
+    }
+</style>
+
+<div class="page-heading">
+    <h1 class="page-title">Doanh Thu</h1>
+</div>
+
+<div class="container">
+    <form action="/admin/doanhthutuychinh" method="post">
+        <div class="form-group">
+            <label class="font-normal">Khoảng Thời Gian và Thuộc Tính</label>
+            <div class="input-daterange input-group" id="datepicker">
+                <input class="input-sm form-control" type="date" name="ngaybatdau"
+                    <% if (typeof ngaybatdau != "undefined" && ngaybatdau) { %> value="<%= ngaybatdau %>" <% } %>>
+
+                <span class="input-group-addon p-l-10 p-r-10">Đến</span>
+                <input class="input-sm form-control" type="date" name="ngayketthuc"
+                    <% if (typeof ngayketthuc != "undefined" && ngayketthuc) { %> value="<%= ngayketthuc %>" <% } %>>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="input-daterange input-group">
+
+                <select class="form-select form-control" name="thanhtoan">
+                    <% if(thanhtoan == 1){ %>
+                    <option name="thanhtoan" selected value="1"> Chưa Thanh Toán</option>
+                    <option name="thanhtoan" value="2"> Đã Thanh Toán</option>
+                    <% } else{ %>
+                    <option name="thanhtoan" value="1"> Chưa Thanh Toán</option>
+                    <option name="thanhtoan" selected value="2"> Đã Thanh Toán</option>
+                    <% } %>
+                </select>
+
+                <span class="input-group-addon p-l-10 p-r-10">Và</span>
+                <select class="form-select form-control" name="trangthai">
+                    <% if(trangthai == 1){ %>
+                    <option name="trangthai" selected value="1"> Chờ Xác Nhận</option>
+                    <option name="trangthai" value="2"> Đã Xác Nhận </option>
+                    <option name="trangthai" value="3"> Hủy </option>
+                    <option name="trangthai" value="4"> Thành Công </option>
+                    <% } %>
+
+                    <% if(trangthai == 2){ %>
+                    <option name="trangthai" value="1"> Chờ Xác Nhận</option>
+                    <option name="trangthai" selected value="2"> Đã Xác Nhận </option>
+                    <option name="trangthai" value="3"> Hủy </option>
+                    <option name="trangthai" value="4"> Thành Công </option>
+                    <% } %>
+
+                    <% if(trangthai == 3){ %>
+                    <option name="trangthai" value="1"> Chờ Xác Nhận</option>
+                    <option name="trangthai" value="2"> Đã Xác Nhận </option>
+                    <option name="trangthai" selected value="3"> Hủy </option>
+                    <option name="trangthai" value="4"> Thành Công </option>
+                    <% } %>
+
+                    <% if(trangthai == 4){ %>
+                    <option name="trangthai" value="1"> Chờ Xác Nhận</option>
+                    <option name="trangthai" value="2"> Đã Xác Nhận </option>
+                    <option name="trangthai" value="3"> Hủy </option>
+                    <option name="trangthai" selected value="4"> Thành Công </option>
+                    <% } %>
+                </select>
+            </div>
+        </div>
+        <button class="btn btn-info" type="submit">Xem Biểu Đồ</button>
+    </form>
+</div>
+
+<div id="doanhThuDH"></div>
+<div id="doanhThuRX"></div>
+
+<div class="page-content fade-in-up">
+
+
+    <div class="ibox">
+
+        <div class="ibox-body">
+       
+                <canvas id="canvas"></canvas>
+                <!-- <canvas id="line_chart" style="height:200px;"></canvas> -->
+        
+        </div>
+    </div>
+
+</div>
+
+<div class="page-content fade-in-up">
+<div class="ibox">
+
+    <div class="ibox-body">
+     
+
+<canvas id="bar_chartne" style="height:400px;"></canvas>
+</div>
+</div>
+</div>
+
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js@3.7.1/dist/chart.min.js"></script>
+
+
+<script>
+    var chuoidatene = '<%= chuoidate %>';
+    var chuoitienhdne = '<%= chuoitienhd %>';
+    var chuoitienhdrxne = '<%= chuoitienhdrx %>';
+
+    const mangchuoidate = chuoidatene.split(",");
+    const mangchuoitienhd = chuoitienhdne.split(",");
+    const mangchuoidatehdr = chuoitienhdrxne.split(",");
+
+    const mangtienhdso = mangchuoitienhd.map(item => parseInt(item.trim(), 10));
+    const mangtienhdrxso = mangchuoidatehdr.map(item => parseInt(item.trim(), 10));
+
+    let doanhThuHD = 0;
+    let doanhThuHDRX = 0;
+
+    // Sử dụng vòng lặp for để tính tổng các phần tử trong mảng
+    for (let i = 0; i < mangtienhdso.length; i++) {
+        doanhThuHD += mangtienhdso[i];
+    }
+
+    for (let i = 0; i < mangtienhdso.length; i++) {
+        doanhThuHDRX += mangtienhdrxso[i];
+    }
+
+
+    // Lấy thẻ div cần hiển thị dữ liệu
+    const doanhThuDH = document.getElementById("doanhThuDH");
+    const doanhThuRX = document.getElementById("doanhThuRX");
+
+    // Gán dữ liệu vào nội dung của thẻ div
+    if (!isNaN(doanhThuHD)) {
+        doanhThuDH.textContent = doanhThuHD;
+    } 
+
+    if (!isNaN(doanhThuHDRX)) {
+        doanhThuRX.textContent = doanhThuHDRX;
+    } 
+
+    var barData = {
+        labels: ["Sunday", "Munday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"],
+        datasets: [
+            {
+                label: "Data 1",
+                backgroundColor:'#DADDE0',
+                data: [45, 80, 58, 74, 54, 59, 40]
+            },
+            {
+                label: "Data 2",
+                backgroundColor: '#2ecc71',
+                borderColor: "#fff",
+                data: [29, 48, 40, 19, 78, 31, 85]
+            }
+        ]
+    };
+    var barOptions = {
+        responsive: true,
+        maintainAspectRatio: false
+    };
+
+    var ctx = document.getElementById("bar_chartne").getContext("2d");
+    new Chart(ctx, {type: 'bar', data: barData, options:barOptions}); 
+
+</script>
