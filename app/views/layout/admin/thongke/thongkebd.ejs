@@ -74,12 +74,24 @@
                 </select>
             </div>
         </div>
-        <button class="btn btn-info" type="submit">Xem Biểu Đồ</button>
+        <div class="row">
+            <div class="col-2">
+                <button class="btn btn-info" type="submit">Xem Biểu Đồ</button>
+            </div>
+
+            <div class=" row col-6">
+               Doanh Thu Đơn Hàng:  <div id="doanhThuDH"></div> VNĐ
+            </div>
+          
+            <div class=" row col-4"> Doanh Thu Đơn Đặt Lịch: <div id="doanhThuRX"></div> VNĐ
+             </div>
+
+        </div>
+      
     </form>
 </div>
 
-<div id="doanhThuDH"></div>
-<div id="doanhThuRX"></div>
+
 
 <div class="page-content fade-in-up">
     <div class="ibox">
@@ -91,16 +103,7 @@
 
 </div>
 
-<div class="page-content fade-in-up">
-<div class="ibox">
 
-    <div class="ibox-body">
-     
-
-<canvas id="bar_chartne" style="height:400px;"></canvas>
-</div>
-</div>
-</div>
 
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js@3.7.1/dist/chart.min.js"></script>
@@ -173,28 +176,6 @@
     const canvas = document.getElementById('canvas')
     const chart = new Chart(canvas, config)
 
-    var barData = {
-        labels: ["Sunday", "Munday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"],
-        datasets: [
-            {
-                label: "Data 1",
-                backgroundColor:'#DADDE0',
-                data: [45, 80, 58, 74, 54, 59, 40]
-            },
-            {
-                label: "Data 2",
-                backgroundColor: '#2ecc71',
-                borderColor: "#fff",
-                data: [29, 48, 40, 19, 78, 31, 85]
-            }
-        ]
-    };
-    var barOptions = {
-        responsive: true,
-        maintainAspectRatio: false
-    };
-
-    var ctx = document.getElementById("bar_chartne").getContext("2d");
-    new Chart(ctx, {type: 'bar', data: barData, options:barOptions}); 
+   
 
 </script>

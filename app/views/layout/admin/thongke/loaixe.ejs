@@ -1,0 +1,63 @@
+<!-- <div class="page-heading">
+    <h1 class="page-title">Doanh Thu</h1>
+</div>
+ -->
+
+
+<!-- <div class="col-md-6">
+    <div class="ibox">
+        <div class="ibox-head">
+            <div class="ibox-title">Doughnut Chart</div>
+        </div>
+        <div class="ibox-body">
+            <div>
+                <canvas id="doughnut_chart" style="height:200px;"></canvas>
+            </div>
+        </div>
+    </div>
+</div> -->
+
+
+<div class="page-content fade-in-up">
+    <div class="ibox">
+        <div class="ibox-head">
+            <div class="ibox-title">Loại Xe Được Rửa Nhiều Trong Tháng Này</div>
+        </div>
+        <div class="ibox-body">
+            <canvas id="doughnut_chart" style="height:200px;"></canvas>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(function() {
+
+
+        var chuoislxe = '<%= cslxe %>';
+        var chuoitenxe = '<%= ctx %>';
+
+        const mangslxe = chuoislxe.split(",");
+        const mangtenxe = chuoitenxe.split(",");
+
+
+    // doughnut chart example
+
+    var doughnutData = {
+        labels: mangtenxe,
+        datasets: [{
+            data: mangslxe,
+            backgroundColor: ["#2ecc71","#E91E63","#F39C12", "#7f8c8d", "#7E57C2"]
+        }]
+    } ;
+
+
+    var doughnutOptions = {
+        responsive: true
+    };
+
+
+    var ctx4 = document.getElementById("doughnut_chart").getContext("2d");
+    new Chart(ctx4, {type: 'doughnut', data: doughnutData, options:doughnutOptions});
+
+});
+</script>

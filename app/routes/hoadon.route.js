@@ -7,6 +7,10 @@ module.exports = app => {
     // Hiển thị danh sách các hóa đơn
     router.get("/index",authMiddleware.loggedinad, hoadon.findAll);
 
+    const pdfController = require('../controllers/admin/pdfhd.controller');
+
+    router.get('/pdf/:mahd', pdfController.print); 
+
     // Xem thông tin chi tiết 1 hóa đơn
     router.get("/details/:mahd", authMiddleware.loggedinad, hoadon.details);
 

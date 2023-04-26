@@ -23,7 +23,13 @@
                 <div class="ibox-body">
                     <h2 class="m-b-5 font-strong"><%= (DTN).toLocaleString() %></h2>  
                     <div class="m-b-5">DOANH THU NGÀY <small>(VNĐ)</small></div><i class="fa fa-money widget-stat-icon"></i>
-                    <div><i class="fa fa-level-up m-r-5"></i><small>22% higher</small></div>
+                
+                    <% if(tyledaanhthuhn > 0){ %>
+                        <div><i class="fa fa-level-up m-r-5"></i><small><%= tyledaanhthuhn %>% higher</small></div>
+                    <% } else{ %>  
+                        <div><i class="fa fa-level-down m-r-5"></i><small><%= tyledaanhthuhn %>% Lower</small></div>
+                     <% } %>
+
                 </div>
             </div>
         </div>
@@ -32,7 +38,11 @@
                 <div class="ibox-body">
                     <h2 class="m-b-5 font-strong"><%= (DTT).toLocaleString() %> </h2>
                     <div class="m-b-5">DOANH THU THÁNG <small>(VNĐ)</small></div><i class="ti-bar-chart widget-stat-icon"></i>
-                    <div><i class="fa fa-level-down m-r-5"></i><small>-12% Lower</small></div>
+                    <% if(tyldoanhthut > 0){ %>
+                        <div><i class="fa fa-level-up m-r-5"></i><small><%= tyldoanhthut %>% higher</small></div>
+                    <% } else{ %>  
+                        <div><i class="fa fa-level-down m-r-5"></i><small><%= tyldoanhthut %>% Lower</small></div>
+                     <% } %>
                 </div>
             </div>
         </div>
@@ -51,14 +61,14 @@
                             <div class="px-3" style="border-right: 1px solid rgba(0,0,0,.1);">
                                 <div class="text-muted">ĐƠN HÀNG</div>
                                 <div>
-                                    <span id="doanhthudonhang" class="h2 m-0"> </span>
+                                    <span id="doanhthudonhang" class="h2 m-0"></span> <small>(VNĐ)</small>
                                     
                                 </div>
                             </div>
                             <div class="px-3">
                                 <div class="text-muted">ĐƠN RỬA XE</div>
                                 <div>
-                                    <span id="doanhthudonruaxe" class="h2 m-0"></span>
+                                    <span id="doanhthudonruaxe" class="h2 m-0"></span> <small>(VNĐ)</small>
                                     <!-- <span class="text-warning ml-2"><i class="fa fa-level-down"></i> -12%</span> -->
                                 </div>
                             </div>
@@ -284,11 +294,7 @@
     } 
 
 
-    var chuoislxe = '<%= cslxe %>';
-    var chuoitenxe = '<%= ctx %>';
-
-    const mangslxe = chuoislxe.split(",");
-    const mangtenxe = chuoitenxe.split(",");
+   
 
    
     $(function() {

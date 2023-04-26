@@ -157,6 +157,7 @@ HoaDon.thongkeTT = (result) => {
 };
 
 
+
 // Thống kê so sánh
 HoaDon.thongKeSS = (result) => {
      // Số lượng đơn đặt hàng trong tuần này.
@@ -170,6 +171,29 @@ HoaDon.thongKeSS = (result) => {
             result(null, sldathangttuan, sldathangttruoc);
         });
     });
+};
+
+// thống kê số lượng sản phẩm bán chạy trong tháng
+// thống kê số lượng xe đặt rửa xe trong 1 tháng này.
+HoaDon.sanPhamBanChayTrongThang = (result) => {
+
+    // Số lượng xe ứng với mỗi hóa đơn rửa xe trong tháng này.
+  
+    let query = `SELECT sanpham.tensp, cthoadon.masp, SUM(cthoadon.soluong) AS soluongln FROM cthoadon INNER JOIN hoadon ON cthoadon.mahd = hoadon.mahd INNER JOIN sanpham ON cthoadon.masp = sanpham.masp WHERE MONTH(hoadon.ngaydat) = MONTH(CURDATE()) AND YEAR(hoadon.ngaydat) = YEAR(CURDATE()) GROUP BY cthoadon.masp ORDER BY soluongln DESC LIMIT 3;`;
+
+
+    //     SELECT sanpham.tensp, cthoadon.masp, SUM(cthoadon.soluong) AS soluongln
+// FROM cthoadon 
+// INNER JOIN hoadon ON cthoadon.mahd = hoadon.mahd
+// INNER JOIN sanpham ON cthoadon.masp = sanpham.masp
+// WHERE MONTH(hoadon.ngaydat) = MONTH(CURDATE()) AND YEAR(hoadon.ngaydat) = YEAR(CURDATE())
+// GROUP BY cthoadon.masp
+// ORDER BY soluongln DESC
+// LIMIT 3;
+       sql.query(query, (err, sanpham) => {
+           result(null,  sanpham);
+       });
+  
 };
 
 

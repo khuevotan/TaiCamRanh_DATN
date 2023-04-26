@@ -130,9 +130,7 @@ exports.details = (req, res) => {
                     CTHoaDon.findBymahd(req.params.mahd, (err, cthd) => {
                         if (err)
                             res.redirect('/500')
-                          
                         else {
-                           
                             SanPham.getAll(tensp, (err, sanpham) => {
                                 if (err)
                                     res.redirect('/500')
@@ -144,8 +142,6 @@ exports.details = (req, res) => {
                                         sanpham: sanpham,
                                         layout: './master2'
                                     });
-
-                                    
                                 }
                             });
 

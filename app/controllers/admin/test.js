@@ -261,6 +261,41 @@ exports.getIndex = (req, res) => {
 
                 HoaDonRX.thongkeSLXT((err, slxe, xe ) => {
 
+                var colIndex = 0; 
+                var colIndexne = 1;
+
+                // lấy mảng gốc
+                var slxegoc = [].concat(slxe);
+                var loaixegoc = [].concat(xe);
+            
+                // tạo mảng để hứng dữ liệu
+                var mangdlxe = [];
+                var mangsl = [];
+                var mantenxe = [];
+
+                // tạo mảng 2 chiều với cột thứ 2 là tên xe
+                for(var i=0; i< slxegoc.length; i++){  
+                    for(var j=0; j< loaixegoc.length; j++){  
+                        if(slxegoc[i].malx == loaixegoc[j].malx){  
+                            mangdlxe.push([slxegoc[i].soluong, loaixegoc[j].tenlx]); 
+                        }  
+                    }  
+                } 
+
+                // tạo mảng 1 chiều là số lượng
+                for (let i = 0; i < mangdlxe.length; i++) {
+                    mangsl[i] = mangdlxe[i][colIndex];
+                }
+
+                // tạo mảng 1 chiều là tên xe ứng với số lượng
+                for (let i = 0; i < mangdlxe.length; i++) {
+                    mantenxe[i] = mangdlxe[i][colIndexne];
+                }
+
+                // chuyển đổi mảng thành chuỗi
+                const chuoisl = mangsl.join(', ');
+                const chuoitenxe = mantenxe.join(', ');
+
                 HoaDonRX.thongkeTT((err, tt1, tt2, tt3, tt4) => {
                     var tt1 = tt1[0]['SoLuongHoaDon'];
                     var tt2 = tt2[0]['SoLuongHoaDon'];
@@ -298,7 +333,8 @@ exports.getIndex = (req, res) => {
                         slxe: slxe,
                         loaixe: xe,
 
-                      
+                        cslxe: chuoisl,
+                        ctx: chuoitenxe,
     
                         dhn6 : doanhThuN6,
                         dhn5 : doanhThuN5,
@@ -386,288 +422,19 @@ exports.guiMail = (req, res) => {
 
 // thống kê doanh thu cố định
 exports.doanhthuCoDinh = (req, res) => {
-    var chuoidate = '';
-    var chuoitienhd = '';
-    var chuoitienhdrx = '';
-    var codinh = 1;
-    var thanhtoan = 1;
-    var trangthai  =  1;
-
-    res.render('thongke/doanhthucodinh.ejs',{ 
-        chuoidate: chuoidate,
-        chuoitienhd: chuoitienhd,
-        chuoitienhdrx : chuoitienhdrx,
-        codinh: codinh,
-        thanhtoan: thanhtoan,
-        trangthai: trangthai,
-        layout: './master2'
-    });
-
+    res.render('thongke/doanhthucodinh.ejs',{layout: './master2'});
 }
-
-// doanh thu 12 thang trong nam nay
-exports.doanhthuCoDinhSecond = (req, res) => {
-
-// Doanh thu cac tuan trong thang nay
-    const codinh = req.body.codinh;
-    const thanhtoan = req.body.thanhtoan;
-    const trangthai = req.body.trangthai;
-
-    if(codinh == 1){
-        // tuần trong tháng hiện tại
-        HoaDonRX.doanhThuCDTuan(thanhtoan, trangthai, (err, dtHDRX, dtHD) => {
-
-            // Lấy giá trị date và tongtienrx thành một mảng 2 chiều
-            const manghdrx = dtHDRX.map(item => [item.week_number, item.tongtienrx]);
-            const manghd = dtHD.map(item => [item.week_number , item.tongtiensp]);
-    
-            // mang 1 chieu
-            console.log(manghdrx);
-            console.log(manghd);
-            
-            let mang2chieu = [];
-            
-            for (let i = 0; i < manghd.length; i++) {
-                const ngayhd = manghd[i][0];
-                let row = [manghd[i][0], manghd[i][1], 0];
-                for (let j = 0; j < manghdrx.length; j++) {
-                    const ngayrx = manghdrx[j][0];
-                    if (ngayhd === ngayrx) {
-                        row[2] = manghdrx[j][1];
-                        break;
-                    }
-                }
-                mang2chieu.push(row);
-            }
-            
-            for (let i = 0; i < manghdrx.length; i++) {
-                const ngayrx = manghdrx[i][0];
-                let isExists = false;
-                for (let j = 0; j < mang2chieu.length; j++) {
-                    const ngaym2c = mang2chieu[j][0];
-                    if (ngayrx === ngaym2c) {
-                        isExists = true;
-                        break;
-                    }
-                }
-                if (!isExists) {
-                    mang2chieu.push([manghdrx[i][0], 0, manghdrx[i][1]]);
-                }
-            }
-            
-            mang2chieu.sort((a, b) => {
-                return a[0] - b[0];
-            });
-    
-            console.log(mang2chieu);
-    
-           // lấy giá trị phần tử thứ 3 và chuyển thành chuỗi
-         
-            // thêm chữ chuyển sang tháng
-     
-           
-    
-            let chuoidate = '';
-           
-    
-            for (let i = 0; i < mang2chieu.length; i++) {
-                chuoidate += 'Tuần ' + mang2chieu[i][0].toString();
-                if (i < mang2chieu.length - 1) {
-                    chuoidate += ', ';
-                }
-              }
-          
-    
-           const chuoitienhd = mang2chieu.map(item => item[1].toString()).join(', ');
-           const chuoitienhdrx = mang2chieu.map(item => item[2].toString()).join(', ');
-    
-            res.render('thongke/doanhthucodinh.ejs',{ 
-                chuoidate: chuoidate ,
-                chuoitienhd: chuoitienhd,
-                chuoitienhdrx : chuoitienhdrx,
-                codinh: codinh,
-                thanhtoan : thanhtoan,
-                trangthai: trangthai,
-                layout: './master2'
-            });
-        });
-    }else{
-        HoaDonRX.doanhThuCDT(thanhtoan, trangthai, (err, dtHDRX, dtHD) => {
-
-            // Lấy giá trị date và tongtienrx thành một mảng 2 chiều
-            const manghdrx = dtHDRX.map(item => [item.month_number, item.tongtienrx]);
-            const manghd = dtHD.map(item => [item.month_number , item.tongtiensp]);
-    
-            // mang 1 chieu
-            console.log(manghdrx);
-            console.log(manghd);
-            
-            let mang2chieu = [];
-            
-            for (let i = 0; i < manghd.length; i++) {
-                const ngayhd = manghd[i][0];
-                let row = [manghd[i][0], manghd[i][1], 0];
-                for (let j = 0; j < manghdrx.length; j++) {
-                    const ngayrx = manghdrx[j][0];
-                    if (ngayhd === ngayrx) {
-                        row[2] = manghdrx[j][1];
-                        break;
-                    }
-                }
-                mang2chieu.push(row);
-            }
-            
-            for (let i = 0; i < manghdrx.length; i++) {
-                const ngayrx = manghdrx[i][0];
-                let isExists = false;
-                for (let j = 0; j < mang2chieu.length; j++) {
-                    const ngaym2c = mang2chieu[j][0];
-                    if (ngayrx === ngaym2c) {
-                        isExists = true;
-                        break;
-                    }
-                }
-                if (!isExists) {
-                    mang2chieu.push([manghdrx[i][0], 0, manghdrx[i][1]]);
-                }
-            }
-            
-            mang2chieu.sort((a, b) => {
-                return a[0] - b[0];
-            });
-    
-            console.log(mang2chieu);
-    
-           // lấy giá trị phần tử thứ 3 và chuyển thành chuỗi
-         
-            // thêm chữ chuyển sang tháng
-     
-           
-    
-            let chuoidate = '';
-           
-    
-            for (let i = 0; i < mang2chieu.length; i++) {
-                chuoidate += 'Tháng ' + mang2chieu[i][0].toString();
-                if (i < mang2chieu.length - 1) {
-                    chuoidate += ', ';
-                }
-              }
-          
-    
-           const chuoitienhd = mang2chieu.map(item => item[1].toString()).join(', ');
-           const chuoitienhdrx = mang2chieu.map(item => item[2].toString()).join(', ');
-    
-            res.render('thongke/doanhthucodinh.ejs',{ 
-                chuoidate: chuoidate ,
-                chuoitienhd: chuoitienhd,
-                chuoitienhdrx : chuoitienhdrx,
-                codinh: codinh,
-                thanhtoan : thanhtoan,
-                trangthai: trangthai,
-                layout: './master2'
-            });
-        });
-    }
-
-  
-}
-
-// tuan
 
 exports.loaiXeTk = (req, res) => {
-    HoaDonRX.thongkeSLXT((err, slxe, xe ) => {
-
-        var colIndex = 0; 
-        var colIndexne = 1;
-
-        // lấy mảng gốc
-        var slxegoc = [].concat(slxe);
-        var loaixegoc = [].concat(xe);
-    
-        // tạo mảng để hứng dữ liệu
-        var mangdlxe = [];
-        var mangsl = [];
-        var mantenxe = [];
-
-        // tạo mảng 2 chiều với cột thứ 2 là tên xe
-        for(var i=0; i< slxegoc.length; i++){  
-            for(var j=0; j< loaixegoc.length; j++){  
-                if(slxegoc[i].malx == loaixegoc[j].malx){  
-                    mangdlxe.push([slxegoc[i].soluong, loaixegoc[j].tenlx]); 
-                }  
-            }  
-        } 
-
-        // tạo mảng 1 chiều là số lượng
-        for (let i = 0; i < mangdlxe.length; i++) {
-            mangsl[i] = mangdlxe[i][colIndex];
-        }
-
-        // tạo mảng 1 chiều là tên xe ứng với số lượng
-        for (let i = 0; i < mangdlxe.length; i++) {
-            mantenxe[i] = mangdlxe[i][colIndexne];
-        }
-
-        // chuyển đổi mảng thành chuỗi
-        const chuoisl = mangsl.join(', ');
-        const chuoitenxe = mantenxe.join(', ');
-
-        res.render('thongke/loaixe.ejs',{ 
-                
-                    cslxe: chuoisl,
-                    ctx: chuoitenxe,
-                    layout: './master2'
-                });
-    });
+    res.render('thongke/loaixe.ejs',{layout: './master2'});
 }
 
-// sản phẩm bán chạy trong tháng này
 exports.sanPhamTK = (req, res) => {
-
-    HoaDon.sanPhamBanChayTrongThang((err, sanpham ) => {
-
-        console.log("khue");
-        console.log(sanpham);
-
-        var colIndex = 0; 
-        var colIndexne = 1;
-
-        const mangspgoc = sanpham.map(item => [item.tensp, item.soluongln]);
-   
-        // tạo mảng để hứng dữ liệu
-        var mangspln = [];
-        var mangsoln = [];
-
-        // tạo mảng 1 chiều là số lượng
-        for (let i = 0; i < mangspgoc.length; i++) {
-            mangspln[i] = mangspgoc[i][colIndex];
-        }
-
-        // tạo mảng 1 chiều là tên xe ứng với số lượng
-        for (let i = 0; i < mangspgoc.length; i++) {
-            mangsoln[i] = mangspgoc[i][colIndexne];
-        }
-
-        // chuyển đổi mảng thành chuỗi
-        const chuoitensp = mangspln.join(', ');
-        const chuoisoluongln = mangsoln.join(', ');
-
-        console.log("KHUEQUA");
-        console.log(chuoitensp);
-        console.log(chuoisoluongln);
-
-        res.render('thongke/sanpham.ejs',{ 
-                
-            chuoitensp: chuoitensp,
-            chuoisoluongln: chuoisoluongln,
-                    layout: './master2'
-            });
-    });
+    res.render('thongke/sanpham.ejs',{layout: './master2'});
 }
 
 
-// thống kê doanh thu biểu đồ tùy chọn luc dau
+// thống kê doanh thu biểu đồ tùy chọn
 exports.thongKeBieuDo = (req, res) => {
     var chuoidate = '';
     var chuoitienhd = '';
@@ -693,7 +460,6 @@ exports.thongKeBieuDo = (req, res) => {
  
 }
 
-// thống kê doanh thu biểu đồ tùy chọn luc sau
 exports.doanhThuTuyChinh= (req, res) => {
 
     const ngaybatdau = req.body.ngaybatdau;
@@ -702,6 +468,11 @@ exports.doanhThuTuyChinh= (req, res) => {
     const trangthai = req.body.trangthai;
 
     HoaDonRX.doanhThuTC(ngaybatdau, ngayketthuc, thanhtoan, trangthai, (err, dtHDRX, dtHD) => {
+
+        console.log("Khue");
+        console.log(dtHDRX);
+        console.log(dtHD);
+
 
         // Lấy giá trị date và tongtienrx thành một mảng 2 chiều
         const manghdrx = dtHDRX.map(item => [item.date, item.tongtienrx]);
@@ -785,7 +556,7 @@ exports.doanhThuTuyChinh= (req, res) => {
             thanhtoan : thanhtoan,
             trangthai: trangthai,
             layout: './master2'});
-    });
+        });
 }
 
 
@@ -942,3 +713,7 @@ exports.uploadFile = (req, res) => {
 //         age:22,
 //     });
 // }
+
+
+
+

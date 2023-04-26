@@ -1,0 +1,47 @@
+<!-- <div class="page-heading">
+    <h1 class="page-title">Doanh Thu</h1>
+</div>
+ -->
+
+<div class="page-content fade-in-up">
+    <div class="ibox">
+        <div class="ibox-head">
+            <div class="ibox-title">Top 3 Sản Phẩm Bán Chạy Trong Tháng Này</div>
+        </div>
+        <div class="ibox-body">
+            <canvas id="doughnut_chart" style="height:200px;"></canvas>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(function() {
+
+    var chuoitenspne = '<%= chuoitensp %>';
+    var chuoisoluonglnne = '<%= chuoisoluongln %>';
+
+    const mangtenspne = chuoitenspne.split(",");
+    const mangsoluonglnne = chuoisoluonglnne.split(",");
+ 
+
+    // doughnut chart example
+
+    var doughnutData = {
+        labels: mangtenspne,
+        datasets: [{
+            data: mangsoluonglnne,
+            backgroundColor: ["rgb(255, 99, 132)","rgb(54, 162, 235)","rgb(255, 205, 86)"]
+        }]
+    } ;
+
+
+    var doughnutOptions = {
+        responsive: true
+    };
+
+
+    var ctx4 = document.getElementById("doughnut_chart").getContext("2d");
+    new Chart(ctx4, {type: 'doughnut', data: doughnutData, options:doughnutOptions});
+
+});
+</script>

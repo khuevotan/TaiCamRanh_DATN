@@ -2,20 +2,23 @@ const fs = require('fs');
 const ejs = require('ejs');
 const htmlPDF = require('puppeteer-html-pdf');
 const readFile = require('util').promisify(fs.readFile);
-const HoaDonRX = require("../../models/HoaDonRX.model");
-const LoaiXe = require("../../models/LoaiXe.model");
-const Gio = require("../../models/Gio.model");
+const HoaDon = require("../../models/HoaDon.model");
+const SanPham = require("../../models/SanPham.model");
+const CTHoaDon = require("../../models/cthoadon.model");
+
 const moment = require('moment');
 
 exports.print = (req, res) => {
 
     res.locals.status = req.query.status;
+    
 
-    var dtahoadonrx;
-    var dtaloaixe;
-    var dtagio;
+    var datahoadon;
+    var dtasanpham;
+  
+    console.log("INNNNNNNNN");
 
-    HoaDonRX.findBymahdrx(req.params.mahdrx, (err, data) => {
+    HoaDon.findBymahd(req.params.mahd, (err, data) => {
         if (err) {
             if (err.kind === "not_found") {
                 res.redirect('/404');
@@ -24,30 +27,29 @@ exports.print = (req, res) => {
             }
         } else {
 
-            LoaiXe.findBymalx(data.malx, (err, loaixe) => {
+            CTHoaDon.findBymahd(req.params.mahd, (err, datacthd) => {
                 if (err)
                     res.redirect('/500')
                 else {
-
-                    Gio.findBymagio(data.magio, (err, gio) => {
+                    const tensp = req.query.tensp;
+                    SanPham.getAll( tensp, (err, sanpham) => {
                         if (err)
                             res.redirect('/500')
                         else {
                    
-                            dtahoadonrx = data;
-                            dtaloaixe = loaixe;
-                            dtagio = gio;
-
+                            datahoadon = data;
+                            dtasanpham = sanpham;
+    
                             dtangaydat = moment(data.ngaydat).format('DD-MM-YYYY');
-                            dtangayrua =moment(data.ngayrua).format('DD-MM-YYYY');
-
+               
                             const pdfData = {
-                                dtahoadonrx,
+                                datahoadon,
+                                datacthd: datacthd,
 
                                 dtangaydat: dtangaydat,
-                                dtangayrua: dtangayrua,
-                                dtaloaixe,
-                                dtagio,
+                       
+                                dtasanpham,
+                     
                                 baseUrl: `${req.protocol}://${req.get('host')}` // http://localhost:3000
                             }
                         
@@ -57,7 +59,7 @@ exports.print = (req, res) => {
                                 format: 'A4'
                             }
                         
-                            readFile('app/views/layout/admin/hoadonrx/invoice.ejs', 'utf8')
+                            readFile('app/views/layout/admin/hoadon/invoicehd.ejs', 'utf8')
                                 .then((html) => {
                                     const template = ejs.compile(html);
                                     const content = template(pdfData);
@@ -65,7 +67,7 @@ exports.print = (req, res) => {
                                     return htmlPDF.create(content, options);
                                 })
                                 .then((buffer) => {
-                                    res.attachment('invoice.pdf')
+                                    res.attachment('hoadondathang.pdf')
                                     res.end(buffer);
                                 })
                                 .catch((error) => {
@@ -79,7 +81,4 @@ exports.print = (req, res) => {
             });
         }
     });
-
-   
-
 }

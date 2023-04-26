@@ -18,12 +18,24 @@ module.exports = app => {
 
     router.post('/guimail', authMiddleware.loggedinad, nhanVien.guiMail);
 
-   
-
-    router.get('/nhanvien/thongke/sltk', authMiddleware.loggedinad, nhanVien.thongkeSoLieu);
-    
+    // Thống kê doanh thu tùy chỉnh
     router.get('/nhanvien/thongke/bdtk', authMiddleware.loggedinad, nhanVien.thongKeBieuDo);
+
     router.post('/doanhthutuychinh', authMiddleware.loggedinad, nhanVien.doanhThuTuyChinh);
+
+
+    // thống kê doanh thu cố định
+    router.get('/nhanvien/thongke/dtcd', authMiddleware.loggedinad, nhanVien.doanhthuCoDinh);
+
+    router.post('/doanhthucodinh', authMiddleware.loggedinad, nhanVien.doanhthuCoDinhSecond);
+
+
+    // thống kê loại xe
+    router.get('/nhanvien/thongke/loaixe', authMiddleware.loggedinad, nhanVien.loaiXeTk);
+
+    // thống kê sản phẩm bán chạy
+    router.get('/nhanvien/thongke/sanpham', authMiddleware.loggedinad, nhanVien.sanPhamTK);
+
 
     router.get('/trangcanhan', authMiddleware.loggedinad, nhanVien.trangCaNhan);
 

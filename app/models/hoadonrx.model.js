@@ -291,6 +291,59 @@ HoaDonRX.doanhThuTC = (ngaybatdau, ngayketthuc, thanhtoan, trangthai, result) =>
     });
 };
 
+// Thống kê doanh thu co dinh theo thang.
+HoaDonRX.doanhThuCDT = (thanhtoan, trangthai, result) => {
+
+    const queryhrdx = `SELECT MONTH(ngaydat) as month_number, SUM(tongtienrx) as tongtienrx FROM hoadonrx WHERE YEAR(ngaydat) = YEAR(NOW()) AND thanhtoan = ${thanhtoan} AND matt =  ${trangthai} GROUP BY MONTH(ngaydat);`
+
+    const queryhd = `SELECT MONTH(ngaydat) as month_number, SUM(tongtiensp) as tongtiensp FROM hoadon WHERE YEAR(ngaydat) = YEAR(NOW()) AND thanhtoan = ${thanhtoan} AND matt =  ${trangthai} GROUP BY MONTH(ngaydat);`
+
+    sql.query(queryhrdx, (err, dtHDRX) => {
+        if (err) {
+            console.log("error: ", err);
+            result(null, err);
+            return;
+        }
+
+        sql.query(queryhd, (err, dtHD) => {
+            if (err) {
+                console.log("error: ", err);
+                result(null, err);
+                return;
+            }
+           
+            result(null, dtHDRX, dtHD);
+        });
+    });
+};
+
+// Thống kê doanh thu co dinh theo thang.
+HoaDonRX.doanhThuCDTuan = (thanhtoan, trangthai, result) => {
+
+    const queryhrdx = `SELECT WEEK(ngaydat) as week_number, SUM(tongtienrx) as tongtienrx FROM hoadonrx WHERE YEAR(ngaydat) = YEAR(NOW()) AND MONTH(ngaydat) = MONTH(NOW()) AND thanhtoan = ${thanhtoan} AND matt =  ${trangthai} GROUP BY WEEK(ngaydat) HAVING week_number >= WEEK(NOW()) - 3;`
+
+    const queryhd = `SELECT WEEK(ngaydat) as week_number, SUM(tongtiensp) as tongtiensp FROM hoadon WHERE YEAR(ngaydat) = YEAR(NOW()) AND MONTH(ngaydat) = MONTH(NOW()) AND thanhtoan = ${thanhtoan} AND matt =  ${trangthai} GROUP BY WEEK(ngaydat) HAVING week_number >= WEEK(NOW()) - 3;`
+
+    sql.query(queryhrdx, (err, dtHDRX) => {
+        if (err) {
+            console.log("error: ", err);
+            result(null, err);
+            return;
+        }
+
+        sql.query(queryhd, (err, dtHD) => {
+            if (err) {
+                console.log("error: ", err);
+                result(null, err);
+                return;
+            }
+           
+            result(null, dtHDRX, dtHD);
+        });
+    });
+};
+
+
 
 
 module.exports = HoaDonRX;
