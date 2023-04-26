@@ -14,7 +14,7 @@ exports.Login = (req, res) => {
 
 exports.getIndex = (req, res) => {
 
-    HoaDon.thongKeDG((err, data1, data2, data3, ngay6, ngay5, ngay4, ngay3, ngay2, ngay1, ngay0) => {
+    HoaDon.thongKeDG((err, data1, data2, dataago, data3, datatrago, ngay6, ngay5, ngay4, ngay3, ngay2, ngay1, ngay0) => {
     
         if(data1[0]['COUNT(*)'] == null){
             data1[0]['COUNT(*)'] = 0;
@@ -24,11 +24,18 @@ exports.getIndex = (req, res) => {
             data2[0]['SUM(tongtiensp)'] = 0;
         }
 
+        if(dataago[0]['SUM(tongtiensp)'] == null){
+            dataago[0]['SUM(tongtiensp)'] = 0;
+        }
+
         if(data3[0]['SUM(tongtiensp)'] == null){
             data3[0]['SUM(tongtiensp)'] = 0;
         }
 
-        
+        if(datatrago[0]['SUM(tongtiensp)'] == null){
+            datatrago[0]['SUM(tongtiensp)'] = 0;
+        }
+
 
         // Doanh thu ngày 7.
         if(ngay6[0]['SUM(tongtiensp)'] == null){
@@ -73,16 +80,30 @@ exports.getIndex = (req, res) => {
         const doanhThuN1 = ngay1[0]['SUM(tongtiensp)'];
         const doanhThuN0 = ngay0[0]['SUM(tongtiensp)'];
 
+        const soLuongDHN6 = ngay6[0]['sldh'];
+        const soLuongDHN5 = ngay5[0]['sldh'];
+        const soLuongDHN4 = ngay4[0]['sldh'];
+        const soLuongDHN3 = ngay3[0]['sldh'];
+        const soLuongDHN2 = ngay2[0]['sldh'];
+        const soLuongDHN1 = ngay1[0]['sldh'];
+        const soLuongDHN0 = ngay0[0]['sldh'];
+
          // Số lượng hóa đơn chưa được duyệt.
          const SLHDCD = data1[0]['COUNT(*)'];
 
          // Doanh thu hóa đơn đặt hàng ngày hôm nay.
          const DTDHHN = data2[0]['SUM(tongtiensp)'];
- 
+
+         // Doanh thu hóa đơn đặt hàng ngày hôm qua.
+         const DTDHHNago = dataago[0]['SUM(tongtiensp)'];
+
          // Doanh thu hóa đơn đặt hàng tháng này.
          const DTHDTN = data3[0]['SUM(tongtiensp)'];
 
-        HoaDonRX.thongKeDG((err, hdrxcd, dtrxn , dtrxt, ngayrx6, ngayrx5, ngayrx4, ngayrx3, ngayrx2, ngayrx1, ngayrx0) => {
+          // Doanh thu hóa đơn đặt hàng tháng trước.
+        const DTHDTNago = datatrago[0]['SUM(tongtiensp)'];
+
+        HoaDonRX.thongKeDG((err, hdrxcd, dtrxn, dtrxnago , dtrxt,  dtrxtago,ngayrx6, ngayrx5, ngayrx4, ngayrx3, ngayrx2, ngayrx1, ngayrx0) => {
             
             if(hdrxcd[0]['COUNT(*)'] == null){
                 hdrxcd[0]['COUNT(*)'] = 0;
@@ -91,9 +112,18 @@ exports.getIndex = (req, res) => {
             if(dtrxn[0]['SUM(tongtienrx)'] == null){
                 dtrxn[0]['SUM(tongtienrx)'] = 0;
             }
+
+            // doanh thu ngày hôm qua
+            if(dtrxnago[0]['SUM(tongtienrx)'] == null){
+                dtrxnago[0]['SUM(tongtienrx)'] = 0;
+            }
     
             if(dtrxt[0]['SUM(tongtienrx)'] == null){
                 dtrxt[0]['SUM(tongtienrx)'] = 0;
+            }
+            // doanh thu tháng tuewocs
+            if(dtrxtago[0]['SUM(tongtienrx)'] == null){
+                dtrxtago[0]['SUM(tongtienrx)'] = 0;
             }
     
             // Doanh thu ngày 7.
@@ -138,15 +168,29 @@ exports.getIndex = (req, res) => {
             const doanhThuRXN2 = ngayrx2[0]['SUM(tongtienrx)'];
             const doanhThuRXN1 = ngayrx1[0]['SUM(tongtienrx)'];
             const doanhThuRXN0 = ngayrx0[0]['SUM(tongtienrx)'];
-    
+
+            const soLuongRXN6 = ngayrx6[0]['sldrx'];
+            const soLuongRXN5 = ngayrx5[0]['sldrx'];
+            const soLuongRXN4 = ngayrx4[0]['sldrx'];
+            const soLuongRXN3 = ngayrx3[0]['sldrx'];
+            const soLuongRXN2 = ngayrx2[0]['sldrx'];
+            const soLuongRXN1 = ngayrx1[0]['sldrx'];
+            const soLuongRXN0 = ngayrx0[0]['sldrx'];
+
              // Số lượng hóa đơn rửa xe chưa được duyệt.
              const hdrxcdne = hdrxcd[0]['COUNT(*)'];
     
              // Doanh thu hóa đơn rửa xe ngày hôm nay.
              const dtrxnne = dtrxn[0]['SUM(tongtienrx)'];
+
+            // Doanh thu hóa đơn rửa xe ngày hôm qua.
+            const dtrxnagoa = dtrxnago[0]['SUM(tongtienrx)'];
      
              // Doanh thu hóa đơn rửa xe tháng này.
              const dtrxtne = dtrxt[0]['SUM(tongtienrx)'];
+
+                   // Doanh thu hóa đơn rửa xe tháng trước.
+                   const dtrxtneago = dtrxtago[0]['SUM(tongtienrx)'];
 
             HoaDon.thongKeSS((err, sldht, sldhtt ) => {
 
@@ -212,11 +256,28 @@ exports.getIndex = (req, res) => {
                 const chuoisl = mangsl.join(', ');
                 const chuoitenxe = mantenxe.join(', ');
 
-    
+                HoaDonRX.thongkeTT((err, tt1, tt2, tt3, tt4) => {
+                    var tt1 = tt1[0]['SoLuongHoaDon'];
+                    var tt2 = tt2[0]['SoLuongHoaDon'];
+                    var tt3 = tt3[0]['SoLuongHoaDon'];
+                    var tt4 = tt4[0]['SoLuongHoaDon'];
+                
+                    HoaDon.thongkeTT((err, ttdh1, ttdh2, ttdh3, ttdh4, ttdh5) => {
+
+                        var ttdh1 = ttdh1[0]['SoLuongHoaDon'];
+                        var ttdh2 = ttdh2[0]['SoLuongHoaDon'];
+                        var ttdh3 = ttdh3[0]['SoLuongHoaDon'];
+                        var ttdh4 = ttdh4[0]['SoLuongHoaDon'];
+                        var ttdh5 = ttdh5[0]['SoLuongHoaDon'];
+                    
                     res.render('trangchuad.ejs',{ 
                         SLHDCD: SLHDCD,
                         SLHDRXCD: hdrxcdne,
+
+                        // Doanh Thu Ngày Hôm Nay
                         DTN: DTDHHN + dtrxnne,
+
+                        // Doanh Thu Của Tháng Này
                         DTT: DTHDTN + dtrxtne,
     
                         // tỷ lệ ĐƠN HÀNG TUẦN NÀY
@@ -237,6 +298,14 @@ exports.getIndex = (req, res) => {
                         dhn2 : doanhThuN2,
                         dhn1 : doanhThuN1,
                         dhn0 : doanhThuN0,
+
+                        soLuongDHN6: soLuongDHN6,
+                        soLuongDHN5: soLuongDHN5,
+                        soLuongDHN4: soLuongDHN4,
+                        soLuongDHN3: soLuongDHN3,
+                        soLuongDHN2: soLuongDHN2,
+                        soLuongDHN1: soLuongDHN1,
+                        soLuongDHN0 : soLuongDHN0,
         
                         dhrxn6 : doanhThuRXN6,
                         dhrxn5 : doanhThuRXN5,
@@ -245,9 +314,33 @@ exports.getIndex = (req, res) => {
                         dhrxn2 : doanhThuRXN2,
                         dhrxn1 : doanhThuRXN1,
                         dhrxn0 : doanhThuRXN0,
+
+                        soLuongRXN6 : soLuongRXN6,
+                        soLuongRXN5 : soLuongRXN5,
+                        soLuongRXN4 : soLuongRXN4,
+                        soLuongRXN3 : soLuongRXN3, 
+                        soLuongRXN2 : soLuongRXN2,
+                        soLuongRXN1 : soLuongRXN1,
+                        soLuongRXN0 : soLuongRXN0,
+
+                        tt1 : tt1,
+                        tt2: tt2,
+                        tt3: tt3,
+                        tt4 : tt4,
+                     
+                        ttdh1: ttdh1,
+                        ttdh2 : ttdh2,
+                        ttdh3: ttdh3,
+                        ttdh4: ttdh4,
+                        ttdh5: ttdh5,
+
+
                         
                         layout: './master2'
                     });
+
+                    });
+                });
 
                 });
 
@@ -256,6 +349,8 @@ exports.getIndex = (req, res) => {
         });
     });
 }
+
+
 
 // gửi mail
 exports.soanMail = (req, res) => {

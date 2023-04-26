@@ -89,17 +89,21 @@ HoaDon.thongKeDG = (result) => {
     // Doanh thu hóa đơn đặt hàng ngày hôm nay.
     let query2 = `SELECT SUM(tongtiensp) FROM hoadon WHERE DATE(ngaydat) = CURDATE()`;
 
+    let query2ago = `SELECT SUM(tongtiensp) as tongtiensp FROM hoadon WHERE DATE(ngaydat) = DATE(CURRENT_DATE - INTERVAL 1 DAY)`;
+
     // Doanh thu hóa đơn đặt hàng tháng này.
     let query3 = `SELECT SUM(tongtiensp) FROM hoadon WHERE MONTH(ngaydat) = MONTH(CURDATE()) AND YEAR(ngaydat) = YEAR(CURDATE())`;
 
+    let query3ago = `SELECT SUM(tongtiensp) as tongtiensp FROM hoadon WHERE MONTH(ngaydat) = MONTH(CURRENT_DATE - INTERVAL 1 MONTH) AND YEAR(ngaydat) = YEAR(CURRENT_DATE)`;
+
     // Doanh thu hóa đơn đặt hàng 7 ngày gần nhất.
-    let queryn6 = `SELECT SUM(tongtiensp) FROM hoadon WHERE DATEDIFF(NOW(), ngaydat) = 6;`;
-    let queryn5 = `SELECT SUM(tongtiensp) FROM hoadon WHERE DATEDIFF(NOW(), ngaydat) = 5;`;
-    let queryn4 = `SELECT SUM(tongtiensp) FROM hoadon WHERE DATEDIFF(NOW(), ngaydat) = 4;`;
-    let queryn3 = `SELECT SUM(tongtiensp) FROM hoadon WHERE DATEDIFF(NOW(), ngaydat) = 3;`;
-    let queryn2 = `SELECT SUM(tongtiensp) FROM hoadon WHERE DATEDIFF(NOW(), ngaydat) = 2;`;
-    let queryn1 = `SELECT SUM(tongtiensp) FROM hoadon WHERE DATEDIFF(NOW(), ngaydat) = 1;`;
-    let queryn0 = `SELECT SUM(tongtiensp) FROM hoadon WHERE DATEDIFF(NOW(), ngaydat) = 0;`;
+    let queryn6 = `SELECT SUM(tongtiensp), COUNT(*) AS sldh FROM hoadon WHERE DATEDIFF(NOW(), ngaydat) = 6;`;
+    let queryn5 = `SELECT SUM(tongtiensp), COUNT(*) AS sldh FROM hoadon WHERE DATEDIFF(NOW(), ngaydat) = 5;`;
+    let queryn4 = `SELECT SUM(tongtiensp), COUNT(*) AS sldh FROM hoadon WHERE DATEDIFF(NOW(), ngaydat) = 4;`;
+    let queryn3 = `SELECT SUM(tongtiensp), COUNT(*) AS sldh FROM hoadon WHERE DATEDIFF(NOW(), ngaydat) = 3;`;
+    let queryn2 = `SELECT SUM(tongtiensp), COUNT(*) AS sldh FROM hoadon WHERE DATEDIFF(NOW(), ngaydat) = 2;`;
+    let queryn1 = `SELECT SUM(tongtiensp), COUNT(*) AS sldh FROM hoadon WHERE DATEDIFF(NOW(), ngaydat) = 1;`;
+    let queryn0 = `SELECT SUM(tongtiensp), COUNT(*) AS sldh FROM hoadon WHERE DATEDIFF(NOW(), ngaydat) = 0;`;
 
     sql.query(query, (err, res1) => {
         sql.query(query2, (err, res2) => {
@@ -111,7 +115,11 @@ HoaDon.thongKeDG = (result) => {
                                 sql.query(queryn2, (err, ngay2) => {
                                     sql.query(queryn1, (err, ngay1) => {
                                         sql.query(queryn0, (err, ngay0) => {
-                                            result(null, res1, res2, res3,ngay6, ngay5, ngay4, ngay3, ngay2, ngay1, ngay0);
+                                            sql.query(query2ago, (err, ngay2ago) => {
+                                                sql.query(query3ago, (err, ngay3ago) => {
+                                            result(null, res1, res2,ngay2ago, res3,ngay3ago,ngay6, ngay5, ngay4, ngay3, ngay2, ngay1, ngay0);
+                                        });
+                                        });
                                         });
                                     });
                                 });
@@ -123,6 +131,31 @@ HoaDon.thongKeDG = (result) => {
         });
     });
 };
+
+HoaDon.thongkeTT = (result) => {
+
+    // Thống kê trạng thái đơn rửa xe trong tuần.
+    let querytt1 = `SELECT COUNT(*) AS SoLuongHoaDon FROM hoadon WHERE (ngaydat >= DATE_SUB(NOW(), INTERVAL 7 DAY)) AND (matt = 1);`;
+    let querytt2 = `SELECT COUNT(*) AS SoLuongHoaDon FROM hoadon WHERE (ngaydat >= DATE_SUB(NOW(), INTERVAL 7 DAY)) AND (matt = 2);`;
+    let querytt3 = `SELECT COUNT(*) AS SoLuongHoaDon FROM hoadon WHERE (ngaydat >= DATE_SUB(NOW(), INTERVAL 7 DAY)) AND (matt = 3);`;
+    let querytt4 = `SELECT COUNT(*) AS SoLuongHoaDon FROM hoadon WHERE (ngaydat >= DATE_SUB(NOW(), INTERVAL 7 DAY)) AND (matt = 4);`;
+    let querytt5 = `SELECT COUNT(*) AS SoLuongHoaDon FROM hoadon WHERE (ngaydat >= DATE_SUB(NOW(), INTERVAL 7 DAY)) AND (matt = 5);`;
+  
+
+
+    sql.query(querytt1, (err, tt1) => {
+       sql.query(querytt2, (err, tt2) => {
+        sql.query(querytt3, (err, tt3) => {
+            sql.query(querytt4, (err, tt4) => {
+                sql.query(querytt5, (err, tt5) => {
+                    result(null, tt1, tt2, tt3, tt4, tt5);
+                });
+            });
+        });
+       });
+   });
+};
+
 
 // Thống kê so sánh
 HoaDon.thongKeSS = (result) => {

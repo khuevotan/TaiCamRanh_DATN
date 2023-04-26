@@ -184,17 +184,21 @@ HoaDonRX.thongKeDG = (result) => {
     // Doanh thu hóa đơn rửa xe ngày hôm nay.
     let query2 = `SELECT SUM(tongtienrx) FROM hoadonrx WHERE DATE(ngaydat) = CURDATE()`;
 
+    let query2ago = `SELECT SUM(tongtienrx) as tongtienrx FROM hoadonrx WHERE DATE(ngaydat) = DATE(CURRENT_DATE - INTERVAL 1 DAY)`;
+
     // Doanh thu hóa đơn rửa xe tháng này.
     let query3 = `SELECT SUM(tongtienrx) FROM hoadonrx WHERE MONTH(ngaydat) = MONTH(CURDATE()) AND YEAR(ngaydat) = YEAR(CURDATE())`;
 
+    let query3ago = `SELECT SUM(tongtienrx) as tongtienrx FROM hoadonrx WHERE MONTH(ngaydat) = MONTH(CURRENT_DATE - INTERVAL 1 MONTH) AND YEAR(ngaydat) = YEAR(CURRENT_DATE)`;
+
     // Doanh thu hóa đơn rửa xe ngày gần nhất.
-    let queryn6 = `SELECT SUM(tongtienrx) FROM hoadonrx WHERE DATEDIFF(NOW(), ngaydat) = 6;`;
-    let queryn5 = `SELECT SUM(tongtienrx) FROM hoadonrx WHERE DATEDIFF(NOW(), ngaydat) = 5;`;
-    let queryn4 = `SELECT SUM(tongtienrx) FROM hoadonrx WHERE DATEDIFF(NOW(), ngaydat) = 4;`;
-    let queryn3 = `SELECT SUM(tongtienrx) FROM hoadonrx WHERE DATEDIFF(NOW(), ngaydat) = 3;`;
-    let queryn2 = `SELECT SUM(tongtienrx) FROM hoadonrx WHERE DATEDIFF(NOW(), ngaydat) = 2;`;
-    let queryn1 = `SELECT SUM(tongtienrx) FROM hoadonrx WHERE DATEDIFF(NOW(), ngaydat) = 1;`;
-    let queryn0 = `SELECT SUM(tongtienrx) FROM hoadonrx WHERE DATEDIFF(NOW(), ngaydat) = 0;`;
+    let queryn6 = `SELECT SUM(tongtienrx), COUNT(*) AS sldrx FROM hoadonrx WHERE DATEDIFF(NOW(), ngaydat) = 6;`;
+    let queryn5 = `SELECT SUM(tongtienrx), COUNT(*) AS sldrx FROM hoadonrx WHERE DATEDIFF(NOW(), ngaydat) = 5;`;
+    let queryn4 = `SELECT SUM(tongtienrx), COUNT(*) AS sldrx FROM hoadonrx WHERE DATEDIFF(NOW(), ngaydat) = 4;`;
+    let queryn3 = `SELECT SUM(tongtienrx), COUNT(*) AS sldrx FROM hoadonrx WHERE DATEDIFF(NOW(), ngaydat) = 3;`;
+    let queryn2 = `SELECT SUM(tongtienrx), COUNT(*) AS sldrx FROM hoadonrx WHERE DATEDIFF(NOW(), ngaydat) = 2;`;
+    let queryn1 = `SELECT SUM(tongtienrx), COUNT(*) AS sldrx FROM hoadonrx WHERE DATEDIFF(NOW(), ngaydat) = 1;`;
+    let queryn0 = `SELECT SUM(tongtienrx), COUNT(*) AS sldrx FROM hoadonrx WHERE DATEDIFF(NOW(), ngaydat) = 0;`;
 
     sql.query(query, (err, hdrxcd) => {
         sql.query(query2, (err, dtrxn) => {
@@ -206,7 +210,12 @@ HoaDonRX.thongKeDG = (result) => {
                                 sql.query(queryn2, (err, ngayrx2) => {
                                     sql.query(queryn1, (err, ngayrx1) => {
                                         sql.query(queryn0, (err, ngayrx0) => {
-                                            result(null, hdrxcd, dtrxn , dtrxt, ngayrx6, ngayrx5, ngayrx4, ngayrx3, ngayrx2, ngayrx1, ngayrx0);
+                                            sql.query(query2ago, (err, dtrxnago) => {
+                                                sql.query(query3ago, (err, dtrxtago) => {
+                                                result(null, hdrxcd, dtrxn ,dtrxnago,dtrxt,dtrxtago, ngayrx6, ngayrx5, ngayrx4, ngayrx3, ngayrx2, ngayrx1, ngayrx0);
+                                        
+                                                });
+                                            });
                                         });
                                     });
                                 });
@@ -217,6 +226,29 @@ HoaDonRX.thongKeDG = (result) => {
             });
         });
     });
+};
+
+// Thống kê trạng thái đơn rửa xe trong tuần.
+HoaDonRX.thongkeTT = (result) => {
+
+    // Thống kê trạng thái đơn rửa xe trong tuần.
+    let querytt1 = `SELECT COUNT(*) AS SoLuongHoaDon FROM hoadonrx WHERE (ngaydat >= DATE_SUB(NOW(), INTERVAL 7 DAY)) AND (matt = 1);`;
+    let querytt2 = `SELECT COUNT(*) AS SoLuongHoaDon FROM hoadonrx WHERE (ngaydat >= DATE_SUB(NOW(), INTERVAL 7 DAY)) AND (matt = 2);`;
+    let querytt3 = `SELECT COUNT(*) AS SoLuongHoaDon FROM hoadonrx WHERE (ngaydat >= DATE_SUB(NOW(), INTERVAL 7 DAY)) AND (matt = 3);`;
+    let querytt4 = `SELECT COUNT(*) AS SoLuongHoaDon FROM hoadonrx WHERE (ngaydat >= DATE_SUB(NOW(), INTERVAL 7 DAY)) AND (matt = 4);`;
+  
+
+    sql.query(querytt1, (err, tt1) => {
+       sql.query(querytt2, (err, tt2) => {
+        sql.query(querytt3, (err, tt3) => {
+            sql.query(querytt4, (err, tt4) => {
+          
+                    result(null, tt1, tt2, tt3, tt4);
+             
+            });
+        });
+       });
+   });
 };
 
 // thống kê số lượng xe đặt rửa xe trong 1 tháng này.

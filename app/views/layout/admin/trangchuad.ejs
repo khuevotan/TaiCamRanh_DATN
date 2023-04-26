@@ -4,8 +4,8 @@
             <div class="ibox bg-success color-white widget-stat">
                 <div class="ibox-body">
                     <h2 class="m-b-5 font-strong"> <%= SLHDCD %> </h2>
-                    <div class="m-b-5">ĐƠN HÀNG CẦN DUYỆT</div><i class="ti-shopping-cart widget-stat-icon"></i>
-                    <div><i class="fa fa-level-up m-r-5"></i><small>25% higher</small></div>
+                    <div class="m-b-5">ĐƠN ĐẶT HÀNG </br> CẦN DUYỆT</div><i class="ti-shopping-cart widget-stat-icon"></i>
+                    <!-- <div><i class=" m-r-5"></i><small></small></div> -->
                 </div>
             </div>
         </div>
@@ -13,16 +13,16 @@
             <div class="ibox bg-info color-white widget-stat">
                 <div class="ibox-body">
                     <h2 class="m-b-5 font-strong"> <%= SLHDRXCD %> </h2>
-                    <div class="m-b-5">ĐƠN RỬA XE CẦN DUYỆT</div><i class="ti-car widget-stat-icon"></i>
-                    <div><i class="fa fa-level-up m-r-5"></i><small>17% higher</small></div>
+                    <div class="m-b-5">ĐƠN ĐẶT LỊCH RỬA XE </br> CẦN DUYỆT</div><i class="ti-car widget-stat-icon"></i>
+                    <!-- <div><i class=" m-r-5"></i><small></small></div> -->
                 </div>
             </div>
         </div>
         <div class="col-lg-3 col-md-6">
             <div class="ibox bg-warning color-white widget-stat">
                 <div class="ibox-body">
-                    <h2 class="m-b-5 font-strong"><%= (DTN).toLocaleString() %></h2>
-                    <div class="m-b-5">DOANH THU NGÀY (VNĐ)</div><i class="fa fa-money widget-stat-icon"></i>
+                    <h2 class="m-b-5 font-strong"><%= (DTN).toLocaleString() %></h2>  
+                    <div class="m-b-5">DOANH THU NGÀY <small>(VNĐ)</small></div><i class="fa fa-money widget-stat-icon"></i>
                     <div><i class="fa fa-level-up m-r-5"></i><small>22% higher</small></div>
                 </div>
             </div>
@@ -31,7 +31,7 @@
             <div class="ibox bg-danger color-white widget-stat">
                 <div class="ibox-body">
                     <h2 class="m-b-5 font-strong"><%= (DTT).toLocaleString() %> </h2>
-                    <div class="m-b-5">DOANH THU THÁNG (VNĐ)</div><i class="ti-bar-chart widget-stat-icon"></i>
+                    <div class="m-b-5">DOANH THU THÁNG <small>(VNĐ)</small></div><i class="ti-bar-chart widget-stat-icon"></i>
                     <div><i class="fa fa-level-down m-r-5"></i><small>-12% Lower</small></div>
                 </div>
             </div>
@@ -44,30 +44,22 @@
                 <div class="ibox-body">
                     <div class="flexbox mb-4">
                         <div>
-                            <h3 class="m-0">Doanh Thu</h3>
-                            <div>7 ngày qua gần nhất</div>
+                            <h4>Doanh Thu</h4>
+                            <div>7 ngày qua</div>
                         </div>
                         <div class="d-inline-flex">
                             <div class="px-3" style="border-right: 1px solid rgba(0,0,0,.1);">
-                                <div class="text-muted">SL ĐƠN HÀNG TUẦN NÀY</div>
+                                <div class="text-muted">ĐƠN HÀNG</div>
                                 <div>
-                                    <span class="h2 m-0"><%= SLDHTuan %> </span>
-
-                                    <% if(tyleTuanDH > 0){ %>
-                                        <span class="text-success ml-2"><i class="fa fa-level-up"></i> <%= tyleTuanDH %>%</span>
-                                    <% } else{ %>  
-                                        <span class="text-warning ml-2"><i class="fa fa-level-down"></i> <%= tyleTuanDH %>%</span>
-                                     <% } %>
-                                   
-
-                                 
+                                    <span id="doanhthudonhang" class="h2 m-0"> </span>
+                                    
                                 </div>
                             </div>
                             <div class="px-3">
-                                <div class="text-muted">SL ĐƠN ĐẶT LỊCH TUẦN NÀY</div>
+                                <div class="text-muted">ĐƠN RỬA XE</div>
                                 <div>
-                                    <span class="h2 m-0">240</span>
-                                    <span class="text-warning ml-2"><i class="fa fa-level-down"></i> -12%</span>
+                                    <span id="doanhthudonruaxe" class="h2 m-0"></span>
+                                    <!-- <span class="text-warning ml-2"><i class="fa fa-level-down"></i> -12%</span> -->
                                 </div>
                             </div>
                         </div>
@@ -81,37 +73,49 @@
         <div class="col-lg-4">
             <div class="ibox">
                 <div class="ibox-head">
-                    <div class="ibox-title">Statistics</div>
+                    <div class="ibox-title">Tình Trạng Đơn Hàng 7 Ngày Qua</div>
                 </div>
                 <div class="ibox-body">
-                    <div class="row align-items-center">
-                        <div class="col-md-6">
+                    <div class=" ">
+                    
                             <canvas id="doughnut_chart" style="height:160px;"></canvas>
-                        </div>
-                        <div class="col-md-6">
-                            <% slxe.forEach((item) => { %>
+                   
+                       
+                            <!-- <% slxe.forEach((item) => { %>
                               <% loaixe.forEach((itemhai) => { %>
                                 <%  if(item.malx == itemhai.malx){ %>
                                     <div class="m-b-20 text-success"><i class="fa fa-circle-o m-r-10"></i><%= itemhai.tenlx %></div>  
                                     <% }  %> 
                                 <% }) %>
-                            <!-- <div class="m-b-20 text-info"><i class="fa fa-circle-o m-r-10"></i>Tablet 27%</div>
-                            <div class="m-b-20 text-warning"><i class="fa fa-circle-o m-r-10"></i>Mobile 21%</div> -->
-                            <% }) %>
-                        </div>
-                    </div>
-                    <ul class="list-group list-group-divider list-group-full">
-                        <li class="list-group-item">Chrome
-                            <span class="float-right text-success"><i class="fa fa-caret-up"></i> 24%</span>
-                        </li>
-                        <li class="list-group-item">Firefox
-                            <span class="float-right text-success"><i class="fa fa-caret-up"></i> 12%</span>
-                        </li>
-                        <li class="list-group-item">Opera
-                            <span class="float-right text-danger"><i class="fa fa-caret-down"></i> 4%</span>
-                        </li>
+
+                            <% }) %> -->
+                          
+                            <div class="row align-items-center">
+                                <div class="col-md-6">
+                                    <div class="m-b-20 m-t-20 text-muted"><i class="fa fa-circle-o m-r-10"></i>Chờ Xác Nhận</div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="m-b-20 m-t-20 text-info"><i class="fa fa-circle-o m-r-10"></i>Đã Xác Nhận</div>
+                                </div>
+                            </div>
+                            
+                            <div class="row align-items-center ">
+                                <div class="col-md-6">
+                                    <div class="m-b-20 text-danger"><i class="fa fa-circle-o m-r-10"></i>Hủy</div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="m-b-20 text-success"><i class="fa fa-circle-o m-r-10"></i>Thành Công</div>
+                                </div>
+                            </div>
+                            
+                            <div class="row align-items-center">
+                                <div class="col-md-12">
+                                    <div class=" text-warning"><i class="fa fa-circle-o m-r-10"></i>Đã Giao Cho Đơn Vị Vận Chuyển</div>
+                                </div>
+                            </div>
                     
-                    </ul>
+                    </div>
+               
                 </div>
             </div>
         </div>
@@ -119,12 +123,34 @@
 
 
     <div class="row">
-        <div class="col-md-6">
+        <div class="col-md-8">
             <div class="ibox">
-                <div class="ibox-head">
-                    <div class="ibox-title">Bar Chart</div>
-                </div>
                 <div class="ibox-body">
+                    <div class="flexbox mb-4">
+                        <div>
+                            <h4 class="">Số lượng </h4>
+                            <div>Đặt lịch và Đặt hàng 7 ngày qua</div>
+                          
+                        </div>
+
+    
+                        <div class="d-inline-flex">
+                            <div class="px-3" style="border-right: 1px solid rgba(0,0,0,.1);">
+                                <div class="text-muted">ĐƠN HÀNG</div>
+                                <div >
+                                    <span  style="float: right;" id="soluongdhtuan" class="h2 m-0"> </span>
+                                </div>
+                            </div>
+                            <div class="px-3">
+                                <div class="text-muted">ĐƠN RỬA XE</div>
+                                <div >
+                                    <span style="float: right;" id="soluongdhrxtuan" class="h2 m-0"></span>
+                                  
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
                     <div>
                         <canvas id="bar_chartne" style="height:200px;"></canvas>
                     </div>
@@ -132,14 +158,14 @@
             </div>
         </div>
 
-        <div class="col-md-6">
+        <div class="col-md-4">
             <div class="ibox">
                 <div class="ibox-head">
-                    <div class="ibox-title">Doughnut Chart</div>
+                    <div class="ibox-title">Tình Trạng Đơn Rửa Xe 7 Ngày Qua</div>
                 </div>
                 <div class="ibox-body">
                     <div>
-                        <canvas id="doughnut_chartne" style="height:200px;"></canvas>
+                        <canvas id="doughnut_chartne" style="height:224px;"></canvas>
                     </div>
                 </div>
             </div>
@@ -165,12 +191,9 @@
   
 </div>
 
-<%  cslxe %>
 
 <script>
-
-   
-
+    // Doanh thu đặt hàng
     var dhn6 = <%= dhn6 %>;
     var dhn5 = <%= dhn5 %>;
     var dhn4 = <%= dhn4 %>;
@@ -179,7 +202,43 @@
     var dhn1 = <%= dhn1 %>;
     var dhn0 = <%= dhn0 %>;
 
+    // Số lượng đặt hàng
+    var sldhn6 = <%= soLuongDHN6 %>;
+    var sldhn5 = <%= soLuongDHN5 %>;
+    var sldhn4 = <%= soLuongDHN4 %>;
+    var sldhn3 = <%= soLuongDHN3 %>;
+    var sldhn2 = <%= soLuongDHN2 %>;
+    var sldhn1 = <%= soLuongDHN1 %>;
+    var sldhn0 = <%= soLuongDHN0 %>;
 
+    let sumdthd7n = 0;
+    let sumslhd7n = 0;
+
+    // Sử dụng vòng lặp for để tính tổng các phần tử trong mảng
+    for (let i = 0; i < 6; i++) {
+        sumdthd7n = dhn6 + dhn5 + dhn4 + dhn3 + dhn2 + dhn1 + dhn0;
+    }
+
+    for (let i = 0; i < 6; i++) {
+        sumslhd7n = sldhn6 + sldhn5 + sldhn4 + sldhn3 + sldhn2 + sldhn1 + sldhn0;
+    }
+
+    var sumdthd7ncv = sumdthd7n.toLocaleString();
+
+    // Lấy thẻ div cần hiển thị dữ liệu
+    const SUMdthd7n = document.getElementById("doanhthudonhang");
+    const SUMslhd7n = document.getElementById("soluongdhtuan");
+
+    // Gán dữ liệu vào nội dung của thẻ div
+    if (!isNaN(sumdthd7ncv)) {
+        SUMdthd7n.textContent = sumdthd7ncv;
+    } 
+
+    if (!isNaN(sumslhd7n)) {
+        SUMslhd7n.textContent = sumslhd7n;
+    } 
+
+    // Doanh thu đặt lịch
     var dhrxn6 = <%= dhrxn6 %>;
     var dhrxn5 = <%= dhrxn5 %>;
     var dhrxn4 = <%= dhrxn4 %>;
@@ -187,6 +246,43 @@
     var dhrxn2 = <%= dhrxn2 %>;
     var dhrxn1 = <%= dhrxn1 %>;
     var dhrxn0 = <%= dhrxn0 %>;
+
+    // Số lượng đặt lịch
+    var slrxn6 = <%= soLuongRXN6 %>;
+    var slrxn5 = <%= soLuongRXN5 %>;
+    var slrxn4 = <%= soLuongRXN4 %>;
+    var slrxn3 = <%= soLuongRXN3 %>;
+    var slrxn2 = <%= soLuongRXN2 %>;
+    var slrxn1 = <%= soLuongRXN1 %>;
+    var slrxn0 = <%= soLuongRXN0 %>;
+
+    let sumdthdrx7n = 0;
+    let sumslhdrx7n = 0;
+
+    // Sử dụng vòng lặp for để tính tổng các phần tử trong mảng
+    for (let i = 0; i < 6; i++) {
+        sumdthdrx7n = dhrxn6 + dhrxn5 + dhrxn4 + dhrxn3 + dhrxn2 + dhrxn1 + dhrxn0;
+    }
+
+    for (let i = 0; i < 6; i++) {
+        sumslhdrx7n = slrxn6 + slrxn5 + slrxn4 + slrxn3 + slrxn2 + slrxn1 + slrxn0;
+    }
+
+    var sumdthdrx7ncv = sumdthdrx7n.toLocaleString();
+
+    // Lấy thẻ div cần hiển thị dữ liệu
+    const SUMdthdrx7n = document.getElementById("doanhthudonruaxe");
+    const SUMslhdrx7n = document.getElementById("soluongdhrxtuan");
+
+    // Gán dữ liệu vào nội dung của thẻ div
+    if (!isNaN(sumdthdrx7ncv)) {
+        SUMdthdrx7n.textContent = sumdthdrx7ncv;
+    } 
+
+    if (!isNaN(sumslhdrx7n)) {
+        SUMslhdrx7n.textContent = sumslhdrx7n;
+    } 
+
 
     var chuoislxe = '<%= cslxe %>';
     var chuoitenxe = '<%= ctx %>';
@@ -196,42 +292,20 @@
 
    
     $(function() {
-
-
-        // doughnut chart example
-
-var doughnutData = {
-        labels: ["App","Software","LaptopLaptopLaptopLaptopLaptopLaptopLaptopLaptopLaptop" ],
-        datasets: [{
-            data: [200,40,60],
-            backgroundColor: ["rgb(255, 99, 132)","rgb(54, 162, 235)","rgb(255, 205, 86)"]
-        }]
-    } ;
-
-
-    var doughnutOptions = {
-        responsive: true
-    };
-
-
-    var ctx4 = document.getElementById("doughnut_chartne").getContext("2d");
-    new Chart(ctx4, {type: 'doughnut', data: doughnutData, options:doughnutOptions});
-
-     // Bar Chart example
-
-     var barData = {
-        labels: ["Sunday", "Munday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"],
+    // Bar Chart example
+    var barData = {
+        labels: ["6 Ngày trước", "5 Ngày trước", "4 Ngày trước", "3 Ngày trước", "2 Ngày trước", "Hôm Qua", "Hôm nay"],
         datasets: [
             {
-                label: "Data 1",
+                label: "Đơn Đặt Hàng",
                 backgroundColor:'#DADDE0',
-                data: [45, 80, 58, 74, 54, 59, 40]
+                data: [sldhn6, sldhn5, sldhn4, sldhn3, sldhn2, sldhn1, sldhn0]
             },
             {
-                label: "Data 2",
+                label: "Đơn Rửa Xe",
                 backgroundColor: '#2ecc71',
                 borderColor: "#fff",
-                data: [29, 48, 40, 19, 78, 31, 85]
+                data: [slrxn6, slrxn5, slrxn4, slrxn3, slrxn2, slrxn1, slrxn0]
             }
         ]
     };
@@ -271,85 +345,35 @@ var doughnutData = {
         data: a,
         options: t
     });
+});
+</script>
 
-    
- 
-  // World Map
-  var mapData = {
-    "US": 7402,
-    'RU': 5105,
-    "AU": 4700,
-    "CN": 4650,
-    "FR": 3800,
-    "DE": 3780,
-    "GB": 2400,
-    "SA": 2350,
-    "BR": 2270,
-    "IN": 1870,
-  }
-  $('#world-map').vectorMap({
-    map: 'world_mill_en',
-    backgroundColor: 'transparent',
-    regionStyle: {
-        initial: {
-            fill: '#DADDE0',
-        }
-    },
-    showTooltip: true,
-    onRegionTipShowx: function(e, el, code){
-        el.html(el.html()+' (Visits - '+mapData[code]+')');
-    },
-    markerStyle: {
-      initial: {
-        fill  : '#3498db',
-        stroke: '#333'
-      }
-    },
-    markers: [
-      {
-        latLng: [1.3, 103.8],
-        name: 'Singapore : 203'
-      },
-      {
-        latLng: [38, -105],
-        name: 'USA : 755',
-      },
-      {
-        latLng: [58, -115],
-        name: 'Canada : 700',
-      },
-      {
-        latLng: [-25, 140],
-        name: 'Australia : 304',
-      },
-      {
-        latLng: [55.00, -3.50],
-        name: 'UK : 202',
-      },
-      {
-        latLng: [21, 78],
-        name: 'India : 410',
-      },
-      {
-        latLng: [25.00, 54.00],
-        name: 'UAE : 180',
-      }
-    ]
-  });
 
-  
-  
-  var doughnutData = {
-      labels: mangtenxe,
+<script>
+$(function() {
+
+    // Tình trạng đơn đặt hàng
+    var ttdh1 = <%= ttdh1 %>;
+    var ttdh2 = <%= ttdh2 %>;
+    var ttdh3 = <%= ttdh3 %>;
+    var ttdh4 = <%= ttdh4 %>;
+    var ttdh5 = <%= ttdh5 %>;
+
+
+    // Tình trạng đơn rửa xe
+    var tt1 = <%= tt1 %>;
+    var tt2 = <%= tt2 %>;
+    var tt3 = <%= tt3 %>;
+    var tt4 = <%= tt4 %>;
+
+    // Tình Trạng Đơn Hàng 7 Ngày Qua
+    var doughnutData = {
+      labels: ["Chờ Xác Nhận","Đã Xác Nhận","Hủy","Thành Công", "Giao Cho Đơn Vị Vận Chuyển" ],
       datasets: [{
-          data: mangslxe,
-          backgroundColor: ["rgb(255, 99, 132)","rgb(54, 162, 235)","rgb(255, 205, 86)"]
+          data: [ttdh1, ttdh2, ttdh3, ttdh4, ttdh5],
+          backgroundColor: ["#bdc3c7","#23B7E5","#e74c3c","#2ecc71","#F39C12"]
       }]
   } ;
-
-
-  
-
 
   var doughnutOptions = {
       responsive: true,
@@ -362,6 +386,21 @@ var doughnutData = {
   var ctx4 = document.getElementById("doughnut_chart").getContext("2d");
   new Chart(ctx4, {type: 'doughnut', data: doughnutData, options:doughnutOptions});
 
+    // Tình Trạng Đơn Rửa Xe 7 Ngày Qua
+    var doughnutData = {
+        labels: ["Chờ Xác Nhận","Đã Xác Nhận","Hủy","Thành Công"],
+        datasets: [{
+            data: [tt1,tt2,tt3,tt4],
+            backgroundColor: ["#bdc3c7","#23B7E5","#e74c3c","#2ecc71"]
+        }]
+    } ;
+
+    var doughnutOptions = {
+        responsive: true,
+    };
+
+    var ctx4 = document.getElementById("doughnut_chartne").getContext("2d");
+    new Chart(ctx4, {type: 'doughnut', data: doughnutData, options:doughnutOptions});
 });
 </script>
 
