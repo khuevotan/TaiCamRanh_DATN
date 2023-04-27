@@ -101,6 +101,28 @@ KhachHang.getAll = (tenkh, result) => {
     });
 };
 
+
+KhachHang.updateBymakhphiadmin = (makh, khachhang, result) => {
+    sql.query(
+        "UPDATE khachhang SET taikhoan =?, hokh = ?, tenkh = ?, ngaysinh = ?, sodt = ?, diachi = ? , email = ?, gioitinh = ?, kichhoat = ? WHERE makh = ?",
+        [khachhang.taikhoan, khachhang.hokh , khachhang.tenkh, khachhang.ngaysinh , khachhang.sodt, khachhang.diachi, khachhang.email, khachhang.gioitinh , khachhang.kichhoat,  makh],
+        (err, res) => {
+            if (err) {
+                console.log("error: ", err);
+                result(null, err);
+                return;
+            }
+            if (res.affectedRows == 0) {
+                // not found khachhang with the makh
+                result({ kind: "not_found" }, null);
+                return;
+            }
+            console.log("updated khachhang: ", { makh: makh, ...khachhang });
+            result(null, { makh: makh, ...khachhang });
+        }
+    );
+};
+
 KhachHang.updateBymakh = (makh, khachhang, result) => {
     sql.query(
         "UPDATE khachhang SET taikhoan =?, hokh = ?, tenkh = ?, ngaysinh = ?, sodt = ?, diachi = ? , email = ?, gioitinh = ? WHERE makh = ?",

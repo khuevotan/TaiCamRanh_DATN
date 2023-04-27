@@ -653,10 +653,6 @@ exports.sanPhamTK = (req, res) => {
         const chuoitensp = mangspln.join(', ');
         const chuoisoluongln = mangsoln.join(', ');
 
-        console.log("KHUEQUA");
-        console.log(chuoitensp);
-        console.log(chuoisoluongln);
-
         res.render('thongke/sanpham.ejs',{ 
                 
             chuoitensp: chuoitensp,

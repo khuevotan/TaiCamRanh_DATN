@@ -219,6 +219,7 @@ exports.edit = (req, res) => {
 
 // Cập nhật thông tin một hóa đơn đặt lịch.
 exports.update = (req, res) => {
+    
     // Validate Request
     if (!req.body) {
         res.redirect('/admin/hoadonrx/edit/' + req.params.mahdrx + '?status=error')

@@ -22,7 +22,6 @@ exports.store = (req, res) => {
      if (!req.body) {
         res.redirect('/admin/khachhang/create?status=error')
     }
-
             const {
                 taikhoan,
                 matkhau,
@@ -68,7 +67,7 @@ exports.store = (req, res) => {
                                     tenkh: tenkh,
                                     gioitinh: gioitinh,
                                     diachi: diachi,
-                                    hinhdd: "khachhang.png",
+                                    hinhdd: '',
                                     kichhoat: 1,
                                     ngaytaotk: new Date(),
                                     sodt: sodt,
@@ -95,15 +94,12 @@ exports.store = (req, res) => {
                                 gioitinh,
                                 diachi,
                                 sodt,
-    
                                 ngaysinh,
                                 taikhoan,
                                 matkhau,
                                 email,
                                 conflictError,
-                      
                                 layout: './master2'
-
                             });
                         }
                     }else{
@@ -112,8 +108,8 @@ exports.store = (req, res) => {
                             taikhoan,
                             matkhau,
                             matkhauxn,
-                            tennv,
-                            honv,
+                            tenkh,
+                            hokh,
                             sodt,
                             diachi,
                             email,
@@ -130,7 +126,7 @@ exports.store = (req, res) => {
             })
 };
 
-// Xác thực tài khoản của nhân viên.
+// Xác thực tài khoản của khách hàng.
 exports.verify = (req, res) => {
     bcrypt.compare(req.query.email, req.query.token, (err, result) => {
         if (result == true) {
@@ -176,6 +172,20 @@ exports.details = (req, res) => {
                 res.redirect('/500');
             }
         } else res.render('khachhang/detailskh', { khachhang: data,  layout: './master2'});
+    });
+};
+
+exports.formthaypasss = (req, res) => {
+    res.locals.status = req.query.status;
+
+    Khachhang.findByMakh(req.params.makh, (err, data) => {
+        if (err) {
+            if (err.kind === "not_found") {
+                res.redirect('/404');
+            } else {
+                res.redirect('/500');
+            }
+        } else res.render('khachhang/changepass', { khachhang: data,  layout: './master2'});
     });
 };
 
@@ -263,14 +273,26 @@ exports.doimk = (req, res) => {
 
 // Update a khachhang khi nhấn vào chỉnh sửa thông tin cá nhân bên phía khách hàng
 exports.update = (req, res) => {
-    // Validate Request
-    if (!req.body) {
-        res.redirect('/khachhang/edit/' + req.params.makh + '?status=error')
+
+     // Validate Request
+     if (!req.body) {
+        res.redirect('/admin/khachhang/edit/' + req.params.makh + '?status=error')
     }
 
-    Khachhang.updateBymakh(
+    const khachhang = new KhachHang({
+        taikhoan: req.body.taikhoan,
+        email: req.body.email,
+        hokh: req.body.hokh,
+        tenkh: req.body.tenkh,
+        diachi: req.body.diachi,
+        kichhoat: req.body.kichhoat,
+        sodt: req.body.sodt,
+        ngaysinh: req.body.ngaysinh,
+    });
+
+    KhachHang.updateBymakhphiadmin(
         req.params.makh,
-        new Khachhang(req.body),
+        khachhang,
         (err, data) => {
             if (err) {
                 if (err.kind === "not_found") {
@@ -278,26 +300,20 @@ exports.update = (req, res) => {
                 } else {
                     res.redirect('/500');
                 }
-            } else res.redirect('/khachhang/home/?status=success');
+            } else res.redirect('/admin/khachhang/edit/' + req.params.makh + '?status=success');
         }
     );
 };
 
 // Update mật khẩu khi nhấn vào chỉnh sửa thông tin cá nhân bên phía khách hàng
 exports.updatemk = (req, res) => {
-    // Validate Request
-    // if (!req.body) {
-    //     res.redirect('/khachhang/doimatkhau/' + req.params.makh + '?status=error')
-    // }
-
+    
     const {
         taikhoan,
         matkhaumoi,
         matkhaucu
     } = req.body;
-    console.log(taikhoan);
-    console.log(matkhaumoi);
-    console.log(matkhaucu);
+
 
     Khachhang.findByTaikhoan(taikhoan, (err, khachhang) => {
         bcrypt.compare(matkhaucu, khachhang.matkhau, (err, result) => {
@@ -328,9 +344,94 @@ exports.updatemk = (req, res) => {
             }
         })
     })
-
 };
 
+// Update mật khẩu bến phía admin
+exports.adupdatemk = (req, res) => {
+    res.locals.status = req.query.status;
+    const {
+        taikhoan,
+        matkhaumoi,
+        matkhaumoixn,
+        matkhaucu
+    } = req.body;
+
+    if(req.body.matkhaumoi == req.body.matkhaumoixn){
+        Khachhang.findByMakh(req.params.makh, (err, data) => {
+            if (err) {
+                if (err.kind === "not_found") {
+                    res.redirect('/404');
+                } else {
+                    res.redirect('/500');
+                }
+            } else {
+
+                Khachhang.findByTaikhoan(taikhoan, (err, khachhang) => {
+                    bcrypt.compare(matkhaucu, khachhang.matkhau, (err, result) => {
+                        console.log(result);
+                        if (result == true) {
+                            if (matkhaumoi.length >= 8 && matkhaumoi.match(/[a-z]/) && matkhaumoi.match(/[A-Z]/) && matkhaumoi.match(/\d/) && matkhaumoi.match(/[^a-zA-Z\d]/)) {
+                                bcrypt.hash(matkhaumoi, parseInt(process.env.BCRYPT_SALT_ROUND)).then((hashedMatkhau) => {
+                                    Khachhang.resetPasswordKH(taikhoan, hashedMatkhau, (err, result) => {
+                                        if (!err) {
+                                            res.redirect('/admin/khachhang/changepass/'+ req.params.makh + '?status=success');  
+            
+                                        } else {
+                                            res.redirect("/500");
+                                        }
+                                    })
+                                })
+                            } else {
+                                const conflictError = 'Mật khẩu mới phải dài hơn 8 ký tự, cả chữ thường và chữ in hoa, ít nhất một số và một ký tự đặc biệt ví dụ: 012345Kh*';
+                                res.render('khachhang/changepass', { 
+                                    khachhang: data,
+                                    conflictError,  
+                                    layout: './master2'
+                                });
+
+                            }
+            
+                        } else {
+        
+                            // const conflictError = 'Mật khẩu phải dài hơn 8 ký tự, cả chữ thường và chữ in hoa, ít nhất một số và một ký tự đặc biệt ví dụ: 012345Kh*';
+                            const conflictError = 'Sai Password Cũ!';
+                            res.render('khachhang/changepass', { 
+                                khachhang: data,
+                                conflictError,  
+                                layout: './master2'
+                            });
+                        }
+                    })
+                })
+            }
+        });
+
+    }else{
+
+        res.locals.status = req.query.status;
+
+        Khachhang.findByMakh(req.params.makh, (err, data) => {
+            if (err) {
+                if (err.kind === "not_found") {
+                    res.redirect('/404');
+                } else {
+                    res.redirect('/500');
+                }
+            } else {
+
+                const conflictError = 'Mật khẩu mới và xác nhận mật khẩu chưa khớp!';
+                res.render('khachhang/changepass', { 
+                    khachhang: data,
+                    conflictError,  
+                    layout: './master2'
+                });
+
+
+            }
+        });
+
+    }
+};
 
 // update thanh toán khi đặt lịch xong
 exports.thanhToan = (req, res, next) => {
@@ -352,16 +453,28 @@ exports.thanhToanDH = (req, res, next) => {
     });
 }
 
-// Upload fle ảnh
+// Upload fle ảnh bê hía khách hàng
 exports.uploadFile = (req, res) => {
     const file = req.file
     if (!file) {
-        const error = new Error('Please upload a file')
+        const error = new Error('Vui Lòng Up Ảnh')
         error.httpStatusCode = 400
-        return next(error)
+        return next(error);
     }
+
     res.locals.khachhang = req.session.khachhang
     const makh = res.locals.khachhang.makh;
+
+   if(req.body.hinhdd != ''){
+        const fs = require('fs');
+        const fileNameCu = req.body.hinhdd;
+        const filePath = '/images/avatarkh/' + fileNameCu; 
+        
+        fs.unlink("app/public"+ filePath,function(err){
+            if(err) throw err;
+            console.log('File deleted!');
+        });
+    }
 
     //    res.send(file)
     Khachhang.updateBymakhAva(makh, file.filename, (err, result) => {
@@ -369,6 +482,39 @@ exports.uploadFile = (req, res) => {
             res.redirect('/login');
         } else {
             res.redirect('/500');
+        }
+    });
+
+    // res.send(file)
+}
+
+
+// update ảnh bên phía amdin
+exports.updateHddAD = (req, res) => {
+    const file = req.file
+    if (!file) {
+        const error = new Error('Vui Lòng Up Ảnh')
+        error.httpStatusCode = 400
+        return next(error);
+    }
+
+   if(req.body.hinhdd != ''){
+        const fs = require('fs');
+        const fileNameCu = req.body.hinhdd;
+        const filePath = '/images/avatarkh/' + fileNameCu; 
+        
+        fs.unlink("app/public"+ filePath,function(err){
+            if(err) throw err;
+            console.log('File deleted!');
+        });
+    }
+
+    //    res.send(file)
+    Khachhang.updateBymakhAva(req.params.makh, file.filename, (err, result) => {
+        if (!err) {
+            res.redirect('/admin/khachhang/edit/' + req.params.makh + '?status=successhdd');
+        } else {
+            res.redirect('/admin/khachhang/edit/' + req.params.makh + '?status=errorhdd')
         }
     });
 
@@ -412,7 +558,6 @@ exports.chonNgay = (req, res) => {
         }
     }
 };
-
 
 // Nhấn nút đặt lịch
 exports.datlich = (req, res) => {

@@ -55,8 +55,5 @@ module.exports = app => {
     // // Delete a danhmuc with id
     router.get("/delete/:madm", authMiddleware.loggedinad, danhMuc.delete);
 
-    // // Delete all danhmuc
-    // router.delete("/delete", danhMuc.deleteAll);
-
     app.use('/admin/danhmuc', router);
 }

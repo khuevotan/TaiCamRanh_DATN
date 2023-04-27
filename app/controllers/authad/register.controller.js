@@ -59,7 +59,7 @@ exports.register = (req, res) => {
                                 luong : luong,
                                 gioitinh: gioitinh,
                                 diachi: diachi,
-                                hinhdd: "nhanvien.png",
+                                hinhdd: '',
                                 kichhoat: 1,
                                 manhom: manhom, 
                                 ngaytaotk: new Date(),

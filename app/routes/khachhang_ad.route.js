@@ -16,7 +16,7 @@ module.exports = app => {
      // SET STORAGE
      var storage = multer.diskStorage({
          destination: function (req, file, cb) {
-             let path = 'app/public/images/khachhang';
+             let path = 'app/public/images/avatarkh';
              if (!fsExtra.existsSync(path)) {
                  fsExtra.mkdirSync(path)
              }
@@ -40,17 +40,24 @@ module.exports = app => {
     router.get("/create", authMiddleware.loggedinad, khachhang.create);
 
     // Lưu khách hàng mới khi nhấn nút lưu
-    router.post("/", authMiddleware.loggedinad, upload.single('hinhdd'), khachhang.store);
+    router.post("/", authMiddleware.loggedinad, khachhang.store);
 
     // Xem thông tin chi tiết 1 khách hàng
     router.get("/details/:makh", authMiddleware.loggedinad, khachhang.details);
 
+    // thay đổi mật khẩu
+    router.get("/changepass/:makh", authMiddleware.loggedinad, khachhang.formthaypasss);
+
+    // đổi mật khẩu khi nhấn nút
+    router.put("/doimatkhau/:makh", authMiddleware.loggedinad, khachhang.adupdatemk);
+
     // Chỉnh sửa 1 khách hàng khi nhấn nút chỉnh sửa -> hiển thị form
     router.get("/edit/:makh", authMiddleware.loggedinad, khachhang.edit);
-    // Lưu khách hàng khi nhấn nút update
-    // router.put("/:makh", authMiddleware.loggedinad, khachhang.update);
 
-    // router.post("/anhdaidien/:makh", authMiddleware.loggedinad, upload.single('hinhddmoi'), khachhang.updateADD);
+    // Lưu khách hàng khi nhấn nút update
+    router.put("/:makh", authMiddleware.loggedinad, khachhang.update);
+
+    router.post("/anhdaidien/:makh", authMiddleware.loggedinad, upload.single('hinhddmoi'), khachhang.updateHddAD);
 
     // Delete a khachhang with id
     router.get("/delete/:makh", authMiddleware.loggedinad, khachhang.delete);

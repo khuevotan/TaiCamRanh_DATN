@@ -17,6 +17,108 @@ exports.create = (req, res) => {
     });
 }
 
+exports.formthaypasss = (req, res) => {
+    res.locals.status = req.query.status;
+
+    NhanVien.findByMaNV(req.params.manv, (err, data) => {
+        if (err) {
+            if (err.kind === "not_found") {
+                res.redirect('/404');
+            } else {
+                res.redirect('/500');
+            }
+        } else res.render('nhanvien/changepassnv', { nhanvien: data,  layout: './master2'});
+    });
+};
+
+
+// Update mật khẩu bến phía admin
+exports.adupdatemk = (req, res) => {
+    res.locals.status = req.query.status;
+    const {
+        taikhoan,
+        matkhaumoi,
+        matkhaumoixn,
+        matkhaucu
+    } = req.body;
+
+    if(req.body.matkhaumoi == req.body.matkhaumoixn){
+        NhanVien.findByMaNV(req.params.manv, (err, data) => {
+            if (err) {
+                if (err.kind === "not_found") {
+                    res.redirect('/404');
+                } else {
+                    res.redirect('/500');
+                }
+            } else {
+
+                NhanVien.findByTaikhoan(taikhoan, (err, nhanvien) => {
+                    bcrypt.compare(matkhaucu, nhanvien.matkhau, (err, result) => {
+                        console.log(result);
+                        if (result == true) {
+                            if (matkhaumoi.length >= 8 && matkhaumoi.match(/[a-z]/) && matkhaumoi.match(/[A-Z]/) && matkhaumoi.match(/\d/) && matkhaumoi.match(/[^a-zA-Z\d]/)) {
+                                bcrypt.hash(matkhaumoi, parseInt(process.env.BCRYPT_SALT_ROUND)).then((hashedMatkhau) => {
+                                    NhanVien.resetPasswordKH(taikhoan, hashedMatkhau, (err, result) => {
+                                        if (!err) {
+                                            res.redirect('/admin/nhanvien/changepass/'+ req.params.manv + '?status=success');  
+            
+                                        } else {
+                                            res.redirect("/admin/500");
+                                        }
+                                    })
+                                })
+                            } else {
+                                const conflictError = 'Mật khẩu mới phải dài hơn 8 ký tự, cả chữ thường và chữ in hoa, ít nhất một số và một ký tự đặc biệt ví dụ: 012345Kh*';
+                                res.render('nhanvien/changepassnv', { 
+                                    nhanvien: data,
+                                    conflictError,  
+                                    layout: './master2'
+                                });
+
+                            }
+            
+                        } else {
+        
+                          
+                            const conflictError = 'Sai Password Cũ!';
+                            res.render('nhanvien/changepassnv', { 
+                                nhanvien: data,
+                                conflictError,  
+                                layout: './master2'
+                            });
+                        }
+                    })
+                })
+            }
+        });
+
+    }else{
+
+        res.locals.status = req.query.status;
+
+        NhanVien.findByMaNV(req.params.manv, (err, data) => {
+            if (err) {
+                if (err.kind === "not_found") {
+                    res.redirect('/404');
+                } else {
+                    res.redirect('/500');
+                }
+            } else {
+
+                const conflictError = 'Mật khẩu mới và xác nhận mật khẩu chưa khớp!';
+                res.render('nhanvien/changepassnv', { 
+                    nhanvien: data,
+                    conflictError,  
+                    layout: './master2'
+                });
+
+
+            }
+        });
+
+    }
+};
+
 // Lưu nhân viên mới khi nhấn nút.
 exports.store = (req, res) => {
     // Validate request
@@ -80,7 +182,7 @@ exports.store = (req, res) => {
                                     luong : luong,
                                     gioitinh: gioitinh,
                                     diachi: diachi,
-                                    hinhdd: "nhanvien.png",
+                                    hinhdd: '',
                                     kichhoat: 1,
                                     ngaytaotk: new Date(),
                                     sodt: sodt,
@@ -212,7 +314,6 @@ exports.update = (req, res) => {
 
     const nhanvien = new NhanVien({
         taikhoan: req.body.taikhoan,
-        matkhau: hashed,
         email: req.body.email,
         honv: req.body.honv,
         tennv: req.body.tennv,
@@ -224,7 +325,7 @@ exports.update = (req, res) => {
         manhom: req.body.manhom,
     });
 
-    NhanVien.updateByMaNV(
+    NhanVien.updateByMaNVAD(
         req.params.manv,
         nhanvien,
         (err, data) => {
@@ -288,7 +389,7 @@ exports.updateADD = (req, res, next) => {
         if(req.body.hinhdd != ''){
             const fs = require('fs');
             const fileNameCu = req.body.hinhdd;
-            const filePath = '/images/nhanvien/' + fileNameCu; 
+            const filePath = '/images/avatarad/' + fileNameCu; 
           
             fs.unlink("app/public"+ filePath,function(err){
                 if(err) throw err;

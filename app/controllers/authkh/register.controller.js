@@ -54,7 +54,7 @@ exports.register = (req, res) => {
                                 tenkh: tenkh,
                                 gioitinh: gioitinh,
                                 diachi: diachi,
-                                hinhdd: "khachhang.png",
+                                hinhdd: '',
                                 kichhoat: 0,
                                 email_verified_at: new Date(),
                                 sodt: sodt,

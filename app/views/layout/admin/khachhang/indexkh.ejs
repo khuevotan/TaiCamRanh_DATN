@@ -78,17 +78,18 @@
                             </td>
                             <td>
                                 <%if (item.kichhoat == 1) { %>
-                                  Đã Xác Thực
+                                    Chưa Xác Thực
+                               
                                      <% }else{ %>
-                                     Chưa Xác Thực
+                                        Đã Xác Thực
                                  <%}%>
-                            
                             </td>
                        
                             <td><%= moment(item.email_verified_at).format('DD-MM-YYYY')  %></td>
                                 <td>
                                     <a href="/admin/khachhang/details/<%= item.makh %>" class="btn btn-default btn-xs m-r-5" data-toggle="tooltip" data-original-title="Details"><i class="fa fa-info font-14"></i></a>
                                     <a href="/admin/khachhang/edit/<%= item.makh %>" class="btn btn-default btn-xs m-r-5" data-toggle="tooltip" data-original-title="Edit"><i class="fa fa-pencil font-14"></i></a>
+                                    <a href="/admin/khachhang/changepass/<%= item.makh %>" class="btn btn-default btn-xs m-r-5" data-toggle="tooltip" data-original-title="Đổi Mật Khẩu"><i class="ti-lock font-14"></i></a>
                                     <a href="/admin/khachhang/delete/<%= item.makh %>" onclick="return confirm('Bạn có chắc chăn muốn xóa không?')" class="btn btn-default btn-xs" data-toggle="tooltip" data-original-title="Delete"><i class="fa fa-trash font-14"></i></a>
                                 </td>
                         </tr>     

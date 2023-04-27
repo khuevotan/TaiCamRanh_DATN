@@ -676,6 +676,7 @@ exports.uploadFile = (req, res) => {
         return next(error)
     }
  
+    // hình 
     if(hinhdd != 'abc.png'){
       
         const fs = require('fs');

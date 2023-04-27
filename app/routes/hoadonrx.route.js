@@ -20,13 +20,6 @@ module.exports = app => {
     // Nhấn nút đặt lịch
     router.post("/datlich", authMiddleware.loggedinad, hoadonrx.datlich);
 
-
-    // Hiển thị form tạo hóa đơn rx
-    // router.get("/create", authMiddleware.loggedinad, hoadonrx.create);
-
-    // Lưu hóa đơn rx mới khi nhấn nút lưu
-    // router.post("/", authMiddleware.loggedinad, hoadonrx.store);
-
     // Xem thông tin chi tiết 1 hóa đơn rx
     router.get("/details/:mahdrx", authMiddleware.loggedinad, hoadonrx.details);
 

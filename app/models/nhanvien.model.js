@@ -106,8 +106,30 @@ NhanVien.getAll = (tennv, result) => {
 
 NhanVien.updateByMaNV = (manv, nhanvien, result) => {
     sql.query(
-        "UPDATE nhanvien SET taikhoan =?, honv = ?, tennv = ?, ngaysinh = ?, sodt = ?, diachi = ? , email = ?, gioitinh = ? WHERE manv = ?",
+        "UPDATE nhanvien SET taikhoan =?, honv = ?, tennv = ?, ngaysinh = ?, sodt = ?, diachi = ? , email = ?, gioitinh = ?,  WHERE manv = ?",
         [nhanvien.taikhoan, nhanvien.honv , nhanvien.tennv, nhanvien.ngaysinh , nhanvien.sodt, nhanvien.diachi, nhanvien.email, nhanvien.gioitinh,  manv],
+        (err, res) => {
+            if (err) {
+                console.log("error: ", err);
+                result(null, err);
+                return;
+            }
+            if (res.affectedRows == 0) {
+                // not found nhanvien with the manv
+                result({ kind: "not_found" }, null);
+                return;
+            }
+            console.log("updated nhanvien: ", { manv: manv, ...nhanvien });
+            result(null, { manv: manv, ...nhanvien });
+        }
+    );
+};
+
+
+NhanVien.updateByMaNVAD = (manv, nhanvien, result) => {
+    sql.query(
+        "UPDATE nhanvien SET taikhoan =?, honv = ?, tennv = ?, ngaysinh = ?, sodt = ?, diachi = ? , email = ?, gioitinh = ?, luong =?, manhom =?   WHERE manv = ?",
+        [nhanvien.taikhoan, nhanvien.honv , nhanvien.tennv, nhanvien.ngaysinh , nhanvien.sodt, nhanvien.diachi, nhanvien.email, nhanvien.gioitinh,nhanvien.luong,nhanvien.manhom ,  manv],
         (err, res) => {
             if (err) {
                 console.log("error: ", err);
