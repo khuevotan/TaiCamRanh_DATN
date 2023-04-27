@@ -7,6 +7,11 @@ module.exports = app => {
     // Hiển thị danh sách các nhân viên
     router.get("/index",authMiddleware.loggedinad, nhanvien.findAll);
 
+
+    const pdfController = require('../controllers/admin/pdfluong.controller');
+
+    router.get('/pdf/:manv', pdfController.print); 
+
     // Hiển thị form tạo nhân viên
     router.get("/create", authMiddleware.loggedinad, nhanvien.create);
 

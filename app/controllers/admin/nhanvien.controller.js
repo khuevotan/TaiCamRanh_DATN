@@ -111,6 +111,7 @@ exports.store = (req, res) => {
                                 luong,
                                 ngaysinh,
                                 taikhoan,
+                                manhom,
                                 matkhau,
                                 email,
                                 conflictError,

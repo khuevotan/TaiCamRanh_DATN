@@ -4,9 +4,13 @@ const HoaDonRX = require("../../models/hoadonrx.model");
 const HoaDon = require("../../models/hoadon.model");
 const CTHoaDon = require("../../models/cthoadon.model");
 
+
+const mailer = require('../../utils/mailer');
+require('dotenv/config');
+
 const bcrypt = require('bcrypt');
 
-// Show form create khachhang
+// Hiện thị form tạo mới khách hàng
 exports.create = (req, res) => {
     res.locals.status = req.query.status;
     res.render('khachhang/createkh',  {layout: './master2'});
@@ -14,24 +18,134 @@ exports.create = (req, res) => {
 
 // Create and Save a new khachhang
 exports.store = (req, res) => {
-    // Validate request
-    if (!req.body) {
-        res.redirect('/khachhang/create?status=error')
+     // Validate request
+     if (!req.body) {
+        res.redirect('/admin/khachhang/create?status=error')
     }
 
-    // Create a khachhang
-    const khachhang = new Khachhang({
-        tenkh: req.body.tenkh,
-        hinhdd: req.body.hinhdd,
-        motact: req.body.motact,
-    });
-    // Save khachhang in the database
-    Khachhang.create(khachhang, (err, data) => {
-        if (err)
-            res.redirect('/khachhang/create?status=error')
-        else res.redirect('/khachhang/create?status=success')
-    });
+            const {
+                taikhoan,
+                matkhau,
+                matkhauxn,
+                tenkh,
+                hokh,
+                sodt,
+                diachi,
+                email,
+                ngaysinh,
+                gioitinh,
+            } = req.body;
+        
+            KhachHang.findByTaikhoanvaEmail(taikhoan, email, (err, khachhang) => {   
+                if (err || khachhang) {
+        
+                    const conflictError = 'Tên tài khoản hoặc email này đã tồn tại';
+                    res.render('khachhang/createkh', {
+                        taikhoan,
+                        matkhau,
+                        matkhauxn,
+                        tenkh,
+                        hokh,
+                        sodt,
+                        diachi,
+                        email,
+                        ngaysinh,
+                        gioitinh,
+                        conflictError,
+                        layout: './master2'
+                    });
+                } else {
+                    if(matkhau == matkhauxn){
+                        if(matkhau.match(/[a-z]/) && matkhau.match(/[A-Z]/) && matkhau.match(/\d/) && matkhau.match(/[^a-zA-Z\d]/) ){
+                            bcrypt.hash(matkhau, parseInt(process.env.BCRYPT_SALT_ROUND)).then((hashed) => {
+                                // Create a nhanvien
+        
+                                const khachhang = new KhachHang({
+                                    taikhoan: taikhoan,
+                                    matkhau: hashed,
+                                    email: email,
+                                    hokh: hokh,
+                                    tenkh: tenkh,
+                                    gioitinh: gioitinh,
+                                    diachi: diachi,
+                                    hinhdd: "khachhang.png",
+                                    kichhoat: 1,
+                                    ngaytaotk: new Date(),
+                                    sodt: sodt,
+                                    ngaysinh: ngaysinh,
+                                });
+        
+                                KhachHang.create(khachhang, (err, khachhang) => {
+                                    if (!err) {
+                                        bcrypt.hash(khachhang.email, parseInt(process.env.BCRYPT_SALT_ROUND)).then((hashedEmail) => {
+                                            console.log(`${process.env.APP_URL}/verify?email=${khachhang.email}&token=${hashedEmail}`);
+                                            mailer.sendMail(khachhang.email, "Verify Email", `<a href="${process.env.APP_URL}/admin/khachhang/verify?email=${khachhang.email}&token=${hashedEmail}"> Verify </a>`)
+                                        });
+        
+                                        res.redirect('/admin/khachhang/create?status=success')
+                                    }
+                                })
+                            });
+                        }else{
+                            const conflictError = 'Mật khẩu phải dài hơn 8 ký tự, cả chữ thường và chữ in hoa, ít nhất một số và một ký tự đặc biệt ví dụ: 012345Kh*';
+                            res.render('khachhang/createkh', {
+                                hokh,
+                                tenkh,
+                                matkhauxn,
+                                gioitinh,
+                                diachi,
+                                sodt,
+    
+                                ngaysinh,
+                                taikhoan,
+                                matkhau,
+                                email,
+                                conflictError,
+                      
+                                layout: './master2'
+
+                            });
+                        }
+                    }else{
+                        const conflictError = 'Bạn phải xác nhận mật khẩu đúng!';
+                        res.render('khachhang/createkh', {
+                            taikhoan,
+                            matkhau,
+                            matkhauxn,
+                            tennv,
+                            honv,
+                            sodt,
+                            diachi,
+                            email,
+                       
+                            ngaysinh,
+                            gioitinh,
+                    
+                            conflictError,
+                      
+                            layout: './master2'
+                        });
+                    }
+                }
+            })
 };
+
+// Xác thực tài khoản của nhân viên.
+exports.verify = (req, res) => {
+    bcrypt.compare(req.query.email, req.query.token, (err, result) => {
+        if (result == true) {
+            KhachHang.verify(req.query.email, (err, result) => {
+                if (!err) {
+                    res.redirect('/login');
+                } else {
+                    res.redirect('/500');
+                }
+            });
+        } else {
+            res.redirect('/404');
+        }
+    })
+}
 
 // Hiển thị khách hàng bên phía admin
 exports.findAll = (req, res) => {
@@ -83,7 +197,6 @@ exports.edit = (req, res) => {
     });
 };
 
-
 // Xóa một khách hàng bên phía admin
 exports.delete = (req, res) => {
     Khachhang.remove(req.params.makh, (err, data) => {
@@ -96,7 +209,6 @@ exports.delete = (req, res) => {
         } else res.redirect('/admin/khachhang?deleted=true')
     });
 };
-
 
 exports.trangCaNhan = (req, res) => {
     res.locals.khachhang = req.session.khachhang
@@ -114,8 +226,6 @@ exports.trangCaNhan = (req, res) => {
 
     });
 };
-
-
 
 // Edit bên phía khách hàng
 exports.editkh = (req, res) => {
