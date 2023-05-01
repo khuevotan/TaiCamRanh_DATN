@@ -4,11 +4,13 @@ const nhanVien = require('../controllers/admin/admin.controller');
 module.exports = app => {
     var router = require("express").Router();
 
-    // router.get('/', function(req, res){
-    //     res.send('hello admin');
-    // })
+    router.get('/500', function(req, res){
+        res.render('error_500.ejs',{layout: false});
+    })
 
-    // router.get('/login', controller.Login);
+    router.get('/404', function(req, res){
+        res.render('error_404.ejs',{layout: false});
+    })
 
     router.get('/index', authMiddleware.loggedinad, nhanVien.getIndex);
 
@@ -36,15 +38,18 @@ module.exports = app => {
     // thống kê sản phẩm bán chạy
     router.get('/nhanvien/thongke/sanpham', authMiddleware.loggedinad, nhanVien.sanPhamTK);
 
-
     router.get('/trangcanhan', authMiddleware.loggedinad, nhanVien.trangCaNhan);
 
     router.get("/chinhsuatt/:manv", authMiddleware.loggedinad, nhanVien.chinhSuaTT);
 
     router.put("/:manv", authMiddleware.loggedinad, nhanVien.update);
 
+    router.get("/chinhsuatt/formdmk/:manv", authMiddleware.loggedinad, nhanVien.formdoimktt);
     // nhấn vào nút đổi mk
     router.put("/doimatkhau/:manv", authMiddleware.loggedinad, nhanVien.changePassword);
+
+    // xác thực tài khoản
+    router.get("/xacthuctaikhoan/:email", authMiddleware.loggedinad, nhanVien.xacthuctaikhoan);
 
     //file upload avatar
     const multer = require("multer");

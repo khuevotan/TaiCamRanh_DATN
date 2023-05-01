@@ -1,42 +1,130 @@
-<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" />
+<!DOCTYPE html>
+<html>
 
-<section class="section-padding"></section>
-<section class="section-paddinghai"></section>
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width initial-scale=1.0">
+	<title>Tài Cam Ranh</title>
+	<!-- GLOBAL MAINLY STYLES-->
+	<link href="/assets/vendors/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet" />
+	<!-- THEME STYLES-->
+	<link href="/assets/css/main.css" rel="stylesheet" />
+	<!-- PAGE LEVEL STYLES-->
+	<link href="/assets/css/pages/auth-light.css" rel="stylesheet" />
+</head>
 
-<div class="row">
-	<div class="col-lg-3 col-md-4 mt-sm-30">
-	</div>
-	<div class="col-lg-6 col-md-4 card card-default rounded-0 shadow blur" style="border:1px solid black">
-		<h1 class="mb-20 text-center mt-20">Đổi Mật Khẩu</h1>
-		<form action="/password/reset" method="POST">
+<body class="bg-silver-300">
+	<div class="content">
+		<div class="brand">
+			<a class="link" href="/admin/login">AdminCAST</a>
+		</div>
+
+		<form action="/admin/password/reset" method="POST">
 			<input type="hidden" value="<%= token %>" name="token">
-			
-			<div class="" style="border:1px solid black" >
-				<input type="text" name="email" class="single-input" placeholder="Email"
-				value="<%= email %>"  required readonly>
+
+			<h3 class="m-t-10 m-b-10">Đổi Mật Khẩu Mới</h3>
+
+			<% if (typeof conflictError != "undefined" && conflictError) { %>
+			<div class="text-danger text-left  mb-3"><%= conflictError %></div>
+			<% } %>
+
+			<div class="form-group">
+
+				<input type="email" name="email" placeholder="Nhập Email" class="form-control" autocomplete="off"
+					<% if (typeof email != "undefined" && email) { %> value="<%= email %>" <% } %> readonly>
+
+
 			</div>
-					<div class="mt-10" style="border:1px solid black" >
-						<input  id="password-field" type="password" name="matkhau" placeholder="Nhập Password mới" required class="single-input">
-					</div>
-		
-				<div class="mt-10" >
-					Hiển thị
-				<span toggle="#password-field"
-						class="fa fa-fw fa-eye field-icon toggle-password"></span> 
-				</div>
+			<div class="form-group">
+				<input class="form-control" type="password" name="matkhaumoi" placeholder="Nhập Password mới" >
+			</div>
+
+			<div class="form-group">
+				<input class="form-control" type="password" name="matkhaumoixn" placeholder="Xác nhận Password"
+					required>
+			</div>
+			<div class="form-group">
+				<button class="btn btn-info btn-block" type="submit">Gửi</button>
+			</div>
+
+			<div class="form-group">
 
 				<div class="text-danger text-left  mb-3">
-					Chú Ý: Mật khẩu phải dài hơn 8 ký tự, cả chữ thường và chữ in hoa, ít nhất một số và một ký tự đặc biệt ví dụ: 012345Kh*
+					Chú Ý: Mật khẩu phải dài hơn 8 ký tự, cả chữ thường và chữ in hoa, ít nhất một số và một ký tự đặc
+					biệt ví dụ: 012345Kh*
 				</div>
-			<div class="mt-10 text-center  mb-10">
-				<input class="genric-btn info circle " type="submit">
+
 			</div>
+
 		</form>
-		
 	</div>
+	<!-- BEGIN PAGA BACKDROPS-->
+	<div class="sidenav-backdrop backdrop"></div>
+	<div class="preloader-backdrop">
+		<div class="page-preloader">Loading</div>
+	</div>
+	<!-- END PAGA BACKDROPS-->
+	<!-- CORE PLUGINS -->
+	<script src="/assets/vendors/jquery/dist/jquery.min.js" type="text/javascript"></script>
+	<script src="/assets/vendors/popper.js/dist/umd/popper.min.js" type="text/javascript"></script>
+	<script src="/assets/vendors/bootstrap/dist/js/bootstrap.min.js" type="text/javascript"></script>
+	<!-- PAGE LEVEL PLUGINS -->
+	<script src="/assets/vendors/jquery-validation/dist/jquery.validate.min.js" type="text/javascript"></script>
+	<!-- CORE SCRIPTS-->
+	<script src="/assets/js/app.js" type="text/javascript"></script>
+	<!-- PAGE LEVEL SCRIPTS-->
+	<script type="text/javascript">
+		$(function () {
+			$('#forgot-form').validate({
+				errorClass: "help-block",
+				rules: {
+					matkhaumoixn: {
+						required: !0,
+						rangelength: [8, 50],
+					},
+					matkhaumoi: {
+						required: !0,
+						rangelength: [8, 50],
+					},
+				},
+				highlight: function (e) {
+					$(e).closest(".form-group").addClass("has-error")
+				},
+				unhighlight: function (e) {
+					$(e).closest(".form-group").removeClass("has-error")
+				},
+			});
+		});
+	</script>
+</body>
 
-</div>
+</html>
 
+<script>
+	function getUrlParameter(name) {
+		name = name.replace(/[\[]/, '\\[').replace(/[\]]/, '\\]');
+		var regex = new RegExp('[\\?&]' + name + '=([^&#]*)');
+		var results = regex.exec(location.search);
+		return results === null ? '' : decodeURIComponent(results[1].replace(/\+/g, ' '));
+	};
 
-<script src="/home/login/js/jquery.min.js"></script>
-<script src="/home/login/js/main.js"></script> 
+	var status = getUrlParameter('status');
+
+	console.log(status);
+
+	if (status == 'khongtrungnhau'){
+		alert("Mật khẩu mới và xác nhận mật khẩu mới không trùng nhau!");
+	}
+
+	if (status == 'mahoakhongdung')
+	{
+		alert("Không thành công!. Mật khẩu phải dài hơn 8 ký tự, cả chữ thường và chữ in hoa, ít nhất một số và một ký tự đặc biệt ví dụ: 012345Kh*");
+	}
+
+	if(status == 'thanhcong')
+	{
+		alert("Đổi mật khẩu mới thành công!");
+	}
+</script>
+

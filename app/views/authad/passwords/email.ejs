@@ -1,26 +1,81 @@
-<section class="section-padding"></section>
-<section class="section-paddinghai"></section>
 
-<div class="row">
-	<div class="col-lg-3 col-md-4 mt-sm-30">
-	</div>
-	<div class="col-lg-6 col-md-4 card card-default rounded-0 shadow blur" style="border:1px solid black">
-		<h1 class="mb-20 text-center mt-20">Quên Mật Khẩu</h1>
-		<form action="/password/email" method="POST">
-			<div class="mt-10" style="border:1px solid black">
-				<input type="email" name="email" placeholder="Nhập Email" class="single-input"
-					<% if (typeof email != "undefined" && email) { %> value="<%= email %>" <% } %> required>
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width initial-scale=1.0">
+    <title>Tài Cam Ranh</title>
+    <!-- GLOBAL MAINLY STYLES-->
+    <link href="/assets/vendors/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <!-- THEME STYLES-->
+    <link href="/assets/css/main.css" rel="stylesheet" />
+    <!-- PAGE LEVEL STYLES-->
+    <link href="/assets/css/pages/auth-light.css" rel="stylesheet" />
+</head>
+
+<body class="bg-silver-300">
+    <div class="content">
+        <div class="brand">
+            <a class="link" href="/admin/login">AdminCAST</a>
+        </div>
+
+		<form id="forgot-form" action="/admin/password/email" method="POST">
+            <h3 class="m-t-10 m-b-10">Quên Mật Khẩu</h3>
+            <p class="m-b-20">Nhập địa chỉ email của bạn dưới đây và chúng tôi sẽ gửi cho bạn hướng dẫn đặt lại mật khẩu.</p>
+            <div class="form-group">
+				<% if (typeof conflictError != "undefined" && conflictError) { %>
+					<div class="text-danger text-left  mb-3"><%= conflictError %></div>
+					<% } %>
+
+				<input type="email" name="email" placeholder="Nhập Email" class="form-control" autocomplete="off"
+				<% if (typeof email != "undefined" && email) { %> value="<%= email %>" <% } %> required> 
 			</div>
 
-			<div class="mt-10 text-center  mb-10">
-				<input class="genric-btn info circle " type="submit">
-			</div>
-		</form>
-		<!-- <div id="status" class="text-danger text-left mb-3"></div> -->
+            <div class="form-group">
+                <button class="btn btn-info btn-block" type="submit">Gửi</button>
+            </div>
+        </form>
+    </div>
+    <!-- BEGIN PAGA BACKDROPS-->
+    <div class="sidenav-backdrop backdrop"></div>
+    <div class="preloader-backdrop">
+        <div class="page-preloader">Loading</div>
+    </div>
+    <!-- END PAGA BACKDROPS-->
+    <!-- CORE PLUGINS -->
+    <script src="/assets/vendors/jquery/dist/jquery.min.js" type="text/javascript"></script>
+    <script src="/assets/vendors/popper.js/dist/umd/popper.min.js" type="text/javascript"></script>
+    <script src="/assets/vendors/bootstrap/dist/js/bootstrap.min.js" type="text/javascript"></script>
+    <!-- PAGE LEVEL PLUGINS -->
+    <script src="/assets/vendors/jquery-validation/dist/jquery.validate.min.js" type="text/javascript"></script>
+    <!-- CORE SCRIPTS-->
+    <script src="/assets/js/app.js" type="text/javascript"></script>
+    <!-- PAGE LEVEL SCRIPTS-->
+    <script type="text/javascript">
+        $(function() {
+            $('#forgot-form').validate({
+                errorClass: "help-block",
+                rules: {
+                    email: {
+                        required: true,
+                        email: true
+                    },
+                },
+                highlight: function(e) {
+                    $(e).closest(".form-group").addClass("has-error")
+                },
+                unhighlight: function(e) {
+                    $(e).closest(".form-group").removeClass("has-error")
+                },
+            });
+        });
+    </script>
+</body>
 
-	</div>
+</html>
 
-</div>
 
 
 

@@ -1,12 +1,6 @@
 
     <div class="page-heading">
         <h1 class="page-title">Danh Sách Các Danh Mục</h1>
-        <ol class="breadcrumb">
-            <li class="breadcrumb-item">
-                <a href="index.html"><i class="la la-home font-20"></i></a>
-            </li>
-            <!-- <li class="breadcrumb-item">DataTables</li> -->
-        </ol>
     </div>
     <div class="page-content fade-in-up">
        
@@ -38,25 +32,26 @@
                 <table class="table table-striped table-bordered table-hover" id="example-table" cellspacing="0" width="100%">
                     <thead>
                         <tr>
-                            <th>MãThamSố</th>
-                            <th>TênThamSố</th>
-                            <th>GiáTrị</th>
-                            <th>ChúThích</th>
+                            <th>MãNhàCungCấp</th>
+                            <th>Tên</th>
+                            <th>SốĐiệnThoại</th>
+                            <th>ĐịaChỉ</th>
                             <th>HànhĐộng</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <% thamso.forEach((item) => { %>
+                        <% nhacungcap.forEach((item) => { %>
                         <tr>
-                            <td><%= item.mats %></td>
-                            <td><%= item.tents %></td>
-                            <td><%= item.giatri %></td>
-                            <td><%= item.chuthich %></td>
-                          
+                            <td><%= item.mancc %></td>
+                            <td><%= item.tenncc %></td>
+                            <td> 
+                                <%= item.sodt %>
+                            </td>
+                            <td><%= item.diachi %></td>
                                 <td>
-                                    <a href="/admin/thamso/details/<%= item.mats %>" class="btn btn-default btn-xs m-r-5" data-toggle="tooltip" data-original-title="Details"><i class="fa fa-info font-14"></i></a>
-                                    <a href="/admin/thamso/edit/<%= item.mats %>" class="btn btn-default btn-xs m-r-5" data-toggle="tooltip" data-original-title="Edit"><i class="fa fa-pencil font-14"></i></a>
-                            
+                                    <a href="/admin/nhacungcap/details/<%= item.mancc %>" class="btn btn-default btn-xs m-r-5" data-toggle="tooltip" data-original-title="Details"><i class="fa fa-info font-14"></i></a>
+                                    <a href="/admin/nhacungcap/edit/<%= item.mancc %>" class="btn btn-default btn-xs m-r-5" data-toggle="tooltip" data-original-title="Edit"><i class="fa fa-pencil font-14"></i></a>
+                                    <a href="/admin/nhacungcap/delete/<%= item.mancc %>" onclick="return confirm('Bạn có chắc chăn muốn xóa không?')" class="btn btn-default btn-xs" data-toggle="tooltip" data-original-title="Delete"><i class="fa fa-trash font-14"></i></a>
                                 </td>
                         </tr>     
                         <% }) %>  
@@ -71,7 +66,7 @@
         $('#example-table').DataTable({
             pageLength: 10,
             dom: 'Bfrtip',
-            scrollX: true,
+            crollX: true,
             buttons: [
                 'copy', 'csv', 'excel', 'pdf', 'print'
             ]

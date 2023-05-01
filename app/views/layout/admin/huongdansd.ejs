@@ -4,46 +4,106 @@
         <div class="col-md-6">
             <div class="ibox">
                 <div class="ibox-head">
-                    <div class="ibox-title">Chức Năng Admin</div>
+                    <div class="ibox-title">Chức Năng Của Quản Lý</div>
                 </div>
                 <div class="ibox-body">
                     <ul class="nav nav-tabs">
                         <li class="nav-item">
-                            <a class="nav-link active" href="#tab-1-1" data-toggle="tab"><i class="fa fa-line-chart"></i> Bảng Tham Số</a>
+                            <a class="nav-link active" href="#tab-1-1" data-toggle="tab">Tham Số</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="#tab-1-2" data-toggle="tab"><i class="fa fa-heartbeat"></i> Bảng Trạng Thái</a>
+                            <a class="nav-link" href="#tab-1-2" data-toggle="tab">Trạng Thái</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#tab-1-3" data-toggle="tab">Thống Kê</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#tab-1-4" data-toggle="tab">Sản Phẩm</a>
                         </li>
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" data-toggle="dropdown">More <i class="fa fa-angle-down"></i></a>
                             <ul class="dropdown-menu" role="menu">
-                                <a class="dropdown-item" href="#tab-1-3" data-toggle="tab">Danh Mục</a>
-                                <a class="dropdown-item" href="#tab-1-4" data-toggle="tab">Sản Phẩm</a>
-                                <a class="dropdown-item" href="#tab-1-5" data-toggle="tab">Loại Xe</a>
-                                <a class="dropdown-item" href="#tab-1-5" data-toggle="tab">Giờ Rửa</a>
-                                <a class="dropdown-item" href="#tab-1-6" data-toggle="tab">Đơn Đặt Lịch</a>
-                                <a class="dropdown-item" href="#tab-1-7" data-toggle="tab">Đơn Đặt Hàng</a>
-                                <a class="dropdown-item" href="#tab-1-8" data-toggle="tab">Nhân Viên</a>
-                                <a class="dropdown-item" href="#tab-1-8" data-toggle="tab">Nhóm</a>
-                                <a class="dropdown-item" href="#tab-1-9" data-toggle="tab">Khách Hàng</a>
-                                <a class="dropdown-item" href="#tab-1-10" data-toggle="tab">Bài Viết</a>
-                                <a class="dropdown-item" href="#tab-1-11" data-toggle="tab">Thống Kê</a>
+                                <a class="dropdown-item" href="#tab-1-5" data-toggle="tab">Danh Mục</a>
+                                <a class="dropdown-item" href="#tab-1-6" data-toggle="tab">Sản Phẩm</a>
+                                <a class="dropdown-item" href="#tab-1-7" data-toggle="tab">Loại Xe</a>
+                                <a class="dropdown-item" href="#tab-1-8" data-toggle="tab">Giờ Rửa</a>
+                                <a class="dropdown-item" href="#tab-1-9" data-toggle="tab">Đơn Đặt Lịch</a>
+                                <a class="dropdown-item" href="#tab-1-10" data-toggle="tab">Đơn Đặt Hàng</a>
+                                <a class="dropdown-item" href="#tab-1-11" data-toggle="tab">Nhân Viên</a>
+                                <a class="dropdown-item" href="#tab-1-12" data-toggle="tab">Nhóm</a>
+                                <a class="dropdown-item" href="#tab-1-13" data-toggle="tab">Khách Hàng</a>
+                                <a class="dropdown-item" href="#tab-1-14" data-toggle="tab">Bài Viết</a>
+                           
                             </ul>
                         </li>
                     </ul>
                     <div class="tab-content">
                         <div class="tab-pane fade show active" id="tab-1-1">
                             
-                            
-                            
-                            Cẩn thận khi chỉnh sửa bảng tham số. Tham số id = 1 dùng để giới hạn lượt đặt lịch hẹn rửa xe,
-                            Tham số id = 2 để giới hạn lượt đặt hàng của khách hàng.
+                            Bảng Tham Số dùng để lưu trữ các tham số cần thiết. 
+                            <ul>
+                                <li>Mã Tham số: 1, Số lượng xe mà cửa hàng có thể phục vụ trong một khung giờ (30p) dùng để giới hạn lượt đặt lịch hẹn rửa xe của khách hàng.
+                                    <ul>
+                                        <li> Ví dụ: MTS : 1 có giá trị là 5. Khung giờ 7:30 Ngày 01/05/2023 đã có 5 đơn đặt lịch. Khi khách hàng đặt lịch thì khung giờ 7:30 Ngày 01/05/2023 sẽ không được hiển thị trên màn hình.</li>
+                                    </ul>
+                                </li>
+                                <li>Mã Tham số: 2, Số lượng tối đa đơn đặt lịch của một khách hàng trong một ngày.</li>
+                                    <ul>
+                                        <li>Tránh Spam</li>
+                                    </ul>
+                                <li>Mã Tham số: 3, Số lượng tối đa đơn đặt hàng của một khách hàng trong một ngày.</li>
+                                <ul>
+                                    <li>Tránh Spam</li>
+                                </ul>
+                            </ul>
+                           
+                            <h5 style="color: red;">Cẩn thận khi chỉnh sửa bảng tham số.</h5>
+  
+                        </div>
+                        <div class="tab-pane" id="tab-1-2">
+                            Bảng Trạng Thái dùng để lưu trữ các trạng thái của đơn hàng. 
+                            <ul>
+                                <li>
+                                    Chờ Xác Nhận: Trạng thái đầu tiên khi khách hàng đặt hàng hoặc đặt lịch. Chờ phía cửa hàng xác nhận.
+                                </li>
+                                <li>
+                                    Đã Xác Nhận: Nhân viên bên cửa hàng đã xác nhận đặt hàng hoặc đặt lịch.
+                                </li>
+                                <li>
+                                    Hủy: Vì một số lí do nào đó đơn đặt hàng hoặc đặt lịch bị hủy. ví dụ: khách hàng không muốn nhận nữa.
+                                </li>
+                                <li>
+                                    Thành Công: Đơn đặt hàng đã được giao cho khách hàng hoặc xe của khách hàng đã được rửa thành công.
+                                </li>
+                                <li>
+                                    Đã Giao Cho Đơn Vị Vận Chuyển: Nhân viên cửa hàng đã gửi sản phẩm bên phía đơn vị vận chuyển và đợi giao đến khách hàng.
+                                </li>
+                            </ul>
+
+                        </div>
+                        <div class="tab-pane fade"id="tab-1-3">
+                            Các chức năng thống kê:
+                            <ul>
+                                <li>
+                                    Chờ Xác Nhận: Trạng thái đầu tiên khi khách hàng đặt hàng hoặc đặt lịch. Chờ phía cửa hàng xác nhận.
+                                </li>
+                                <li>
+                                    Đã Xác Nhận: Nhân viên bên cửa hàng đã xác nhận đặt hàng hoặc đặt lịch.
+                                </li>
+                                <li>
+                                    Hủy: Vì một số lí do nào đó đơn đặt hàng hoặc đặt lịch bị hủy. ví dụ: khách hàng không muốn nhận nữa.
+                                </li>
+                                <li>
+                                    Thành Công: Đơn đặt hàng đã được giao cho khách hàng hoặc xe của khách hàng đã được rửa thành công.
+                                </li>
+                                <li>
+                                    Đã Giao Cho Đơn Vị Vận Chuyển: Nhân viên cửa hàng đã gửi sản phẩm bên phía đơn vị vận chuyển và đợi giao đến khách hàng.
+                                </li>
+                            </ul>
+
                         
                         
                         </div>
-                        <div class="tab-pane" id="tab-1-2">Raw denim you probably haven't heard of them jean shorts Austin. Nesciunt tofu stumptown aliqua, retro synth master cleanse. Mustache cliche tempor, williamsburg carles vegan helvetica.</div>
-                        <div class="tab-pane fade"
-                            id="tab-1-3">Third tab</div>
                         <div class="tab-pane fade" id="tab-1-4">Fourth tab</div>
                     </div><br></div>
             </div>

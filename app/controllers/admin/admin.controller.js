@@ -3,14 +3,30 @@ const HoaDon = require("../../models/HoaDon.model");
 const HoaDonRX = require("../../models/HoaDonRX.model");
 const mailer = require('../../utils/mailer');
 const moment = require('moment');
-
+const bcrypt = require('bcrypt');
 require('dotenv/config');
 
-const bcrypt = require('bcrypt');
+
 
 exports.Login = (req, res) => {
     res.render('login.ejs',{layout: false});
 }
+
+exports.xacthuctaikhoan = (req, res) => {
+
+     var emailnv = req.params.email;
+
+     console.log("khue");
+     console.log(emailnv);
+    
+    bcrypt.hash(emailnv, parseInt(process.env.BCRYPT_SALT_ROUND)).then((hashedEmail) => {
+        console.log(`${process.env.APP_URL}/verify?email=${emailnv}&token=${hashedEmail}`);
+        mailer.sendMail(emailnv, "Verify Email", `<a href="${process.env.APP_URL}/admin/nhanvien/verify?email=${emailnv}&token=${hashedEmail}"> Verify </a>`)
+    });
+
+    res.redirect('/admin/trangcanhan?status=xacthucsuccess');  
+}
+
 
 exports.getIndex = (req, res) => {
 
@@ -358,7 +374,6 @@ exports.getIndex = (req, res) => {
         });
     });
 }
-
 
 
 // gửi mail
@@ -736,30 +751,15 @@ exports.doanhThuTuyChinh= (req, res) => {
             }
         }
         
-        console.log("KHUE TEST2");
-        console.log(mang2chieu);
-
         mang2chieu.sort((a, b) => {
             return new Date(a[0]) - new Date(b[0]);
         });
         
-        console.log(mang2chieu);
-      
-        console.log("KHUE TEST3");
-
-
-
        // lấy giá trị phần tử thứ 3 và chuyển thành chuỗi
        
        const chuoidate = mang2chieu.map( item => moment(item[0]).format('DD-MM-YYYY').toString()).join(', ');
        const chuoitienhd = mang2chieu.map(item => item[1].toString()).join(', ');
        const chuoitienhdrx = mang2chieu.map(item => item[2].toString()).join(', ');
-
-       console.log("KHUE TES5");
-
-       console.log(chuoidate);
-       console.log(chuoitienhd);
-       console.log(chuoitienhdrx);
 
        // Hiển thị data lần 2
        var ngaybatdau = req.body.ngaybatdau;
@@ -769,8 +769,6 @@ exports.doanhThuTuyChinh= (req, res) => {
 
        var changengaybatdau = moment(ngaybatdau).format('YYYY-MM-DD');
        var changengayketthuc = moment(ngayketthuc).format('YYYY-MM-DD');
-
-       
 
         res.render('thongke/thongkebd.ejs',{ 
             chuoidate: chuoidate ,
@@ -788,7 +786,7 @@ exports.doanhThuTuyChinh= (req, res) => {
 exports.trangCaNhan = (req, res) => {
     res.locals.nhanvien = req.session.nhanvien
     const manv = res.locals.nhanvien.manv;
-    console.log(manv);
+ 
     NhanVien.findByMaNV(manv, (err, data) => {
         if (err)
             res.redirect('/500')
@@ -822,6 +820,25 @@ exports.chinhSuaTT = (req, res) => {
     });
 };
 
+exports.formdoimktt = (req, res) => {
+    res.locals.status = req.query.status;
+
+    NhanVien.findByMaNV(req.params.manv, (err, data) => {
+        if (err) {
+            if (err.kind === "not_found") {
+                res.redirect('/404');
+            } else {
+                res.redirect('/500');
+            }
+        } else res.render('changpassnvtt', {
+            nhanvien: data, 
+            layout: './master2'
+        });
+    });
+};
+
+
+
 // Nhân viên chỉnh sửa thông tin ở prof nhân viên
 exports.update = (req, res) => {
     // Validate Request
@@ -844,47 +861,95 @@ exports.update = (req, res) => {
     );
 };
 
+
 // Update mật khẩu khi nhấn vào nút thay đổi cá nhân bên phía nhân viên
 exports.changePassword = (req, res) => {
+
+    res.locals.status = req.query.status;
     const {
         taikhoan,
         matkhaumoi,
+        matkhaumoixn,
         matkhaucu
     } = req.body;
-    console.log(taikhoan);
-    console.log(matkhaumoi);
-    console.log(matkhaucu);
 
-    NhanVien.findByTaikhoan(taikhoan, (err, admin) => {
-        bcrypt.compare(matkhaucu, admin.matkhau, (err, result) => {
-            console.log(result);
-            if (result == true) {
-                if (matkhaumoi.length >= 8 && matkhaumoi.match(/[a-z]/) && matkhaumoi.match(/[A-Z]/) && matkhaumoi.match(/\d/) && matkhaumoi.match(/[^a-zA-Z\d]/)) {
-                    bcrypt.hash(matkhaumoi, parseInt(process.env.BCRYPT_SALT_ROUND)).then((hashedMatkhau) => {
-                        NhanVien.resetPasswordNV(taikhoan, hashedMatkhau, (err, result) => {
-                            if (!err) {
-                                res.redirect('/admin/trangcanhan/?status=doimkthanhcong');
-
-                            } else {
-                                res.redirect("/500");
-                            }
-                        })
-                    })
+    if(req.body.matkhaumoi == req.body.matkhaumoixn){
+        NhanVien.findByMaNV(req.params.manv, (err, data) => {
+            if (err) {
+                if (err.kind === "not_found") {
+                    res.redirect('/404');
                 } else {
-                    res.redirect('/admin/trangcanhan/?status=doimatkhauthatbai');
+                    res.redirect('/500');
                 }
-
             } else {
-                const conflictError = 'Sai Password!';
-                res.render('auth/login', {
-                    taikhoan,
-                    matkhaucu,
-                    conflictError
+
+                NhanVien.findByTaikhoan(taikhoan, (err, nhanvien) => {
+                    bcrypt.compare(matkhaucu, nhanvien.matkhau, (err, result) => {
+                        console.log(result);
+                        if (result == true) {
+                            if (matkhaumoi.length >= 8 && matkhaumoi.match(/[a-z]/) && matkhaumoi.match(/[A-Z]/) && matkhaumoi.match(/\d/) && matkhaumoi.match(/[^a-zA-Z\d]/)) {
+                                bcrypt.hash(matkhaumoi, parseInt(process.env.BCRYPT_SALT_ROUND)).then((hashedMatkhau) => {
+                                    NhanVien.resetPasswordNV(taikhoan, hashedMatkhau, (err, result) => {
+                                        if (!err) {
+                                          
+
+                                            res.redirect('/admin/chinhsuatt/formdmk/'+ req.params.manv + '?status=success');  
+                                      
+            
+                                        } else {
+                                            res.redirect("/admin/500");
+                                        }
+                                    })
+                                })
+                            } else {
+                                const conflictError = 'Mật khẩu mới phải dài hơn 8 ký tự, cả chữ thường và chữ in hoa, ít nhất một số và một ký tự đặc biệt ví dụ: 012345Kh*';
+                            
+                                res.render('changpassnvtt.ejs', { 
+                                    nhanvien: data,
+                                    conflictError,  
+                                    layout: './master2'
+                                });
+
+                            }
+            
+                        } else {
+        
+                            const conflictError = 'Sai Password Cũ!';
+                       
+                            res.render('changpassnvtt.ejs', { 
+                                nhanvien: data,
+                                conflictError,  
+                                layout: './master2'
+                            });
+                        }
+                    })
+                })
+            }
+        });
+
+    }else{
+
+        res.locals.status = req.query.status;
+
+        NhanVien.findByMaNV(req.params.manv, (err, data) => {
+            if (err) {
+                if (err.kind === "not_found") {
+                    res.redirect('/404');
+                } else {
+                    res.redirect('/500');
+                }
+            } else {
+
+                const conflictError = 'Mật khẩu mới và xác nhận mật khẩu chưa khớp!';
+           
+                res.render('changpassnvtt.ejs', { 
+                    nhanvien: data,
+                    conflictError,  
+                    layout: './master2'
                 });
             }
-        })
-    })
-
+        });
+    }
 };
 
 
@@ -924,17 +989,3 @@ exports.uploadFile = (req, res) => {
 
     // res.send(file)
 }
-
-
-// exports.showView = (req, res) => {
-//     res.render('view.ejs',{layout: './master2'});
-// }
-
-// res.render('index', {layout: false}); -> neu khong muon truyen layout nao
-
-// module.exports.getIndex = (req, res) => {
-//     res.render('index.ejs', {
-//         name: 'Vo Tan Khue',
-//         age:22,
-//     });
-// }

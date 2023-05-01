@@ -10,6 +10,8 @@
 
 
 <div class="page-content fade-in-up">
+    <div class="row">
+        <div class="col-md-5"> 
 
             <% if (typeof status !== 'undefined') { %>
                 <%if (status == 'success') { %>
@@ -119,6 +121,14 @@
                             </div>
                         </div>
 
+                        <div class="form-group row">
+                            <label class="col-sm-2 col-form-label">Tổng tiền</label>
+                            <div class="col-sm-10">
+                                    <input class="form-control" type="text" name="tongtiensp"
+                                    value="<%= hoadon.tongtiensp %>" readonly> 
+                            </div>
+                        </div>
+
               
 
                         <div class="form-group row">
@@ -168,7 +178,135 @@
                         </div>
                     </form>
                 </div>
-        </div> 
+            </div> 
+
+        </div>
+
+        <div class="col-md-7">
+            <% if (typeof status !== 'undefined') { %>
+                <%if (status == 'successSP') { %>
+                    <div class="ibox ibox-success">
+                        <div class="ibox-head">
+                            <div class="ibox-title">
+                                <div style="color: rgb(255, 255, 255);">
+                                    Cập Nhật Thành Công!
+                                </div>
+                            </div>
+                            <div class="ibox-tools">
+                                <a class="ibox-collapse"><i class="fa fa-minus"></i></a>
+                                <a class="fullscreen-link"><i class="fa fa-expand"></i></a>
+                            </div>
+
+                <% } else { %>
+
+                    <%if (status == 'errorSP') { %>
+
+                    <div class=" ibox ibox-danger">
+                        <div class="ibox-head">
+                                <div class="ibox-title">
+                                       
+                                        <div style="color: rgb(255, 255, 255);">
+                                            Đã xảy ra lỗi khi cập nhật ảnh đại diện!
+                                        </div>
+                                </div>
+                                <div class="ibox-tools">
+                                        <a class="ibox-collapse"><i class="fa fa-minus"></i></a>
+                                        <a class="fullscreen-link"><i class="fa fa-expand"></i></a>
+                                </div>
+                                <% } else { %>
+                                    <div class="ibox ibox-info">
+                                        <div class="ibox-head">
+                                            <div class="ibox-title">
+                                                <div style="color: rgb(255, 255, 255);">
+                                                Cập Nhật Sản Phẩm Trong Đơn Hàng
+                                                </div>
+                                            </div>
+                                            <div class="ibox-tools">
+                                                <a class="ibox-collapse"><i class="fa fa-minus"></i></a>
+                                                <a class="fullscreen-link"><i class="fa fa-expand"></i></a>
+                                            </div>
+                                <% } %>
+                <% } %>
+            <% } else { %>
+                <div class="ibox ibox-info">
+                    <div class="ibox-head">
+                        <div class="ibox-title">
+                            <div style="color: rgb(255, 255, 255);">
+                            Danh Sách Sản Phấm
+                            </div>
+                        </div>
+                        <div class="ibox-tools">
+                            <a class="ibox-collapse"><i class="fa fa-minus"></i></a>
+                            <a class="fullscreen-link"><i class="fa fa-expand"></i></a>
+                        </div>
+            <% } %>
+                </div>
+                <div class="ibox-body">
+                  
+                        <table class="table table-bordered">
+                            <thead>
+                                <tr>
+                                    <th>Tên Sản Phẩm</th>
+                                    <th>Giá Tiền 1 SP</th>
+                                    <th>Số Lượng</th>
+                                    <th>Giá Tiền</th>
+                                    <th>Hành Động</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+
+                                <% cthd.forEach((item) => { %>
+                                    <% for(var i=0; i< sanpham.length; i++) { %>
+                                        <% if(sanpham[i].masp == item.masp){ %>    
+
+                                            <form action="/admin/cthoadon/<%= item.mahd %>/<%= item.masp %>" 
+                                                class="form-horizontal" 
+                                                method="POST"
+                                                onSubmit="return confirm('Bạn có chắc chắn muốn đổi?') ">
+                                                <input type="hidden" name="_method" value="put" />
+
+                                            <tr>
+                                                <td>  <%= sanpham[i].tensp %></td>
+                                                <td> 
+                                                    <input class="form-control" type="number" name="giaban"
+                                                    value="<%= sanpham[i].giaban %>" readonly>
+                                                
+                                                
+                                                </td>
+                                             
+                                                <td>
+                                                    <input class="form-control" type="number" name="soluong"
+                                            value="<%= item.soluong %>">
+                                        </td>
+                                                </td>
+                                                <td><%= item.giatien %> VNĐ</td>
+                                                <td> 
+                                                    <button class="btn btn-default btn-xs" data-toggle="tooltip" data-original-title="Update" type="submit"><i class="fa fa-check font-14"></i></button>
+
+                                                    <a href="/admin/cthoadon/delete/<%= item.mahd %>/<%= item.masp %>" onclick="return confirm('Bạn có chắc chăn muốn xóa không?')" class="btn btn-default btn-xs" data-toggle="tooltip" data-original-title="Delete"><i class="fa fa-trash font-14"></i></a>
+                                                   
+                                                
+                      
+                                                </td>
+                                            </tr>
+
+                                        </form>
+
+                                            <% } %>  
+                                            <%} %>
+                                    <% }) %>      
+                            </tbody>
+                        </table>
+                      
+                       
+                      
+                  
+                </div>
+            </div>
+        </div>
+
+    </div>
+
 </div>
 
 

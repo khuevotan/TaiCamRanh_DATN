@@ -4,6 +4,8 @@ const Danhmuc = function(danhmuc){
     this.tendm = danhmuc.tendm;
     this.hinhdd = danhmuc.hinhdd;
     this.motact = danhmuc.motact;
+    this.created_at = danhmuc.created_at;
+    this.updated_at = danhmuc.updated_at;
 };
 
 Danhmuc.create = (newDanhmuc, result) => {
@@ -52,8 +54,8 @@ Danhmuc.getAll = (tendm, result) => {
 
 Danhmuc.updateBymadm = (madm, danhmuc, result) => {
     sql.query(
-        "UPDATE danhmuc SET tendm = ?, hinhdd = ?, motact = ? WHERE madm = ?",
-        [danhmuc.tendm, danhmuc.hinhdd, danhmuc.motact , madm],
+        "UPDATE danhmuc SET tendm = ?, hinhdd = ?, motact = ?, updated_at = ? WHERE madm = ?",
+        [danhmuc.tendm, danhmuc.hinhdd, danhmuc.motact, new Date() , madm],
         (err, res) => {
             if (err) {
                 console.log("error: ", err);
@@ -65,16 +67,16 @@ Danhmuc.updateBymadm = (madm, danhmuc, result) => {
                 result({ kind: "not_found" }, null);
                 return;
             }
-            console.log("updated danhmuc: ", { madm: madm, ...danhmuc });
             result(null, { madm: madm, ...danhmuc });
         }
     );
 };
 
-Danhmuc.updateADD = (madm, hinhdd, result) => {
+// Updata ảnh đại diện.
+Danhmuc.updateADD = (madm, hinhdd,result) => {
     sql.query(
-        "UPDATE danhmuc SET hinhdd = ? WHERE madm = ?",
-        [hinhdd, madm],
+        "UPDATE danhmuc SET hinhdd = ?, updated_at = ? WHERE madm = ?",
+        [hinhdd,new Date() ,madm],
         (err, res) => {
             if (err) {
                 console.log("error: ", err);
@@ -90,6 +92,7 @@ Danhmuc.updateADD = (madm, hinhdd, result) => {
     );
 };
 
+// Xóa ảnh đại diện
 Danhmuc.remove = (madm, result) => {
     sql.query("DELETE FROM danhmuc WHERE madm = ?", madm, (err, res) => {
 
@@ -105,10 +108,8 @@ Danhmuc.remove = (madm, result) => {
             return;
         }
         
-        console.log("deleted danhmuc with madm: ", madm);
         result(null, res);
     });
 };
-
 
 module.exports = Danhmuc;

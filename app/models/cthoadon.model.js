@@ -5,9 +5,11 @@ const CTHoaDon = function(cthoadon){
     this.masp = cthoadon.masp;
     this.soluong = cthoadon.soluong;
     this.giatien = cthoadon.giatien;
+    this.created_at = cthoadon.created_at;
+    this.updated_at = cthoadon.updated_at;
 };
 
-// Tạo đơn rửa xe
+// Tạo đơn đặt hàng
 CTHoaDon.create = (newcthoadon, result) => {
     sql.query("INSERT INTO cthoadon SET ?", newcthoadon, (err, res) => {
         if (err) {
@@ -20,7 +22,7 @@ CTHoaDon.create = (newcthoadon, result) => {
     });
 };
 
-//tìm kiếm 1 hóa đơn bằng mã đơn hàng
+// Tìm kiếm 1 hóa đơn bằng mã đơn hàng
 CTHoaDon.findBymahd = (mahd, result) => { 
     let query = `SELECT * FROM cthoadon WHERE mahd = '${mahd}'`;
 
@@ -30,13 +32,13 @@ CTHoaDon.findBymahd = (mahd, result) => {
             result(null, err);
             return;
         }
-        console.log("hoadon: ", res);
+       
         result(null, res);
     });
 };
 
 
-// hiển thị hóa đơn rửa xe bên phía khách hàng
+// Hiển thị hóa đơn rửa xe bên phía khách hàng
 CTHoaDon.getAll = (makh, result) => {
     let query = `SELECT * FROM cthoadon WHERE makh = ${makh} and matt != 4`;
     // if (tenbv) {
@@ -54,10 +56,11 @@ CTHoaDon.getAll = (makh, result) => {
 };
 
 
-CTHoaDon.updateBymahd = (mahd, cthoadon, result) => {
+// Cập nhật chi tiết hóa đơn bằng mahd và masp
+CTHoaDon.updateBymahd = (mahd, masp, cthoadon, result) => {
     sql.query(
-        "UPDATE cthoadon SET tenbv = ?, noidung = ?, hinhdd = ?, hinhdd = ? , ngaydang = ? WHERE mahd = ?",
-        [cthoadon.tenbv, cthoadon.noidung , cthoadon.hinhdd, cthoadon.hinhdd , cthoadon.ngaydang,  mahd],
+        "UPDATE cthoadon SET soluong = ?, giatien = ?, updated_at = ? WHERE mahd = ? and masp = ? ",
+        [cthoadon.soluong , cthoadon.giatien, new Date(), mahd, masp],
         (err, res) => {
             if (err) {
                 console.log("error: ", err);
@@ -69,14 +72,14 @@ CTHoaDon.updateBymahd = (mahd, cthoadon, result) => {
                 result({ kind: "not_found" }, null);
                 return;
             }
-            console.log("updated cthoadon: ", { mahd: mahd, ...cthoadon });
             result(null, { mahd: mahd, ...cthoadon });
         }
     );
 };
 
-CTHoaDon.remove = (mahd, result) => {
-    sql.query("DELETE FROM cthoadon WHERE mahd = ?", mahd, (err, res) => {
+// Xóa chi tiết 1 hóa đơn
+CTHoaDon.remove = (mahd, masp, result) => {
+    sql.query("DELETE FROM cthoadon WHERE mahd = ? and masp = ?",[mahd,masp] , (err, res) => {
         if (err) {
             console.log("error: ", err);
             result(null, err);

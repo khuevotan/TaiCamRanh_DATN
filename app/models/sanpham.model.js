@@ -9,7 +9,10 @@ const Sanpham = function(sanpham){
     this.giaban = sanpham.giaban;
     this.ngaydang = sanpham.ngaydang;
     this.madm = sanpham.madm;
+    this.mancc = sanpham.mancc;
     this.manv = sanpham.manv;
+    this.created_at = sanpham.created_at;
+    this.updated_at = sanpham.updated_at;
 };
 
 // ======================= GIAO DIỆN ADMIN ======================
@@ -42,11 +45,9 @@ Sanpham.findBymasp = (masp, result) => {
     });
 };
 
-Sanpham.getAll = (tensp, result) => {
+Sanpham.getAll = (result) => {
     let query = "SELECT * FROM sanpham";
-    if (tensp) {
-        query += ` WHERE tensp LIKE '%${tensp}%'`;
-    }
+  
     sql.query(query, (err, res) => {
         if (err) {
             console.log("error: ", err);
@@ -76,8 +77,8 @@ Sanpham.remove = (masp, result) => {
 
 Sanpham.updateBymasp = (masp, sanpham, result) => {
     sql.query(
-        "UPDATE sanpham SET tensp = ?, soluong = ?, motact = ? , giaban = ?, madm = ? , manv = ? WHERE masp = ?",
-        [sanpham.tensp , sanpham.soluong, sanpham.motact , sanpham.giaban, sanpham.madm, sanpham.manv, masp],
+        "UPDATE sanpham SET tensp = ?, soluong = ?, motact = ? , giaban = ?, madm = ? , manv = ?, updated_at = ? WHERE masp = ?",
+        [sanpham.tensp , sanpham.soluong, sanpham.motact , sanpham.giaban, sanpham.madm, sanpham.manv, new Date(),masp],
         (err, res) => {
             if (err) {
                 console.log("error: ", err);
@@ -116,7 +117,7 @@ Sanpham.updateADD = (masp, hinhdd, result) => {
 };
 
 // ======================= GIAO DIỆN KHÁCH HÀNG ======================
-// hiển thị sản phẩm bên khánh hàng
+// Hiển thị sản phẩm bên khánh hàng
 Sanpham.getAllKH = (tensp, limit, offset, result) => {
     let query = `SELECT * FROM sanpham LIMIT ${limit} OFFSET ${offset}`;
     if (tensp) {
@@ -133,7 +134,7 @@ Sanpham.getAllKH = (tensp, limit, offset, result) => {
     });
 };
 
-//hiển thị sản phẩm theo danh mục bên phía khách hàng
+// Hiển thị sản phẩm theo danh mục bên phía khách hàng
 Sanpham.getAllKHdmsp = (madm, result) => {
     let query = `SELECT * FROM sanpham WHERE madm = ${madm} `;
   

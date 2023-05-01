@@ -15,7 +15,8 @@ const NhanVien = function(nhanvien){
     this.manhom = nhanvien.manhom;
     this.luong = nhanvien.luong;
     this.kichhoat = nhanvien.kichhoat;
-    this.ngaytaotk = nhanvien.ngaytaotk;
+    this.created_at = nhanvien.created_at;
+    this.updated_at = nhanvien.updated_at;
 };
 
 NhanVien.create = (newnhanvien, result) => {
@@ -106,8 +107,8 @@ NhanVien.getAll = (tennv, result) => {
 
 NhanVien.updateByMaNV = (manv, nhanvien, result) => {
     sql.query(
-        "UPDATE nhanvien SET taikhoan =?, honv = ?, tennv = ?, ngaysinh = ?, sodt = ?, diachi = ? , email = ?, gioitinh = ?,  WHERE manv = ?",
-        [nhanvien.taikhoan, nhanvien.honv , nhanvien.tennv, nhanvien.ngaysinh , nhanvien.sodt, nhanvien.diachi, nhanvien.email, nhanvien.gioitinh,  manv],
+        "UPDATE nhanvien SET taikhoan =?, honv = ?, tennv = ?, ngaysinh = ?, sodt = ?, diachi = ? , email = ?, gioitinh = ?, updated_at = ?  WHERE manv = ?",
+        [nhanvien.taikhoan, nhanvien.honv , nhanvien.tennv, nhanvien.ngaysinh , nhanvien.sodt, nhanvien.diachi, nhanvien.email, nhanvien.gioitinh, new Date(),  manv],
         (err, res) => {
             if (err) {
                 console.log("error: ", err);
@@ -128,8 +129,8 @@ NhanVien.updateByMaNV = (manv, nhanvien, result) => {
 
 NhanVien.updateByMaNVAD = (manv, nhanvien, result) => {
     sql.query(
-        "UPDATE nhanvien SET taikhoan =?, honv = ?, tennv = ?, ngaysinh = ?, sodt = ?, diachi = ? , email = ?, gioitinh = ?, luong =?, manhom =?   WHERE manv = ?",
-        [nhanvien.taikhoan, nhanvien.honv , nhanvien.tennv, nhanvien.ngaysinh , nhanvien.sodt, nhanvien.diachi, nhanvien.email, nhanvien.gioitinh,nhanvien.luong,nhanvien.manhom ,  manv],
+        "UPDATE nhanvien SET taikhoan =?, honv = ?, tennv = ?, ngaysinh = ?, sodt = ?, diachi = ? , email = ?, gioitinh = ?, luong =?, manhom =?, updated_at = ?   WHERE manv = ?",
+        [nhanvien.taikhoan, nhanvien.honv , nhanvien.tennv, nhanvien.ngaysinh , nhanvien.sodt, nhanvien.diachi, nhanvien.email, nhanvien.gioitinh,nhanvien.luong,nhanvien.manhom , new Date(), manv],
         (err, res) => {
             if (err) {
                 console.log("error: ", err);
@@ -151,8 +152,8 @@ NhanVien.updateByMaNVAD = (manv, nhanvien, result) => {
 // cập nhật ảnh đại diện
 NhanVien.updateAvaByMaNV = (manv, hinhdd, result) => {
     sql.query(
-        "UPDATE nhanvien SET hinhdd = ? WHERE manv = ?",
-        [hinhdd, manv],
+        "UPDATE nhanvien SET hinhdd = ?, updated_at = ? WHERE manv = ?",
+        [hinhdd, new Date(), manv],
         (err, res) => {
             if (err) {
                 console.log("error: ", err);
@@ -185,22 +186,11 @@ NhanVien.remove = (manv, result) => {
     });
 };
 
-NhanVien.removeAll = result => {
-    sql.query("DELETE FROM nhanvien", (err, res) => {
-        if (err) {
-            console.log("error: ", err);
-            result(null, err);
-            return;
-        }
-        console.log(`deleted ${res.affectedRows} nhanvien`);
-        result(null, res);
-    });
-};
 
 NhanVien.verify = (email, result) => {
     sql.query(
-        "UPDATE nhanvien SET kichhoat = ? WHERE email = ?",
-        [2, email],
+        "UPDATE nhanvien SET kichhoat = ?, updated_at = ? WHERE email = ?",
+        [2,new Date(), email],
         (err, res) => {
             if (err) {
                 console.log("error: ", err);
@@ -218,8 +208,8 @@ NhanVien.verify = (email, result) => {
 
 NhanVien.resetPassword = (email, matkhau, result) => {
     sql.query(
-        "UPDATE nhanvien SET matkhau = ? WHERE email = ?",
-        [matkhau, email],
+        "UPDATE nhanvien SET matkhau = ? , updated_at = ?WHERE email = ?",
+        [matkhau, new Date(), email],
         (err, res) => {
             if (err) {
                 console.log("error: ", err);
@@ -237,8 +227,8 @@ NhanVien.resetPassword = (email, matkhau, result) => {
 
 NhanVien.resetPasswordNV = (taikhoan, matkhau, result) => {
     sql.query(
-        "UPDATE nhanvien SET matkhau = ? WHERE taikhoan = ?",
-        [matkhau, taikhoan],
+        "UPDATE nhanvien SET matkhau = ?, updated_at = ? WHERE taikhoan = ?",
+        [matkhau, new Date(), taikhoan],
         (err, res) => {
             if (err) {
                 console.log("error: ", err);

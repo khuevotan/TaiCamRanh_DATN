@@ -46,7 +46,7 @@
                                 class="fa fa-fw fa-eye field-icon toggle-password"></span> 
                         </div>
                         <div class="ml-20">
-                            <a href="/password/reset" class="genric-btn link-border circle">Quên Mật Khẩu</a>
+                            <a href="/admin/password/reset" class="genric-btn link-border circle">Quên Mật Khẩu</a>
                         </div>
                     </div>
             </div>
@@ -74,11 +74,11 @@
 
 </html>
 
-
 <script src="/home/login/js/jquery.min.js"></script>
 <script src="/home/login/js/main.js"></script> 
 
-<!-- <script>
+
+<script>
 	function getUrlParameter(name) {
 		name = name.replace(/[\[]/, '\\[').replace(/[\]]/, '\\]');
 		var regex = new RegExp('[\\?&]' + name + '=([^&#]*)');
@@ -88,18 +88,8 @@
 
 	var status = getUrlParameter('status');
 
-	console.log(status);
-
-	if (status == 'thanhcong'){
-		alert("Đổi mật khẩu thành công!");
-	}
-
-	if (status == 'doimatkhauthatbai')
+	if(status == 'doimkthanhcong')
 	{
-		alert("Không thành công!. Mật khẩu phải dài hơn 8 ký tự, cả chữ thường và chữ in hoa, ít nhất một số và một ký tự đặc biệt ví dụ: 012345Kh*");
+		alert("Đổi mật khẩu mới thành công. Vui lòng đăng nhập!");
 	}
-	if(status == 'taotaikhoantc')
-	{
-		alert("Tạo tài khoản thành công, vui lòng check mail để xác nhận và đăng nhập!");
-	}
-</script> -->
+</script>

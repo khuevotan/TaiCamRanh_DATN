@@ -26,6 +26,8 @@ module.exports = app => {
     // Chỉnh sửa 1 hóa đơn rx khi nhấn nút chỉnh sửa -> hiển thị form
     router.get("/edit/:mahdrx", authMiddleware.loggedinad, hoadonrx.edit);
 
+    router.post("/doingay/:mahdrx", authMiddleware.loggedinad, hoadonrx.editdoingay);
+
     // Lưu hóa đơn rx khi nhấn nút update
     router.put("/:mahdrx", authMiddleware.loggedinad, hoadonrx.update);
 

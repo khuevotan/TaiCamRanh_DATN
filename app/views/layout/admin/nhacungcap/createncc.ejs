@@ -1,7 +1,7 @@
 
 
     <div class="page-heading">
-        <h1 class="page-title">Thêm Bài Viết Mới</h1>
+        <h1 class="page-title">Thêm Nhà Cung Cấp Mới</h1>
         <ol class="breadcrumb">
             <li class="breadcrumb-item">
                 <a href="/admin/index"><i class="la la-home font-20"></i></a>
@@ -28,7 +28,7 @@
                                 <div class="ibox-head">
                                     <div class="ibox-title">   
                                         <div style="color: rgb(255, 255, 255);">
-                                            Đã xảy ra lỗi khi tạo Bài Viết!
+                                            Đã xảy ra lỗi khi tạo Nhà Cung Cấp!
                                         </div>
                                     </div>
 
@@ -52,53 +52,37 @@
               
             </div>
             <div class="ibox-body">
-                <form action="/admin/baiviet/" 
+                <form action="/admin/nhacungcap/" 
                 class="form-horizontal"  
                 id="form-sample-1" 
                 method="post" 
-                enctype="multipart/form-data"
+             
                 onSubmit="return confirm('Bạn có chắc chắn muốn thêm mới?') ">
                     <div class="form-group row">
-                        <label class="col-sm-2 col-form-label">Tên Bài Viết</label>
+                        <label class="col-sm-2 col-form-label">Tên Nhà Cung Cấp</label>
                         <div class="col-sm-10">
-                            <input class="form-control" type="text" name="tenbv" >
+                            <input class="form-control" type="text" name="tendm" >
                         </div>
                         
                     </div>
-                    <div class="form-group row">
-                        <label class="col-sm-2 col-form-label">Mô Tả</label>
-                        <div class="col-sm-10">
-                       
-                            <textarea class="form-control" rows="3" name="motangan"></textarea>
-                        </div>
-                        
-                    </div>
-                    <div class="form-group row">
-                        <label class="col-sm-2 col-form-label">Hình Đại Diện</label>
-                        <div class="col-sm-10">
-                            <input class="form-control" type="file" name="hinhdd" accept="image/*">
-                        </div>
-                    </div>
-                    <div class="form-group row">
-                        <label class="col-sm-2 col-form-label">Nội Dung</label>
-                        <div class="col-sm-10">
-                      
-                            <textarea id="summernote" data-plugin="summernote" data-air-mode="true" name="noidung">
-                                <h4>Tiêu đề 1</h4> 
-                                .
-                                <h4>Tiêu đề 2</h4>
-                                <ul>
-                                    <li>Một.</li>
-                                    <li>Hai.</li>
-                                  
-                        
-                                </ul>
-                                <h4>Tiêu đề 3</h4> 
-                                 .
-                            </textarea>
 
+                    <div class="form-group row">
+                        <label class="col-sm-2 col-form-label">Số Điện Thoại</label>
+                        <div class="col-sm-10">
+                            <input class="form-control" type="text" name="sodt" >
                         </div>
+                        
                     </div>
+
+                    <div class="form-group row">
+                        <label class="col-sm-2 col-form-label">Địa Chỉ</label>
+                        <div class="col-sm-10">
+                            <input class="form-control" type="text" name="diachi" >
+                        </div>
+                        
+                    </div>
+                   
+                    
                     <div class="form-group row">
                         <div class="col-sm-10 ml-sm-auto">
                             <button class="btn btn-info" type="submit">Thêm Mới</button>
@@ -119,20 +103,17 @@
 <script type="text/javascript">
     $("#form-sample-1").validate({
         rules: {
-            tenbv: {
-                rangelength: [2, 500],
+            tenncc: {
+                rangelength: [2, 255],
                 required: !0
             },
-            mota: {
+            sodt: {
                 required: !0,
-                rangelength: [2, 500],
+                rangelength: [2, 15],
             },
-            noidung: {
+            diachi: {
                 required: !0,
-                rangelength: [2, 10000],
-            },
-            hinhdd: {
-                required: !0,
+                rangelength: [2, 255],
             }
         },
         errorClass: "help-block error",
@@ -145,12 +126,3 @@
     });
 </script>
 
-
-<script type="text/javascript">
-    $(function () {
-        $('#summernote').summernote();
-        $('#summernote_air').summernote({
-            airMode: true
-        });
-    });
-</script>

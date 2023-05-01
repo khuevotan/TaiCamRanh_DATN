@@ -13,7 +13,8 @@ const KhachHang = function(khachhang){
     this.hinhdd= khachhang.hinhdd;
     this.email = khachhang.email;
     this.kichhoat = khachhang.kichhoat;
-    this.ngaytaotk = khachhang.ngaytaotk;
+    this.created_at = khachhang.created_at;
+    this.updated_at = khachhang.updated_at;
 };
 
 KhachHang.create = (newKhachhang, result) => {
@@ -104,8 +105,8 @@ KhachHang.getAll = (tenkh, result) => {
 
 KhachHang.updateBymakhphiadmin = (makh, khachhang, result) => {
     sql.query(
-        "UPDATE khachhang SET taikhoan =?, hokh = ?, tenkh = ?, ngaysinh = ?, sodt = ?, diachi = ? , email = ?, gioitinh = ?, kichhoat = ? WHERE makh = ?",
-        [khachhang.taikhoan, khachhang.hokh , khachhang.tenkh, khachhang.ngaysinh , khachhang.sodt, khachhang.diachi, khachhang.email, khachhang.gioitinh , khachhang.kichhoat,  makh],
+        "UPDATE khachhang SET taikhoan =?, hokh = ?, tenkh = ?, ngaysinh = ?, sodt = ?, diachi = ? , email = ?, gioitinh = ?, kichhoat = ?, updated_at = ? WHERE makh = ?",
+        [khachhang.taikhoan, khachhang.hokh , khachhang.tenkh, khachhang.ngaysinh , khachhang.sodt, khachhang.diachi, khachhang.email, khachhang.gioitinh , khachhang.kichhoat, new Date(), makh],
         (err, res) => {
             if (err) {
                 console.log("error: ", err);
@@ -148,8 +149,8 @@ KhachHang.updateBymakh = (makh, khachhang, result) => {
 // cập nhật ảnh đại diện
 KhachHang.updateBymakhAva = (makh, hinhdd, result) => {
     sql.query(
-        "UPDATE khachhang SET hinhdd = ? WHERE makh = ?",
-        [hinhdd, makh],
+        "UPDATE khachhang SET hinhdd = ?,updated_at = ?  WHERE makh = ?",
+        [hinhdd,new Date(), makh],
         (err, res) => {
             if (err) {
                 console.log("error: ", err);
@@ -182,22 +183,10 @@ KhachHang.remove = (makh, result) => {
     });
 };
 
-KhachHang.removeAll = result => {
-    sql.query("DELETE FROM khachhang", (err, res) => {
-        if (err) {
-            console.log("error: ", err);
-            result(null, err);
-            return;
-        }
-        console.log(`deleted ${res.affectedRows} khachhang`);
-        result(null, res);
-    });
-};
-
 KhachHang.verify = (email, result) => {
     sql.query(
-        "UPDATE khachhang SET kichhoat = ? WHERE email = ?",
-        [1, email],
+        "UPDATE khachhang SET kichhoat = ?, updated_at = ? WHERE email = ?",
+        [2,new Date(), email],
         (err, res) => {
             if (err) {
                 console.log("error: ", err);
@@ -215,8 +204,8 @@ KhachHang.verify = (email, result) => {
 
 KhachHang.resetPassword = (email, matkhau, result) => {
     sql.query(
-        "UPDATE khachhang SET matkhau = ? WHERE email = ?",
-        [matkhau, email],
+        "UPDATE khachhang SET matkhau = ?, updated_at = ? WHERE email = ?",
+        [matkhau,new Date(), email],
         (err, res) => {
             if (err) {
                 console.log("error: ", err);
@@ -234,8 +223,8 @@ KhachHang.resetPassword = (email, matkhau, result) => {
 
 KhachHang.resetPasswordKH = (taikhoan, matkhau, result) => {
     sql.query(
-        "UPDATE khachhang SET matkhau = ? WHERE taikhoan = ?",
-        [matkhau, taikhoan],
+        "UPDATE khachhang SET matkhau = ?, updated_at = ? WHERE taikhoan = ?",
+        [matkhau,new Date(), taikhoan],
         (err, res) => {
             if (err) {
                 console.log("error: ", err);

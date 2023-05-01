@@ -178,6 +178,8 @@ exports.edit = (req, res) => {
     const tenlx = req.query.tenlx;
     const tentt = req.query.tentt;
 
+    var ngayruatd = ''; 
+
     HoaDonRX.findBymahdrx(req.params.mahdrx, (err, data) => {
         if (err) {
             if (err.kind === "not_found") {
@@ -192,30 +194,141 @@ exports.edit = (req, res) => {
                     res.redirect('/500')
                 else {
 
-                    Gio.getAll(tengio, (err, gio) => {
+                    ThamSo.findBymats(1, (err, MAX_ĐL) => {
                         if (err)
                             res.redirect('/500')
                         else {
-                            TrangThai.getAll(tentt, (err, trangthai) => {
+        
+                            if(req.body.ngayruatd ){
+                                var ngayruatd = req.body.ngayruatd;
+                                console.log(ngayruatd);
+                            }else{
+                                var ngayruatd = data.ngayrua;
+                                console.log(ngayruatd);
+                            }
+
+                            Gio.getAllKH(ngayruatd, MAX_ĐL.giatri, (err, gio) => {
+
+                                console.log("in gio");
+                                console.log(gio);
+
                                 if (err)
                                     res.redirect('/500')
                                 else {
-                                    res.render('hoadonrx/edithdr', {
-                                        hoadonrx: data,
-                                        loaixe: loaixe,
-                                        gio: gio,
-                                        trangthai: trangthai,
-                                        layout: './master2'
+                                    TrangThai.getAll(tentt, (err, trangthai) => {
+                                        if (err)
+                                            res.redirect('/500')
+                                        else {
+                                            res.render('hoadonrx/edithdr', {
+                                                hoadonrx: data,
+                                                loaixe: loaixe,
+                                                ngayruatd : ngayruatd,
+                                                gio: gio,
+                                                trangthai: trangthai,
+                                                layout: './master2'
+                                            });
+                                        }
                                     });
                                 }
                             });
                         }
                     });
+
                 }
             });
         }
     });
 };
+
+exports.editdoingay = (req, res) => {
+
+    res.locals.status = req.query.status;
+
+    const currentDate = new Date();
+    const chonDate = new Date(req.body.ngayruatd);
+
+    console.log("ngayduoc chon");
+    console.log(chonDate);
+
+    // Chuyển đổi đối tượng Date thành chuỗi ngày tháng năm
+    const dateString1 = chonDate.toDateString();
+    const dateString2 = currentDate.toDateString();
+
+    // So sánh chuỗi ngày tháng năm
+    if((chonDate < currentDate) && (dateString1 !== dateString2)){
+        
+        res.redirect('/admin/hoadonrx/edit/' + req.params.mahdrx + '?status=loingayqk');
+
+    }else{
+        if((dateString1 === dateString2) ||  (chonDate > currentDate)){
+            const tengio = req.query.tengio;
+    const tenlx = req.query.tenlx;
+    const tentt = req.query.tentt;
+
+    console.log(req.body.ngayruatd);
+
+    HoaDonRX.findBymahdrx(req.params.mahdrx, (err, data) => {
+        if (err) {
+            if (err.kind === "not_found") {
+                res.redirect('/404');
+            } else {
+                res.redirect('/500');
+            }
+        } else {
+
+            LoaiXe.getAll(tenlx, (err, loaixe) => {
+                if (err)
+                    res.redirect('/500')
+                else {
+
+                    ThamSo.findBymats(1, (err, MAX_ĐL) => {
+                        if (err)
+                            res.redirect('/500')
+                        else {
+        
+                            if(req.body.ngayruatd ){
+                                var ngayruatd = req.body.ngayruatd;
+                                console.log(ngayruatd);
+                            }else{
+                                var ngayruatd = data.ngayrua;
+                                console.log(ngayruatd);
+                            }
+
+                            Gio.getAllKH(ngayruatd, MAX_ĐL.giatri, (err, gio) => {
+
+                                console.log("in gio");
+                                console.log(gio);
+
+                                if (err)
+                                    res.redirect('/500')
+                                else {
+                                    TrangThai.getAll(tentt, (err, trangthai) => {
+                                        if (err)
+                                            res.redirect('/500')
+                                        else {
+                                            res.render('hoadonrx/edithdr', {
+                                                hoadonrx: data,
+                                                ngayruatd : ngayruatd,
+                                                loaixe: loaixe,
+                                                gio: gio,
+                                                trangthai: trangthai,
+                                                layout: './master2'
+                                            });
+                                        }
+                                    });
+                                }
+                            });
+                        }
+                    });
+
+                }
+            });
+        }
+    });
+        }
+    }  
+};
+
 
 // Cập nhật thông tin một hóa đơn đặt lịch.
 exports.update = (req, res) => {

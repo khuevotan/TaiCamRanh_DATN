@@ -4,8 +4,12 @@ const LoaiXe = function(loaixe){
     this.malx = loaixe.malx;
     this.tenlx = loaixe.tenlx;
     this.gia = loaixe.gia;
+    this.created_at = loaixe.created_at;
+    this.updated_at = loaixe.updated_at;
+
 };
 
+// Tạo một loại xe mới.
 LoaiXe.create = (newloaixe, result) => {
     sql.query("INSERT INTO loaixe SET ?", newloaixe, (err, res) => {
         if (err) {
@@ -18,6 +22,7 @@ LoaiXe.create = (newloaixe, result) => {
     });
 };
 
+// Tìm kiếm loại xe.
 LoaiXe.findBymalx = (malx, result) => {
     sql.query(`SELECT * FROM loaixe WHERE malx = ${malx}`, (err, res) => {
         if (err) {
@@ -35,27 +40,25 @@ LoaiXe.findBymalx = (malx, result) => {
     });
 };
 
-// hiên thị loại xe rửa
-LoaiXe.getAll = (tenlx, result) => {
+// Hiển thị danh sách loại xe rửa.
+LoaiXe.getAll = (result) => {
     let query = "SELECT * FROM loaixe";
-    if (tenlx) {
-        query += ` WHERE tenlx LIKE '%${tenlx}%'`;
-    }
+ 
     sql.query(query, (err, res) => {
         if (err) {
             console.log("error: ", err);
             result(null, err);
             return;
         }
-        console.log("loaixe: ", res);
         result(null, res);
     });
 };
 
+// Cập nhật loại xe rửa bằng mã loại xe.
 LoaiXe.updateBymalx = (malx, loaixe, result) => {
     sql.query(
-        "UPDATE loaixe SET tenlx = ?, gia = ? WHERE malx = ?",
-        [loaixe.tenlx, loaixe.gia, malx],
+        "UPDATE loaixe SET tenlx = ?, gia = ?, updated_at = ? WHERE malx = ?",
+        [loaixe.tenlx, loaixe.gia, new Date(), malx],
         (err, res) => {
             if (err) {
                 console.log("error: ", err);
@@ -67,12 +70,12 @@ LoaiXe.updateBymalx = (malx, loaixe, result) => {
                 result({ kind: "not_found" }, null);
                 return;
             }
-            console.log("updated loaixe: ", { malx: malx, ...loaixe });
             result(null, { malx: malx, ...loaixe });
         }
     );
 };
 
+// Xóa loại xe.
 LoaiXe.remove = (malx, result) => {
     sql.query("DELETE FROM loaixe WHERE malx = ?", malx, (err, res) => {
         if (err) {
@@ -90,16 +93,5 @@ LoaiXe.remove = (malx, result) => {
     });
 };
 
-LoaiXe.removeAll = result => {
-    sql.query("DELETE FROM loaixe", (err, res) => {
-        if (err) {
-            console.log("error: ", err);
-            result(null, err);
-            return;
-        }
-        console.log(`deleted ${res.affectedRows} loaixe`);
-        result(null, res);
-    });
-};
 
 module.exports = LoaiXe;

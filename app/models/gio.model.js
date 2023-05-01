@@ -3,6 +3,8 @@ const sql = require("./db")
 const Gio = function(gio){
     this.magio  = gio.magio ;
     this.tengio = gio.tengio;
+    this.created_at = gio.created_at;
+    this.updated_at = gio.updated_at;
 };
 
 
@@ -37,11 +39,9 @@ Gio.findBymagio = (magio, result) => {
 
 
 // Hiển thị danh sách giờ bên phía admin.
-Gio.getAll = (tengio, result) => {
+Gio.getAll = (result) => {
     let query = "SELECT * FROM gio";
-    if (tengio) {
-        query += ` WHERE tengio LIKE '%${tengio}%'`;
-    }
+   
     sql.query(query, (err, res) => {
         if (err) {
             console.log("error: ", err);
@@ -86,8 +86,8 @@ Gio.getAllKH = (ngayrua, MAX_ĐL, result) => {
 
 Gio.updateBymagio = (magio, gio, result) => {
     sql.query(
-        "UPDATE gio SET tengio = ? WHERE magio = ?",
-        [gio.tengio,  magio],
+        "UPDATE gio SET tengio = ?, updated_at = ? WHERE magio = ?",
+        [gio.tengio, new Date(), magio],
         (err, res) => {
             if (err) {
                 console.log("error: ", err);
@@ -117,7 +117,7 @@ Gio.remove = (magio, result) => {
             result({ kind: "not_found" }, null);
             return;
         }
-        console.log("deleted gio with magio: ", magio);
+     
         result(null, res);
     });
 };

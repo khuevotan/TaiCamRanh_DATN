@@ -3,6 +3,8 @@ const sql = require("./db")
 const TrangThai = function(trangthai){
     this.matt = trangthai.matt;
     this.tentt = trangthai.tentt;
+    this.created_at = trangthai.created_at;
+    this.updated_at = trangthai.updated_at;
 };
 
 TrangThai.create = (newtrangthai, result) => {
@@ -34,27 +36,26 @@ TrangThai.findBymatt = (matt, result) => {
     });
 };
 
-// hiên thị trạng thái đơn hàng
-TrangThai.getAll = (tentt, result) => {
+// Hiển thị trạng thái đơn hàng
+TrangThai.getAll = (result) => {
     let query = "SELECT * FROM trangthai";
-    if (tentt) {
-        query += ` WHERE tentt LIKE '%${tentt}%'`;
-    }
+   
     sql.query(query, (err, res) => {
         if (err) {
             console.log("error: ", err);
             result(null, err);
             return;
         }
-        console.log("trangthai: ", res);
+     
         result(null, res);
     });
 };
 
+// Update trạng thái
 TrangThai.updateBymatt = (matt, trangthai, result) => {
     sql.query(
-        "UPDATE trangthai SET tentt = ?, noidung = ?, hinhdd = ?, hinhdd = ? , ngaydang = ? WHERE matt = ?",
-        [trangthai.tentt, trangthai.noidung , trangthai.hinhdd, trangthai.hinhdd , trangthai.ngaydang,  matt],
+        "UPDATE trangthai SET tentt = ?, updated_at = ? WHERE matt = ?",
+        [trangthai.tentt,new Date() ,  matt],
         (err, res) => {
             if (err) {
                 console.log("error: ", err);
@@ -66,7 +67,6 @@ TrangThai.updateBymatt = (matt, trangthai, result) => {
                 result({ kind: "not_found" }, null);
                 return;
             }
-            console.log("updated trangthai: ", { matt: matt, ...trangthai });
             result(null, { matt: matt, ...trangthai });
         }
     );

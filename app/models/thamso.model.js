@@ -5,6 +5,8 @@ const ThamSo = function(thamso){
     this.tents = thamso.tents;
     this.giatri = thamso.giatri;
     this.chuthich = thamso.chuthich;
+    this.created_at = thamso.created_at;
+    this.updated_at = thamso.updated_at;
 };
 
 ThamSo.create = (newthamso, result) => {
@@ -33,11 +35,9 @@ ThamSo.findBymats = (mats, result) => {
     });
 };
 
-ThamSo.getAll = (tents, result) => {
+ThamSo.getAll = (result) => {
     let query = "SELECT * FROM thamso";
-    if (tents) {
-        query += ` WHERE tents LIKE '%${tents}%'`;
-    }
+  
     sql.query(query, (err, res) => {
         if (err) {
             console.log("error: ", err);
@@ -51,8 +51,8 @@ ThamSo.getAll = (tents, result) => {
 
 ThamSo.updateBymats = (mats, thamso, result) => {
     sql.query(
-        "UPDATE thamso SET tents = ?, noidung = ?, hinhdd = ?, hinhdd = ? , ngaydang = ? WHERE mats = ?",
-        [thamso.tents, thamso.noidung , thamso.hinhdd, thamso.hinhdd , thamso.ngaydang,  mats],
+        "UPDATE thamso SET tents = ?, giatri = ?, chuthich = ?, updated_at = ? WHERE mats = ?",
+        [thamso.tents, thamso.giatri , thamso.chuthich ,new Date(), mats],
         (err, res) => {
             if (err) {
                 console.log("error: ", err);

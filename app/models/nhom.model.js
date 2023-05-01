@@ -1,7 +1,10 @@
 const sql = require("./db");
 
 const Nhom = function(nhom){
+    this.manhom  = nhom.manhom ;
     this.tennhom = nhom.tennhom;
+    this.created_at = nhom.created_at;
+    this.updated_at = nhom.updated_at;
 };
 
 // Tìm nhóm bằng mã nhóm.
@@ -40,8 +43,8 @@ Nhom.getAll = (result) => {
 // Cập nhật thông tin nhóm bên phía admin.
 Nhom.updateByMaNhom = (manhom, nhom, result) => {
     sql.query(
-        "UPDATE nhom SET tennhom = ? WHERE manhom = ?",
-        [nhom.tennhom, manhom],
+        "UPDATE nhom SET tennhom = ?, updated_at = ? WHERE manhom = ?",
+        [nhom.tennhom,new Date(),  manhom],
         (err, res) => {
             if (err) {
                 console.log("error: ", err);

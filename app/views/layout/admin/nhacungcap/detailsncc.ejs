@@ -1,0 +1,76 @@
+
+
+<div class="page-content fade-in-up">
+  
+             <div class="ibox ibox-info">
+                    <div class="ibox-head">
+                        <div class="ibox-title">
+                            <div style="color: rgb(255, 255, 255);">
+                                Thông Tin Chi Tiết
+                            </div>
+                        </div>
+                        <div class="ibox-tools">
+                            <a class="ibox-collapse"><i class="fa fa-minus"></i></a>
+                        </div>
+                </div>
+
+                <div class="ibox-body">
+                        <div class="form-group row">
+                            <label class="col-sm-2 col-form-label">Mã Danh Mục</label>
+                            <div class="col-sm-10">
+                                <input class="form-control" type="text" name="mancc"
+                                    value="<%= nhacungcap.mancc %>" readonly>
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label class="col-sm-2 col-form-label">Tên Danh Mục</label>
+                            <div class="col-sm-10">
+                                <input class="form-control" type="text" name="tenncc"
+                                    value="<%= nhacungcap.tenncc %>" readonly>
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label class="col-sm-2 col-form-label">Số Điện Thoại</label>
+                            <div class="col-sm-10">
+                                <input class="form-control" type="text" name="sodt"
+                                    value="<%= nhacungcap.sodt %>" readonly>
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label class="col-sm-2 col-form-label">Địa Chỉ</label>
+                            <div class="col-sm-10">
+                                <input class="form-control" type="text" name="tenncc"
+                                    value="<%= nhacungcap.diachi %>" readonly>
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label class="col-sm-2 col-form-label">Ngày Cập Nhật Gần Nhất</label>
+                            <div class="col-sm-10">
+                                <input class="form-control" type="text" name="updated_at"
+                                    value=" <%= moment(nhacungcap.updated_at).format('DD-MM-YYYY HH:mm:ss') %> " readonly>
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label class="col-sm-2 col-form-label">Ngày Tạo</label>
+                            <div class="col-sm-10">
+                                <input class="form-control" type="text" name="created_at"
+                                    value=" <%= moment(nhacungcap.created_at).format('DD-MM-YYYY HH:mm:ss') %> " readonly>
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <div class="col-sm-10 ml-sm-auto">
+                                <a href="/admin/nhacungcap/edit/<%= nhacungcap.mancc %>" class="btn btn-info btn-rounded" >Chỉnh Sửa </a>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div> 
+</div>
+
+

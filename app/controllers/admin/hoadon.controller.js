@@ -33,6 +33,7 @@ exports.findAll = (req, res) => {
 exports.edit = (req, res) => {
     res.locals.status = req.query.status;
     const tentt = req.query.tentt;
+    const tensp = req.query.tentt;
     HoaDon.findBymahd(req.params.mahd, (err, data) => {
         if (err) {
             if (err.kind === "not_found") {
@@ -46,10 +47,25 @@ exports.edit = (req, res) => {
                 if (err)
                     res.redirect('/500')
                 else {
-                    res.render('hoadon/edithd', {
-                        hoadon: data,
-                        trangthai: trangthai,
-                        layout: './master2'
+
+                    CTHoaDon.findBymahd(req.params.mahd, (err, cthd) => {
+                        if (err)
+                            res.redirect('/500')
+                        else {
+                            SanPham.getAll(tensp, (err, sanpham) => {
+                                if (err)
+                                    res.redirect('/500')
+                                else {
+                                    res.render('hoadon/edithd', {
+                                        hoadon: data,
+                                        trangthai: trangthai,
+                                        cthd: cthd,
+                                        sanpham: sanpham,
+                                        layout: './master2'
+                                    });                 
+                                }
+                            });
+                        }
                     });
                 }
             });

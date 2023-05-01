@@ -4,6 +4,21 @@ const ThamSo = require("../../models/ThamSo.model");
 
 //======================= GIAO DIEN ADMIN ======================= 
 // Hiển thị form tạo mới loại xe.
+
+
+// exports.create = async (req, res) => {
+//     try {
+//       res.locals.status = req.query.status;
+//       await res.render('loaixe/createlx', {
+//         layout: './master2'
+//       });
+//     } catch (err) {
+//       console.error(err);
+//       res.status(500).send('Internal Server Error');
+//     }
+//   };
+
+  
 exports.create = (req, res) => {
     res.locals.status = req.query.status;
     res.render('loaixe/createlx', {

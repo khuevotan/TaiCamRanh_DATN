@@ -58,7 +58,7 @@ exports.adupdatemk = (req, res) => {
                         if (result == true) {
                             if (matkhaumoi.length >= 8 && matkhaumoi.match(/[a-z]/) && matkhaumoi.match(/[A-Z]/) && matkhaumoi.match(/\d/) && matkhaumoi.match(/[^a-zA-Z\d]/)) {
                                 bcrypt.hash(matkhaumoi, parseInt(process.env.BCRYPT_SALT_ROUND)).then((hashedMatkhau) => {
-                                    NhanVien.resetPasswordKH(taikhoan, hashedMatkhau, (err, result) => {
+                                    NhanVien.resetPasswordNV(taikhoan, hashedMatkhau, (err, result) => {
                                         if (!err) {
                                             res.redirect('/admin/nhanvien/changepass/'+ req.params.manv + '?status=success');  
             

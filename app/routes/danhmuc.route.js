@@ -47,6 +47,7 @@ module.exports = app => {
 
     // Chỉnh sửa 1 danh mục khi nhấn nút chỉnh sửa -> hiển thị form
     router.get("/edit/:madm", authMiddleware.loggedinad, danhMuc.edit);
+    
     // Lưu danh mục khi nhấn nút update
     router.put("/:madm", authMiddleware.loggedinad, danhMuc.update);
 

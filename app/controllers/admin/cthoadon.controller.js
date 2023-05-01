@@ -1,6 +1,8 @@
 const HoaDonRX = require("../../models/HoaDonRX.model");
 const Gio = require("../../models/Gio.model");
 const LoaiXe = require("../../models/LoaiXe.model");
+const CTHoaDon = require("../../models/CTHoaDon.model");
+const HoaDon = require("../../models/HoaDon.model");
 
 // Show form create hoadonrx
 exports.create = (req, res) => {
@@ -127,60 +129,129 @@ exports.chitietdatlich = (req, res) => {
 };
 
 // Find a single hoadonrx with a madm
-exports.edit = (req, res) => {
-    res.locals.status = req.query.status;
+// exports.edit = (req, res) => {
+//     res.locals.status = req.query.status;
 
-    HoaDonRX.findByMaDM(req.params.madm, (err, data) => {
-        if (err) {
-            if (err.kind === "not_found") {
-                res.redirect('/404');
-            } else {
-                res.redirect('/500');
-            }
-        } else res.render('hoadonrx/edit', { hoadonrx: data });
-    });
-};
+//     HoaDonRX.findByMaDM(req.params.madm, (err, data) => {
+//         if (err) {
+//             if (err.kind === "not_found") {
+//                 res.redirect('/404');
+//             } else {
+//                 res.redirect('/500');
+//             }
+//         } else res.render('hoadonrx/edit', { hoadonrx: data });
+//     });
+// };
 
-// Update a hoadonrx identified by the id in the request
+// Cập nhật số lượng, giá tiền sản phẩm trong hóa đơn
 exports.update = (req, res) => {
-    // Validate Request
+
     if (!req.body) {
-        res.redirect('/hoadonrx/edit/' + req.params.madm + '?status=error')
+        res.redirect('/admin/hoadon/edit/' + req.params.mahd + '?status=errorSP');
     }
 
-    HoaDonRX.updateByMaDM(
-        req.params.madm,
-        new hoadonrx(req.body),
+    var giaban = req.body.giaban;
+    var soluongne =  req.body.soluong;
+
+    // Tạo một ct hóa đơn
+    const cthoadon = new CTHoaDon({
+        soluong: req.body.soluong,
+        giatien: giaban * soluongne,
+    });
+
+    CTHoaDon.updateBymahd(
+        req.params.mahd,
+        req.params.masp,
+        cthoadon,
         (err, data) => {
             if (err) {
                 if (err.kind === "not_found") {
-                    res.redirect('/404');
+                    res.redirect('/admin/404');
                 } else {
-                    res.redirect('/500');
+                    res.redirect('/admin/500');
                 }
-            } else res.redirect('/hoadonrx/edit/' + req.params.madm + '?status=success');
+            } else {
+
+                CTHoaDon.findBymahd(req.params.mahd, (err, cthd) => {
+                    if (err)
+                        res.redirect('/500')
+                    else {
+                      
+                        var giatien = cthd.map(item => item.giatien);
+
+                        var tongtiensp = 0;
+
+                        for (let i = 0; i < giatien.length; i++) {
+                            tongtiensp += giatien[i];
+                        }
+
+                        HoaDon.updateBymahdwitdtongtien(
+                            req.params.mahd,
+                            tongtiensp,
+                            (err, data) => {
+                                if (err) {
+                                    if (err.kind === "not_found") {
+                                        res.redirect('/404');
+                                    } else {
+                                        res.redirect('/500');
+                                    }
+                                } else res.redirect('/admin/hoadon/edit/' + req.params.mahd + '?status=successSP');
+                            }
+                        );
+
+                    }
+                });
+            }
         }
     );
 };
-// Delete a hoadonrx with the specified id in the request
+
+
+// xóa chi tiết hóa đơn
 exports.delete = (req, res) => {
-    HoaDonRX.remove(req.params.madm, (err, data) => {
+
+    CTHoaDon.remove(req.params.mahd , req.params.masp, (err, data) => {
         if (err) {
             if (err.kind === "not_found") {
-                res.redirect('/404');
+                res.redirect('/admin/404');
             } else {
-                res.redirect('/500');
+                res.redirect('/admin/500');
             }
-        } else res.redirect('/hoadonrx?deleted=true')
+        } else {
+
+            CTHoaDon.findBymahd(req.params.mahd, (err, cthd) => {
+                if (err)
+                    res.redirect('/500')
+                else {
+                  
+                    var giatien = cthd.map(item => item.giatien);
+
+                    var tongtiensp = 0;
+
+                    for (let i = 0; i < giatien.length; i++) {
+                        tongtiensp += giatien[i];
+                    }
+
+                    HoaDon.updateBymahdwitdtongtien(
+                        req.params.mahd,
+                        tongtiensp,
+                        (err, data) => {
+                            if (err) {
+                                if (err.kind === "not_found") {
+                                    res.redirect('/404');
+                                } else {
+                                    res.redirect('/500');
+                                }
+                            } else res.redirect('/admin/hoadon/edit/' + req.params.mahd + '?status=successSP');
+                        }
+                    );
+
+                }
+            });
+           
+        }
     });
 };
 
-// Delete all hoadonrx from the database.
-exports.deleteAll = (req, res) => {
-    HoaDonRX.removeAll((err, data) => {
-        if (err)
-            res.redirect('/500');
-        else res.redirect('/hoadonrx?deleted=true')
-    });
-};
+
 
