@@ -11,7 +11,8 @@
 
 <div class="page-content fade-in-up">
     <div class="row">
-        <div class="col-md-7">
+        <div class="col-md-5"> 
+
             <% if (typeof status !== 'undefined') { %>
                 <%if (status == 'success') { %>
 
@@ -45,7 +46,7 @@
                             <div class="ibox ibox-info">
                                 <div class="ibox-head">
                                     <div class="ibox-title">
-                                        MÃ Hóa Đơn RX: <%= hoadonrx.mahdrx %>
+                                        MÃ Hóa Đơn RX: <%= hoadon.mahd %>
                                         <div style="color: rgb(255, 255, 255);">
                                           
                                         </div>
@@ -60,7 +61,7 @@
             <div class="ibox ibox-info">
                 <div class="ibox-head">
                     <div class="ibox-title">
-                        MÃ Hóa Đơn RX: <%= hoadonrx.mahdrx %>
+                        MÃ Hóa Đơn: <%= hoadon.mahd %>
                         <div style="color: rgb(255, 255, 255);">
                           
                         </div>
@@ -73,54 +74,34 @@
                 </div>
 
                 <div class="ibox-body">
-                    <form action="/admin/hoadonrx/<%= hoadonrx.mahdrx %>" class="form-horizontal"
+                    <form action="/admin/hoadon/<%= hoadon.mahd %>" class="form-horizontal"
                         id="form-sample-1" method="post" novalidate="novalidate"
                         onSubmit="return confirm('Bạn có chắc chắn muốn thay đổi thông tin?') "
                         >
                         <input type="hidden" name="_method" value="put" />
-
+                        
                         <div class="form-group row">
-                            <label class="col-sm-2 col-form-label">Tên Người Rửa</label>
+                            <label class="col-sm-2 col-form-label">Tên Người Nhận</label>
                             <div class="col-sm-10">
-                                <input class="form-control" type="text" name="tennguoirua"
-                                    value="<%= hoadonrx.tennguoirua %>">
+                                <input class="form-control" type="text" name="tennguoinhan"
+                                    value="<%= hoadon.tennguoinhan %>">
                             </div>
                         </div>
 
                         <div class="form-group row">
-                            <label class="col-sm-2 col-form-label">Ngày Rửa</label>
+                            <label class="col-sm-2 col-form-label">Ngày Giao</label>
                             <div class="col-sm-10">
-                                <input class="form-control" type="date" name="ngayrua"
-
-                                <% if(ngayruatd == ''){ %>
-                                    value="<%= moment(hoadonrx.ngayrua).format('YYYY-MM-DD')%>" 
-                                    <% } else{ %>  
-                                        value="<%= moment(ngayruatd).format('YYYY-MM-DD')%>"
-                                   <% } %>
-                                    readonly>
+                                <input class="form-control" type="date" name="ngaygiao"
+                                    value="<%= moment(hoadon.ngaygiao).format('YYYY-MM-DD')%>">
                             </div>
                         </div>
 
-                        <div class="form-group row">
-                            <label class="col-sm-2 col-form-label">Giờ</label>
-                            <div class="col-sm-10">
-                                <select class="form-control" name="magio">
-                                    <% for(var i=0; i < gio.length; i++) { %>
-                                        <% if(gio[i].magio == hoadonrx.magio){ %>
-                                            <option name="magio" selected value="<%= gio[i].magio %>"> <%= gio[i].tengio %></option>
-                                            <% } else{ %>  
-                                                <option name="magio" value="<%= gio[i].magio %>"> <%= gio[i].tengio %></option>
-                                           <% } %>
-                                     <%} %>
-                                </select>
-                            </div>
-                        </div>
 
                         <div class="form-group row">
                             <label class="col-sm-2 col-form-label">Số Điện Thoại</label>
                             <div class="col-sm-10">
                                 <input class="form-control" type="text" name="sodt"
-                                    value="<%= hoadonrx.sodt %>">
+                                    value="<%= hoadon.sodt %>">
                             </div>
                         </div>
 
@@ -128,7 +109,7 @@
                             <label class="col-sm-2 col-form-label">Địa Chỉ</label>
                             <div class="col-sm-10">
                                 <input class="form-control" type="text" name="diachi"
-                                    value="<%= hoadonrx.diachi %>">
+                                    value="<%= hoadon.diachi %>">
                             </div>
                         </div>
 
@@ -136,23 +117,26 @@
                             <label class="col-sm-2 col-form-label">Ghi Chú</label>
                             <div class="col-sm-10">
                                 <textarea class="form-control" rows="6"
-                                    name="ghichu"><%= hoadonrx.ghichu %></textarea>
+                                    name="ghichu"><%= hoadon.ghichu %></textarea>
                             </div>
                         </div>
 
                         <div class="form-group row">
-                            <label class="col-sm-2 col-form-label">Tổng Tiền Rửa Xe</label>
+                            <label class="col-sm-2 col-form-label">Tổng tiền</label>
                             <div class="col-sm-10">
-                                <input class="form-control" type="text" name="tongtienrx"
-                                value="<%= hoadonrx.tongtienrx %>">
+                                    <input class="form-control" type="text" name="tongtiensp"
+                                    value="<%= hoadon.tongtiensp %>" readonly> 
                             </div>
                         </div>
+
+              
 
                         <div class="form-group row">
                             <label class="col-sm-2 col-form-label">Thanh Toán</label>
                             <div class="col-sm-10">
+
                                 <select class="form-control" name="thanhtoan">
-                                        <% if(hoadonrx.thanhtoan == 2){ %>
+                                        <% if(hoadon.thanhtoan == 2){ %>
                                             <option name="thanhtoan" selected value="2">Đã Thanh Toán</option>
                                             <option name="thanhtoan"  value="1"> Chưa Thanh Toán</option>
                                             <% } else{ %>  
@@ -163,15 +147,16 @@
                             </div>
                         </div>
 
+
                         <div class="form-group row">
-                            <label class="col-sm-2 col-form-label">Loại Xe</label>
+                            <label class="col-sm-2 col-form-label">Trạng Thái</label>
                             <div class="col-sm-10">
-                                <select class="form-control" name="malx">
-                                    <% for(var i=0; i < loaixe.length; i++) { %>
-                                        <% if(loaixe[i].malx == hoadonrx.malx){ %>
-                                            <option name="malx" selected value="<%= loaixe[i].malx %>"> <%= loaixe[i].tenlx %></option>
+                                <select class="form-control" name="matt">
+                                    <% for(var i=0; i < trangthai.length; i++) { %>
+                                        <% if(trangthai[i].matt == hoadon.matt){ %>
+                                            <option name="matt" selected value="<%= trangthai[i].matt %>"> <%= trangthai[i].tentt %></option>
                                             <% } else{ %>  
-                                                <option value="<%= loaixe[i].malx %>"> <%= loaixe[i].tenlx %></option>
+                                                <option value="<%= trangthai[i].matt %>"> <%= trangthai[i].tentt %></option>
                                            <% } %>
                                      <%} %>
                                 </select>
@@ -179,20 +164,10 @@
                         </div>
 
                         <div class="form-group row">
-                            <label class="col-sm-2 col-form-label">Trạng Thái</label>
+                            <label class="col-sm-2 col-form-label">Mã Khách Hàng</label>
                             <div class="col-sm-10">
-
-                                <select class="form-control" name="matt">
-                                    <% for(var i=0; i < trangthai.length; i++) { %>
-                                        <% if(trangthai[i].matt == hoadonrx.matt){ %>
-                                            <option name="matt" selected value="<%= trangthai[i].matt %>"> <%= trangthai[i].tentt %></option>
-                                            <% } else{ %>  
-                                                <option value="<%= trangthai[i].matt %>"> <%= trangthai[i].tentt %></option>
-                                           <% } %>
-                                     <%} %>
-                                </select>
-
-                          
+                                <input class="form-control" type="text" name="makh"
+                                value="<%= hoadon.makh %>" readonly>
                             </div>
                         </div>
 
@@ -205,10 +180,11 @@
                 </div>
             </div> 
 
-       </div>
-        <div class="col-md-5">
+        </div>
+
+        <div class="col-md-7">
             <% if (typeof status !== 'undefined') { %>
-                <%if (status == 'successhdd') { %>
+                <%if (status == 'successSP') { %>
                     <div class="ibox ibox-success">
                         <div class="ibox-head">
                             <div class="ibox-title">
@@ -223,14 +199,14 @@
 
                 <% } else { %>
 
-                    <%if (status == 'loingayqk') { %>
+                    <%if (status == 'errorSP') { %>
 
                     <div class=" ibox ibox-danger">
                         <div class="ibox-head">
                                 <div class="ibox-title">
                                        
                                         <div style="color: rgb(255, 255, 255);">
-                                            Không Được Chọn Ngày Ở Quá Khứ!
+                                            Đã xảy ra lỗi khi cập nhật ảnh đại diện!
                                         </div>
                                 </div>
                                 <div class="ibox-tools">
@@ -242,7 +218,7 @@
                                         <div class="ibox-head">
                                             <div class="ibox-title">
                                                 <div style="color: rgb(255, 255, 255);">
-                                                
+                                                Cập Nhật Sản Phẩm Trong Đơn Hàng
                                                 </div>
                                             </div>
                                             <div class="ibox-tools">
@@ -256,7 +232,7 @@
                     <div class="ibox-head">
                         <div class="ibox-title">
                             <div style="color: rgb(255, 255, 255);">
-                            Đổi Ngày Khác
+                            Danh Sách Sản Phấm
                             </div>
                         </div>
                         <div class="ibox-tools">
@@ -266,29 +242,71 @@
             <% } %>
                 </div>
                 <div class="ibox-body">
-                    <form action="/admin/hoadonrx/doingay/<%= hoadonrx.mahdrx  %>" 
-                        class="form-horizontal"
-                        method="POST"
-                        onSubmit="return confirm('Bạn có chắc chắn muốn đổi?') "
-                        
-                        > 
-                        <div class="form-group row">
-                            <label class="col-sm-2 col-form-label">Ngày Rửa</label>
-                            <div class="col-sm-10">
-                                <input class="form-control" type="date" name="ngayruatd"
-                                    value="<%= moment(ngayruatd).format('YYYY-MM-DD')%>">
-                            </div>
-                        </div>
+                  
+                        <table class="table table-bordered">
+                            <thead>
+                                <tr>
+                                    <th>Tên Sản Phẩm</th>
+                                    <th>Giá Tiền 1 SP</th>
+                                    <th>Số Lượng</th>
+                                    <th>Giá Tiền</th>
+                                    <th>Hành Động</th>
+                                </tr>
+                            </thead>
+                            <tbody>
 
-                        <input class="btn btn-info btn-rounded " type="submit" value="Đổi Ngày"/>
+                                <% cthd.forEach((item) => { %>
+                                    <% for(var i=0; i< sanpham.length; i++) { %>
+                                        <% if(sanpham[i].masp == item.masp){ %>    
+
+                                            <form action="/admin/cthoadon/<%= item.mahd %>/<%= item.masp %>" 
+                                                class="form-horizontal" 
+                                                method="POST"
+                                                onSubmit="return confirm('Bạn có chắc chắn muốn đổi?') ">
+                                                <input type="hidden" name="_method" value="put" />
+
+                                            <tr>
+                                                <td>  <%= sanpham[i].tensp %></td>
+                                                <td> 
+                                                    <input class="form-control" type="number" name="giaban"
+                                                    value="<%= sanpham[i].giaban %>" readonly>
+                                                
+                                                
+                                                </td>
+                                             
+                                                <td>
+                                                    <input class="form-control" type="number" name="soluong"
+                                            value="<%= item.soluong %>">
+                                        </td>
+                                                </td>
+                                                <td><%= item.giatien %> VNĐ</td>
+                                                <td> 
+                                                    <button class="btn btn-default btn-xs" data-toggle="tooltip" data-original-title="Update" type="submit"><i class="fa fa-check font-14"></i></button>
+
+                                                    <a href="/admin/cthoadon/delete/<%= item.mahd %>/<%= item.masp %>" onclick="return confirm('Bạn có chắc chăn muốn xóa không?')" class="btn btn-default btn-xs" data-toggle="tooltip" data-original-title="Delete"><i class="fa fa-trash font-14"></i></a>
+                                                   
+                                                
                       
-                     </form>
+                                                </td>
+                                            </tr>
+
+                                        </form>
+
+                                            <% } %>  
+                                            <%} %>
+                                    <% }) %>      
+                            </tbody>
+                        </table>
+                      
+                       
+                      
+                  
                 </div>
             </div>
         </div>
 
-
     </div>
+
 </div>
 
 
@@ -298,20 +316,13 @@
 <script type="text/javascript">
     $("#form-sample-1").validate({
         rules: {
-            tennguoirua: {
-                rangelength: [2, 255],
+            tennguoidat: {
+                rangelength: [2, 50],
                 required: !0
             },
-            sodt: {
-                number: true,
-                rangelength: [2, 15],
-                required: !0
-            },
-            diachi: {
-                rangelength: [2, 100],
-            },
-            ghichu: {
-                rangelength: [2, 500],
+            motact: {
+                required: !0,
+                rangelength: [2, 300],
             }
         },
         errorClass: "help-block error",

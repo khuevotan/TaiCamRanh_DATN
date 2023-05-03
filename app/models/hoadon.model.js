@@ -19,11 +19,9 @@ const HoaDon = function(hoadon){
 
 //======================= GIAO DIEN ADMIN ======================= 
 // Hiển thị hóa đơn đặt hàng bên phía admin.
-HoaDon.getAllAD = (tenhd,result) => {
+HoaDon.getAllAD = (result) => {
     let query = "SELECT * FROM hoadon";
-    if (tenhd) {
-        query += ` WHERE tenhd LIKE '%${tenhd}%'`;
-    }
+  
     sql.query(query, (err, res) => {
         if (err) {
             console.log("error: ", err);

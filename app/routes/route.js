@@ -18,4 +18,6 @@ module.exports = app => {
     require("./nhacungcap.route")(app);
     require("./nhom.route")(app);
     require("./khachhang_ad.route")(app);
+    require("./ctphieunhap.route")(app);
+    require("./phieunhap.route")(app);
 }

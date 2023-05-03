@@ -32,6 +32,7 @@ module.exports = app => {
          cart.add(product[0], productId);
          req.session.cart = cart;
          res.locals.cart = req.session.cart;
+         
          res.redirect('/shop');
     });
   });

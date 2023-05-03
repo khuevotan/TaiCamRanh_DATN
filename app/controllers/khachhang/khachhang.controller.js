@@ -146,8 +146,8 @@ exports.verify = (req, res) => {
 // Hiển thị khách hàng bên phía admin
 exports.findAll = (req, res) => {
     res.locals.deleted = req.query.deleted;
-    const tenkh = req.query.tenkh;
-    Khachhang.getAll(tenkh, (err, data) => {
+    
+    Khachhang.getAll((err, data) => {
         if (err)
             res.redirect('/500')
         else {
@@ -156,7 +156,6 @@ exports.findAll = (req, res) => {
                 layout: './master3'
             });
         }
-
     });
 };
 
@@ -612,7 +611,8 @@ exports.nhapThongTinDonHang = (req, res) => {
     res.locals.khachhang = req.session.khachhang
     const makh = res.locals.khachhang.makh;
 
-    res.locals.cart = req.session.cart
+    res.locals.cart = req.session.cart;
+
     const tongtiensp = res.locals.cart.totalPrice;
     const tongsosp = Object.keys(res.locals.cart.items).length;
 
@@ -631,7 +631,6 @@ exports.nhapThongTinDonHang = (req, res) => {
         // Create a hoadon
         const hoadon = new HoaDon({
             mahd : id,
-            ngaydat: new Date(),
             ngaygiao: new Date(),
             tennguoinhan: req.body.tennguoinhan,
             sodt: req.body.sodt,
@@ -640,18 +639,21 @@ exports.nhapThongTinDonHang = (req, res) => {
             tongtiensp: tongtiensp,
             thanhtoan: 1,
             matt: 1,
-            manv: 0,
+            manv: 1,
             makh: makh,
         });
 
          // Save hoadon in the database
         HoaDon.create(hoadon, (err, data) => {
-            console.log(err);
+       
             if (!err) {
 
                 const mahd = data.mahd;
 
                 for(var i = 1; i <= tongsosp; i++) { 
+
+              
+
                     masp =  res.locals.cart.items[i].item.masp;
                     soluong = res.locals.cart.items[i].quantity;
                     giatien = res.locals.cart.items[i].price;
@@ -661,7 +663,6 @@ exports.nhapThongTinDonHang = (req, res) => {
                         masp: masp,
                         soluong: soluong,
                         giatien: giatien,
-
                     });
 
                     CTHoaDon.create(cthoadon, (err, data) => {

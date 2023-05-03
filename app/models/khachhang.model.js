@@ -86,11 +86,9 @@ KhachHang.findByEmail = (email, result) => {
 }
 
 
-KhachHang.getAll = (tenkh, result) => {
+KhachHang.getAll = (result) => {
     let query = "SELECT * FROM khachhang";
-    if (tenkh) {
-        query += ` WHERE tenkh LIKE '%${tenkh}%'`;
-    }
+   
     sql.query(query, (err, res) => {
         if (err) {
             console.log("error: ", err);

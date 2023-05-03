@@ -69,8 +69,8 @@ HoaDonRX.findBymahdrx = (mahdrx, result) => {
 
 HoaDonRX.updateBymahdrx = (mahdrx, hoadonrx, result) => {
     sql.query(
-        "UPDATE hoadonrx SET tennguoirua = ?, created_at = ?, ngayrua = ?, magio = ? , sodt = ? , diachi = ? , ghichu = ? , tongtienrx = ? , thanhtoan = ? , malx = ? , matt = ? , manv = ? , makh = ?, updated_at = ?  WHERE mahdrx = ?",
-        [hoadonrx.tennguoirua, hoadonrx.created_at , hoadonrx.ngayrua, hoadonrx.magio , hoadonrx.sodt,  hoadonrx.diachi,hoadonrx.ghichu,hoadonrx.tongtienrx,hoadonrx.thanhtoan,hoadonrx.malx,hoadonrx.matt, hoadonrx.manv, hoadonrx.makh, new Date(), mahdrx],
+        "UPDATE hoadonrx SET tennguoirua = ?, ngayrua = ?, magio = ? , sodt = ? , diachi = ? , ghichu = ? , tongtienrx = ? , thanhtoan = ? , malx = ? , matt = ? , manv = ?, updated_at = ?  WHERE mahdrx = ?",
+        [hoadonrx.tennguoirua , hoadonrx.ngayrua, hoadonrx.magio , hoadonrx.sodt,  hoadonrx.diachi,hoadonrx.ghichu,hoadonrx.tongtienrx,hoadonrx.thanhtoan,hoadonrx.malx,hoadonrx.matt, hoadonrx.manv, new Date(), mahdrx],
         (err, res) => {
             if (err) {
                 console.log("error: ", err);

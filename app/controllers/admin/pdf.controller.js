@@ -38,7 +38,7 @@ exports.print = (req, res) => {
                             dtaloaixe = loaixe;
                             dtagio = gio;
 
-                            dtangaydat = moment(data.ngaydat).format('DD-MM-YYYY');
+                            dtangaydat = moment(data.created_at).format('DD-MM-YYYY');
                             dtangayrua =moment(data.ngayrua).format('DD-MM-YYYY');
 
                             const pdfData = {
@@ -50,9 +50,7 @@ exports.print = (req, res) => {
                                 dtagio,
                                 baseUrl: `${req.protocol}://${req.get('host')}` // http://localhost:3000
                             }
-                        
-                            console.log(pdfData);
-                        
+                               
                             const options = {
                                 format: 'A4'
                             }
@@ -72,7 +70,6 @@ exports.print = (req, res) => {
                                     console.log(error);
                                     res.send('Something went wrong.');
                                 });
-
                         }
                     });
                 }

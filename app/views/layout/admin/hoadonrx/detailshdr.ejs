@@ -12,134 +12,125 @@
         </div>
 
         <div class="ibox-body">
-        <div class="ibox invoice">
-            <div class="invoice-header">
-                <div class="row">
-                    <div class="col-6">
-                        <div class="col-6 ">
+            <div class="ibox invoice">
+                <div class="invoice-header">
+                    <div class="row">
+                        <div class="col-6">
+                            <div class="col-6 ">
                                 <dl class="row" style="width:350px;">
                                     <dt class="col-sm-6">Mã Hóa Đơn Rửa Xe:</dt>
                                     <dd class="col-sm-6"><%= hoadonrx.mahdrx %></dd>
                                     <dt class="col-sm-6">Tên Người Đặt:</dt>
-                                    <dd class="col-sm-6"><%= hoadonrx.tennguoidat %></dd>
+                                    <dd class="col-sm-6"><%= hoadonrx.tennguoirua %></dd>
                                     <dt class="col-sm-6">Số Điện Thoại:</dt>
                                     <dd class="col-sm-6"><%= hoadonrx.sodt  %></dd>
                                     <dt class="col-sm-6">Địa Chỉ:</dt>
                                     <dd class="col-sm-6"><%= hoadonrx.diachi  %></dd>
                                 </dl>
+                            </div>
+
                         </div>
-                     
-                    </div>
-                    <div class="col-6 text-right">
-                        <div class="clf" style="margin-bottom:30px;">
-                            <dl class="row pull-right" style="width:300px;">
-                                <dt class="col-sm-6">Ngày Đặt Lịch</dt>
-                                <dd class="col-sm-6"><%= moment(hoadonrx.ngaydat).format('DD-MM-YYYY')  %></dd>
-                                <dt class="col-sm-6">Ngày Rửa</dt>
-                                <dd class="col-sm-6"><%= moment(hoadonrx.ngayrua).format('DD-MM-YYYY')  %></dd>
-                             
-                            </dl>
+                        <div class="col-6 text-right">
+                            <div class="clf" style="margin-bottom:30px;">
+                                <dl class="row pull-right" style="width:300px;">
+                                    <dt class="col-sm-6">Ngày Đặt Lịch</dt>
+                                    <dd class="col-sm-6"><%= moment(hoadonrx.created_at).format('DD-MM-YYYY')  %></dd>
+                                    <dt class="col-sm-6">Ngày Rửa</dt>
+                                    <dd class="col-sm-6"><%= moment(hoadonrx.ngayrua).format('DD-MM-YYYY')  %></dd>
+
+                                </dl>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
-            <table class="table table-striped no-margin table-invoice">
-             
-                <tbody>
-                    <tr>
-                        <td>
-                            <div><strong>Tên Giờ</strong></div>
-                        </td>
-                        <td><%= gio.tengio %></td>
-                    </tr>
+                <table class="table table-striped no-margin table-invoice">
+                    <tbody>
+                        <tr>
+                            <td>
+                                <div><strong>Tên Giờ</strong></div>
+                            </td>
+                            <td><%= gio.tengio %></td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div><strong>Ghi Chú</strong></div>
+                            </td>
+                            <td><%= hoadonrx.ghichu %></td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div><strong>Tên Loại Xe Rửa</strong></div>
+                            </td>
+                            <td><%= loaixe.tenlx %></td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div><strong>Trạng Thái</strong></div>
+                            </td>
+                            <td><%=  trangthai.tentt %></td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div><strong>Mã Khách Hàng Đặt</strong></div>
+                            </td>
+                            <td><%= hoadonrx.makh %></td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div><strong>Mã Nhân Viên Chỉnh Sửa Gần Nhất</strong></div>
+                            </td>
+                            <td><%= hoadonrx.manv %></td>
+                        </tr>
+                    </tbody>
+                </table>
+                <table class="table no-border">
+                    <thead>
+                        <tr>
+                            <th></th>
+                            <th width="20%"></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="text-right">
+                            <td class="font-bold font-18">TỔNG TIỀN:</td>
+                            <td class="font-bold font-18"><%= hoadonrx.tongtienrx  %> VNĐ</td>
+                        </tr>
 
-                    <tr>
-                        <td>
-                            <div><strong>Ghi Chú</strong></div>
-                        </td>
-                        <td><%= hoadonrx.ghichu %></td>
-                    </tr>
+                        <tr class="text-right">
+                            <td class="font-bold font-18"></td>
+                            <td class="font-bold font-18"> <%if (hoadonrx.thanhtoan == 1) { %> <b
+                                    style="color: red;">Chưa Thanh Toán</b> <% }else { %> <b style="color: green;">Đã
+                                    Thanh Toán</b> <%  } %></td>
+                        </tr>
+                    </tbody>
+                </table>
+                <div class="text-right">
+                    <div class="form-group row">
+                        <div class="col-sm-10 ml-sm-auto">
+                            <a href="/admin/hoadonrx/edit/<%= hoadonrx.mahdrx %>" class="btn btn-info btn-rounded">Chỉnh
+                                Sửa
+                            </a>
+                            <a href="/admin/hoadonrx/pdf/<%= hoadonrx.mahdrx %>" class="btn btn-info btn-rounded"><i
+                                    class="fa fa-print"></i> Xuất Hóa Đơn
+                            </a>
+                        </div>
+                    </div>
 
-                    <tr>
-                        <td>
-                            <div><strong>Tên Loại Xe Rửa</strong></div>
-                        </td>
-                        <td><%= loaixe.tenlx %></td>
-                    </tr>
-
-                    
-                    <tr>
-                        <td>
-                            <div><strong>Trạng Thái</strong></div>
-                        </td>
-                        <td><%=  trangthai.tentt %></td>
-                    </tr>
-
-
-                    
-                    <tr>
-                        <td>
-                            <div><strong>Mã Khách Hàng Đặt</strong></div>
-                        </td>
-                        <td><%= hoadonrx.makh %></td>
-                    </tr>
-
-                    
-                    <tr>
-                        <td>
-                            <div><strong>Mã Nhân Viên Chỉnh Sửa Gần Nhất</strong></div>
-                        </td>
-                        <td><%= hoadonrx.manv %></td>
-                    </tr>
-                  
-                </tbody>
-            </table>
-            <table class="table no-border">
-                <thead>
-                    <tr>
-                        <th></th>
-                        <th width="20%"></th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr class="text-right">
-                        <td class="font-bold font-18">TỔNG TIỀN:</td>
-                        <td class="font-bold font-18"><%= hoadonrx.tongtienrx  %> VNĐ</td>
-                    </tr>
-
-                    <tr class="text-right">
-                        <td class="font-bold font-18"></td>
-                        <td class="font-bold font-18"> <%if (hoadonrx.thanhtoan == 1) { %> <b style="color: red;">Chưa Thanh Toán</b>  <% }else { %> <b style="color: green;">Đã Thanh Toán</b>  <%  } %></td>
-                    </tr>
-                </tbody>
-            </table>
-            <div class="text-right">
-                <div class="form-group row">
-                <div class="col-sm-10 ml-sm-auto">
-                    <a href="/admin/hoadonrx/edit/<%= hoadonrx.mahdrx %>" class="btn btn-info btn-rounded">Chỉnh Sửa
-                    </a>
-                    <a href="/admin/hoadonrx/pdf/<%= hoadonrx.mahdrx %>" class="btn btn-info btn-rounded"><i
-                        class="fa fa-print"></i> Xuất Hóa Đơn
-                    </a>
                 </div>
             </div>
-                
-            </div>
+            <style>
+                .invoice {
+                    padding: 5px
+                }
+
+                .invoice-header {
+                    margin-bottom: 20px
+                }
+
+                .table-invoice tr td:last-child {
+                    text-align: right;
+                }
+            </style>
         </div>
-        <style>
-             .invoice {
-                padding: 5px
-            }
-            .invoice-header {
-                margin-bottom: 20px
-            }
-
-            .table-invoice tr td:last-child {
-                text-align: right;
-            }
-        </style>
-     </div>
     </div>
 </div>
-
-            

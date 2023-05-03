@@ -73,27 +73,7 @@
                                     <%  } %>
                             </td>  
 
-                            <td>
-                                <% for(var i=0; i<trangthai.length; i++) { %>
-                                    <% if(trangthai[i].matt == item.matt && item.matt == 1){ %>
-                                    <span class="badge badge-default m-r-5 m-b-5"><%= trangthai[i].tentt %></span>
-                                     <% } %>
-                                     
-                                     <% if(trangthai[i].matt == item.matt && item.matt == 2){ %>
-                                        <span class="badge badge-info m-r-5 m-b-5"><%= trangthai[i].tentt %></span>
-                                    <% } %>
-
-                                    <% if(trangthai[i].matt == item.matt && item.matt == 3){ %>
-                                        <span class="badge badge-danger m-b-5"><%= trangthai[i].tentt %></span>
-                                    <% } %>
-
-                                    <% if(trangthai[i].matt == item.matt  && item.matt == 4){ %>
-                                        <span class="badge badge-success m-r-5 m-b-5"><%= trangthai[i].tentt %></span>
-                                    <% } %>
-                                      
-                                 <%} %>
-
-                            </td>  
+                            <td><%= item.matt %></td>  
                             <td><%= item.manv %></td>  
                             <td><%= item.makh %></td>  
 

@@ -7,7 +7,7 @@ const SanPham = require("../../models/SanPham.model");
 // Hiển thị danh sách hóa đơn.
 exports.findAll = (req, res) => {
     res.locals.deleted = req.query.deleted;
- 
+
     HoaDon.getAllAD((err, data) => {
         if (err)
             res.redirect('/500')
@@ -31,8 +31,7 @@ exports.findAll = (req, res) => {
 // Chỉnh sửa thông tin hóa đơn.
 exports.edit = (req, res) => {
     res.locals.status = req.query.status;
-  
-    const tensp = req.query.tentt;
+    
     HoaDon.findBymahd(req.params.mahd, (err, data) => {
         if (err) {
             if (err.kind === "not_found") {

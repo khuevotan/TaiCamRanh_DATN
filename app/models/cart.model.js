@@ -13,9 +13,6 @@ module.exports = function Cart(cart) {
             cartItem = this.items[id] = {item: item, quantity: 0, giaban: 0};
         }
 
-        console.log(cartItem.item.giaban);
-        console.log(cartItem.quantity);
-
         cartItem.quantity++;
         cartItem.price = cartItem.item.giaban * cartItem.quantity;
         this.totalItems++;

@@ -66,7 +66,7 @@ Gio.getAllKH = (ngayrua, MAX_ĐL, result) => {
                 result(null, err);
                 return;
             }
-            console.log("gio: ", res);
+         
             result(null, res);
         });
     }else{
@@ -77,7 +77,7 @@ Gio.getAllKH = (ngayrua, MAX_ĐL, result) => {
                 result(null, err);
                 return;
             }
-            console.log("gio: ", res);
+          
             result(null, res);
         });
     }

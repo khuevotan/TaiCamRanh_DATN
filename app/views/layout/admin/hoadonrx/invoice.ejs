@@ -116,8 +116,6 @@
                                 <%=dtahoadonrx.mahdrx%> <br />
                                 Ngày Đặt Lịch:
                                 <%=  dtangaydat %>
-
-                               
                             </td>
                         </tr>
                     </table>
@@ -142,12 +140,12 @@
                 </td>
             </tr>
             <tr class="heading">
-                <td>Thông Tin Người Đặt</td>
+                <td>Thông Tin Người Rửa</td>
                 <td></td>
             </tr>
             <tr class="details">
                 <td>Tên: </td>
-                <td><%=dtahoadonrx.tennguoidat%> </td>
+                <td><%=dtahoadonrx.tennguoirua%> </td>
             </tr>
 
             <tr class="details">
@@ -172,7 +170,7 @@
 
             <tr class="item">
                 <td> Giá Rửa Xe </td>
-                <td><%= (dtaloaixe.gia).toLocaleString() %></td>
+                <td><%= (dtaloaixe.gia).toLocaleString() %> VNĐ</td>
             </tr>
 
             <tr class="item">
@@ -192,7 +190,7 @@
             </tr>
 
             <tr class="item">
-                <td> Mã Nhân Viên Duyệt</td>
+                <td> Mã Nhân Viên Cập Nhật Gần Nhất</td>
                 <td><%= dtahoadonrx.manv %></td>
             </tr>
 

@@ -45,9 +45,9 @@ Sanpham.findBymasp = (masp, result) => {
     });
 };
 
-Sanpham.getAll = (result) => {
+Sanpham.getAll = (tensp, result) => {
     let query = "SELECT * FROM sanpham";
-  
+
     sql.query(query, (err, res) => {
         if (err) {
             console.log("error: ", err);
@@ -129,7 +129,7 @@ Sanpham.getAllKH = (tensp, limit, offset, result) => {
             result(null, err);
             return;
         }
-        console.log("sanpham: ", res);
+     
         result(null, res);
     });
 };

@@ -47,10 +47,9 @@ exports.chonNgay = (req, res) => {
 exports.showDLForm = (req, res) => {
    
     res.locals.status = req.query.status;
-    const tenlx = req.query.tenlx;
     const ngayrua = req.params.ngayrua;
 
-    LoaiXe.getAll(tenlx, (err, data) => {
+    LoaiXe.getAll((err, data) => {
         if (err)
             res.redirect('/500')
         else {
@@ -62,8 +61,12 @@ exports.showDLForm = (req, res) => {
                         if (err)
                             res.redirect('/500')
                         else {
+
+                            var giaTriDau = data[0].gia;
+
                             res.render('hoadonrx/datlichrxad', {
                                 loaixe: data,
+                                giaTriDau: giaTriDau,
                                 gio: gio,
                                 ngayrua,
                                 layout: './master2'
@@ -75,12 +78,6 @@ exports.showDLForm = (req, res) => {
         }
     });
 };
-
-// Show form create hoadonrx
-exports.create = (req, res) => {
-    res.locals.status = req.query.status;
-    res.render('hoadonrx/create');
-}
 
 // Nhấn đặt lịch
 exports.datlich = (req, res) => {
@@ -98,8 +95,7 @@ exports.datlich = (req, res) => {
     // Create a khachhang
     const hoadonrx = new HoaDonRX({
         mahdrx: id,
-        tennguoidat: req.body.tennguoidat,
-        ngaydat: new Date(),
+        tennguoirua: req.body.tennguoirua,
         ngayrua: req.body.ngayrua,
         magio: req.body.magio,
         sodt: req.body.sodt,
@@ -110,7 +106,7 @@ exports.datlich = (req, res) => {
         malx: req.body.malx,
         matt: 1,
         manv: manv,
-        makh: 0,
+        makh: 1,
     });
 
     // Save khachhang in the database
@@ -128,24 +124,20 @@ exports.datlich = (req, res) => {
 // Hiển thị danh sách hóa đơn đặt lịch
 exports.findAll = (req, res) => {
     res.locals.deleted = req.query.deleted;
-    const tengio = req.query.tengio;
-    const tenlx = req.query.tenlx;
-    const tentt = req.query.tentt;
 
     HoaDonRX.getAllAD((err, data) => {
         if (err)
             res.redirect('/500')
         else {
-            LoaiXe.getAll(tenlx, (err, loaixe) => {
+            LoaiXe.getAll((err, loaixe) => {
                 if (err)
                     res.redirect('/500')
                 else {
-
-                    Gio.getAll(tengio, (err, gio) => {
+                    Gio.getAll((err, gio) => {
                         if (err)
                             res.redirect('/500')
                         else {
-                            TrangThai.getAll(tentt, (err, trangthai) => {
+                            TrangThai.getAll((err, trangthai) => {
                                 if (err)
                                     res.redirect('/500')
                                 else {
@@ -157,15 +149,10 @@ exports.findAll = (req, res) => {
                                         layout: './master3'
                                     });
                                 }
-
                             });
-
                         }
-
                     });
-
                 }
-
             });
         }
     });
@@ -174,10 +161,7 @@ exports.findAll = (req, res) => {
 // Chỉnh sửa thông tin một hóa đơn đặt lịch.
 exports.edit = (req, res) => {
     res.locals.status = req.query.status;
-    const tengio = req.query.tengio;
-    const tenlx = req.query.tenlx;
-    const tentt = req.query.tentt;
-
+  
     var ngayruatd = ''; 
 
     HoaDonRX.findBymahdrx(req.params.mahdrx, (err, data) => {
@@ -189,7 +173,7 @@ exports.edit = (req, res) => {
             }
         } else {
 
-            LoaiXe.getAll(tenlx, (err, loaixe) => {
+            LoaiXe.getAll((err, loaixe) => {
                 if (err)
                     res.redirect('/500')
                 else {
@@ -209,13 +193,10 @@ exports.edit = (req, res) => {
 
                             Gio.getAllKH(ngayruatd, MAX_ĐL.giatri, (err, gio) => {
 
-                                console.log("in gio");
-                                console.log(gio);
-
                                 if (err)
                                     res.redirect('/500')
                                 else {
-                                    TrangThai.getAll(tentt, (err, trangthai) => {
+                                    TrangThai.getAll((err, trangthai) => {
                                         if (err)
                                             res.redirect('/500')
                                         else {
@@ -233,7 +214,6 @@ exports.edit = (req, res) => {
                             });
                         }
                     });
-
                 }
             });
         }
@@ -247,9 +227,6 @@ exports.editdoingay = (req, res) => {
     const currentDate = new Date();
     const chonDate = new Date(req.body.ngayruatd);
 
-    console.log("ngayduoc chon");
-    console.log(chonDate);
-
     // Chuyển đổi đối tượng Date thành chuỗi ngày tháng năm
     const dateString1 = chonDate.toDateString();
     const dateString2 = currentDate.toDateString();
@@ -261,11 +238,6 @@ exports.editdoingay = (req, res) => {
 
     }else{
         if((dateString1 === dateString2) ||  (chonDate > currentDate)){
-            const tengio = req.query.tengio;
-    const tenlx = req.query.tenlx;
-    const tentt = req.query.tentt;
-
-    console.log(req.body.ngayruatd);
 
     HoaDonRX.findBymahdrx(req.params.mahdrx, (err, data) => {
         if (err) {
@@ -276,7 +248,7 @@ exports.editdoingay = (req, res) => {
             }
         } else {
 
-            LoaiXe.getAll(tenlx, (err, loaixe) => {
+            LoaiXe.getAll((err, loaixe) => {
                 if (err)
                     res.redirect('/500')
                 else {
@@ -296,13 +268,10 @@ exports.editdoingay = (req, res) => {
 
                             Gio.getAllKH(ngayruatd, MAX_ĐL.giatri, (err, gio) => {
 
-                                console.log("in gio");
-                                console.log(gio);
-
                                 if (err)
                                     res.redirect('/500')
                                 else {
-                                    TrangThai.getAll(tentt, (err, trangthai) => {
+                                    TrangThai.getAll((err, trangthai) => {
                                         if (err)
                                             res.redirect('/500')
                                         else {
@@ -343,8 +312,7 @@ exports.update = (req, res) => {
 
     // Create a hoadonrx
     const hoadonrx = new HoaDonRX({
-        tennguoidat: req.body.tennguoidat,
-        ngaydat: req.body.ngaydat,
+        tennguoirua: req.body.tennguoirua,
         ngayrua: req.body.ngayrua,
         magio: req.body.magio,
         sodt: req.body.sodt,
@@ -355,7 +323,6 @@ exports.update = (req, res) => {
         malx: req.body.malx,
         matt: req.body.matt,
         manv: manv,
-        makh: req.body.makh,
     });
 
     HoaDonRX.updateBymahdrx(

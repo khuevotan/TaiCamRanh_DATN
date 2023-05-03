@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html>
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -21,46 +22,41 @@
             <a class="link" href="/admin/login">Admin TCR</a>
         </div>
 
-            <form id="login-form"  action="/admin/login" method="POST" >
+        <form id="login-form" action="/admin/login" method="POST">
             <h2 class="login-title">Đăng Nhập</h2>
             <div class="form-group">
                 <div class="input-group-icon right">
-                    <div class="input-icon"><i class="fa fa-envelope"></i></div>
+                    <div class="input-icon"><i class="fa fa-user"></i></div>
                     <input type="text" name="taikhoan" class="form-control" placeholder="Nhập tên tài khoản"
-                    <% if (typeof taikhoan != "undefined" && taikhoan) { %> value="<%= taikhoan %>"<% } %>  required>
+                        <% if (typeof taikhoan != "undefined" && taikhoan) { %> value="<%= taikhoan %>" <% } %>
+                        required>
                 </div>
             </div>
             <div class="form-group">
                 <div class="input-group-icon right">
                     <div class="input-icon"><i class="fa fa-lock font-16"></i></div>
-                    <input type="password"  id="password-field" class="form-control"  name="matkhau"  placeholder="Nhập Password"
-						<% if (typeof matkhau != "undefined" && matkhau) { %> value="<%= matkhau %>"<% } %> required>
+                    <input type="password" id="password-field" class="form-control" name="matkhau"
+                        placeholder="Nhập Password" required>
                 </div>
             </div>
             <div class="form-group d-flex justify-content-between">
-                <label class="ui-checkbox ui-checkbox-info">
-                    <div class="row" >
-                        <div class="mt-10" >
-                            Hiển thị
-                        <span toggle="#password-field"
-                                class="fa fa-fw fa-eye field-icon toggle-password"></span> 
-                        </div>
-                        <div class="ml-20">
-                            <a href="/admin/password/reset" class="genric-btn link-border circle">Quên Mật Khẩu</a>
-                        </div>
-                    </div>
+                <div class="">
+                    Hiển thị
+                    <span toggle="#password-field" class="fa fa-fw fa-eye field-icon toggle-password"></span>
+                </div>
+                <a href="/admin/password/reset" class="genric-btn link-border circle">Quên Mật Khẩu</a>
             </div>
 
             <% if (typeof conflictError != "undefined" && conflictError) { %>
-				<div  class="text-danger text-left  mb-3"><%= conflictError %></div>
-			<% } %>
+            <div class="text-danger text-left  mb-3"><%= conflictError %></div>
+            <% } %>
 
             <div class="form-group">
                 <button class="btn btn-info btn-block" type="submit">Đăng Nhập</button>
             </div>
         </form>
     </div>
-    
+
     <!-- CORE PLUGINS -->
     <script src="/assets/vendors/jquery/dist/jquery.min.js" type="text/javascript"></script>
     <script src="/assets/vendors/popper.js/dist/umd/popper.min.js" type="text/javascript"></script>
@@ -69,27 +65,24 @@
     <script src="/assets/vendors/jquery-validation/dist/jquery.validate.min.js" type="text/javascript"></script>
     <!-- CORE SCRIPTS-->
     <script src="/assets/js/app.js" type="text/javascript"></script>
-   
 </body>
-
 </html>
 
 <script src="/home/login/js/jquery.min.js"></script>
-<script src="/home/login/js/main.js"></script> 
+<script src="/home/login/js/main.js"></script>
 
 
 <script>
-	function getUrlParameter(name) {
-		name = name.replace(/[\[]/, '\\[').replace(/[\]]/, '\\]');
-		var regex = new RegExp('[\\?&]' + name + '=([^&#]*)');
-		var results = regex.exec(location.search);
-		return results === null ? '' : decodeURIComponent(results[1].replace(/\+/g, ' '));
-	};
+    function getUrlParameter(name) {
+        name = name.replace(/[\[]/, '\\[').replace(/[\]]/, '\\]');
+        var regex = new RegExp('[\\?&]' + name + '=([^&#]*)');
+        var results = regex.exec(location.search);
+        return results === null ? '' : decodeURIComponent(results[1].replace(/\+/g, ' '));
+    };
 
-	var status = getUrlParameter('status');
+    var status = getUrlParameter('status');
 
-	if(status == 'doimkthanhcong')
-	{
-		alert("Đổi mật khẩu mới thành công. Vui lòng đăng nhập!");
-	}
+    if (status == 'doimkthanhcong') {
+        alert("Đổi mật khẩu mới thành công. Vui lòng đăng nhập!");
+    }
 </script>

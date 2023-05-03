@@ -45,10 +45,10 @@
                         <input type="hidden" name="id" value="">
                         <div class="row">
                             <div class="col-sm-6 form-group">
-                                <label>Tên Người Đặt</label>
-                                <input type="text" name="tennguoidat" placeholder="Nhập họ tên" class="form-control"
-                                    <% if (typeof tennguoidat != "undefined" && tennguoidat) { %>
-                                    value="<%= tennguoidat %>" <% } %> required>
+                                <label>Tên Người Rửa</label>
+                                <input type="text" name="tennguoirua" placeholder="Nhập họ tên" class="form-control"
+                                    <% if (typeof tennguoirua != "undefined" && tennguoirua) { %>
+                                    value="<%= tennguoirua %>" <% } %> required>
                             </div>
                             <div class="col-sm-6 form-group">
                                 <label for="malx">Loại Xe</label>
@@ -98,7 +98,6 @@
                             </div>
                         </div>
 
-
                         <div class="row">
                             <div class="col-sm-6 form-group">
                                 <label for="ghichu">Ghi Chú</label>
@@ -133,10 +132,13 @@
             </div>
         </div>
   
-
-
-
 <script>
+
+
+    var giaTriDau = <%= giaTriDau %>;
+
+    document.getElementById('tongtienrx').value = giaTriDau;
+
     function myNewFunction(sel) {
         document.getElementById('tongtienrx').value = sel.options[sel.selectedIndex].id;
     }
@@ -162,7 +164,7 @@
 <script type="text/javascript">
     $("#form-sample-1").validate({
         rules: {
-            tennguoidat: {
+            tennguoirua: {
                 rangelength: [2, 255],
                 required: !0
             },
@@ -173,13 +175,10 @@
             },
             diachi: {
                 rangelength: [2, 100],
-                required: !0
             },
             ghichu: {
-                rangelength: [2, 255],
+                rangelength: [2, 500],
             }
-            
-            
         },
         errorClass: "help-block error",
         highlight: function(e) {

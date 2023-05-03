@@ -6,7 +6,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width initial-scale=1.0">
-    <title>Admin TCR - Dashboard</title>
+    <title>Admin TCR - Quản Lý</title>
     <!-- GLOBAL MAINLY STYLES-->
     <link href="/assets/vendors/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet" />
     <link href="/assets/vendors/font-awesome/css/font-awesome.min.css" rel="stylesheet" />
@@ -38,15 +38,15 @@
                         <div class="font-strong"><%= nhanvien.honv %> <%= nhanvien.tennv %></div>
                         <small>
                             <% if(nhanvien.manhom == 1){ %>
-                                Quản Lý
+                            Quản Lý
                             <% } %>
 
                             <% if(nhanvien.manhom == 2){ %>
-                                Nhân Viên Bán Hàng
+                            Nhân Viên Bán Hàng
                             <% } %>
 
                             <% if(nhanvien.manhom == 3){ %>
-                                Nhân Viên Rửa Xe
+                            Nhân Viên Rửa Xe
                             <% } %>
                         </small>
                     </div>
@@ -58,32 +58,9 @@
                         </a>
                     </li>
                     <li class="heading">Quản Lý</li>
-                    <!-- Danh Mục - Sản Phẩm -->
-                    <li>
-                        <a href="javascript:;"><i class="sidebar-item-icon fa fa-product-hunt"></i>
-                            <span class="nav-label">Danh Mục - Sản Phẩm</span><i class="fa fa-angle-left arrow"></i></a>
-                            
-                        <ul class="nav-2-level collapse">
-                            <li>
-                                <a href="/admin/danhmuc/index">Danh Sách Danh Mục</a>
-                            </li>
-                            <li>
-                                <a href="/admin/danhmuc/create">Thêm Danh Mục</a>
-                            </li>
-                            <li>
-                                <a href="/admin/sanpham/index">Danh Sách Sản Phẩm</a>
-                            </li>
-                            <li>
-                                <a href="/admin/sanpham/create">Thêm Sản Phẩm</a>
-                            </li>
-                        </ul>
-                    </li>
 
-
-                  
-                
-                    <!-- Đơn Đặt Lịch -->
-                    <li>
+                       <!-- Đơn Đặt Lịch -->
+                       <li>
                         <a href="javascript:;"><i class="sidebar-item-icon fa fa-table"></i>
                             <span class="nav-label">Đơn Đặt Lịch</span><i class="fa fa-angle-left arrow"></i></a>
                         <ul class="nav-2-level collapse">
@@ -104,53 +81,74 @@
                             <li>
                                 <a href="/admin/hoadon/index">Xem Danh Sách</a>
                             </li>
-                          
+
                         </ul>
                     </li>
 
-                        <!-- Nhà Cung Cấp -->
-                        <li>
-                            <a href="javascript:;"><i class="sidebar-item-icon fa fa-truck"></i>
-                                <span class="nav-label">Nhà Cung Cấp</span><i class="fa fa-angle-left arrow"></i></a>
-                                
-                            <ul class="nav-2-level collapse">
-                                <li>
-                                    <a href="/admin/nhacungcap/index">Danh Sách Nhà Cung Cấp</a>
-                                </li>
-                                <li>
-                                    <a href="/admin/nhacungcap/create">Thêm Nhà Cung Cấp</a>
-                                </li>
-                              
-                            </ul>
-                        </li>
-    
-                        
-    
-                        <!-- Loại Xe - Giờ Rửa -->
-                          <li>
-                            <a href="javascript:;"><i class="sidebar-item-icon fa fa-car"></i>
-                                <span class="nav-label">Loại Xe - Giờ Rửa</span><i class="fa fa-angle-left arrow"></i></a>
-                                
-                            <ul class="nav-2-level collapse">
-                                <li>
-                                    <a href="/admin/loaixe/index">Danh Sách Loại Xe</a>
-                                </li>
-                                <li>
-                                    <a href="/admin/loaixe/create">Thêm Loại Xe</a>
-                                </li>
-                                <li>
-                                    <a href="/admin/gio/index">Danh Sách Giờ</a>
-                                </li>
-                                <li>
-                                    <a href="/admin/gio/create">Thêm Giờ</a>
-                                </li>
-                            </ul>
-                        </li>
+                    <!-- Danh Mục -Nhà Cung Cấp -->
+                    <li>
+                        <a href="javascript:;"><i class="sidebar-item-icon fa fa-product-hunt"></i>
+                            <span class="nav-label">Sản Phẩm - Nhập Hàng</span><i
+                                class="fa fa-angle-left arrow"></i></a>
+
+                        <ul class="nav-2-level collapse">
+                            <li>
+                                <a href="/admin/sanpham/index">Danh Sách Sản Phẩm</a>
+                            </li>
+                            <li>
+                                <a href="/admin/sanpham/create">Thêm Sản Phẩm</a>
+                            </li>
+                            <li>
+                                <a href="/admin/phieunhap/index">Danh Sách Đơn Nhập</a>
+                            </li>
+                            <li>
+                                <a href="/admin/phieunhap/create">Thêm Đơn Nhập</a>
+                            </li>
+
+                        </ul>
+                    </li>
+
+                    <!-- Danh Mục -Nhà Cung Cấp -->
+                    <li>
+                        <a href="javascript:;"><i class="sidebar-item-icon fa fa-truck "></i>
+                            <span class="nav-label">Danh Mục - Nhà Cung</span><i class="fa fa-angle-left arrow"></i></a>
+
+                        <ul class="nav-2-level collapse">
+                            <li>
+                                <a href="/admin/danhmuc/index">Danh Sách Danh Mục</a>
+                            </li>
+                            <li>
+                                <a href="/admin/danhmuc/create">Thêm Danh Mục</a>
+                            </li>
+                            <li>
+                                <a href="/admin/nhacungcap/index">Danh Sách Nhà Cung Cấp</a>
+                            </li>
+                            <li>
+                                <a href="/admin/nhacungcap/create">Thêm Nhà Cung Cấp</a>
+                            </li>
+                        </ul>
+                    </li>
+
+                    <!-- Loại Xe - Giờ Rửa -->
+                    <li>
+                        <a href="javascript:;"><i class="sidebar-item-icon fa fa-car"></i>
+                            <span class="nav-label">Loại Xe</span><i class="fa fa-angle-left arrow"></i></a>
+
+                        <ul class="nav-2-level collapse">
+                            <li>
+                                <a href="/admin/loaixe/index">Danh Sách Loại Xe</a>
+                            </li>
+                            <li>
+                                <a href="/admin/loaixe/create">Thêm Loại Xe</a>
+                            </li>
+                           
+                        </ul>
+                    </li>
 
                     <!-- Nhân Viên - Nhóm -->
                     <li>
                         <a href="javascript:;"><i class="sidebar-item-icon fa fa-user-circle"></i>
-                            <span class="nav-label">Nhân Viên - Nhóm</span><i class="fa fa-angle-left arrow"></i></a>
+                            <span class="nav-label">Nhân Viên</span><i class="fa fa-angle-left arrow"></i></a>
                         <ul class="nav-2-level collapse">
                             <li>
                                 <a href="/admin/nhanvien/index">Danh Sách Nhân Viên</a>
@@ -158,12 +156,9 @@
                             <li>
                                 <a href="/admin/nhanvien/create">Thêm Nhân Viên</a>
                             </li>
-                            <li>
-                                <a href="/admin/nhom/index">Danh Sách Nhóm</a>
-                            </li>
                         </ul>
                     </li>
-                 
+
                     <!-- Khách Hàng -->
                     <li>
                         <a href="javascript:;"><i class="sidebar-item-icon fa fa-user-circle-o"></i>
@@ -186,7 +181,7 @@
                             <li>
                                 <a href="/admin/thamso/index">Xem Danh Sách</a>
                             </li>
-                           
+
                         </ul>
                     </li>
 
@@ -205,38 +200,38 @@
                     </li>
 
                     <li class="heading">Hệ Thống</li>
-                        <li>
-                            <a href="javascript:;"><i class="sidebar-item-icon fa fa-map"></i>
-                                <span class="nav-label">Thống Kê</span><i class="fa fa-angle-left arrow"></i></a>
-                            <ul class="nav-2-level collapse">
+                    <li>
+                        <a href="javascript:;"><i class="sidebar-item-icon fa fa-map"></i>
+                            <span class="nav-label">Thống Kê</span><i class="fa fa-angle-left arrow"></i></a>
+                        <ul class="nav-2-level collapse">
 
-                                <li>
-                                    <a href="/admin/nhanvien/thongke/bdtk">Doanh Thu Tùy Chọn</a>
-                                </li>
+                            <li>
+                                <a href="/admin/nhanvien/thongke/bdtk">Doanh Thu Tùy Chọn</a>
+                            </li>
 
-                                <li>
-                                    <a href="/admin/nhanvien/thongke/dtcd">Doanh Thu Cố Định</a>
-                                </li>
+                            <li>
+                                <a href="/admin/nhanvien/thongke/dtcd">Doanh Thu Cố Định</a>
+                            </li>
 
-                                <li>
-                                    <a href="/admin/nhanvien/thongke/loaixe">Loại Xe Rửa Nhiều</a>
-                                </li>
+                            <li>
+                                <a href="/admin/nhanvien/thongke/loaixe">Loại Xe Rửa Nhiều</a>
+                            </li>
 
-                                <li>
-                                    <a href="/admin/nhanvien/thongke/sanpham">Sản Phẩm Bán Chạy</a>
-                                </li>
-                            </ul>
-                        </li>
+                            <li>
+                                <a href="/admin/nhanvien/thongke/sanpham">Sản Phẩm Bán Chạy</a>
+                            </li>
+                        </ul>
+                    </li>
 
-                        <!-- Gửi Mail -->
-                       
-                        <li>
-                            <a href="/admin/soanmail"><i class="sidebar-item-icon fa fa-envelope"></i>
-                                <span class="nav-label">Soạn Mail</span>
-                            </a>
-                        </li>
+                    <!-- Gửi Mail -->
 
-                    
+                    <li>
+                        <a href="/admin/soanmail"><i class="sidebar-item-icon fa fa-envelope"></i>
+                            <span class="nav-label">Soạn Mail</span>
+                        </a>
+                    </li>
+
+
                     <li>
                         <a href="/admin/huongdansd"><i class="sidebar-item-icon fa fa-calendar"></i>
                             <span class="nav-label">Hướng Dẫn Sử Dụng</span>

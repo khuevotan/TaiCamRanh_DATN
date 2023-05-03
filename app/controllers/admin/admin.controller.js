@@ -1,4 +1,5 @@
 const NhanVien = require("../../models/NhanVien.model");
+const Nhom = require("../../models/Nhom.model");
 const HoaDon = require("../../models/HoaDon.model");
 const HoaDonRX = require("../../models/HoaDonRX.model");
 const mailer = require('../../utils/mailer');
@@ -7,27 +8,255 @@ const bcrypt = require('bcrypt');
 require('dotenv/config');
 
 
-
-exports.Login = (req, res) => {
-    res.render('login.ejs',{layout: false});
+// Trang cá nhân của nhân viên.
+exports.trangCaNhan = (req, res) => {
+    res.locals.nhanvien = req.session.nhanvien
+    const manv = res.locals.nhanvien.manv;
+ 
+    NhanVien.findByMaNV(manv, (err, data) => {
+        if (err)
+            res.redirect('/admin/500')
+        else {
+            Nhom.findByNhom(data.manhom, (err, datanhom) => {
+                if (err)
+                    res.redirect('/admin/500')
+                else {
+                    res.render('trangcanhan',{ nhanvien:data, nhom: datanhom.tennhom,layout: './master2'});
+                }
+            });        
+        }
+    });
 }
 
+// Trang hướng dẫn nhân viên.
+exports.huongDanSD = (req, res) => {
+    res.render('huongdansd.ejs',{layout: './master2'});
+}
+
+// Hiển thị trang chỉnh sửa thông tin cá nhân bên phía cá nhân của nhân viên.
+exports.chinhSuaTT = (req, res) => {
+    res.locals.status = req.query.status;
+
+    NhanVien.findByMaNV(req.params.manv, (err, data) => {
+        if (err) {
+            if (err.kind === "not_found") {
+                res.redirect('/404');
+            } else {
+                res.redirect('/500');
+            }
+        } else res.render('chinhsuattnv', {
+            nhanvien: data, 
+            layout: './master2'
+        });
+    });
+};
+
+// Nhấn nút cập nhật (chỉnh sửa thông tin).
+exports.update = (req, res) => {
+    // Validate Request
+    if (!req.body) {
+        res.redirect('/admin/chinhsuatt/' + req.params.manv + '?status=error')
+    }
+
+    const nhanvien = new NhanVien({
+        honv: req.body.honv,
+        tennv: req.body.tennv,
+        ngaysinh: req.body.ngaysinh,
+        sodt: req.body.sodt,
+        diachi: req.body.diachi,
+        gioitinh: req.body.gioitinh,
+    });
+
+    NhanVien.updateByMaNV(
+        req.params.manv,
+        nhanvien,
+        (err, data) => {
+            if (err) {
+                if (err.kind === "not_found") {
+                    res.redirect('/admin/404');
+                } else {
+                    res.redirect('/admin/500');
+                }
+            } else res.redirect('/admin/trangcanhan/?status=updatetc');
+        }
+    );
+};
+
+// Hiển thị form đổi mật khẩu bên phía cá nhân của nhân viên.
+exports.formdoimktt = (req, res) => {
+    res.locals.status = req.query.status;
+
+    NhanVien.findByMaNV(req.params.manv, (err, data) => {
+        if (err) {
+            if (err.kind === "not_found") {
+                res.redirect('/404');
+            } else {
+                res.redirect('/500');
+            }
+        } else res.render('changpassnvtt', {
+            nhanvien: data, 
+            layout: './master2'
+        });
+    });
+};
+
+// Update mật khẩu khi nhấn vào nút thay đổi cá nhân bên phía nhân viên
+exports.changePassword = (req, res) => {
+
+    res.locals.status = req.query.status;
+    const taikhoan = res.locals.nhanvien.taikhoan;
+
+    const {
+        matkhaumoi,
+        matkhaumoixn,
+        matkhaucu
+    } = req.body;
+
+    if(req.body.matkhaumoi == req.body.matkhaumoixn){
+        NhanVien.findByMaNV(req.params.manv, (err, data) => {
+            if (err) {
+                if (err.kind === "not_found") {
+                    res.redirect('/404');
+                } else {
+                    res.redirect('/500');
+                }
+            } else {
+
+                NhanVien.findByTaikhoan(taikhoan, (err, nhanvien) => {
+                    bcrypt.compare(matkhaucu, nhanvien.matkhau, (err, result) => {
+                        console.log(result);
+                        if (result == true) {
+                            if (matkhaumoi.length >= 8 && matkhaumoi.match(/[a-z]/) && matkhaumoi.match(/[A-Z]/) && matkhaumoi.match(/\d/) && matkhaumoi.match(/[^a-zA-Z\d]/)) {
+                                bcrypt.hash(matkhaumoi, parseInt(process.env.BCRYPT_SALT_ROUND)).then((hashedMatkhau) => {
+                                    NhanVien.resetPasswordNV(taikhoan, hashedMatkhau, (err, result) => {
+                                        if (!err) {
+                                            res.redirect('/admin/trangcanhan?status=doimksuccess');  
+                                        } else {
+                                            res.redirect("/admin/500");
+                                        }
+                                    })
+                                })
+                            } else {
+                                const conflictError = 'Mật khẩu mới phải dài hơn 8 ký tự, cả chữ thường và chữ in hoa, ít nhất một số và một ký tự đặc biệt ví dụ: 012345Kh*';
+                                res.render('changpassnvtt.ejs', { 
+                                    nhanvien: data,
+                                    conflictError,  
+                                    layout: './master2'
+                                });
+                            }
+            
+                        } else {
+        
+                            const conflictError = 'Sai Password Cũ!';  
+                            res.render('changpassnvtt.ejs', { 
+                                nhanvien: data,
+                                conflictError,  
+                                layout: './master2'
+                            });
+                        }
+                    })
+                })
+            }
+        });
+
+    }else{
+
+        res.locals.status = req.query.status;
+
+        NhanVien.findByMaNV(req.params.manv, (err, data) => {
+            if (err) {
+                if (err.kind === "not_found") {
+                    res.redirect('/404');
+                } else {
+                    res.redirect('/500');
+                }
+            } else {
+
+                const conflictError = 'Mật khẩu mới và xác nhận mật khẩu chưa khớp!';
+                res.render('changpassnvtt.ejs', { 
+                    nhanvien: data,
+                    conflictError,  
+                    layout: './master2'
+                });
+            }
+        });
+    }
+};
+
+
+// Upload fle ảnh
+exports.uploadFile = (req, res) => {
+    const file = req.file
+    res.locals.nhanvien = req.session.nhanvien
+    const manv = res.locals.nhanvien.manv;
+
+    // lấy tên hình đại diện
+    var hinhdd = req.params.hinhdd;
+
+    if (!file) {
+        const error = new Error('Please upload a file')
+        error.httpStatusCode = 400
+        return next(error)
+    }
+ 
+    if(hinhdd != ''){
+      
+        const fs = require('fs');
+        const fileNameCu = hinhdd;
+        const filePath = '/images/avatarad/' + fileNameCu; 
+      
+        fs.unlink("app/public"+ filePath,function(err){
+            if(err) throw err;
+            console.log('File deleted!');
+        });
+    }
+
+    NhanVien.updateAvaByMaNV(manv, file.filename, (err, result) => {
+        if (!err) {
+            res.redirect('/admin/trangcanhan');
+        } else {
+            res.redirect('/admin/500');
+        }
+    });
+}
+
+// Nhấn nút xác thực tài khoản nếu chưa xác thực.
 exports.xacthuctaikhoan = (req, res) => {
 
-     var emailnv = req.params.email;
+    var emailnv = req.params.email;
 
-     console.log("khue");
-     console.log(emailnv);
-    
     bcrypt.hash(emailnv, parseInt(process.env.BCRYPT_SALT_ROUND)).then((hashedEmail) => {
         console.log(`${process.env.APP_URL}/verify?email=${emailnv}&token=${hashedEmail}`);
         mailer.sendMail(emailnv, "Verify Email", `<a href="${process.env.APP_URL}/admin/nhanvien/verify?email=${emailnv}&token=${hashedEmail}"> Verify </a>`)
     });
 
-    res.redirect('/admin/trangcanhan?status=xacthucsuccess');  
+    res.redirect('/admin/trangcanhan?status=daguimailxacthuc');  
 }
 
+// Hiển thị form để gửi mail.
+exports.soanMail = (req, res) => {
+    res.render('soanmail.ejs',{layout: './master2'});
+    
+}
 
+// Nhấn nút gửi mail.
+exports.guiMail = (req, res) => {
+
+    // Validate request
+    if (!req.body) {
+        res.redirect('/admin/soanmail?status=error')
+    }
+
+    var to = req.body.to;
+    var subject = req.body.subject;
+    var message = req.body.message;
+
+    mailer.sendMail(to, subject, message);
+   
+    res.redirect('/admin/soanmail?status=success');
+}
+
+// =========================== THỐNG KÊ  ===========================
 exports.getIndex = (req, res) => {
 
     HoaDon.thongKeDG((err, data1, data2, dataago, data3, datatrago, ngay6, ngay5, ngay4, ngay3, ngay2, ngay1, ngay0) => {
@@ -375,30 +604,6 @@ exports.getIndex = (req, res) => {
     });
 }
 
-
-// gửi mail
-exports.soanMail = (req, res) => {
-    res.render('soanmail.ejs',{layout: './master2'});
-    
-}
-
-exports.guiMail = (req, res) => {
-
-    // Validate request
-    if (!req.body) {
-        res.redirect('/admin/soanmail?status=error')
-    }
-
-    var to = req.body.to;
-    var subject = req.body.subject;
-    var message = req.body.message;
-
-    mailer.sendMail(to, subject, message);
-   
-    res.redirect('/admin/soanmail?status=success');
-}
-
-
 // thống kê doanh thu cố định
 exports.doanhthuCoDinh = (req, res) => {
     var chuoidate = '';
@@ -589,7 +794,6 @@ exports.doanhthuCoDinhSecond = (req, res) => {
 }
 
 // tuan
-
 exports.loaiXeTk = (req, res) => {
     HoaDonRX.thongkeSLXT((err, slxe, xe ) => {
 
@@ -676,7 +880,6 @@ exports.sanPhamTK = (req, res) => {
             });
     });
 }
-
 
 // thống kê doanh thu biểu đồ tùy chọn luc dau
 exports.thongKeBieuDo = (req, res) => {
@@ -782,210 +985,3 @@ exports.doanhThuTuyChinh= (req, res) => {
     });
 }
 
-
-exports.trangCaNhan = (req, res) => {
-    res.locals.nhanvien = req.session.nhanvien
-    const manv = res.locals.nhanvien.manv;
- 
-    NhanVien.findByMaNV(manv, (err, data) => {
-        if (err)
-            res.redirect('/500')
-        else {
-            res.render('trangcanhan',{ nhanvien:data, layout: './master2'});
-        }
-
-    });
-   
-}
-
-exports.huongDanSD = (req, res) => {
-    res.render('huongdansd.ejs',{layout: './master2'});
-}
-
-// Chỉnh sửa thông tin cá nhân bên phía nhân viên
-exports.chinhSuaTT = (req, res) => {
-    res.locals.status = req.query.status;
-
-    NhanVien.findByMaNV(req.params.manv, (err, data) => {
-        if (err) {
-            if (err.kind === "not_found") {
-                res.redirect('/404');
-            } else {
-                res.redirect('/500');
-            }
-        } else res.render('chinhsuattnv', {
-            nhanvien: data, 
-            layout: './master2'
-        });
-    });
-};
-
-exports.formdoimktt = (req, res) => {
-    res.locals.status = req.query.status;
-
-    NhanVien.findByMaNV(req.params.manv, (err, data) => {
-        if (err) {
-            if (err.kind === "not_found") {
-                res.redirect('/404');
-            } else {
-                res.redirect('/500');
-            }
-        } else res.render('changpassnvtt', {
-            nhanvien: data, 
-            layout: './master2'
-        });
-    });
-};
-
-
-
-// Nhân viên chỉnh sửa thông tin ở prof nhân viên
-exports.update = (req, res) => {
-    // Validate Request
-    if (!req.body) {
-        res.redirect('/admin/chinhsuatt/' + req.params.manv + '?status=error')
-    }
-
-    NhanVien.updateByMaNV(
-        req.params.manv,
-        new NhanVien(req.body),
-        (err, data) => {
-            if (err) {
-                if (err.kind === "not_found") {
-                    res.redirect('/404');
-                } else {
-                    res.redirect('/500');
-                }
-            } else res.redirect('/admin/trangcanhan/?status=updatetc');
-        }
-    );
-};
-
-
-// Update mật khẩu khi nhấn vào nút thay đổi cá nhân bên phía nhân viên
-exports.changePassword = (req, res) => {
-
-    res.locals.status = req.query.status;
-    const {
-        taikhoan,
-        matkhaumoi,
-        matkhaumoixn,
-        matkhaucu
-    } = req.body;
-
-    if(req.body.matkhaumoi == req.body.matkhaumoixn){
-        NhanVien.findByMaNV(req.params.manv, (err, data) => {
-            if (err) {
-                if (err.kind === "not_found") {
-                    res.redirect('/404');
-                } else {
-                    res.redirect('/500');
-                }
-            } else {
-
-                NhanVien.findByTaikhoan(taikhoan, (err, nhanvien) => {
-                    bcrypt.compare(matkhaucu, nhanvien.matkhau, (err, result) => {
-                        console.log(result);
-                        if (result == true) {
-                            if (matkhaumoi.length >= 8 && matkhaumoi.match(/[a-z]/) && matkhaumoi.match(/[A-Z]/) && matkhaumoi.match(/\d/) && matkhaumoi.match(/[^a-zA-Z\d]/)) {
-                                bcrypt.hash(matkhaumoi, parseInt(process.env.BCRYPT_SALT_ROUND)).then((hashedMatkhau) => {
-                                    NhanVien.resetPasswordNV(taikhoan, hashedMatkhau, (err, result) => {
-                                        if (!err) {
-                                          
-
-                                            res.redirect('/admin/chinhsuatt/formdmk/'+ req.params.manv + '?status=success');  
-                                      
-            
-                                        } else {
-                                            res.redirect("/admin/500");
-                                        }
-                                    })
-                                })
-                            } else {
-                                const conflictError = 'Mật khẩu mới phải dài hơn 8 ký tự, cả chữ thường và chữ in hoa, ít nhất một số và một ký tự đặc biệt ví dụ: 012345Kh*';
-                            
-                                res.render('changpassnvtt.ejs', { 
-                                    nhanvien: data,
-                                    conflictError,  
-                                    layout: './master2'
-                                });
-
-                            }
-            
-                        } else {
-        
-                            const conflictError = 'Sai Password Cũ!';
-                       
-                            res.render('changpassnvtt.ejs', { 
-                                nhanvien: data,
-                                conflictError,  
-                                layout: './master2'
-                            });
-                        }
-                    })
-                })
-            }
-        });
-
-    }else{
-
-        res.locals.status = req.query.status;
-
-        NhanVien.findByMaNV(req.params.manv, (err, data) => {
-            if (err) {
-                if (err.kind === "not_found") {
-                    res.redirect('/404');
-                } else {
-                    res.redirect('/500');
-                }
-            } else {
-
-                const conflictError = 'Mật khẩu mới và xác nhận mật khẩu chưa khớp!';
-           
-                res.render('changpassnvtt.ejs', { 
-                    nhanvien: data,
-                    conflictError,  
-                    layout: './master2'
-                });
-            }
-        });
-    }
-};
-
-
-// Upload fle ảnh
-exports.uploadFile = (req, res) => {
-    const file = req.file
-    res.locals.nhanvien = req.session.nhanvien
-    const manv = res.locals.nhanvien.manv;
-    const hinhdd = res.locals.nhanvien.hinhdd;
-
-    if (!file) {
-        const error = new Error('Please upload a file')
-        error.httpStatusCode = 400
-        return next(error)
-    }
- 
-    if(hinhdd != 'abc.png'){
-      
-        const fs = require('fs');
-        const fileNameCu = hinhdd;
-        const filePath = '/images/avatarad/' + fileNameCu; 
-      
-        fs.unlink("app/public"+ filePath,function(err){
-            if(err) throw err;
-            console.log('File deleted!');
-        });
-    }
-
-    //    res.send(file)
-    NhanVien.updateAvaByMaNV(manv, file.filename, (err, result) => {
-        if (!err) {
-            res.redirect('/admin/trangcanhan');
-        } else {
-            res.redirect('/admin/500');
-        }
-    });
-
-    // res.send(file)
-}

@@ -107,8 +107,8 @@ NhanVien.getAll = (tennv, result) => {
 
 NhanVien.updateByMaNV = (manv, nhanvien, result) => {
     sql.query(
-        "UPDATE nhanvien SET taikhoan =?, honv = ?, tennv = ?, ngaysinh = ?, sodt = ?, diachi = ? , email = ?, gioitinh = ?, updated_at = ?  WHERE manv = ?",
-        [nhanvien.taikhoan, nhanvien.honv , nhanvien.tennv, nhanvien.ngaysinh , nhanvien.sodt, nhanvien.diachi, nhanvien.email, nhanvien.gioitinh, new Date(),  manv],
+        "UPDATE nhanvien SET honv = ?, tennv = ?, ngaysinh = ?, sodt = ?, diachi = ?, gioitinh = ?, updated_at = ?  WHERE manv = ?",
+        [nhanvien.honv , nhanvien.tennv, nhanvien.ngaysinh , nhanvien.sodt, nhanvien.diachi, nhanvien.gioitinh, new Date(),  manv],
         (err, res) => {
             if (err) {
                 console.log("error: ", err);

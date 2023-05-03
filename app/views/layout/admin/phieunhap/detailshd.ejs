@@ -1,0 +1,129 @@
+<div class="page-content fade-in-up">
+    <div class="ibox ibox-info">
+        <div class="ibox-head">
+            <div class="ibox-title">
+                <div style="color: rgb(255, 255, 255);">
+                    Thông Tin Chi Tiết
+                </div>
+            </div>
+            <div class="ibox-tools">
+                <a class="ibox-collapse"><i class="fa fa-minus"></i></a>
+            </div>
+        </div>
+
+        <div class="ibox-body">
+        <div class="ibox invoice">
+            <div class="invoice-header">
+                <div class="row">
+                    <div class="col-6">
+                        <div class="col-6 ">
+                                <dl class="row" style="width:350px;">
+                                    <dt class="col-sm-6">Mã Hóa Đơn:</dt>
+                                    <dd class="col-sm-6"><%= hoadon.mahd %></dd>
+                                    <dt class="col-sm-6">Tên Người Nhận:</dt>
+                                    <dd class="col-sm-6"><%= hoadon.tennguoinhan %></dd>
+                                    <dt class="col-sm-6">Số Điện Thoại:</dt>
+                                    <dd class="col-sm-6"><%= hoadon.sodt  %></dd>
+                                    <dt class="col-sm-6">Địa Chỉ Người Nhận:</dt>
+                                    <dd class="col-sm-6"><%= hoadon.diachi  %></dd>
+                                    <dt class="col-sm-6">Ghi Chú:</dt>
+                                    <dd class="col-sm-6"><%= hoadon.ghichu  %></dd>
+                                </dl>
+                        </div>
+                     
+                    </div>
+                    <div class="col-6 text-right">
+                            <dl class="row pull-right" style="width:300px;">
+                                <dt class="col-sm-6">Ngày Đặt Lịch</dt>
+                                <dd class="col-sm-6"><%= moment(hoadon.ngaydat).format('DD-MM-YYYY')  %></dd>
+                                <dt class="col-sm-6">Mã Trạng Thái</dt>
+                                <dd class="col-sm-6"><%= trangthai.tentt %></dd>
+                                <dt class="col-sm-6">Mã Khách Hàng</dt>
+                                <dd class="col-sm-6"><%= hoadon.makh  %></dd>
+                                <dt class="col-sm-6">Mã Nhân Viên Chỉnh Sửa Gần Nhất</dt>
+                                <dd class="col-sm-6"><%= hoadon.manv  %></dd>
+                            </dl>
+                    </div>
+                    </div>
+                </div>
+
+            </div>
+            <table class="table table-striped no-margin table-invoice">
+                <thead>
+                    <tr>
+                        <th>Thông Tin Sản Phẩm</th>
+                        <th>Hình Đai Diện</th>
+                        <th>Số Lượng</th>
+                        <th class="text-right">Giá</th>
+                    </tr>
+                </thead>
+                <tbody>
+
+
+                    <% cthd.forEach((item) => { %>
+                        <% for(var i=0; i< sanpham.length; i++) { %>
+                            <% if(sanpham[i].masp == item.masp){ %>
+                              
+
+                                <tr>
+                                    <td>
+                                        <div><strong><%= sanpham[i].tensp %></strong></div>
+                                    </td>
+                                    <td> <img src="/images/sanpham/<%= sanpham[i].hinhdd %>" width="100px" /></td>
+                                    <td><%= item.soluong %></td>
+                                    <td><%= item.giatien %> VNĐ</td>
+                                </tr>
+                            
+                                <% } %>  
+                                <%} %>
+                        <% }) %>
+
+                  
+                 
+
+                </tbody>
+            </table>
+            <table class="table no-border">
+                <thead>
+                    <tr>
+                        <th></th>
+                        <th width="20%"></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr class="text-right">
+                        <td class="font-bold font-18">TỔNG TIỀN:</td>
+                        <td class="font-bold font-18"><%= hoadon.tongtiensp  %> VNĐ</td>
+                    </tr>
+
+                    <tr class="text-right">
+                        <td class="font-bold font-18"></td>
+                        <td class="font-bold font-18"> <%if (hoadon.thanhtoan == 1) { %> <b style="color: red;">Chưa Thanh Toán</b>  <% }else { %> <b style="color: green;">Đã Thanh Toán</b>  <%  } %></td>
+                    </tr>
+                </tbody>
+            </table>
+            <div class="text-right">
+                <div class="form-group row">
+                <div class="col-sm-10 ml-sm-auto">
+                    <a href="/admin/hoadon/edit/<%= hoadon.mahd %>" class="btn btn-info btn-rounded">Chỉnh Sửa
+                    </a>
+                    <a href="/admin/hoadon/pdf/<%= hoadon.mahd %>" class="btn btn-info btn-rounded"><i
+                        class="fa fa-print"></i> Xuất Hóa Đơn
+                    </a>
+                </div>
+            </div>
+                
+            </div>
+        </div>
+        <style>
+            .invoice {
+                padding: 5px
+            }
+
+            .table-invoice tr td:last-child {
+                text-align: right;
+            }
+        </style>
+     </div>
+    </div>
+</div>

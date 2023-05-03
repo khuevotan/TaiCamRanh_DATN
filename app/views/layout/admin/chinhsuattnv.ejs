@@ -1,135 +1,112 @@
+<!-- START PAGE CONTENT-->
+<div class="page-heading">
+    <h1 class="page-title">Chỉnh Sửa Thông Tin Cá Nhân</h1>
+</div>
 
-    <!-- START PAGE CONTENT-->
-    <div class="page-heading">
-        <h1 class="page-title">Chỉnh Sửa Thông Tin Cá Nhân</h1>
-        <ol class="breadcrumb">
-            <li class="breadcrumb-item">
-                <a href="index.html"><i class="la la-home font-20"></i></a>
-            </li>
-            <!-- <li class="breadcrumb-item">Profile</li> -->
-        </ol>
-    </div>
-    <div class="page-content fade-in-up">
-        <div class="row">
-            <div class="col-lg-3 col-md-4">
-                <div class="ibox">
-                    <div class="ibox-body text-center">
-                        <div class="m-t-20">
-                            <img class="img-circle" src="/images/avatarad/<%= nhanvien.hinhdd %>" />
-                        </div>
-                        <h5 class="font-strong m-b-10 m-t-10"><%= nhanvien.tennv %></h5>
-                     
-                        <div>
-                            <form action="/admin/uploadfile" enctype="multipart/form-data" 
-                            method="POST"
-                            onSubmit="return confirm('Bạn có chắc chắn muốn đổi?') "
-                            > 
-                                <input type="file" name="myFile" accept="image/*" required/>
-                                </br>
-                                <input class="btn btn-info btn-rounded" type="submit" value="Đổi Ảnh Đại Diện"/>
-                             </form>
-                        </div>
-                      
+<style>
+    .profile-social a {
+        font-size: 16px;
+        margin: 0 10px;
+        color: #999;
+    }
+
+    .profile-social a:hover {
+        color: #485b6f;
+    }
+
+    .profile-stat-count {
+        font-size: 22px
+    }
+</style>
+
+<div class="page-content fade-in-up">
+    <div class="row">
+        <div class="col-lg-3 col-md-4">
+            <div class="ibox">
+                <div class="ibox-body text-center">
+                    <div class="m-t-20">
+                        <img class="img-circle" src="/images/avatarad/<%= nhanvien.hinhdd %>" />
                     </div>
-                </div>
-       
-            </div>
-            <div class="col-lg-9 col-md-8">
-                <div class="ibox">
-                    <div class="ibox-body">
-                        <div class="tab-content">
-                            <div class="tab-pane fade show active" id="tab-2">
-                                <form action="/admin/<%= nhanvien.manv %> " 
-                                    method="post"
-                                    onSubmit="return confirm('Bạn có chắc chắn muốn cập nhật?') "
-                                    id="form-sample-1"
-                                    >
-                                    <input type="hidden" name="_method" value="put" />
-                                    <div class="row">
-                                        <div class="col-sm-6 form-group">
-                                            <label>Họ</label>
-                                            <input class="form-control" type="text" name="honv" value="<%= nhanvien.honv %>">
-                                        </div>
-                                        <div class="col-sm-6 form-group">
-                                            <label>Tên</label>
-                                            <input class="form-control" type="text" name="tennv" value="<%= nhanvien.tennv %>">
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-sm-6 form-group">
-                                            <label>Tên Tài Khoản</label>
-                                            <input class="form-control" type="text" name="taikhoan" value="<%= nhanvien.taikhoan %>" readonly >
-                                        </div>
-                                     
-                                    </div>
-                                   
-                                    <div class="row">
-                                        
-                                        <div class="col-sm-6 form-group">
-                                            <label>Số Điện Thoại</label>
-                                            <input class="form-control" type="text" name="sodt"  value="<%= nhanvien.sodt %>">
-                                        </div>
-                                        <div class="col-sm-6 form-group">
-                                            <label>Email</label>
-                                            <input class="form-control" type="text"  name="email" value="<%= nhanvien.email %>" readonly >
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <label>Địa Chỉ</label>
-                                        <input class="form-control" type="text"  name="diachi" value="<%= nhanvien.diachi %>" >
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-sm-6 form-group">
-                                            <label>Ngày Sinh</label>  
-                                            <input class="form-control" type="date" id="ngaysinh" name="ngaysinh" value="<%= moment(nhanvien.ngaysinh).format('YYYY-MM-DD')%>">
+                    <h5 class="font-strong m-b-10 m-t-10"><%= nhanvien.tennv %></h5>
 
-                                        </div>
-                                        <div class="col-sm-6 form-group">
-                                       
-                                            <label for="nam">Nam</label>
-                                                <input type="radio" name="gioitinh" id="male" value="1"   
-                                                <%if (nhanvien.gioitinh == 1) { %>
-                                                checked
-                                                <% } %>
-                                                >
-                                                <label for="khoangtrang"> </label>
-                                                <label for="nu">Nữ</label>
-                                                <input type="radio" name="gioitinh" id="female" value="2"
-                                                <%if (nhanvien.gioitinh != 1) { %>
-                                                checked
-                                                <% } %>
-                                                >
-                                        </div>
+                    <div>
+                        <form action="/admin/uploadfile/<%= nhanvien.hinhdd %>" enctype="multipart/form-data" method="POST"
+                            onSubmit="return confirm('Bạn có chắc chắn muốn đổi?') ">
+                            <input type="file" name="myFile" accept="image/*" required />
+                            </br>
+                        </br>
+                            <input class="btn btn-info btn-rounded" type="submit" value="Đổi Ảnh Đại Diện" />
+                        </form>
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+        <div class="col-lg-9 col-md-8">
+            <div class="ibox">
+                <div class="ibox-body">
+                    <div class="tab-content">
+                        <div class="tab-pane fade show active" id="tab-2">
+                            <form action="/admin/<%= nhanvien.manv %> " method="post"
+                                onSubmit="return confirm('Bạn có chắc chắn muốn cập nhật?') " id="form-sample-1">
+                                <input type="hidden" name="_method" value="put" />
+
+                                <div class="row">
+                                    <div class="col-sm-6 form-group">
+                                        <label>Họ</label>
+                                        <input class="form-control" type="text" name="honv"
+                                            value="<%= nhanvien.honv %>">
                                     </div>
-                                    <div class="form-group">
-                                        <button type="submit"  class="btn btn-info btn-rounded" >Cập Nhật</button>
-                                      
+                                    <div class="col-sm-6 form-group">
+                                        <label>Tên</label>
+                                        <input class="form-control" type="text" name="tennv"
+                                            value="<%= nhanvien.tennv %>">
                                     </div>
-                            
-                            </div>
-             
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-sm-6 form-group">
+                                        <label>Địa Chỉ</label>
+                                        <input class="form-control" type="text" name="diachi"
+                                            value="<%= nhanvien.diachi %>">
+                                    </div>
+                                    <div class="col-sm-6 form-group">
+                                        <label>Số Điện Thoại</label>
+                                        <input class="form-control" type="text" name="sodt"
+                                            value="<%= nhanvien.sodt %>">
+                                    </div>                   
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-sm-6 form-group">
+                                        <label>Ngày Sinh</label>
+                                        <input class="form-control" type="date" id="ngaysinh" name="ngaysinh"
+                                            value="<%= moment(nhanvien.ngaysinh).format('YYYY-MM-DD')%>">
+                                    </div>
+
+                                    <div class="col-sm-6 form-group">
+                                        <label for="nam">Nam</label>
+                                        
+                                            <input type="radio" name="gioitinh" id="male" value="1"
+                                                <%if (nhanvien.gioitinh == 1) { %> checked <% } %>>
+                                        <label for="khoangtrang"> </label>
+                                        <label for="nu">Nữ</label>
+                                            <input type="radio" name="gioitinh" id="female" value="2"
+                                                <%if (nhanvien.gioitinh != 1) { %> checked <% } %>>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <button type="submit" class="btn btn-info btn-rounded">Cập Nhật</button>
+                                </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-        <style>
-            .profile-social a {
-                font-size: 16px;
-                margin: 0 10px;
-                color: #999;
-            }
-
-            .profile-social a:hover {
-                color: #485b6f;
-            }
-
-            .profile-stat-count {
-                font-size: 22px
-            }
-        </style>
-    
     </div>
+</div>
 
 
 <!-- Sử dụng cho jquery - validation -->
@@ -152,21 +129,18 @@
                 required: !0
             },
             diachi: {
-                rangelength: [2, 50],
+                rangelength: [2, 100],
                 required: !0
             },
-            email: {
-                rangelength: [2, 30],
-                email: !0,
+            ngaysinh: {
                 required: !0
             },
-            
         },
         errorClass: "help-block error",
-        highlight: function(e) {
+        highlight: function (e) {
             $(e).closest(".form-group.row").addClass("has-error")
         },
-        unhighlight: function(e) {
+        unhighlight: function (e) {
             $(e).closest(".form-group.row").removeClass("has-error")
         },
     });
