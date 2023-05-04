@@ -28,20 +28,25 @@
                                     <dd class="col-sm-6"><%= hoadon.diachi  %></dd>
                                     <dt class="col-sm-6">Ghi Chú:</dt>
                                     <dd class="col-sm-6"><%= hoadon.ghichu  %></dd>
+                                    <dt class="col-sm-6">Ngày Giao Hàng Cho Đơn Vị Vận Chuyển</dt>
+                                    <dd class="col-sm-6"><%= moment(hoadon.ngaygiao).format('DD-MM-YYYY')  %></dd>
+                                    <dt class="col-sm-6">Mã Trạng Thái</dt>
+                                    <dd class="col-sm-6"><%= trangthai.tentt %></dd>
                                 </dl>
                         </div>
                      
                     </div>
                     <div class="col-6 text-right">
-                            <dl class="row pull-right" style="width:300px;">
-                                <dt class="col-sm-6">Ngày Đặt Lịch</dt>
-                                <dd class="col-sm-6"><%= moment(hoadon.ngaydat).format('DD-MM-YYYY')  %></dd>
-                                <dt class="col-sm-6">Mã Trạng Thái</dt>
-                                <dd class="col-sm-6"><%= trangthai.tentt %></dd>
+                            <dl class="row pull-right" >
+                                <dt class="col-sm-6">Ngày Tạo Hóa Đơn</dt>
+                                <dd class="col-sm-6"><%= moment(hoadon.created_at).format('DD-MM-YYYY  HH:mm:ss')  %></dd>
+                               
                                 <dt class="col-sm-6">Mã Khách Hàng</dt>
                                 <dd class="col-sm-6"><%= hoadon.makh  %></dd>
                                 <dt class="col-sm-6">Mã Nhân Viên Chỉnh Sửa Gần Nhất</dt>
                                 <dd class="col-sm-6"><%= hoadon.manv  %></dd>
+                                <dt class="col-sm-6">Thời Gian Cập Nhật Gần Nhất</dt>
+                                <dd class="col-sm-6"><%= moment(hoadon.updated_at).format('DD-MM-YYYY HH:mm:ss')  %></dd>
                             </dl>
                     </div>
                     </div>
@@ -59,27 +64,22 @@
                 </thead>
                 <tbody>
 
-
                     <% cthd.forEach((item) => { %>
                         <% for(var i=0; i< sanpham.length; i++) { %>
                             <% if(sanpham[i].masp == item.masp){ %>
-                              
-
+                            
                                 <tr>
                                     <td>
                                         <div><strong><%= sanpham[i].tensp %></strong></div>
                                     </td>
                                     <td> <img src="/images/sanpham/<%= sanpham[i].hinhdd %>" width="100px" /></td>
                                     <td><%= item.soluong %></td>
-                                    <td><%= item.giatien %> VNĐ</td>
+                                    <td><%= (item.giatien).toLocaleString() %> VNĐ</td>
                                 </tr>
                             
                                 <% } %>  
                                 <%} %>
                         <% }) %>
-
-                  
-                 
 
                 </tbody>
             </table>
@@ -93,7 +93,7 @@
                 <tbody>
                     <tr class="text-right">
                         <td class="font-bold font-18">TỔNG TIỀN:</td>
-                        <td class="font-bold font-18"><%= hoadon.tongtiensp  %> VNĐ</td>
+                        <td class="font-bold font-18"> <%= (hoadon.tongtiensp).toLocaleString() %> VNĐ</td>
                     </tr>
 
                     <tr class="text-right">

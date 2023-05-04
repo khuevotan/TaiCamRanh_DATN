@@ -55,5 +55,5 @@ module.exports = app => {
     // Delete a sanPham with id
     router.get("/delete/:masp", authMiddleware.loggedinad, sanPham.delete);
 
-    app.use('/admin/sanpham', router);
+    app.use('/admin/sanpham', router); 
 }

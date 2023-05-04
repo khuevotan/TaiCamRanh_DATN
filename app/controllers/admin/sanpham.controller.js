@@ -1,6 +1,7 @@
 
 const Danhmuc = require("../../models/danhmuc.model");
 const SanPham = require("../../models/sanpham.model");
+const NhaCungCap = require("../../models/nhacungcap.model");
 
 //======================= GIAO DIEN ADMIN ======================= 
 // Hiển thị form tạo mới sản phẩm.
@@ -9,9 +10,15 @@ exports.create = (req, res) => {
     const tendm = req.query.tensp;
     Danhmuc.getAll(tendm, (err, data) => {
         if (err)
-            res.redirect('/500')
+            res.redirect('/admin/500')
         else { 
-            res.render('sanpham/createsp', { danhmuc: data, layout: './master2'});
+            NhaCungCap.getAll((err, ncc) => {
+                if (err)
+                    res.redirect('/admin/500')
+                else { 
+                    res.render('sanpham/createsp', { nhacungcap: ncc, danhmuc: data, layout: './master2'});
+                }
+            });
         }
     });
 }
@@ -25,7 +32,7 @@ exports.store = (req, res) => {
 
     res.locals.nhanvien = req.session.nhanvien
     const manv = res.locals.nhanvien.manv;
-    ngaydang = new Date()
+
     const file = req.file
     
     // Create a sanpham
@@ -35,8 +42,8 @@ exports.store = (req, res) => {
         soluong: req.body.soluong,
         motact: req.body.motact,
         giaban: req.body.giaban,
-        ngaydang: ngaydang,
         madm: req.body.madm,
+        mancc: req.body.mancc,
         manv: manv,
     });
     // Save sanpham in the database

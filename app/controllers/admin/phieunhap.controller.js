@@ -1,5 +1,5 @@
-const HoaDon = require("../../models/HoaDon.model");
-const CTHoaDon = require("../../models/CTHoaDon.model");
+const PhieuNhap = require("../../models/PhieuNhap.model");
+const CTPhieuNhap = require("../../models/CTPhieuNhap.model");
 const TrangThai = require("../../models/TrangThai.model");
 const SanPham = require("../../models/SanPham.model");
 
@@ -8,7 +8,7 @@ const SanPham = require("../../models/SanPham.model");
 exports.findAll = (req, res) => {
     res.locals.deleted = req.query.deleted;
 
-    HoaDon.getAllAD((err, data) => {
+    PhieuNhap.getAllAD((err, data) => {
         if (err)
             res.redirect('/500')
         else {
@@ -16,8 +16,8 @@ exports.findAll = (req, res) => {
                 if (err)
                     res.redirect('/500')
                 else {
-                    res.render('hoadon/indexhd', {
-                        hoadon: data,
+                    res.render('phieunhap/indexhd', {
+                        phieunhap: data,
                         trangthai: trangthai,
                         layout: './master3'
                     });
@@ -32,7 +32,7 @@ exports.findAll = (req, res) => {
 exports.edit = (req, res) => {
     res.locals.status = req.query.status;
     
-    HoaDon.findBymahd(req.params.mahd, (err, data) => {
+    PhieuNhap.findBymapn(req.params.mapn, (err, data) => {
         if (err) {
             if (err.kind === "not_found") {
                 res.redirect('/404');
@@ -46,7 +46,7 @@ exports.edit = (req, res) => {
                     res.redirect('/500')
                 else {
 
-                    CTHoaDon.findBymahd(req.params.mahd, (err, cthd) => {
+                    CTPhieuNhap.findBymapn(req.params.mapn, (err, cthd) => {
                         if (err)
                             res.redirect('/500')
                         else {
@@ -54,8 +54,8 @@ exports.edit = (req, res) => {
                                 if (err)
                                     res.redirect('/500')
                                 else {
-                                    res.render('hoadon/edithd', {
-                                        hoadon: data,
+                                    res.render('phieunhap/edithd', {
+                                        phieunhap: data,
                                         trangthai: trangthai,
                                         cthd: cthd,
                                         sanpham: sanpham,
@@ -75,14 +75,14 @@ exports.edit = (req, res) => {
 exports.update = (req, res) => {
     // Validate Request
     if (!req.body) {
-        res.redirect('/admin/hoadon/edit/' + req.params.mahd + '?status=error')
+        res.redirect('/admin/phieunhap/edit/' + req.params.mapn + '?status=error')
     }
 
     res.locals.nhanvien = req.session.nhanvien
     const manv = res.locals.nhanvien.manv;
 
-     // Create a hoadon
-     const hoadon = new HoaDon({
+     // Create a phieunhap
+     const phieunhap = new PhieuNhap({
         tennguoinhan: req.body.tennguoinhan,
         ngaygiao: req.body.ngaygiao,
         sodt: req.body.sodt,
@@ -93,9 +93,9 @@ exports.update = (req, res) => {
         manv: manv,
     });
 
-    HoaDon.updateBymahd(
-        req.params.mahd,
-        hoadon,
+    PhieuNhap.updateBymapn(
+        req.params.mapn,
+        phieunhap,
         (err, data) => {
             if (err) {
                 if (err.kind === "not_found") {
@@ -103,7 +103,7 @@ exports.update = (req, res) => {
                 } else {
                     res.redirect('/500');
                 }
-            } else res.redirect('/admin/hoadon/edit/' + req.params.mahd + '?status=success');
+            } else res.redirect('/admin/phieunhap/edit/' + req.params.mapn + '?status=success');
         }
     );
 };
@@ -111,15 +111,15 @@ exports.update = (req, res) => {
 // Xóa thông tin hóa đơn đặt hàng.
 exports.delete = (req, res) => {
 
-    CTHoaDon.remove(req.params.mahd, (err, data) => {if (err) {
+    CTphieunhap.remove(req.params.mapn, (err, data) => {if (err) {
         if (err.kind === "not_found") {
             res.redirect('/404');
         } else {
             res.redirect('/500');
         }
     } else {
-            HoaDon.remove(req.params.mahd, (err, data) => {
-                res.redirect('/admin/hoadon/index?deleted=true')
+            phieunhap.remove(req.params.mapn, (err, data) => {
+                res.redirect('/admin/phieunhap/index?deleted=true')
         });
     }
     });
@@ -129,7 +129,7 @@ exports.delete = (req, res) => {
 exports.details = (req, res) => {
     res.locals.status = req.query.status;
     const tensp = req.query.tensp;
-    HoaDon.findBymahd(req.params.mahd, (err, data) => {
+    PhieuNhap.findBymapn(req.params.mapn, (err, data) => {
         if (err) {
             if (err.kind === "not_found") {
                 res.redirect('/404');
@@ -141,7 +141,7 @@ exports.details = (req, res) => {
                 if (err)
                     res.redirect('/500')
                 else {
-                    CTHoaDon.findBymahd(req.params.mahd, (err, cthd) => {
+                    CTPhieuNhap.findBymapn(req.params.mapn, (err, cthd) => {
                         if (err)
                             res.redirect('/500')
                         else {
@@ -149,8 +149,8 @@ exports.details = (req, res) => {
                                 if (err)
                                     res.redirect('/500')
                                 else {
-                                    res.render('hoadon/detailshd', {
-                                        hoadon: data,
+                                    res.render('phieunhap/detailshd', {
+                                        phieunhap: data,
                                         trangthai: trangthai,
                                         cthd: cthd,
                                         sanpham: sanpham,
@@ -167,90 +167,3 @@ exports.details = (req, res) => {
     });
 };
 
-//======================= GIAO DIEN KHACH HANG ======================= 
-// Hiển thị hóa đơn đặt hàng bên phía khach hàng
-exports.findAllKH = (req, res) => {
-    res.locals.deleted = req.query.deleted;
-
-    res.locals.khachhang = req.session.khachhang
-    const makh = res.locals.khachhang.makh;
-    const tentt = req.query.tentt;
-    HoaDon.getAll(makh, (err, data) => {
-        if (err)
-            res.redirect('/500')
-        else {
-            TrangThai.getAll(tentt, (err, trangthai) => {
-                if (err)
-                    res.redirect('/500')
-                else {
-                    res.render('dondathang', {
-                        hoadon: data,
-                        trangthai: trangthai,
-                        layout: './master'
-                    });
-                }
-            });
-        }
-    });
-};
-
-// Hiển thị chi tiết một đơn đặt hàng bên phía khach hàng
-exports.chitietdathang = (req, res) => {
-    res.locals.status = req.query.status;
-    const tensp = req.query.tenlx;
-    HoaDon.findBymahd(req.params.mahd, (err, data) => {
-        if (err) {
-            if (err.kind === "not_found") {
-                res.redirect('/404');
-            } else {
-                res.redirect('/500');
-            }
-        } else {
-            CTHoaDon.findBymahd(req.params.mahd, (err, cthd) => {
-                if (err)
-                    res.redirect('/500')
-                else {
-                    SanPham.getAll(tensp, (err, sanpham) => {
-                        if (err)
-                            res.redirect('/500')
-                        else {
-                            res.render('ctdathang', {
-                                hoadon: data,
-                                cthd: cthd,
-                                sanpham: sanpham,
-                                layout: './master'
-                            });
-                        }
-                    });
-                }
-            });
-        }
-    });
-};
-
-// Hiển thị hóa đơn lịch sử đặt lịch bên phía khách hàng
-exports.findAllKHLS = (req, res) => {
-
-    res.locals.deleted = req.query.deleted;
-
-    res.locals.khachhang = req.session.khachhang
-    const makh = res.locals.khachhang.makh;
-    const tentt = req.query.tentt;
-    HoaDon.getLSAll(makh, (err, data) => {
-        if (err)
-            res.redirect('/500')
-        else {
-            TrangThai.getAll(tentt, (err, trangthai) => {
-                if (err)
-                    res.redirect('/500')
-                else {
-                    res.render('lsdathang', {
-                        hoadon: data,
-                        trangthai: trangthai,
-                        layout: './master'
-                    });
-                }
-            });
-        }
-    });
-};

@@ -95,8 +95,6 @@ exports.findAllKHLS = (req, res) => {
     });
 };
 
-
-
 // Hiển thị chi tiết 1 đơn đặt lịch hẹn
 exports.chitietdatlich = (req, res) => {
     res.locals.status = req.query.status;
@@ -127,21 +125,6 @@ exports.chitietdatlich = (req, res) => {
         }
     });
 };
-
-// Find a single hoadonrx with a madm
-// exports.edit = (req, res) => {
-//     res.locals.status = req.query.status;
-
-//     HoaDonRX.findByMaDM(req.params.madm, (err, data) => {
-//         if (err) {
-//             if (err.kind === "not_found") {
-//                 res.redirect('/404');
-//             } else {
-//                 res.redirect('/500');
-//             }
-//         } else res.render('hoadonrx/edit', { hoadonrx: data });
-//     });
-// };
 
 // Cập nhật số lượng, giá tiền sản phẩm trong hóa đơn
 exports.update = (req, res) => {
@@ -205,7 +188,6 @@ exports.update = (req, res) => {
         }
     );
 };
-
 
 // xóa chi tiết hóa đơn
 exports.delete = (req, res) => {

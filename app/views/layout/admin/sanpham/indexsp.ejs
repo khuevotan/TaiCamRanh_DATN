@@ -1,14 +1,4 @@
-
-    <div class="page-heading">
-        <h1 class="page-title">Danh Sách Các Sản Phẩm</h1>
-        <ol class="breadcrumb">
-            <li class="breadcrumb-item">
-                <a href="index.html"><i class="la la-home font-20"></i></a>
-            </li>
-            <!-- <li class="breadcrumb-item">DataTables</li> -->
-        </ol>
-    </div>
-    <div class="page-content fade-in-up">
+<div class="page-content fade-in-up">
        
 
             <% if (typeof deleted !== 'undefined') { %>
@@ -29,7 +19,9 @@
             <div class="ibox ibox-info">
                 <div class="ibox-head">
                     <div class="ibox-title">   
-                       
+                        <div style="color: rgb(255, 255, 255);">
+                            Danh Sách Sản Phẩm
+                        </div>
                     </div>
                 </div>
             <% } %>
@@ -43,9 +35,10 @@
                             <th>HìnhĐạiDiện</th>
                             <th>SốLượng</th>
                             <th>GiáBán</th>
-                            <th>NgàyĐăng</th>
+                            <th>NgàyTạo</th>
                             <th>DanhMục</th>
                             <th>MãNhânViên</th>
+                        
                             <th>HànhĐộng</th>
                         </tr>
                     </thead>
@@ -60,8 +53,8 @@
                                   </div>
                             </td>
                             <td><%= item.soluong %></td>
-                            <td><%= item.giaban %> VNĐ</td>
-                            <td><%= moment(item.ngaydang).format('DD-MM-YYYY')  %> </td>
+                            <td><%= (item.giaban).toLocaleString() %> VNĐ</td>
+                            <td><%= moment(item.created_at).format('DD-MM-YYYY ') %> </td>
                            
                             <td>
                                 <% for(var i=0; i<danhmuc.length; i++) { %>
@@ -72,6 +65,8 @@
                                  <%} %>
                             </td>
                             <td><%= item.manv %></td>
+
+                       
                        
                                 <td>
                                     <a href="/admin/sanpham/details/<%= item.masp %>" class="btn btn-default btn-xs m-r-5" data-toggle="tooltip" data-original-title="Details"><i class="fa fa-info font-14"></i></a>

@@ -111,18 +111,19 @@ exports.update = (req, res) => {
 
 // Xóa thông tin hóa đơn đặt hàng.
 exports.delete = (req, res) => {
-
-    CTHoaDon.remove(req.params.mahd, (err, data) => {if (err) {
-        if (err.kind === "not_found") {
-            res.redirect('/404');
+    
+    CTHoaDon.remove(req.params.mahd, (err, data) => {
+        if (err) {
+            if (err.kind === "not_found") {
+                res.redirect('/admin/404');
+            } else {
+                res.redirect('/admin/500');
+            }
         } else {
-            res.redirect('/500');
+                HoaDon.remove(req.params.mahd, (err, data) => {
+                    res.redirect('/admin/hoadon/index?deleted=true')
+            });
         }
-    } else {
-            HoaDon.remove(req.params.mahd, (err, data) => {
-                res.redirect('/admin/hoadon/index?deleted=true')
-        });
-    }
     });
 };
 

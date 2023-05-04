@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Máy chủ: 127.0.0.1
--- Thời gian đã tạo: Th5 01, 2023 lúc 12:07 PM
+-- Thời gian đã tạo: Th5 04, 2023 lúc 04:26 AM
 -- Phiên bản máy phục vụ: 10.4.25-MariaDB
 -- Phiên bản PHP: 8.0.28
 
@@ -44,7 +44,15 @@ CREATE TABLE `baiviet` (
 
 INSERT INTO `baiviet` (`mabv`, `tenbv`, `motangan`, `noidung`, `hinhdd`, `manv`, `created_at`, `updated_at`) VALUES
 (1, 'Sự Thật Về Lớp Phủ Ceramic Ô Tô', 'Bạn muốn chiếc xe của bạn trông tuyệt vời như ngày bạn mới mua xe với lớp sơn xe loáng bóng. Nhưng bất chấp những nỗ lực của bạn trong việc bảo trì và bão dưỡng lớp sơn.', 'Sự ra đời của phủ ceramic ô tô\r\nBạn muốn chiếc xe của bạn trông tuyệt vời như ngày bạn mới mua xe với lớp sơn xe loáng bóng. Nhưng bất chấp những nỗ lực của bạn trong việc bảo trì và bão dưỡng lớp sơn, các vết trầy xước bắt đầu lan rộng ra bên ngoài xe của bạn và lớp sơn bắt đầu xỉn màu và phai màu khỏi ánh nắng mặt trời, khiến nhiều người tiêu dùng tìm cách chống tia UV.\r\n\r\nBất cứ điều gì và mọi thứ liên tục tấn công bề mặt xe của bạn. Bùn, bụi, mưa bẩn, đốm nước, bụi phanh khó coi, bụi bẩn bắt đầu bám vào xe của bạn gần như ngay lập tức sau khi làm sạch nó. Tuyết, băng, đường muối, kẹo cao su, phân chim cũng không giúp được gì.\r\n\r\nChưa kể những vết trầy xước trong cuộc sống hàng ngày từ trẻ em,  xe máy va chạm trên đường phố Việt Nam, lùi xe không cẩn thận…\r\n\r\nWax bóng có thể tăng thêm một mức độ sáng và bóng tốt, và một lượng nhỏ bảo vệ, nhưng chỉ kéo dài tối đa 6 tháng là tốt nhất. Wax bóng chắc chắn không hiệu quả như phủ gốm được.\r\n\r\nĐó chính là lý do vì sao phủ nano xe hơi xe máy bắt đầu ra đời. Sau này, phủ ceramic xe hơi hay phủ gốm được thịnh hành hơn bởi hoá chất tốt hơn so với các loại nano mà chúng ta sẽ cùng tìm hiểu sau đây.\r\n\r\nPhủ ceramic ô tô là gì?\r\nĐể hiểu được phủ ceramic là gì, chúng ta cần hiểu ceramic được làm từ đâu, thành phần hóa học là gì:\r\n\r\nCeramic là gì ?\r\nCeramics hay còn gọi là gốm sứ, bao gồm silicon dioxide (silica, Si02), có nguồn gốc từ các vật liệu tự nhiên như thạch anh và cát. Một số loại và nhãn hiệu ceramic cũng sử dụng titanium dioxide (titania, Ti02) để tăng độ cứng bổ sung cho dung dịch phủ ceramic. Khi được phủ lên sơn ô tô, cả hai tạo ra một liên kết hóa học với đặc tính kỵ nước, hay còn gọi là không thấm nước.\r\nLớp phủ ceramic ô tô 9h 10h là như thế nào?\r\nLớp phủ ceramic 9H là gì? 10H như thế nào ? Cách dễ nhất để hiểu là lớp phủ sứ như một lớp da thứ hai, hoặc một lớp giáp sẵn sàng hi sinh để bảo vệ lớp sơn xe của bạn.\r\n\r\nCeramics được phát triển từ công nghệ nano, về cơ bản là các hạt nhỏ tạo thành một lớp rất mỏng, hoàn toàn trong suốt trước mắt. Bởi vì các hạt này rất nhỏ, khi được áp dụng lên bề mặt, chúng bịt kín tất cả các lỗ nhỏ nano mà bạn không thấy được làm cho bề mặt xe trở nên kỵ nước (không thấm nước, trượt nước, bùn bẩn), nhưng cũng có khả năng chống tia cực tím, trầy xước, hóa chất, nhiệt độ cực cao và thậm chí chống graffiti. Lớp gốm 9H hay 10H này hoàn toàn trong suốt.', 'ceramicoto.jpg', 1, '2023-05-01 08:59:13', '2023-05-01 08:59:13'),
-(2, 'Phim cách nhiệt 3M Crystalline có đáng tiền?', '3M Crystalline kết hợp tổng cộng 200 lớp trong phim của nó nhưng khi cầm nắm thì nó vẫn mỏng hơn một tờ giấy.', '1️⃣ Đặc điểm vượt trội của 3M Cyrstalline khiến loại phim cách nhiệt này tốt nhất hiện tại\r\n3M Crystalline kết hợp tổng cộng 200 lớp trong phim của nó nhưng khi cầm nắm thì nó vẫn mỏng hơn một tờ giấy. Tuy nhiên, lớp film mỏng không làm giảm sức mạnh của nó, vì nó vẫn ngăn nhiệt và ánh sáng chiếu vào xe. \r\n99,9% Tia UV bị chặn bởi dòng phim cách nhiệt 3M Crystalline , trong khi film có màu tối nhất là CR20 có thể giảm nhiệt lên đến 97%. Film 3M Crystalline sáng nhất CR70 có thể làm giảm nhiệt trong xe của bạn lên đến 50%. \r\nNó có chỉ số SPF 1000+, vì vậy bạn không bao giờ phải lo lắng về nội thất của xe bị hư hại khi tiếp xúc với ánh nắng mặt trời. Đồng thời, nó sẽ làm giảm ánh sáng chói vào xe của bạn. \r\nKhông giống như các loại phim cách nhiệt Trung Quốc nhuộm đủ màu rẻ hơn và ít được biết đến hơn, không có nhiễu kim loại hoặc tín hiệu vô tuyến với phim 3M Crystalline. \r\nPhim mỏng và độ bóng cao sẽ nâng cao khả năng hiển thị của bạn vào ban đêm, vì vậy bạn không cần lo lắng về việc không nhìn thấy vào ban đêm. \r\nCho dù bạn có để xe dưới sa mạc hay bảo tuyết, phim không bị đổi màu. Nó sẽ trông giống như ngày đầu tiên bạn mua dán nó trên xe. \r\nĐó là chất lượng đi kèm với phim 3M Crystalline, bạn sẽ được đảm bảo chất lượng trọn đời. Điều đó có nghĩa là bạn không bao giờ phải quay lại để sửa chữa.  ', '3mcrystalline.jpg', 1, '2023-05-01 08:59:13', '2023-05-01 08:59:13');
+(2, 'Phim cách nhiệt 3M Crystalline có đáng tiền?', '3M Crystalline kết hợp tổng cộng 200 lớp trong phim của nó nhưng khi cầm nắm thì nó vẫn mỏng hơn một tờ giấy.', '1️⃣ Đặc điểm vượt trội của 3M Cyrstalline khiến loại phim cách nhiệt này tốt nhất hiện tại\r\n3M Crystalline kết hợp tổng cộng 200 lớp trong phim của nó nhưng khi cầm nắm thì nó vẫn mỏng hơn một tờ giấy. Tuy nhiên, lớp film mỏng không làm giảm sức mạnh của nó, vì nó vẫn ngăn nhiệt và ánh sáng chiếu vào xe. \r\n99,9% Tia UV bị chặn bởi dòng phim cách nhiệt 3M Crystalline , trong khi film có màu tối nhất là CR20 có thể giảm nhiệt lên đến 97%. Film 3M Crystalline sáng nhất CR70 có thể làm giảm nhiệt trong xe của bạn lên đến 50%. \r\nNó có chỉ số SPF 1000+, vì vậy bạn không bao giờ phải lo lắng về nội thất của xe bị hư hại khi tiếp xúc với ánh nắng mặt trời. Đồng thời, nó sẽ làm giảm ánh sáng chói vào xe của bạn. \r\nKhông giống như các loại phim cách nhiệt Trung Quốc nhuộm đủ màu rẻ hơn và ít được biết đến hơn, không có nhiễu kim loại hoặc tín hiệu vô tuyến với phim 3M Crystalline. \r\nPhim mỏng và độ bóng cao sẽ nâng cao khả năng hiển thị của bạn vào ban đêm, vì vậy bạn không cần lo lắng về việc không nhìn thấy vào ban đêm. \r\nCho dù bạn có để xe dưới sa mạc hay bảo tuyết, phim không bị đổi màu. Nó sẽ trông giống như ngày đầu tiên bạn mua dán nó trên xe. \r\nĐó là chất lượng đi kèm với phim 3M Crystalline, bạn sẽ được đảm bảo chất lượng trọn đời. Điều đó có nghĩa là bạn không bao giờ phải quay lại để sửa chữa.  ', '3mcrystalline.jpg', 1, '2023-05-01 08:59:13', '2023-05-01 08:59:13'),
+(3, 'Phim cách nhiệt 3M ', '3r23r3', '                                <h4>Tiêu đề 1</h4> \r\n                                .\r\n                                <h4>Tiêu đề 2</h4>\r\n                                <ul>\r\n                                    <li>Một.</li>\r\n                                    <li>Hai.</li>\r\n                                  \r\n                        \r\n                                </ul>\r\n                                <h4>Tiêu đề 3</h4> \r\n                                 .\r\n                            ', '1682936669206-a.png', 1, '2023-05-01 10:24:29', '2023-05-01 10:24:29'),
+(4, 'Crystalline có đáng tiền?', '23r32r32', '                                <h4>Tiêu đề 1</h4> \r\n                                .\r\n                                <h4>Tiêu đề 2</h4>\r\n                                <ul>\r\n                                    <li>Một.</li>\r\n                                    <li>Hai.</li>\r\n                                  \r\n                        \r\n                                </ul>\r\n                                <h4>Tiêu đề 3</h4> \r\n                                 .\r\n                            ', '1682936688252-Full_Stack_ebvf4s.png', 1, '2023-05-01 10:24:48', '2023-05-01 10:24:48'),
+(5, 'Phim cách nhiệt 3M ', '3r3r3', '                                <h4>Tiêu đề 1</h4> \r\n                                .\r\n                                <h4>Tiêu đề 2</h4>\r\n                                <ul>\r\n                                    <li>Một.</li>\r\n                                    <li>Hai.</li>\r\n                                  \r\n                        \r\n                                </ul>\r\n                                <h4>Tiêu đề 3</h4> \r\n                                 .\r\n                            ', '1682936733511-a.png', 1, '2023-05-01 10:25:33', '2023-05-01 10:25:33'),
+(6, 'khuê nè', '12e2e', '                                <h4>Tiêu đề 1</h4> \r\n                                .\r\n                                <h4>Tiêu đề 2</h4>\r\n                                <ul>\r\n                                    <li>Một.</li>\r\n                                    <li>Hai.</li>\r\n                                  \r\n                        \r\n                                </ul>\r\n                                <h4>Tiêu đề 3</h4> \r\n                                 .\r\n                            ', '1682936793690-Full_Stack_ebvf4s.png', 1, '2023-05-01 10:26:33', '2023-05-01 10:26:33'),
+(7, 'khuê nè', '3r32r32r', '                                <h4>Tiêu đề 1</h4> \r\n                                .\r\n                                <h4>Tiêu đề 2</h4>\r\n                                <ul>\r\n                                    <li>Một.</li>\r\n                                    <li>Hai.</li>\r\n                                  \r\n                        \r\n                                </ul>\r\n                                <h4>Tiêu đề 3</h4> \r\n                                 .\r\n                            ', '1682936845509-Full_Stack_ebvf4s.png', 1, '2023-05-01 10:27:25', '2023-05-01 10:27:25'),
+(8, 'phim cách nhiệt32r32r3', '32rf3f3', '                                <h4>Tiêu đề 1</h4> \r\n                                .\r\n                                <h4>Tiêu đề 2</h4>\r\n                                <ul>\r\n                                    <li>Một.</li>\r\n                                    <li>Hai.</li>\r\n                                  \r\n                        \r\n                                </ul>\r\n                                <h4>Tiêu đề 3</h4> \r\n                                 .\r\n                            ', '1682937000981-Full_Stack_ebvf4s.png', 1, '2023-05-01 10:30:00', '2023-05-01 10:30:00'),
+(9, 'khuêt 3M 223r', '32rr3r34', '                                <h4>Tiêu đề 1</h4> \r\n                                .\r\n                                <h4>Tiêu đề 2</h4>\r\n                                <ul>\r\n                                    <li>Một.</li>\r\n                                    <li>Hai.</li>\r\n                                  \r\n                        \r\n                                </ul>\r\n                                <h4>Tiêu đề 3</h4> \r\n                                 .\r\n                            ', '1682937361267-Full_Stack_ebvf4s.png', 1, '2023-05-01 10:36:01', '2023-05-01 10:36:01'),
+(10, 'khuê nè21323213', '12r32f32f', '                                <h4>Tiêu đề 1</h4> \r\n                                .\r\n                                <h4>Tiêu đề 2</h4>\r\n                                <ul>\r\n                                    <li>Một.</li>\r\n                                    <li>Hai.</li>\r\n                                  \r\n                        \r\n                                </ul>\r\n                                <h4>Tiêu đề 3</h4> \r\n                                 .\r\n                            ', '1682937721886-Full_Stack_ebvf4s.png', 1, '2023-05-01 10:42:01', '2023-05-01 10:42:01');
 
 -- --------------------------------------------------------
 
@@ -66,7 +74,24 @@ CREATE TABLE `cthoadon` (
 --
 
 INSERT INTO `cthoadon` (`mahd`, `masp`, `soluong`, `giatien`, `created_at`, `updated_at`) VALUES
-('9823e5bf4b71c14e3f7fedcb72809609', 1, 1, 150, '2023-05-01 09:04:48', '2023-05-01 09:04:48');
+('1c0b3aab11c874d461f57f2a10324cdf', 1, 1, 150, '2023-05-03 15:54:47', '2023-05-03 15:54:47'),
+('694ef3ac5abf44793a3c28a2d93016f3', 1, 1, 150, '2023-05-03 15:53:25', '2023-05-03 15:53:25'),
+('694ef3ac5abf44793a3c28a2d93016f3', 2, 1, 150, '2023-05-03 15:53:25', '2023-05-03 15:53:25');
+
+-- --------------------------------------------------------
+
+--
+-- Cấu trúc bảng cho bảng `ctphieunhap`
+--
+
+CREATE TABLE `ctphieunhap` (
+  `mapn` int(11) NOT NULL,
+  `masp` int(11) NOT NULL,
+  `soluongnhap` int(11) NOT NULL,
+  `gianhap` float NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
 
@@ -163,8 +188,9 @@ CREATE TABLE `hoadon` (
 --
 
 INSERT INTO `hoadon` (`mahd`, `ngaygiao`, `tennguoinhan`, `sodt`, `diachi`, `ghichu`, `tongtiensp`, `thanhtoan`, `matt`, `manv`, `makh`, `created_at`, `updated_at`) VALUES
-('3019734afbbed69c40edf1bafa546c6f', '2023-04-24', 'Lê Diệu Thảo', '0987664220', 'Thành Phố HCM', 'Giao Hàng Nhanh', 0, 1, 5, 1, 12, '2023-05-01 09:04:09', '2023-05-01 09:04:09'),
-('9823e5bf4b71c14e3f7fedcb72809609', '2023-04-24', 'Nguyễn Văn An', '0987664220', 'Nha Trang', 'Giao Hàng Nhanh', 2792, 1, 1, 1, 12, '2023-05-01 09:04:09', '2023-05-01 09:12:19');
+('1c0b3aab11c874d461f57f2a10324cdf', '2023-05-03', 'Giáp Thái Vân', '0783640815', 'Xã Phủ Lý, Huyện Phú Lương, Thái Nguyên', 'Nhanh nhá', 150, 1, 1, 1, 1, '2023-05-03 15:54:47', '2023-05-03 15:54:47'),
+('587e83ca7d8d909f8f9e77f4e2650d26', '2023-05-03', 'Dã Linh Trang', '0916290541', 'Xã Bình Định, Huyện Lương Tài, Bắc Ninh', 'Nhanh nhá', 2792, 1, 1, 1, 1, '2023-05-03 15:51:56', '2023-05-03 15:51:56'),
+('694ef3ac5abf44793a3c28a2d93016f3', '2023-05-03', 'Dã Linh Trang', '0987664220', 'Xã Thượng Thôn, Huyện Hà Quảng, Cao Bằng', 'Giao nhanh nhá', 300, 1, 1, 1, 1, '2023-05-03 15:53:25', '2023-05-03 15:53:25');
 
 -- --------------------------------------------------------
 
@@ -177,8 +203,8 @@ CREATE TABLE `hoadonrx` (
   `ngayrua` date NOT NULL,
   `magio` int(11) NOT NULL,
   `sodt` varchar(15) NOT NULL,
-  `diachi` varchar(50) NOT NULL,
-  `ghichu` varchar(50) NOT NULL,
+  `diachi` varchar(100) NOT NULL,
+  `ghichu` varchar(500) NOT NULL,
   `tongtienrx` float NOT NULL,
   `thanhtoan` tinyint(1) NOT NULL,
   `malx` int(11) NOT NULL,
@@ -189,6 +215,13 @@ CREATE TABLE `hoadonrx` (
   `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
   `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Đang đổ dữ liệu cho bảng `hoadonrx`
+--
+
+INSERT INTO `hoadonrx` (`mahdrx`, `ngayrua`, `magio`, `sodt`, `diachi`, `ghichu`, `tongtienrx`, `thanhtoan`, `malx`, `matt`, `manv`, `makh`, `tennguoirua`, `created_at`, `updated_at`) VALUES
+('94a69178302f5075446146c54ddfc8d4', '2023-05-12', 1, '0591546739', 'Thị trấn Tam Sơn, Huyện Quản Bạ, Hà Giang', 'Rửa nhanh nhé', 80000, 2, 5, 4, 1, 1, 'Chử Diễm Chi', '2023-05-03 14:04:33', '2023-05-03 14:35:35');
 
 -- --------------------------------------------------------
 
@@ -218,7 +251,7 @@ CREATE TABLE `khachhang` (
 --
 
 INSERT INTO `khachhang` (`makh`, `taikhoan`, `matkhau`, `hokh`, `tenkh`, `ngaysinh`, `sodt`, `diachi`, `email`, `gioitinh`, `hinhdd`, `kichhoat`, `created_at`, `updated_at`) VALUES
-(12, 'khuevotan', '$2b$10$U6yZ1caTanSsrqclCNXwr.AZBJmecFQSQClUxo50hDoEZTcfFKwkm', 'Võ Tấn', 'Khuê', '2001-09-06', '0987664220', '499, Mỹ Ca, Cam Nghĩa, Cam Ranh, Khánh Hòa', 'khuevotan@gmail.com', 0, '1682611745462-khue.png', 2, '2023-05-01 09:03:04', '2023-05-01 09:03:04'),
+(1, 'khuevotan', '$2b$10$U6yZ1caTanSsrqclCNXwr.AZBJmecFQSQClUxo50hDoEZTcfFKwkm', 'Võ Tấn', 'Khuê', '2001-09-06', '0987664220', '499, Mỹ Ca, Cam Nghĩa, Cam Ranh, Khánh Hòa', 'khuevotan@gmail.com', 0, '1682611745462-khue.png', 2, '2023-05-01 09:03:04', '2023-05-03 13:46:59'),
 (13, 'oanhdung', '$2b$10$HNkeMM5kUnLCz3WNKnjkpe4bqxmWyivvDf/3VXlUDAaFV/1CTEy2.', 'Nguyễn Thị', 'Oanh', '2023-04-15', '0987664220', 'Vĩnh Phúc', 'khuevotan1@gmail.com', 2, '1682612022526-khue.png', 1, '2023-05-01 09:03:04', '2023-05-01 09:03:04');
 
 -- --------------------------------------------------------
@@ -266,7 +299,7 @@ CREATE TABLE `nhacungcap` (
 --
 
 INSERT INTO `nhacungcap` (`mancc`, `tenncc`, `sodt`, `diachi`, `created_at`, `updated_at`) VALUES
-(1, 'CHÍNH CHỦ', '0987664220', 'e3fdefee', '2023-05-01 10:04:52', '2023-05-01 10:04:52');
+(1, 'CHÍNH CHỦ', '0987664220', 'Cam Ranh ', '2023-05-01 10:04:52', '2023-05-01 14:59:03');
 
 -- --------------------------------------------------------
 
@@ -298,7 +331,7 @@ CREATE TABLE `nhanvien` (
 --
 
 INSERT INTO `nhanvien` (`manv`, `taikhoan`, `matkhau`, `honv`, `tennv`, `sodt`, `diachi`, `email`, `luong`, `ngaysinh`, `gioitinh`, `hinhdd`, `manhom`, `kichhoat`, `created_at`, `updated_at`) VALUES
-(1, 'khuevotan', '$2b$10$u5Js78rZsOAM6lYyYSBt4OJRxAqXMPO5sQd1DvrxPGQACCuF0Fafa', 'Võ', 'Tấn Khuê', '0987664220', '499, Mỹ Ca, Cam Nghĩa, Cam Ranh, Khánh Hòa', 'khuevotan@gmail.com', 10000000, '2023-04-04', 1, 'nhanvien.png', 1, 1, '2023-05-01 09:02:35', '2023-05-01 09:02:35');
+(1, 'khuevotan', '$2b$10$qZiL7YRyVyZEpaEsOrYE1OFDnVSkQOF8.osDIGvAHAs9sVdqG1gVu', 'Võ', 'Tấn Khuê', '0987664220', '499 Mỹ Ca, Cam Nghĩa, Cam Ranh, Khánh Hòa', 'khuevotan@gmail.com', 10000000, '2001-09-06', 2, '1683118246255-khue.jpg', 1, 2, '2023-05-01 09:02:35', '2023-05-03 12:55:21');
 
 -- --------------------------------------------------------
 
@@ -321,6 +354,24 @@ INSERT INTO `nhom` (`manhom`, `tennhom`, `created_at`, `updated_at`) VALUES
 (1, 'Quản Lý', '2023-05-01 09:00:54', '2023-05-01 09:00:54'),
 (2, 'Nhân Viên Bán Hàng', '2023-05-01 09:00:54', '2023-05-01 09:00:54'),
 (3, 'Nhân Viên Rửa Xe', '2023-05-01 09:00:54', '2023-05-01 09:00:54');
+
+-- --------------------------------------------------------
+
+--
+-- Cấu trúc bảng cho bảng `phieunhap`
+--
+
+CREATE TABLE `phieunhap` (
+  `mapn` int(11) NOT NULL,
+  `ghichu` varchar(500) NOT NULL,
+  `thanhtoan` tinyint(1) NOT NULL,
+  `tongtiennhap` float NOT NULL,
+  `mancc` int(11) NOT NULL,
+  `matt` int(11) NOT NULL,
+  `manv` int(11) NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
 
@@ -420,6 +471,14 @@ ALTER TABLE `cthoadon`
   ADD KEY `fk_cthd_hd` (`mahd`) USING BTREE;
 
 --
+-- Chỉ mục cho bảng `ctphieunhap`
+--
+ALTER TABLE `ctphieunhap`
+  ADD PRIMARY KEY (`mapn`,`masp`),
+  ADD KEY `mapn` (`mapn`),
+  ADD KEY `masp` (`masp`);
+
+--
 -- Chỉ mục cho bảng `danhmuc`
 --
 ALTER TABLE `danhmuc`
@@ -483,6 +542,15 @@ ALTER TABLE `nhom`
   ADD PRIMARY KEY (`manhom`);
 
 --
+-- Chỉ mục cho bảng `phieunhap`
+--
+ALTER TABLE `phieunhap`
+  ADD PRIMARY KEY (`mapn`),
+  ADD KEY `fk_phieunhap_mancc` (`mancc`),
+  ADD KEY `fk_phieunhap_matt` (`matt`),
+  ADD KEY `fk_phieunhap_manv` (`manv`);
+
+--
 -- Chỉ mục cho bảng `sanpham`
 --
 ALTER TABLE `sanpham`
@@ -511,7 +579,7 @@ ALTER TABLE `trangthai`
 -- AUTO_INCREMENT cho bảng `baiviet`
 --
 ALTER TABLE `baiviet`
-  MODIFY `mabv` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `mabv` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT cho bảng `danhmuc`
@@ -556,6 +624,12 @@ ALTER TABLE `nhom`
   MODIFY `manhom` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
+-- AUTO_INCREMENT cho bảng `phieunhap`
+--
+ALTER TABLE `phieunhap`
+  MODIFY `mapn` int(11) NOT NULL AUTO_INCREMENT;
+
+--
 -- AUTO_INCREMENT cho bảng `sanpham`
 --
 ALTER TABLE `sanpham`
@@ -591,6 +665,13 @@ ALTER TABLE `cthoadon`
   ADD CONSTRAINT `fk_cthd_sp` FOREIGN KEY (`masp`) REFERENCES `sanpham` (`masp`);
 
 --
+-- Các ràng buộc cho bảng `ctphieunhap`
+--
+ALTER TABLE `ctphieunhap`
+  ADD CONSTRAINT `fk_ctpn_pn` FOREIGN KEY (`mapn`) REFERENCES `phieunhap` (`mapn`),
+  ADD CONSTRAINT `fk_ctpn_sp` FOREIGN KEY (`masp`) REFERENCES `sanpham` (`masp`);
+
+--
 -- Các ràng buộc cho bảng `hoadon`
 --
 ALTER TABLE `hoadon`
@@ -613,6 +694,14 @@ ALTER TABLE `hoadonrx`
 --
 ALTER TABLE `nhanvien`
   ADD CONSTRAINT `fk_nv_nhom` FOREIGN KEY (`manhom`) REFERENCES `nhom` (`manhom`);
+
+--
+-- Các ràng buộc cho bảng `phieunhap`
+--
+ALTER TABLE `phieunhap`
+  ADD CONSTRAINT `fk_phieunhap_mancc` FOREIGN KEY (`mancc`) REFERENCES `nhacungcap` (`mancc`),
+  ADD CONSTRAINT `fk_phieunhap_manv` FOREIGN KEY (`manv`) REFERENCES `nhanvien` (`manv`),
+  ADD CONSTRAINT `fk_phieunhap_matt` FOREIGN KEY (`matt`) REFERENCES `trangthai` (`matt`);
 
 --
 -- Các ràng buộc cho bảng `sanpham`

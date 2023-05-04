@@ -606,6 +606,8 @@ exports.showFormTTDH = (req, res) => {
     res.render('thongtintt');
 };
 
+const Cart = require("../../models/cart.model");
+
 // nhấn nút đặt đơn hàng
 exports.nhapThongTinDonHang = (req, res) => {
     res.locals.khachhang = req.session.khachhang
@@ -650,29 +652,34 @@ exports.nhapThongTinDonHang = (req, res) => {
 
                 const mahd = data.mahd;
 
-                for(var i = 1; i <= tongsosp; i++) { 
+                var cart = new Cart(req.session.cart);
+                var cartArr = cart.getItems();
 
-              
+                // for(var i = 1; i <= tongsosp; i++) { 
 
-                    masp =  res.locals.cart.items[i].item.masp;
-                    soluong = res.locals.cart.items[i].quantity;
-                    giatien = res.locals.cart.items[i].price;
+                    for (let i = 0; i < cartArr.length; i++) {
+                        var masp = cartArr[i].item.masp;
+                        var soluong = cartArr[i].quantity;
+                        var giatien = cartArr[i].price;
 
-                    const cthoadon = new CTHoaDon({
-                        mahd : mahd,
-                        masp: masp,
-                        soluong: soluong,
-                        giatien: giatien,
-                    });
+                        const cthoadon = new CTHoaDon({
+                            mahd : mahd,
+                            masp: masp,
+                            soluong: soluong,
+                            giatien: giatien,
+                        });
+    
+                        CTHoaDon.create(cthoadon, (err, data) => {
+                            if (!err) {
+                               
+                            }else{
+                                console.log(err);
+                            }
+                        });
+                    }
 
-                    CTHoaDon.create(cthoadon, (err, data) => {
-                        if (!err) {
-                            console.log("không lỗi");
-                        }else{
-                            console.log("lỗi nhập chi tiết hóa đơn");
-                        }
-                    });
-                }
+                    
+                // }
 
                 res.redirect('/khachhang/chonttdh?mahd=' + mahd + '&status=taothanhcong')
             } else {

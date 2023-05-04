@@ -1,14 +1,3 @@
-<div class="page-heading">
-    <h1 class="page-title">Chỉnh Sửa Thông Tin</h1>
-    <ol class="breadcrumb">
-        <li class="breadcrumb-item">
-            <a href="index.html"><i class="la la-home font-20"></i></a>
-        </li>
-
-    </ol>
-</div>
-
-
 <div class="page-content fade-in-up">
     <div class="row">
         <div class="col-md-5"> 
@@ -46,7 +35,7 @@
                             <div class="ibox ibox-info">
                                 <div class="ibox-head">
                                     <div class="ibox-title">
-                                        MÃ Hóa Đơn RX: <%= hoadon.mahd %>
+                                     
                                         <div style="color: rgb(255, 255, 255);">
                                           
                                         </div>
@@ -61,9 +50,9 @@
             <div class="ibox ibox-info">
                 <div class="ibox-head">
                     <div class="ibox-title">
-                        MÃ Hóa Đơn: <%= hoadon.mahd %>
+                    
                         <div style="color: rgb(255, 255, 255);">
-                          
+                            Chỉnh Sửa Thông Tin
                         </div>
                     </div>
                     <div class="ibox-tools">
@@ -81,6 +70,14 @@
                         <input type="hidden" name="_method" value="put" />
                         
                         <div class="form-group row">
+                            <label class="col-sm-2 col-form-label">Mã Hóa Đơn</label>
+                            <div class="col-sm-10">
+                                <input class="form-control" type="text" name="mahd"
+                                    value="<%= hoadon.mahd %>" readonly>
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
                             <label class="col-sm-2 col-form-label">Tên Người Nhận</label>
                             <div class="col-sm-10">
                                 <input class="form-control" type="text" name="tennguoinhan"
@@ -88,15 +85,7 @@
                             </div>
                         </div>
 
-                        <div class="form-group row">
-                            <label class="col-sm-2 col-form-label">Ngày Giao</label>
-                            <div class="col-sm-10">
-                                <input class="form-control" type="date" name="ngaygiao"
-                                    value="<%= moment(hoadon.ngaygiao).format('YYYY-MM-DD')%>">
-                            </div>
-                        </div>
-
-
+                        
                         <div class="form-group row">
                             <label class="col-sm-2 col-form-label">Số Điện Thoại</label>
                             <div class="col-sm-10">
@@ -110,6 +99,14 @@
                             <div class="col-sm-10">
                                 <input class="form-control" type="text" name="diachi"
                                     value="<%= hoadon.diachi %>">
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label class="col-sm-2 col-form-label">Ngày Giao Cho Đơn Vị Vận Chuyển</label>
+                            <div class="col-sm-10">
+                                <input class="form-control" type="date" name="ngaygiao"
+                                    value="<%= moment(hoadon.ngaygiao).format('YYYY-MM-DD')%>">
                             </div>
                         </div>
 
@@ -163,17 +160,12 @@
                             </div>
                         </div>
 
-                        <div class="form-group row">
-                            <label class="col-sm-2 col-form-label">Mã Khách Hàng</label>
-                            <div class="col-sm-10">
-                                <input class="form-control" type="text" name="makh"
-                                value="<%= hoadon.makh %>" readonly>
-                            </div>
-                        </div>
+                      
 
                         <div class="form-group row">
                             <div class="col-sm-10 ml-sm-auto">
                                 <button class="btn btn-info btn-rounded " type="submit">Cập Nhật</button>
+                                <a href="/admin/hoadon/details/<%= hoadon.mahd %>" class="btn btn-info btn-rounded">Xem Chi Tiết</a>
                             </div>
                         </div>
                     </form>
@@ -270,8 +262,7 @@
                                                 <td> 
                                                     <input class="form-control" type="number" name="giaban"
                                                     value="<%= sanpham[i].giaban %>" readonly>
-                                                
-                                                
+                                               
                                                 </td>
                                              
                                                 <td>
@@ -279,14 +270,11 @@
                                             value="<%= item.soluong %>">
                                         </td>
                                                 </td>
-                                                <td><%= item.giatien %> VNĐ</td>
+                                                <td><%= (item.giatien).toLocaleString() %> VNĐ</td>
                                                 <td> 
                                                     <button class="btn btn-default btn-xs" data-toggle="tooltip" data-original-title="Update" type="submit"><i class="fa fa-check font-14"></i></button>
 
                                                     <a href="/admin/cthoadon/delete/<%= item.mahd %>/<%= item.masp %>" onclick="return confirm('Bạn có chắc chăn muốn xóa không?')" class="btn btn-default btn-xs" data-toggle="tooltip" data-original-title="Delete"><i class="fa fa-trash font-14"></i></a>
-                                                   
-                                                
-                      
                                                 </td>
                                             </tr>
 
@@ -297,16 +285,10 @@
                                     <% }) %>      
                             </tbody>
                         </table>
-                      
-                       
-                      
-                  
                 </div>
             </div>
         </div>
-
     </div>
-
 </div>
 
 
@@ -333,4 +315,20 @@
             $(e).closest(".form-group.row").removeClass("has-error")
         },
     });
+</script>
+
+
+<script>
+    function getUrlParameter(name) {
+        name = name.replace(/[\[]/, '\\[').replace(/[\]]/, '\\]');
+        var regex = new RegExp('[\\?&]' + name + '=([^&#]*)');
+        var results = regex.exec(location.search);
+        return results === null ? '' : decodeURIComponent(results[1].replace(/\+/g, ' '));
+    };
+
+    var status = getUrlParameter('status');
+
+    if (status == 'khongxoaduoc') {
+        alert("Không xóa được sản phẩm cuối");
+    }
 </script>

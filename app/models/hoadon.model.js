@@ -65,8 +65,6 @@ HoaDon.findBymahd  = (mahd , result) => {
     });
 };
 
-
-
 HoaDon.updateBymahd  = (mahd , hoadon, result) => {
     sql.query(
         "UPDATE hoadon SET tennguoinhan = ?, ngaygiao = ?, sodt = ?, diachi = ? , ghichu = ? ,  thanhtoan = ? , matt = ? , manv = ?, updated_at = ?  WHERE mahd  = ?",
@@ -250,8 +248,8 @@ HoaDon.getLSAll = (makh, result) => {
 
 HoaDon.updateBymahdwitdtongtien  = (mahd , tongtiensp, result) => {
     sql.query(
-        "UPDATE hoadon SET  tongtiensp = ?  WHERE mahd  = ?",
-        [tongtiensp,  mahd ],
+        "UPDATE hoadon SET  tongtiensp = ?, updated_at = ?  WHERE mahd  = ?",
+        [tongtiensp, new Date(), mahd ],
         (err, res) => {
             if (err) {
                 console.log("error: ", err);

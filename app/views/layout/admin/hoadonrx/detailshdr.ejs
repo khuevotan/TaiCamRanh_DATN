@@ -33,10 +33,9 @@
                         <div class="col-6 text-right">
                             <div class="clf" style="margin-bottom:30px;">
                                 <dl class="row pull-right" style="width:300px;">
-                                    <dt class="col-sm-6">Ngày Đặt Lịch</dt>
-                                    <dd class="col-sm-6"><%= moment(hoadonrx.created_at).format('DD-MM-YYYY')  %></dd>
-                                    <dt class="col-sm-6">Ngày Rửa</dt>
-                                    <dd class="col-sm-6"><%= moment(hoadonrx.ngayrua).format('DD-MM-YYYY')  %></dd>
+                                    <dt class="col-sm-6">Thời Gian Tạo Hóa Đơn</dt>
+                                    <dd class="col-sm-6"><%=  moment(hoadonrx.created_at).format('DD-MM-YYYY HH:mm:ss')  %></dd>
+                                 
 
                                 </dl>
                             </div>
@@ -45,6 +44,13 @@
                 </div>
                 <table class="table table-striped no-margin table-invoice">
                     <tbody>
+                   
+                        <tr>
+                            <td>
+                                <div><strong>Ngày Rửa</strong></div>
+                            </td>
+                            <td><%= moment(hoadonrx.ngayrua).format('DD-MM-YYYY')  %></td>
+                        </tr>
                         <tr>
                             <td>
                                 <div><strong>Tên Giờ</strong></div>
@@ -81,6 +87,13 @@
                             </td>
                             <td><%= hoadonrx.manv %></td>
                         </tr>
+
+                        <tr>
+                            <td>
+                                <div><strong>Thời Gian Chỉnh Sửa Gần Nhất</strong></div>
+                            </td>
+                            <td><%= moment(hoadonrx.updated_at).format('DD-MM-YYYY HH:mm:ss') %> </td>
+                        </tr>
                     </tbody>
                 </table>
                 <table class="table no-border">
@@ -93,7 +106,7 @@
                     <tbody>
                         <tr class="text-right">
                             <td class="font-bold font-18">TỔNG TIỀN:</td>
-                            <td class="font-bold font-18"><%= hoadonrx.tongtienrx  %> VNĐ</td>
+                            <td class="font-bold font-18"><%= (hoadonrx.tongtienrx).toLocaleString()  %> VNĐ</td>
                         </tr>
 
                         <tr class="text-right">

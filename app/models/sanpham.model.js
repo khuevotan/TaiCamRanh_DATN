@@ -7,7 +7,6 @@ const Sanpham = function(sanpham){
     this.soluong = sanpham.soluong;
     this.motact = sanpham.motact;
     this.giaban = sanpham.giaban;
-    this.ngaydang = sanpham.ngaydang;
     this.madm = sanpham.madm;
     this.mancc = sanpham.mancc;
     this.manv = sanpham.manv;
@@ -99,8 +98,8 @@ Sanpham.updateBymasp = (masp, sanpham, result) => {
 // update ảnh đại diện sản phẩm
 Sanpham.updateADD = (masp, hinhdd, result) => {
     sql.query(
-        "UPDATE sanpham SET hinhdd = ? WHERE masp = ?",
-        [hinhdd, masp],
+        "UPDATE sanpham SET hinhdd = ?, updated_at = ? WHERE masp = ?",
+        [hinhdd, new Date(),masp],
         (err, res) => {
             if (err) {
                 console.log("error: ", err);

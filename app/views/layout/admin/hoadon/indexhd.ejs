@@ -1,16 +1,5 @@
 
-    <div class="page-heading">
-        <h1 class="page-title">Danh Sách Các Hóa Đơn Đặt Hàng</h1>
-        <ol class="breadcrumb">
-            <li class="breadcrumb-item">
-                <a href="index.html"><i class="la la-home font-20"></i></a>
-            </li>
-            <!-- <li class="breadcrumb-item">DataTables</li> -->
-        </ol>
-    </div>
-    <div class="page-content fade-in-up">
-       
-
+<div class="page-content fade-in-up">
             <% if (typeof deleted !== 'undefined') { %>
                 <%if (deleted == 'true') { %>
 
@@ -28,8 +17,11 @@
 
             <div class="ibox ibox-info">
                 <div class="ibox-head">
-                    <div class="ibox-title">   
-                       
+                    <div class="ibox-title">  
+                        <div style="color: rgb(255, 255, 255);">
+                            Danh Sách Hóa Đơn Đặt Hàng
+                        </div> 
+                      
                     </div>
                 </div>
             <% } %>
@@ -39,17 +31,16 @@
                     <thead>
                         <tr>
                             <th>MãHóaĐơn</th>
-                            <th>NgàyĐặt</th>
+                            <th>NgàyTạo</th>
                             <th>NgàyGiao</th>
                             <th>TênNgườiNhận</th>
                             <th>SốĐT</th>
                             <th>ĐịaChỉ</th>
-                            <th>GhiChú</th>
                             <th>TổngTiền</th>
+                            <th>GhiChú</th>
                             <th>ThanhToán</th>
                             <th>TrạngThái</th>
-                            <th>MãNV</th>
-                            <th>MãKH</th>
+                     
                             <th>HànhĐộng</th>
                         </tr>
                     </thead>
@@ -57,20 +48,20 @@
                         <% hoadon.forEach((item) => { %>
                         <tr>
                             <td><%= item.mahd %></td>
-                            <td><%= moment(item.ngaydat).format('DD-MM-YYYY')  %></td>
+                            <td><%= moment(item.created_at).format('DD-MM-YYYY')  %></td>
                             <td><%= moment(item.ngaygiao).format('DD-MM-YYYY')  %></td>
                             <td><%= item.tennguoinhan %></td>
                             <td><%= item.sodt %></td>
                             <td><%= item.diachi %></td>
-                          
+                            <td><%= (item.tongtiensp).toLocaleString() %> VNĐ %></td>  
                             <td><%= item.ghichu %></td>  
-                            <td><%= item.tongtiensp %></td>  
+                   
                             <td>
                                 <%if (item.thanhtoan == 1) { %>
-                                    Chưa Thanh Toán
-                                    <% }else { %>
-                                        Đã Thanh Toán
-                                    <%  } %>
+                                    <span class="badge badge-warning m-r-5 m-b-5">Chưa Thanh Toán </span>
+                                  <% }else { %>
+                                      <span class="badge badge-success m-r-5 m-b-5">Đã Thanh Toán</span>         
+                                  <%  } %>
                             </td>  
 
                             <td>
@@ -90,13 +81,16 @@
                                     <% if(trangthai[i].matt == item.matt  && item.matt == 4){ %>
                                         <span class="badge badge-success m-r-5 m-b-5"><%= trangthai[i].tentt %></span>
                                     <% } %>
+
+                                    <% if(trangthai[i].matt == item.matt  && item.matt == 5){ %>
+
+                                        <span class="badge badge-warning m-r-5 m-b-5"><%= trangthai[i].tentt %></span>
+                                     
+                                    <% } %>
                                       
                                  <%} %>
 
                             </td>  
-                            <td><%= item.manv %></td>  
-                            <td><%= item.makh %></td>  
-
                                 <td>
                                     <a href="/admin/hoadon/details/<%= item.mahd %>" class="btn btn-default btn-xs m-r-5" data-toggle="tooltip" data-original-title="Details"><i class="fa fa-info font-14"></i></a>
                                     <a href="/admin/hoadon/edit/<%= item.mahd %>" class="btn btn-default btn-xs m-r-5" data-toggle="tooltip" data-original-title="Edit"><i class="fa fa-pencil font-14"></i></a>
@@ -126,3 +120,4 @@
 
 
 
+<div style="height: 480px;"></div>
