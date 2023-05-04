@@ -82,6 +82,26 @@ PhieuNhap.updateBymapn  = (mapn , phieunhap, result) => {
     );
 };
 
+PhieuNhap.updateBymapnwitdtongtien  = (mapn , tongtiennhap, result) => {
+    sql.query(
+        "UPDATE phieunhap SET  tongtiennhap = ?, updated_at = ?  WHERE mapn  = ?",
+        [tongtiennhap, new Date(), mapn ],
+        (err, res) => {
+            if (err) {
+                console.log("error: ", err);
+                result(null, err);
+                return;
+            }
+            if (res.affectedRows == 0) {
+                // not found hoadon with the mahd 
+                result({ kind: "not_found" }, null);
+                return;
+            }
+            result(null, { mapn: mapn });
+        }
+    );
+};
+
 PhieuNhap.remove = (mapn , result) => {
     sql.query("DELETE FROM phieunhap WHERE mapn  = ?", mapn , (err, res) => {
         if (err) {

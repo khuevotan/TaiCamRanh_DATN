@@ -1,0 +1,187 @@
+<div class="page-content fade-in-up">
+    <% if (typeof status !== 'undefined') { %>
+    <%if (status == 'successSP') { %>
+    <div class="ibox ibox-success">
+        <div class="ibox-head">
+            <div class="ibox-title">
+                <div style="color: rgb(255, 255, 255);">
+                    Cập Nhật Thành Công!
+                </div>
+            </div>
+            <div class="ibox-tools">
+                <a class="ibox-collapse"><i class="fa fa-minus"></i></a>
+                <a class="fullscreen-link"><i class="fa fa-expand"></i></a>
+            </div>
+
+            <% } else { %>
+
+            <%if (status == 'errorSP') { %>
+
+            <div class=" ibox ibox-danger">
+                <div class="ibox-head">
+                    <div class="ibox-title">
+
+                        <div style="color: rgb(255, 255, 255);">
+                            Đã xảy ra lỗi khi cập nhật ảnh đại diện!
+                        </div>
+                    </div>
+                    <div class="ibox-tools">
+                        <a class="ibox-collapse"><i class="fa fa-minus"></i></a>
+                        <a class="fullscreen-link"><i class="fa fa-expand"></i></a>
+                    </div>
+                    <% } else { %>
+                    <div class="ibox ibox-info">
+                        <div class="ibox-head">
+                            <div class="ibox-title">
+                                <div style="color: rgb(255, 255, 255);">
+                                    Cập Nhật Thông Tin Phiếu Nhập
+                                </div>
+                            </div>
+                            <div class="ibox-tools">
+                                <a class="ibox-collapse"><i class="fa fa-minus"></i></a>
+                                <a class="fullscreen-link"><i class="fa fa-expand"></i></a>
+                            </div>
+                            <% } %>
+                            <% } %>
+                            <% } else { %>
+                            <div class="ibox ibox-info">
+                                <div class="ibox-head">
+                                    <div class="ibox-title">
+                                        <div style="color: rgb(255, 255, 255);">
+                                            Danh Sách Sản Phẩm
+                                        </div>
+                                    </div>
+                                    <div class="ibox-tools">
+                                        <a class="ibox-collapse"><i class="fa fa-minus"></i></a>
+                                        <a class="fullscreen-link"><i class="fa fa-expand"></i></a>
+                                    </div>
+                                    <% } %>
+                                </div>
+                                <div class="ibox-body">
+
+                                    <table class="table table-bordered">
+                                        <thead>
+                                            <tr>
+                                                <th>Tên Sản Phẩm</th>
+                                                <th>Giá Tiền Tại Shop</th>
+                                                <th>Số Lượng Trong Kho</th>
+                                                <th>Số Lượng Nhập</th>
+                                                <th>Giá Nhập</th>
+                                                <th>Hành Động</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+
+                                            <% ctpn.forEach((item) => { %>
+                                            <% for(var i=0; i< sanpham.length; i++) { %>
+                                            <% if(sanpham[i].masp == item.masp){ %>
+
+                                            <form action="/admin/ctphieunhap/<%= item.mapn %>/<%= item.masp %>" class="form-horizontal"
+                                                method="POST" onSubmit="return confirm('Bạn có chắc chắn muốn đổi?') ">
+                                                <input type="hidden" name="_method" value="put" />
+
+                                                <tr>
+                                                    <td> <%= sanpham[i].tensp %></td>
+                                                    <td>
+                                                        <%= (sanpham[i].giaban).toLocaleString() %> VNĐ %>
+                                                    </td>
+                                                    <td> <%= sanpham[i].soluong %></td>
+
+                                                    <td>
+                                                        <input class="form-control" type="number" name="soluongnhap"
+                                                            value="<%= item.soluongnhap %>">
+                                                    </td>
+
+                                                    </td>
+                                                    <td>  <input class="form-control number-input" type="text" name="gianhap"
+                                                            value="<%= item.gianhap %>" class=""> </td>
+                                                    <td>
+                                                        <button class="btn btn-default btn-xs" data-toggle="tooltip"
+                                                            data-original-title="Update" type="submit"><i
+                                                                class="fa fa-check font-14"></i></button>
+
+                                                        <a href="/admin/ctphieunhap/delete/<%= item.mapn %>/<%= item.masp %>"
+                                                            onclick="return confirm('Bạn có chắc chăn muốn xóa không?')"
+                                                            class="btn btn-default btn-xs" data-toggle="tooltip"
+                                                            data-original-title="Delete"><i
+                                                                class="fa fa-trash font-14"></i></a>
+                                                    </td>
+                                                </tr>
+                                            </form>
+                                            <% } %>
+                                            <%} %>
+                                            <% }) %>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+
+                        
+
+
+                        <!-- Sử dụng cho jquery - validation -->
+                        <script src="/assets/vendors/jquery/dist/jquery.min.js" type="text/javascript"></script>
+                        <script src="/assets/vendors/jquery-validation/dist/jquery.validate.min.js"
+                            type="text/javascript"></script>
+                        <script type="text/javascript">
+                            $("#form-sample-1").validate({
+                                rules: {
+                                    tennguoidat: {
+                                        rangelength: [2, 50],
+                                        required: !0
+                                    },
+                                    motact: {
+                                        required: !0,
+                                        rangelength: [2, 300],
+                                    }
+                                },
+                                errorClass: "help-block error",
+                                highlight: function (e) {
+                                    $(e).closest(".form-group.row").addClass("has-error")
+                                },
+                                unhighlight: function (e) {
+                                    $(e).closest(".form-group.row").removeClass("has-error")
+                                },
+                            });
+                        </script>
+
+
+<script>
+    function getUrlParameter(name) {
+        name = name.replace(/[\[]/, '\\[').replace(/[\]]/, '\\]');
+        var regex = new RegExp('[\\?&]' + name + '=([^&#]*)');
+        var results = regex.exec(location.search);
+        return results === null ? '' : decodeURIComponent(results[1].replace(/\+/g, ' '));
+    };
+
+    var status = getUrlParameter('status');
+
+    if (status == 'success') {
+        alert("Tạo phiếu nhập thành công, vui lòng nhập thông tin cho các sản phẩm!");
+    }
+
+    if (status == 'successSP') {
+        alert("Cập nhập sản phẩm thành công!");
+    }
+
+    const inputs = document.querySelectorAll('.number-input');
+
+inputs.forEach(input => {
+  input.addEventListener('input', function() {
+    let value = parseInt(this.value.replace(/\D/g, ''));
+    if (value) {
+      this.value = value.toLocaleString('en-US');
+    }
+  });
+});
+
+
+
+</script>
+
+
+
+
+
+

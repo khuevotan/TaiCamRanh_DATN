@@ -2,9 +2,93 @@ const PhieuNhap = require("../../models/PhieuNhap.model");
 const CTPhieuNhap = require("../../models/CTPhieuNhap.model");
 const TrangThai = require("../../models/TrangThai.model");
 const SanPham = require("../../models/SanPham.model");
+const NhaCungCap = require("../../models/NhaCungCap.model");
 
 //======================= GIAO DIEN ADMIN ======================= 
-// Hiển thị danh sách hóa đơn.
+// Hiển thị form tạo mới sản phẩm.
+exports.create = (req, res) => {
+    res.locals.status = req.query.status;
+    const tensp = req.query.tensp;
+    SanPham.getAll(tensp, (err, data) => {
+        if (err)
+            res.redirect('/admin/500')
+        else { 
+            NhaCungCap.getAll((err, ncc) => {
+                if (err)
+                    res.redirect('/admin/500')
+                else { 
+                    TrangThai.getAll((err, tt) => {
+                        if (err)
+                            res.redirect('/admin/500')
+                        else { 
+                            res.render('phieunhap/createpn', { nhacungcap: ncc, sanpham: data, trangthai: tt, layout: './master5'});
+                        }
+                    });
+                }
+            });
+        }
+    });
+}
+
+// Lưu sản phẩm mới khi nhấn nút.
+exports.store = (req, res) => {
+    // Validate request
+    if (!req.body) {
+        res.redirect('/sanpham/create?status=error')
+    }
+
+    res.locals.nhanvien = req.session.nhanvien
+    const manv = res.locals.nhanvien.manv;
+
+    const crypto = require("crypto");
+    const id = crypto.randomBytes(16).toString("hex");
+    
+    const phieunhap = new PhieuNhap({
+        mapn : id,
+        ghichu: req.body.ghichu,
+        thanhtoan: req.body.thanhtoan,
+        tongtiennhap: 0,
+        mancc: req.body.mancc,
+        matt: req.body.matt,
+        manv: manv,
+    });
+
+    PhieuNhap.create(phieunhap, (err, data) => {
+   
+        if (err)
+            res.redirect('/admin/phieunhap/create?status=error')
+        else {
+
+            const tensp = req.query.tensp;
+            const mapn = data.mapn;
+
+            var arrMaSP = req.body.lsmasp;
+       
+            for (let i = 0; i < arrMaSP.length; i++) {
+                    var masp = arrMaSP[i];
+
+                const ctphieunhap = new CTPhieuNhap({
+                    mapn : mapn,
+                    masp: masp,
+                    soluongnhap: 0,
+                    gianhap: 0,
+                });
+
+                CTPhieuNhap.create(ctphieunhap, (err, data) => {
+                    if (!err) {
+                       
+                    }else{
+                        console.log("ok");
+                    }
+                });
+            }
+
+            res.redirect('/admin/phieunhap/editsp/' + req.params.mapn + '?status=success'); 
+        }
+    });
+};
+
+// Hiển thị danh sách phiếu nhập.
 exports.findAll = (req, res) => {
     res.locals.deleted = req.query.deleted;
 
@@ -28,10 +112,9 @@ exports.findAll = (req, res) => {
     });
 };
 
-// Chỉnh sửa thông tin hóa đơn.
 exports.edit = (req, res) => {
     res.locals.status = req.query.status;
-    
+    const tensp = req.query.tensp;
     PhieuNhap.findBymapn(req.params.mapn, (err, data) => {
         if (err) {
             if (err.kind === "not_found") {
@@ -54,13 +137,15 @@ exports.edit = (req, res) => {
                                 if (err)
                                     res.redirect('/500')
                                 else {
-                                    res.render('phieunhap/edithd', {
-                                        phieunhap: data,
-                                        trangthai: trangthai,
-                                        cthd: cthd,
+
+                                    res.render('phieunhap/inputsl.ejs', {
+                                        ctpn: ctpn,
                                         sanpham: sanpham,
+                                      
                                         layout: './master2'
-                                    });                 
+                                    });   
+
+                                                
                                 }
                             });
                         }
@@ -71,7 +156,45 @@ exports.edit = (req, res) => {
     });
 };
 
-// Cập nhật hóa đơn khi nhấn nút Update.
+// Thêm số lượng thông tin của phiếu nhập.
+exports.editsp = (req, res) => {
+    res.locals.status = req.query.status;
+    const tensp = req.query.tensp;
+    PhieuNhap.findBymapn(req.params.mapn, (err, data) => {
+        if (err) {
+            if (err.kind === "not_found") {
+                res.redirect('/404');
+            } else {
+                res.redirect('/500');
+            }
+        } else {
+                 CTPhieuNhap.findBymapn(req.params.mapn, (err, ctpn) => {
+                        if (err)
+                            res.redirect('/500')
+                        else {
+                            SanPham.getAll(tensp, (err, sanpham) => {
+                                if (err)
+                                    res.redirect('/500')
+                                else {
+
+                                    res.render('phieunhap/inputsl.ejs', {
+                                        ctpn: ctpn,
+                                        sanpham: sanpham,
+                                      
+                                        layout: './master2'
+                                    });   
+
+                                                
+                                }
+                            });
+                        }
+                    });
+
+        }
+    });
+};
+
+// Cập nhật phiếu nhập khi nhấn nút Update.
 exports.update = (req, res) => {
     // Validate Request
     if (!req.body) {
@@ -108,10 +231,10 @@ exports.update = (req, res) => {
     );
 };
 
-// Xóa thông tin hóa đơn đặt hàng.
+// Xóa thông tin phiếu nhập đặt hàng.
 exports.delete = (req, res) => {
 
-    CTphieunhap.remove(req.params.mapn, (err, data) => {if (err) {
+    CTPhieuNhap.remove(req.params.mapn, (err, data) => {if (err) {
         if (err.kind === "not_found") {
             res.redirect('/404');
         } else {

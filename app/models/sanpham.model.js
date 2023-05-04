@@ -95,6 +95,28 @@ Sanpham.updateBymasp = (masp, sanpham, result) => {
     );
 };
 
+
+// updata só lượng khi nhập số lượng trong phiếu nhập
+Sanpham.updateSL = (masp, soluongnhap, result) => {
+    sql.query(
+        "UPDATE sanpham SET soluong = soluong + ?, updated_at = ? WHERE masp = ?",
+        [soluongnhap, new Date(), masp],
+        (err, res) => {
+            if (err) {
+                console.log("error: ", err);
+                result(null, err);
+                return;
+            }
+            if (res.affectedRows == 0) {
+                // not found sanpham with the masp
+                result({ kind: "not_found" }, null);
+                return;
+            }
+            result(null, { masp: masp });
+        }
+    );
+};
+
 // update ảnh đại diện sản phẩm
 Sanpham.updateADD = (masp, hinhdd, result) => {
     sql.query(
