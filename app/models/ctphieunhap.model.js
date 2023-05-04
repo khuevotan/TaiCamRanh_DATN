@@ -54,6 +54,23 @@ CTPhieuNhap.getAll = (makh, result) => {
 };
 
 
+
+
+// Đếm số lượng hóa đơn bằng mã đơn hàng
+CTPhieuNhap.countBymapn = (mapn, result) => { 
+    let query = `SELECT COUNT(*) FROM ctphieunhap WHERE mapn = '${mapn}'`;
+
+    sql.query(query, (err, res) => {
+        if (err) {
+            console.log("error: ", err);
+            result(null, err);
+            return;
+        }
+       
+        result(null, res);
+    });
+};
+
 // Cập nhật chi tiết hóa đơn bằng mapn và masp
 CTPhieuNhap.updateBymapn = (mapn, masp, ctphieunhap, result) => {
     sql.query(
@@ -92,5 +109,41 @@ CTPhieuNhap.remove = (mapn, masp, result) => {
         result(null, res);
     });
 };
+
+// Xóa chi tiết 1 hóa đơn từ hóa đơn
+CTPhieuNhap.removeHD = (mapn, result) => {
+    sql.query("DELETE FROM ctphieunhap WHERE mapn = ?",[mapn] , (err, res) => {
+        if (err) {
+            console.log("error: ", err);
+            result(null, err);
+            return;
+        }
+        if (res.affectedRows == 0) {
+            // not found ctphieunhap with the mapn
+            result({ kind: "not_found" }, null);
+            return;
+        }
+        console.log("deleted ctphieunhap with mapn: ", mapn);
+        result(null, res);
+    });
+};
+
+// xóa bên trong hóa đơn
+CTPhieuNhap.removeHDSP = (mapn, masp, result) => {
+    sql.query("DELETE FROM ctphieunhap WHERE mapn = ? and masp = ?",[mapn, masp] , (err, res) => {
+        if (err) {
+            console.log("error: ", err);
+            result(null, err);
+            return;
+        }
+        if (res.affectedRows == 0) {
+            result({ kind: "not_found" }, null);
+            return;
+        }
+        console.log("deleted ctphieunhap with mahd: ", mapn);
+        result(null, res);
+    });
+};
+
 
 module.exports = CTPhieuNhap;

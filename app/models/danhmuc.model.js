@@ -54,8 +54,8 @@ Danhmuc.getAll = (tendm, result) => {
 
 Danhmuc.updateBymadm = (madm, danhmuc, result) => {
     sql.query(
-        "UPDATE danhmuc SET tendm = ?, hinhdd = ?, motact = ?, updated_at = ? WHERE madm = ?",
-        [danhmuc.tendm, danhmuc.hinhdd, danhmuc.motact, new Date() , madm],
+        "UPDATE danhmuc SET tendm = ?, motact = ?, updated_at = ? WHERE madm = ?",
+        [danhmuc.tendm, danhmuc.motact, new Date() , madm],
         (err, res) => {
             if (err) {
                 console.log("error: ", err);

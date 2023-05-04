@@ -7,6 +7,10 @@ module.exports = app => {
     // Hiển thị danh sách các sản phẩm
     router.get("/index", authMiddleware.loggedinad, sanPham.findAll);
 
+     // Hiển thị danh sách sản phẩm sắp hết
+    router.get("/spsaphet", authMiddleware.loggedinad, sanPham.findAllSH);
+    
+
     router.get("/details/:masp", authMiddleware.loggedinad, sanPham.details);
 
     // Hiển thị form tạo sản phẩm

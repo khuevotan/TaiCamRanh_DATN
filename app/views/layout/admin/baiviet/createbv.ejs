@@ -1,15 +1,4 @@
-
-
-    <div class="page-heading">
-        <h1 class="page-title">Thêm Bài Viết Mới</h1>
-        <ol class="breadcrumb">
-            <li class="breadcrumb-item">
-                <a href="/admin/index"><i class="la la-home font-20"></i></a>
-            </li>
-   
-        </ol>
-    </div>
-    <div class="page-content fade-in-up">
+<div class="page-content fade-in-up">
                     <% if (typeof status !== 'undefined') { %>
                         <%if (status == 'success') { %>
 
@@ -41,7 +30,7 @@
                         <div class="ibox-head">
                             <div class="ibox-title">   
                                 <div style="color: rgb(255, 255, 255);">
-                                    Nhập đầy đủ thông tin!
+                                    Tạo Bài Viết Mới
                                 </div>
                             </div>
                     <% } %>
@@ -123,7 +112,7 @@
                 rangelength: [2, 500],
                 required: !0
             },
-            mota: {
+            motangan: {
                 required: !0,
                 rangelength: [2, 500],
             },

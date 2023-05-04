@@ -16,15 +16,11 @@ module.exports = app => {
     // Chỉnh sửa 1 hóa đơn khi nhấn nút chỉnh sửa -> hiển thị form
     router.get("/editsp/:mapn", authMiddleware.loggedinad, phieunhap.editsp);
 
-    
-    
     // Xem thông tin chi tiết 1 hóa đơn
     router.get("/details/:mapn", authMiddleware.loggedinad, phieunhap.details);
 
     // Chỉnh sửa 1 hóa đơn khi nhấn nút chỉnh sửa -> hiển thị form
     router.get("/edit/:mapn", authMiddleware.loggedinad, phieunhap.edit);
-
-
 
     // Lưu hóa đơn khi nhấn nút update
     router.put("/:mapn", authMiddleware.loggedinad, phieunhap.update);

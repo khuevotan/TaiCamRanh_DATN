@@ -31,8 +31,8 @@ const ThamSo = require("../../models/thamso.model");
 // Hiển thị danh sách tham số.
 exports.findAll = (req, res) => {
     res.locals.deleted = req.query.deleted;
-    const tents = req.query.tents;
-    ThamSo.getAll(tents, (err, data) => {
+    
+    ThamSo.getAll((err, data) => {
         if (err)
             res.redirect('/500')
         else {
@@ -81,8 +81,8 @@ exports.update = (req, res) => {
 
     const thamso = new ThamSo({
         tents: req.body.tents,
-        hinhdd: req.body.hinhdd,
-        motact: req.body.motact,
+        giatri	: req.body.giatri,
+        chuthich: req.body.chuthich,
     });
 
     ThamSo.updateBymats(
@@ -91,9 +91,9 @@ exports.update = (req, res) => {
         (err, data) => {
             if (err) {
                 if (err.kind === "not_found") {
-                    res.redirect('/404');
+                    res.redirect('/admin/404');
                 } else {
-                    res.redirect('/500');
+                    res.redirect('/admin/500');
                 }
             } else res.redirect('/admin/thamso/edit/' + req.params.mats + '?status=success');
         }

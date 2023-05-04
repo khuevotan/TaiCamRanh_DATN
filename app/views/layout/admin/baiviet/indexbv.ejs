@@ -1,13 +1,4 @@
 
-    <div class="page-heading">
-        <h1 class="page-title">Danh Sách Các Bài Viết</h1>
-        <ol class="breadcrumb">
-            <li class="breadcrumb-item">
-                <a href="index.html"><i class="la la-home font-20"></i></a>
-            </li>
-            <!-- <li class="breadcrumb-item">DataTables</li> -->
-        </ol>
-    </div>
     <div class="page-content fade-in-up">
        
 
@@ -28,7 +19,10 @@
 
             <div class="ibox ibox-info">
                 <div class="ibox-head">
-                    <div class="ibox-title">   
+                    <div class="ibox-title">  
+                        <div style="color: rgb(255, 255, 255);">
+                            Danh Sách Các Bài Viết
+                        </div> 
                        
                     </div>
                 </div>
@@ -42,7 +36,7 @@
                             <th>TênBàiViết</th>
                             <th>MôTả</th>
                             <th>HìnhĐạiDiện</th>
-                            <th>NgàyĐăng</th>
+                   
                             <th>MãNVĐăng</th>
                             <th>HànhĐộng</th>
                         </tr>
@@ -52,13 +46,13 @@
                         <tr>
                             <td><%= item.mabv %></td>
                             <td><%= item.tenbv %></td>
-                            <td><%= item.mota %></td>
+                            <td><%= item.motangan %></td>
                             <td> 
                                 <div class="popup">
                                     <img src="/images/baiviet/<%= item.hinhdd %>" />
                                   </div>
                             </td>
-                            <td><%= moment(item.ngaydang).format('DD-MM-YYYY')  %></td>
+                         
                             <td><%= item.manv %></td>
                                 <td>
                                     <a href="/admin/baiviet/details/<%= item.mabv %>" class="btn btn-default btn-xs m-r-5" data-toggle="tooltip" data-original-title="Details"><i class="fa fa-info font-14"></i></a>

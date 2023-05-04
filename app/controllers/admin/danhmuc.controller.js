@@ -84,7 +84,6 @@ exports.update = (req, res) => {
 
     const danhmuc = new Danhmuc({
         tendm: req.body.tendm,
-        hinhdd: req.body.hinhdd,
         motact: req.body.motact,
     });
 

@@ -17,6 +17,7 @@ exports.create = (req, res) => {
     });
 }
 
+// Hiển thị form thanh mật khẩu.
 exports.formthaypasss = (req, res) => {
     res.locals.status = req.query.status;
 
@@ -331,9 +332,9 @@ exports.update = (req, res) => {
         (err, data) => {
             if (err) {
                 if (err.kind === "not_found") {
-                    res.redirect('/404');
+                    res.redirect('/admin/404');
                 } else {
-                    res.redirect('/500');
+                    res.redirect('/admin/500');
                 }
             } else res.redirect('/admin/nhanvien/edit/' + req.params.manv + '?status=success');
         }
@@ -369,9 +370,9 @@ exports.delete = (req, res) => {
     NhanVien.remove(req.params.manv, (err, data) => {
         if (err) {
             if (err.kind === "not_found") {
-                res.redirect('/404');
+                res.redirect('/admin/404');
             } else {
-                res.redirect('/500');
+                res.redirect('/admin/500');
             }
         } else res.redirect('/admin/nhanvien/index?deleted=true')
     });

@@ -1,14 +1,4 @@
 
-
-    <div class="page-heading">
-        <h1 class="page-title">Thêm Nhà Cung Cấp Mới</h1>
-        <ol class="breadcrumb">
-            <li class="breadcrumb-item">
-                <a href="/admin/index"><i class="la la-home font-20"></i></a>
-            </li>
-   
-        </ol>
-    </div>
     <div class="page-content fade-in-up">
                     <% if (typeof status !== 'undefined') { %>
                         <%if (status == 'success') { %>
@@ -41,7 +31,7 @@
                         <div class="ibox-head">
                             <div class="ibox-title">   
                                 <div style="color: rgb(255, 255, 255);">
-                                    Nhập đầy đủ thông tin!
+                                    Thêm Nhà Cung Cấp Mới
                                 </div>
                             </div>
                     <% } %>
@@ -85,8 +75,8 @@
                     
                     <div class="form-group row">
                         <div class="col-sm-10 ml-sm-auto">
-                            <button class="btn btn-info" type="submit">Thêm Mới</button>
-                    
+                            <button class="btn btn-info btn-rounded" type="submit">Thêm Mới</button>
+                            <a href="/admin/nhacungcap/index" class="btn btn-info btn-rounded">Xem Danh Sách</a>
                         </div>
                     </div>
                 </form>
@@ -96,7 +86,7 @@
    
         </div>
     </div>
-
+    <div style="height: 480px;"></div>
 <!-- Sử dụng cho jquery - validation -->
 <script src="/assets/vendors/jquery/dist/jquery.min.js" type="text/javascript"></script>
 <script src="/assets/vendors/jquery-validation/dist/jquery.validate.min.js" type="text/javascript"></script>

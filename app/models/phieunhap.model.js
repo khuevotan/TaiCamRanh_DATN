@@ -63,8 +63,8 @@ PhieuNhap.findBymapn  = (mapn , result) => {
 
 PhieuNhap.updateBymapn  = (mapn , phieunhap, result) => {
     sql.query(
-        "UPDATE phieunhap SET ghichu = ? ,  thanhtoan = ?, tongtiennhap = ?, mancc  = ? , matt = ? , manv = ?, updated_at = ?  WHERE mapn  = ?",
-        [phieunhap.ghichu, phieunhap.thanhtoan , phieunhap.tongtiennhap, phieunhap.mancc , phieunhap.matt,  phieunhap.manv, new Date(),  mapn ],
+        "UPDATE phieunhap SET ghichu = ? ,  thanhtoan = ?, mancc  = ? , matt = ? , manv = ?, updated_at = ?  WHERE mapn  = ?",
+        [phieunhap.ghichu, phieunhap.thanhtoan , phieunhap.mancc , phieunhap.matt,  phieunhap.manv, new Date(),  mapn ],
         (err, res) => {
             if (err) {
                 console.log("error: ", err);

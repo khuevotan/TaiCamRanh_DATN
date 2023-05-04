@@ -33,47 +33,69 @@
                         <tr>
                             <th>MãHóaĐơn</th>
                             <th>NgàyTạo</th>
-                            <th>NgàyGiao</th>
-                            <th>TênNgườiNhận</th>
-                            <th>SốĐT</th>
-                            <th>ĐịaChỉ</th>
-                            <th>GhiChú</th>
-                            <th>TổngTiền</th>
+                            <th>TổngTiềnNhập</th>
                             <th>ThanhToán</th>
                             <th>TrạngThái</th>
+                            <th>TênNhàCungCấp</th>
                             <th>MãNV</th>
-                            <th>MãKH</th>
+                            <th>GhiChú</th>
                             <th>HànhĐộng</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <% hoadon.forEach((item) => { %>
+                        <% phieunhap.forEach((item) => { %>
                         <tr>
-                            <td><%= item.mahd %></td>
-                            <td><%= moment(item.ngaydat).format('DD-MM-YYYY')  %></td>
-                            <td><%= moment(item.ngaygiao).format('DD-MM-YYYY')  %></td>
-                            <td><%= item.tennguoinhan %></td>
-                            <td><%= item.sodt %></td>
-                            <td><%= item.diachi %></td>
-                          
-                            <td><%= item.ghichu %></td>  
-                            <td><%= item.tongtiensp %></td>  
+                            <td><%= item.mapn %></td>
+                            <td><%= moment(item.created_at).format('DD-MM-YYYY')  %></td>
+                            <td><%= item.tongtiennhap %></td>  
                             <td>
                                 <%if (item.thanhtoan == 1) { %>
-                                    Chưa Thanh Toán
-                                    <% }else { %>
-                                        Đã Thanh Toán
-                                    <%  } %>
+                                    <span class="badge badge-warning m-r-5 m-b-5">Chưa Thanh Toán </span>
+                                  <% }else { %>
+                                      <span class="badge badge-success m-r-5 m-b-5">Đã Thanh Toán</span>         
+                                  <%  } %>
                             </td>  
+                            <td>
+                                <% for(var i=0; i<trangthai.length; i++) { %>
+                                    <% if(trangthai[i].matt == item.matt && item.matt == 1){ %>
+                                    <span class="badge badge-default m-r-5 m-b-5"><%= trangthai[i].tentt %></span>
+                                     <% } %>
+                                     
+                                     <% if(trangthai[i].matt == item.matt && item.matt == 2){ %>
+                                        <span class="badge badge-info m-r-5 m-b-5"><%= trangthai[i].tentt %></span>
+                                    <% } %>
 
-                            <td><%= item.matt %></td>  
+                                    <% if(trangthai[i].matt == item.matt && item.matt == 3){ %>
+                                        <span class="badge badge-danger m-b-5"><%= trangthai[i].tentt %></span>
+                                    <% } %>
+
+                                    <% if(trangthai[i].matt == item.matt  && item.matt == 4){ %>
+                                        <span class="badge badge-success m-r-5 m-b-5"><%= trangthai[i].tentt %></span>
+                                    <% } %>
+
+                                    <% if(trangthai[i].matt == item.matt  && item.matt == 5){ %>
+                                        <span class="badge badge-warning m-r-5 m-b-5"><%= trangthai[i].tentt %></span>
+                                    <% } %>
+                                      
+                                 <%} %>
+                            </td>  
+                        
+
+                            <td>  <% for(var i=0; i< nhacungcap.length; i++) { %>
+                                <% if(nhacungcap[i].mancc== item.mancc){ %>
+                                     <%= nhacungcap[i].tenncc %>
+                                       <% } %>  
+                                                                    
+                                     
+                              <%} %>
+                            </td>
+
                             <td><%= item.manv %></td>  
-                            <td><%= item.makh %></td>  
-
+                            <td><%= item.ghichu %></td>  
                                 <td>
-                                    <a href="/admin/hoadon/details/<%= item.mahd %>" class="btn btn-default btn-xs m-r-5" data-toggle="tooltip" data-original-title="Details"><i class="fa fa-info font-14"></i></a>
-                                    <a href="/admin/hoadon/edit/<%= item.mahd %>" class="btn btn-default btn-xs m-r-5" data-toggle="tooltip" data-original-title="Edit"><i class="fa fa-pencil font-14"></i></a>
-                                    <a href="/admin/hoadon/delete/<%= item.mahd %>" onclick="return confirm('Bạn có chắc chăn muốn xóa không?')" class="btn btn-default btn-xs" data-toggle="tooltip" data-original-title="Delete"><i class="fa fa-trash font-14"></i></a>
+                                    <a href="/admin/phieunhap/details/<%= item.mapn %>" class="btn btn-default btn-xs m-r-5" ><i class="fa fa-info font-14"></i></a>
+                                    <a href="/admin/phieunhap/edit/<%= item.mapn %>" class="btn btn-default btn-xs m-r-5" ><i class="fa fa-pencil font-14"></i></a>
+                                    <a href="/admin/phieunhap/delete/<%= item.mapn %>" onclick="return confirm('Bạn có chắc chăn muốn xóa không?')" class="btn btn-default btn-xs"><i class="fa fa-trash font-14"></i></a>
                                 </td>
                         </tr>     
                         <% }) %>  
@@ -83,6 +105,7 @@
         </div>
     </div>
 
+<div style="height: 500px;"></div>
 <script type="text/javascript">
     $(function() {
         $('#example-table').DataTable({

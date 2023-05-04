@@ -1,12 +1,4 @@
-<div class="page-heading">
-    <h1 class="page-title">Thêm Nhân Viên Mới</h1>
-    <ol class="breadcrumb">
-        <li class="breadcrumb-item">
-            <a href="/admin/index"><i class="la la-home font-20"></i></a>
-        </li>
 
-    </ol>
-</div>
 <div class="page-content fade-in-up">
     <% if (typeof status !== 'undefined') { %>
     <%if (status == 'success') { %>
@@ -39,7 +31,7 @@
                         <div class="ibox-head">
                             <div class="ibox-title">
                                 <div style="color: rgb(255, 255, 255);">
-                                    Nhập đầy đủ thông tin!
+                                    Thêm Nhân Viên Mới
                                 </div>
                             </div>
                             <% } %>
@@ -143,7 +135,7 @@
                                 <div class="form-group row">
                                     <label class="col-sm-2 col-form-label">Lương</label>
                                     <div class="col-sm-10">
-                                        <input class="form-control" type="number" name="luong"
+                                        <input class="form-control" type="text" name="luong"
                                         
                                         <% if (typeof luong != "undefined" && luong) { %>
                                             value="<%= luong %>" <% } %>
@@ -198,7 +190,8 @@
                             
                                 <div class="form-group row">
                                     <div class="col-sm-10 ml-sm-auto">
-                                        <button class="btn btn-info" type="submit">Thêm Mới</button>
+                                        <button class="btn btn-info btn-rounded" type="submit">Thêm Mới</button>
+                                        <a href="/admin/nhanvien/index" class="btn btn-info btn-rounded">Xem Danh Sách</a>
                                     </div>
                                 </div>
                             </form>
@@ -208,6 +201,8 @@
 
                     </div>
                 </div>
+
+<div style="height: 100px;"></div>
 
                 <!-- Sử dụng cho jquery - validation -->
                 <script src="/assets/vendors/jquery/dist/jquery.min.js" type="text/javascript"></script>
@@ -239,6 +234,7 @@
                                 required: !0,
                                 rangelength: [2, 15],
                             },
+                          
                             diachi: {
                                 required: !0,
                                 rangelength: [2, 100],
@@ -246,6 +242,12 @@
                             email: {
                                 required: !0,
                                 rangelength: [2, 50],
+                            },
+
+                            luong: {
+                                required: !0,
+                                number: true,
+                                rangelength: [2, 9],
                             },
                         },
                         errorClass: "help-block error",
@@ -256,4 +258,7 @@
                             $(e).closest(".form-group.row").removeClass("has-error")
                         },
                     });
+
+                   
+
                 </script>

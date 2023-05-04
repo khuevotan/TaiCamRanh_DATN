@@ -71,7 +71,6 @@ exports.update = (req, res) => {
 
 // Xóa một sản phẩm trong chi tiết hóa đơn
 exports.delete = (req, res) => {
-
     CTHoaDon.countByMaHD(req.params.mahd, (err, slcthd) => {
         if (err)
             res.redirect('/500')
@@ -92,7 +91,7 @@ exports.delete = (req, res) => {
             
                         CTHoaDon.findBymahd(req.params.mahd, (err, cthd) => {
                             if (err)
-                                res.redirect('/500')
+                                res.redirect('/admin/500')
                             else {
                               
                                 var giatien = cthd.map(item => item.giatien);
@@ -107,9 +106,9 @@ exports.delete = (req, res) => {
                                     (err, data) => {
                                         if (err) {
                                             if (err.kind === "not_found") {
-                                                res.redirect('/404');
+                                                res.redirect('/admin/404');
                                             } else {
-                                                res.redirect('/500');
+                                                res.redirect('/admin/500');
                                             }
                                         } else res.redirect('/admin/hoadon/edit/' + req.params.mahd + '?status=successSP');
                                     }
@@ -124,8 +123,6 @@ exports.delete = (req, res) => {
             }
         }
     });
-
-   
 };
 
 // ========================== GIAO DIỆN KHÁCH HÀNG =============================

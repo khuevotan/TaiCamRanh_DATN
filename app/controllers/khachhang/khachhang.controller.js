@@ -649,13 +649,9 @@ exports.nhapThongTinDonHang = (req, res) => {
         HoaDon.create(hoadon, (err, data) => {
        
             if (!err) {
-
                 const mahd = data.mahd;
-
                 var cart = new Cart(req.session.cart);
                 var cartArr = cart.getItems();
-
-                // for(var i = 1; i <= tongsosp; i++) { 
 
                     for (let i = 0; i < cartArr.length; i++) {
                         var masp = cartArr[i].item.masp;
@@ -677,9 +673,6 @@ exports.nhapThongTinDonHang = (req, res) => {
                             }
                         });
                     }
-
-                    
-                // }
 
                 res.redirect('/khachhang/chonttdh?mahd=' + mahd + '&status=taothanhcong')
             } else {

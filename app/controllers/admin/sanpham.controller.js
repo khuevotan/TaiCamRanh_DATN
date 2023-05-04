@@ -2,6 +2,7 @@
 const Danhmuc = require("../../models/danhmuc.model");
 const SanPham = require("../../models/sanpham.model");
 const NhaCungCap = require("../../models/nhacungcap.model");
+const ThamSo = require("../../models/thamso.model");
 
 //======================= GIAO DIEN ADMIN ======================= 
 // Hiển thị form tạo mới sản phẩm.
@@ -34,6 +35,7 @@ exports.store = (req, res) => {
     const manv = res.locals.nhanvien.manv;
 
     const file = req.file
+    let giaBanNumberFL = parseFloat(req.body.giaban.replace(/,/g, ''));
     
     // Create a sanpham
     const sanpham = new SanPham({
@@ -41,7 +43,7 @@ exports.store = (req, res) => {
         hinhdd: file.filename,
         soluong: req.body.soluong,
         motact: req.body.motact,
-        giaban: req.body.giaban,
+        giaban: giaBanNumberFL,
         madm: req.body.madm,
         mancc: req.body.mancc,
         manv: manv,
@@ -61,17 +63,47 @@ exports.findAll = (req, res) => {
     const tendm = req.query.tensp;
     SanPham.getAll(tensp, (err, data) => {
         if (err)
-            res.redirect('/500')
+            res.redirect('/admin/500')
         else {
             Danhmuc.getAll(tendm, (err, danhmuc) => {
                 if (err)
-                    res.redirect('/500')
+                    res.redirect('/admin/500')
                 else {
                      res.render('sanpham/indexsp',  {sanpham: data, danhmuc: danhmuc, layout: './master3'});
                 }
             });
         }
     });
+};
+
+exports.findAllSH = (req, res) => {
+    res.locals.deleted = req.query.deleted;
+    const tensp = req.query.tensp;
+    const tendm = req.query.tensp;
+
+    var SL_SPHET = 0;
+    ThamSo.findBymats(4, (err, thamso) => {
+        if (err)
+            res.redirect('/admin/500')
+        else {
+            SL_SPHET = thamso.giatri;
+       
+            SanPham.getAllSH(SL_SPHET, (err, data) => {
+                if (err)
+                    res.redirect('/admin/500')
+                else {
+                    Danhmuc.getAll(tendm, (err, danhmuc) => {
+                        if (err)
+                            res.redirect('/admin/500')
+                        else {
+                             res.render('phieunhap/indexspsh',  {sanpham: data, danhmuc: danhmuc, layout: './master3'});
+                        }
+                    });
+                }
+            });
+        }
+    });
+  
 };
 
 // Hiển thị chi tiết một sản phẩm.
@@ -81,16 +113,23 @@ exports.details = (req, res) => {
     SanPham.findBymasp(req.params.masp, (err, data) => {
         if (err) {
             if (err.kind === "not_found") {
-                res.redirect('/404');
+                res.redirect('/admin/404');
             } else {
-                res.redirect('/500');
+                res.redirect('/admin/500');
             }
         } else {
             Danhmuc.findByMaDM(data.madm, (err, danhmuc) => {
                 if (err)
-                    res.redirect('/500')
+                    res.redirect('/admin/500')
                 else {
-                    res.render('sanpham/detailssp', { sanpham: data, danhmuc:danhmuc, layout: './master4'});
+                    NhaCungCap.findBymancc(data.mancc,(err, nhacungcap) => {
+                        if (err)
+                            res.redirect('/admin/500')
+                        else { 
+                            res.render('sanpham/detailssp', { nhacungcap: nhacungcap, sanpham: data, danhmuc:danhmuc, layout: './master4'});
+                        }
+                    });
+                   
                 }
             });
             }
@@ -106,16 +145,22 @@ exports.edit = (req, res) => {
     SanPham.findBymasp(req.params.masp, (err, data) => {
         if (err) {
             if (err.kind === "not_found") {
-                res.redirect('/404');
+                res.redirect('/admin/404');
             } else {
-                res.redirect('/500');
+                res.redirect('/admin/500');
             }
         } else {
             Danhmuc.getAll(tendm, (err, danhmuc) => {
                 if (err)
-                    res.redirect('/500')
+                    res.redirect('/admin/500')
                 else { 
-                    res.render('sanpham/editsp', { sanpham: data, danhmuc: danhmuc,   layout: './master2'});
+                    NhaCungCap.getAll((err, nhacungcap) => {
+                        if (err)
+                            res.redirect('/admin/500')
+                        else { 
+                            res.render('sanpham/editsp', { sanpham: data, danhmuc: danhmuc, nhacungcap: nhacungcap,   layout: './master2'});
+                        }
+                    });
                 }
             });
         }
@@ -136,8 +181,9 @@ exports.update = (req, res) => {
         tensp: req.body.tensp,
         soluong: req.body.soluong,
         motact: req.body.motact,
-        giaban: req.body.giaban,
+        giaban: parseFloat(req.body.giaban.replace(/,/g, '')),
         madm: req.body.madm,
+        mancc: req.body.mancc,
         manv: manv,
     });
 
@@ -147,9 +193,9 @@ exports.update = (req, res) => {
         (err, data) => {
             if (err) {
                 if (err.kind === "not_found") {
-                    res.redirect('/404');
+                    res.redirect('/admin/404');
                 } else {
-                    res.redirect('/500');
+                    res.redirect('/admin/500');
                 }
             } else res.redirect('/admin/sanpham/edit/' + req.params.masp + '?status=success');
         }
@@ -160,7 +206,7 @@ exports.update = (req, res) => {
 exports.delete = (req, res) => {
     SanPham.findBymasp(req.params.masp, (err, sanpham) => {
         if (err)
-            res.redirect('/500')
+            res.redirect('/admin/500')
         else {
 
             if(sanpham.hinhdd != ''){
@@ -177,9 +223,9 @@ exports.delete = (req, res) => {
             SanPham.remove(req.params.masp, (err, data) => {
                 if (err) {
                     if (err.kind === "not_found") {
-                        res.redirect('/404');
+                        res.redirect('/admin/404');
                     } else {
-                        res.redirect('/500');
+                        res.redirect('/admin/500');
                     }
                 } else res.redirect('/admin/sanpham/index?deleted=true')
             });

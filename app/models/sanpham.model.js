@@ -57,6 +57,23 @@ Sanpham.getAll = (tensp, result) => {
     });
 };
 
+
+
+Sanpham.getAllSH = (soLuongHet, result) => {
+    let query = `SELECT * FROM sanpham where soluong <= ${soLuongHet}`;
+
+    sql.query(query, (err, res) => {
+        if (err) {
+            console.log("error: ", err);
+            result(null, err);
+            return;
+        }
+        result(null, res);
+    });
+};
+
+
+
 Sanpham.remove = (masp, result) => {
     sql.query("DELETE FROM sanpham WHERE masp = ?", masp, (err, res) => {
         if (err) {
@@ -76,8 +93,8 @@ Sanpham.remove = (masp, result) => {
 
 Sanpham.updateBymasp = (masp, sanpham, result) => {
     sql.query(
-        "UPDATE sanpham SET tensp = ?, soluong = ?, motact = ? , giaban = ?, madm = ? , manv = ?, updated_at = ? WHERE masp = ?",
-        [sanpham.tensp , sanpham.soluong, sanpham.motact , sanpham.giaban, sanpham.madm, sanpham.manv, new Date(),masp],
+        "UPDATE sanpham SET tensp = ?, soluong = ?, motact = ? , giaban = ?, madm = ?, mancc = ? , manv = ?, updated_at = ? WHERE masp = ?",
+        [sanpham.tensp , sanpham.soluong, sanpham.motact , sanpham.giaban, sanpham.madm, sanpham.mancc, sanpham.manv, new Date(),masp],
         (err, res) => {
             if (err) {
                 console.log("error: ", err);
@@ -100,6 +117,27 @@ Sanpham.updateBymasp = (masp, sanpham, result) => {
 Sanpham.updateSL = (masp, soluongnhap, result) => {
     sql.query(
         "UPDATE sanpham SET soluong = soluong + ?, updated_at = ? WHERE masp = ?",
+        [soluongnhap, new Date(), masp],
+        (err, res) => {
+            if (err) {
+                console.log("error: ", err);
+                result(null, err);
+                return;
+            }
+            if (res.affectedRows == 0) {
+                // not found sanpham with the masp
+                result({ kind: "not_found" }, null);
+                return;
+            }
+            result(null, { masp: masp });
+        }
+    );
+};
+
+// updata delete ---- só lượng khi nhập số lượng trong phiếu nhập
+Sanpham.updateTSL = (masp, soluongnhap, result) => {
+    sql.query(
+        "UPDATE sanpham SET soluong = soluong - ?, updated_at = ? WHERE masp = ?",
         [soluongnhap, new Date(), masp],
         (err, res) => {
             if (err) {

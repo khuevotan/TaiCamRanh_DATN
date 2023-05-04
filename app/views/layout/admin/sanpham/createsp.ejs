@@ -72,7 +72,7 @@
                     <div class="form-group row">
                         <label class="col-sm-2 col-form-label">Giá Bán</label>
                         <div class="col-sm-10">
-                            <input class="form-control" type="number" name="giaban" >
+                            <input class="form-control number-input" type="text" name="giaban" >
                         </div>
                     </div>
 
@@ -127,7 +127,8 @@
 
                     <div class="form-group row">
                         <div class="col-sm-10 ml-sm-auto">
-                            <button class="btn btn-info" type="submit">Thêm Mới</button>
+                            <button class="btn btn-info btn-rounded" type="submit">Thêm Mới</button>
+                            <a href="/admin/sanpham/index" class="btn btn-info btn-rounded">Xem Danh Sách</a>
                     
                         </div>
                     </div>
@@ -158,10 +159,12 @@
             },
             soluong: {
                 number: true,
+                rangelength: [1, 9],
                 required: !0
             },
             giaban: {
                 number: true,
+                rangelength: [1, 11],
                 required: !0
             },
             madm: {
@@ -185,6 +188,18 @@
             airMode: true
         });
     });
+
+    const inputs = document.querySelectorAll('.number-input');
+
+    inputs.forEach(input => {
+        input.addEventListener('input', function() {
+            let value = parseInt(this.value.replace(/\D/g, ''));
+            if (value) {
+            this.value = value.toLocaleString('en-US');
+            }
+        });
+    });
+
 </script>
 
 

@@ -1,13 +1,4 @@
 
-    <div class="page-heading">
-        <h1 class="page-title">Danh Sách Các Khách Hàng</h1>
-        <ol class="breadcrumb">
-            <li class="breadcrumb-item">
-                <a href="index.html"><i class="la la-home font-20"></i></a>
-            </li>
-            <!-- <li class="breadcrumb-item">DataTables</li> -->
-        </ol>
-    </div>
     <div class="page-content fade-in-up">
        
 
@@ -28,7 +19,10 @@
 
             <div class="ibox ibox-info">
                 <div class="ibox-head">
-                    <div class="ibox-title">   
+                    <div class="ibox-title"> 
+                        <div style="color: rgb(255, 255, 255);">
+                            Danh Sách Các Khách Hàng
+                        </div>  
                        
                     </div>
                 </div>
@@ -49,7 +43,7 @@
                             <th>HĐĐ</th>
                             <th>GiớiTính</th>
                             <th>KíchHoạt</th>
-                            <th>NgàyTạoTK</th>
+                   
                             <th>HànhĐộng</th>
                         </tr>
                     </thead>
@@ -78,14 +72,13 @@
                             </td>
                             <td>
                                 <%if (item.kichhoat == 1) { %>
-                                    Chưa Xác Thực
-                               
-                                     <% }else{ %>
-                                        Đã Xác Thực
-                                 <%}%>
+                                    <span class="badge badge-warning m-r-5 m-b-5">Chưa Xác Thực </span>
+                                  <% }else { %>
+                                      <span class="badge badge-success m-r-5 m-b-5">Đã Xác Thực</span>         
+                                  <%  } %>
                             </td>
                        
-                            <td><%= moment(item.email_verified_at).format('DD-MM-YYYY')  %></td>
+                         
                                 <td>
                                     <a href="/admin/khachhang/details/<%= item.makh %>" class="btn btn-default btn-xs m-r-5" data-toggle="tooltip" data-original-title="Details"><i class="fa fa-info font-14"></i></a>
                                     <a href="/admin/khachhang/edit/<%= item.makh %>" class="btn btn-default btn-xs m-r-5" data-toggle="tooltip" data-original-title="Edit"><i class="fa fa-pencil font-14"></i></a>

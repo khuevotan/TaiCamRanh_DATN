@@ -34,10 +34,12 @@ exports.store = (req, res) => {
         res.redirect('/admin/loaixe/create?status=error')
     }
 
+    let giaBanNumberFL = parseFloat(req.body.gia.replace(/,/g, ''));
+
     // Create a loaixe
     const loaixe = new LoaiXe({
         tenlx: req.body.tenlx,
-        gia: req.body.gia,
+        gia: giaBanNumberFL,
     });
     // Save loaixe in the database
     LoaiXe.create(loaixe, (err, data) => {
@@ -50,10 +52,9 @@ exports.store = (req, res) => {
 // Hiển thị danh sách loại xe.
 exports.findAll = (req, res) => {
     res.locals.deleted = req.query.deleted;
-    const tenlx = req.query.tenlx;
-    LoaiXe.getAll(tenlx, (err, data) => {
+    LoaiXe.getAll((err, data) => {
         if (err)
-            res.redirect('/500')
+            res.redirect('/admin/500')
         else {
             res.render('loaixe/indexlx', {
                 loaixe: data,
@@ -71,9 +72,9 @@ exports.edit = (req, res) => {
     LoaiXe.findBymalx(req.params.malx, (err, data) => {
         if (err) {
             if (err.kind === "not_found") {
-                res.redirect('/404');
+                res.redirect('/admin/404');
             } else {
-                res.redirect('/500');
+                res.redirect('/admin/500');
             }
         } else res.render('loaixe/editlx', {
             loaixe: data,
@@ -89,15 +90,23 @@ exports.update = (req, res) => {
         res.redirect('/admin/loaixe/edit/' + req.params.malx + '?status=error')
     }
 
+    let giaBanNumberFL = parseFloat(req.body.gia.replace(/,/g, ''));
+
+    // Create a loaixe
+    const loaixe = new LoaiXe({
+        tenlx: req.body.tenlx,
+        gia: giaBanNumberFL,
+    });
+
     LoaiXe.updateBymalx(
         req.params.malx,
-        new LoaiXe(req.body),
+        loaixe,
         (err, data) => {
             if (err) {
                 if (err.kind === "not_found") {
-                    res.redirect('/404');
+                    res.redirect('/admin/404');
                 } else {
-                    res.redirect('/500');
+                    res.redirect('/admin/500');
                 }
             } else res.redirect('/admin/loaixe/edit/' + req.params.malx + '?status=success');
         }
@@ -109,9 +118,9 @@ exports.delete = (req, res) => {
     LoaiXe.remove(req.params.malx, (err, data) => {
         if (err) {
             if (err.kind === "not_found") {
-                res.redirect('/404');
+                res.redirect('/admin/404');
             } else {
-                res.redirect('/500');
+                res.redirect('/admin/500');
             }
         } else res.redirect('/admin/loaixe/index?deleted=true')
     });
@@ -124,9 +133,9 @@ exports.details = (req, res) => {
     LoaiXe.findBymalx(req.params.malx, (err, data) => {
         if (err) {
             if (err.kind === "not_found") {
-                res.redirect('/404');
+                res.redirect('/admin/404');
             } else {
-                res.redirect('/500');
+                res.redirect('/admin/500');
             }
         } else res.render('loaixe/detailslx', {
             loaixe: data,
@@ -139,10 +148,9 @@ exports.details = (req, res) => {
 // Hiển thị ra màn hình đặt lịch bên phía khách hàng
 exports.findAllKH = (req, res) => {
     res.locals.deleted = req.query.deleted;
-    const tenlx = req.query.tenlx;
     const ngayrua = req.params.ngayrua;
 
-    LoaiXe.getAll(tenlx, (err, data) => {
+    LoaiXe.getAll((err, data) => {
         if (err)
             res.redirect('/500')
         else {
