@@ -294,7 +294,14 @@ exports.findAllKHandDM = (req, res) => {
                 if (err)
                     res.redirect('/500')
                 else {
-                     res.render('shop',  {sanpham: data, danhmuc: danhmuc, page, limit ,layout: './master'});
+                    NhaCungCap.getAll((err, nhacungcap) => {
+                        if (err)
+                            res.redirect('/500')
+                        else {
+                             res.render('shop',  {sanpham: data, danhmuc: danhmuc, nhacungcap: nhacungcap, page, limit ,layout: './master1'});
+                        }
+                    });
+                   
                 }
             });
         }
@@ -338,3 +345,5 @@ exports.chitietsp = (req, res) => {
     });
 };
 
+
+// else res.render('sanphamct', { sanpham: data , layout: './master'});

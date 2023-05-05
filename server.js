@@ -28,6 +28,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
  // call all the required packages -> thay đổi datetime
 const moment = require("moment");
+require('moment/locale/vi');
 
 
 

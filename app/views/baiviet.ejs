@@ -1,9 +1,4 @@
 <title>Bài Viết</title>
-<section class=" section-padding">
-</section>
-<section class=" section-paddinghai">
-</section>
-
 
 <main>
     <!--? Blog Area Start-->
@@ -17,19 +12,30 @@
                         <!-- <td><%= item.hinhdd	%></td> -->
                         <article class="blog_item">
                             <div class="blog_item_img">
-                                <img class="card-img rounded-0" src="/images/baiviet/<%= item.hinhdd %>" alt="">
+                                <img class="card-img rounded-0" src="/images/baiviet/<%= item.hinhdd %>" alt=""
+                                    height="300px">
                             </div>
                             <div class="blog_details">
                                 <a class="d-inline-block" href="/baivietct/<%= item.mabv %>">
                                     <h2 class="blog-head" style="color: #2d2d2d;"><%= item.tenbv %></h2>
                                 </a>
-                                <li><%= item.mota %>...</li>
+                                <li><%= item.motangan %>...</li>
+                                <br>
                                 <ul class="blog-info-link">
 
-                                    <li><a href="#">Người Đăng: <%= item.manv %></a></li>
-                                    <li><a href="#">Ngày Đăng: 
-                                        <%= moment(item.ngaydang).format('DD-MM-YYYY')  %>
-                                    </a></li>
+                                    <li>Nhân Viên Đăng:
+
+                                        <% for(var i=0; i< nhanvien.length; i++) { %>
+                                        <% if(nhanvien[i].manv == item.manv ){ %>
+                                        <%= nhanvien[i].tennv %>
+                                        <% } %>
+
+                                        <%} %>
+
+                                    </li>
+                                    <li>Ngày Đăng:
+                                        <%= moment(item.created_at).format('dddd, DD-MM-YYYY HH:mm:ss')  %>
+                                    </li>
 
                                 </ul>
                             </div>
@@ -43,18 +49,20 @@
                                 <% if (baiviet.length > 0) { %>
                                 <li class="page-item">
                                     <% if (page > 1) { %>
-                                        <a  class="page-link" href="/baiviet?page=<%= page - 1 %>&limit=<%= limit %>">Trang Trước</a>
-                                      <% } %>
+                                    <a class="page-link" href="/baiviet?page=<%= page - 1 %>&limit=<%= limit %>">Trang
+                                        Trước</a>
+                                    <% } %>
 
                                     <!-- <a href="#" class="page-link" aria-label="Previous">
                                         <i class="ti-angle-left"></i>
                                     </a> -->
                                 </li>
-                             
+
                                 <li class="page-item">
                                     <% if (baiviet.length === limit) { %>
-                                        <a  class="page-link" href="/baiviet?page=<%= page + 1 %>&limit=<%= limit %>">Trang Sau</a>
-                                      <% } %>
+                                    <a class="page-link" href="/baiviet?page=<%= page + 1 %>&limit=<%= limit %>">Trang
+                                        Sau</a>
+                                    <% } %>
                                     <!-- <a href="#" aria-label="Next">
                                         <i class="ti-angle-right"></i>
                                     </a> -->
@@ -65,31 +73,30 @@
                             </ul>
                         </nav>
 
-                       
-
                     </div>
                 </div>
                 <div class="col-lg-4">
                     <div class="blog_right_sidebar">
-
                         <aside class="single_sidebar_widget search_widget">
                             <form action="/baiviet" method="get">
                                 <div class="form-group">
                                     <div class="input-group mb-3">
-                                      
-                                            <input style="border:1px solid black"class="form-control" class="ml-5" type="text" name="tenbv"
-                                placeholder="Nhập tên bài viết...">
+                                        <input class="form-control" type="text" name="tenbv"
+                                            placeholder="Nhập Tên Bài Viết.." maxlength="100"
+                                            onfocus="this.placeholder = ''"
+                                            onblur="this.placeholder = 'Nhập Tên Bài Viết..'">
+
                                         <div class="input-group-append">
-                                            <button class="genric-btn info circle" type="submit">Tìm Kiếm</button>
+                                            <button class="btns" type="button"><i class="ti-search"></i></button>
+
                                         </div>
                                     </div>
                                 </div>
-                                <!-- <button class="button rounded-0 primary-bg text-white w-100 btn_1 boxed-btn"
-                                    type="submit">Search</button> -->
+
+                                <button class="button rounded-0 primary-bg text-white w-100 btn_1 boxed-btn"
+                                    type="submit">Tìm Kiếm</button>
                             </form>
                         </aside>
-
-            
 
                         <aside class="single_sidebar_widget instagram_feeds">
                             <h4 class="widget_title" style="color: #2d2d2d;">Hoạt Động ở TaiCamRanh</h4>
@@ -126,7 +133,6 @@
                                 </li>
                             </ul>
                         </aside>
-
                     </div>
                 </div>
             </div>

@@ -89,11 +89,10 @@ NhanVien.findByEmail = (email, result) => {
 }
 
 
-NhanVien.getAll = (tennv, result) => {
+// Hiển thị danh sách nhân viên
+NhanVien.getAll = (result) => {
     let query = "SELECT * FROM nhanvien";
-    if (tennv) {
-        query += ` WHERE tennv LIKE '%${tennv}%'`;
-    }
+   
     sql.query(query, (err, res) => {
         if (err) {
             console.log("error: ", err);

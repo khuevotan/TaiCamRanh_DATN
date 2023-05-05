@@ -61,9 +61,11 @@ Baiviet.findBymabv = (mabv, result) => {
 
 // Hiển thị bài viết bên phía khách hàng
 Baiviet.getAllKH = (tenbv, limit, offset, result) => {
-    let query = `SELECT * FROM baiviet LIMIT ${limit} OFFSET ${offset}`;
+    let query = `SELECT * FROM baiviet ORDER BY created_at DESC LIMIT ${limit} OFFSET ${offset} `;
+   
+
     if (tenbv) {
-        query = `SELECT * FROM baiviet WHERE tenbv LIKE '%${tenbv}%' LIMIT ${limit} OFFSET ${offset}`;
+        query = `SELECT * FROM baiviet WHERE tenbv LIKE '%${tenbv}%' ORDER BY created_at DESC LIMIT ${limit} OFFSET ${offset}`;
     }
     sql.query(query, (err, res) => {
         if (err) {
@@ -75,6 +77,21 @@ Baiviet.getAllKH = (tenbv, limit, offset, result) => {
     });
 };
 
+// Hiển thị 5 bài viết mới nhất bên phía khách hàng.
+Baiviet.getNew = (result) => {
+    let query = `SELECT * FROM baiviet ORDER BY created_at DESC LIMIT 5`;
+   
+    sql.query(query, (err, res) => {
+        if (err) {
+            console.log("error: ", err);
+            result(null, err);
+            return;
+        }
+        result(null, res);
+    });
+};
+
+
 //Hiển thị bài viết bên phía admin
 Baiviet.getAllAD = (result) => {
     let query = "SELECT * FROM baiviet";
@@ -85,7 +102,7 @@ Baiviet.getAllAD = (result) => {
             result(null, err);
             return;
         }
-        console.log("baiviet: ", res);
+      
         result(null, res);
     });
 };
@@ -93,8 +110,8 @@ Baiviet.getAllAD = (result) => {
 // Cập nhật bài viết tin tức bên phía admin.
 Baiviet.updateBymabv = (mabv, baiviet, result) => {
     sql.query(
-        "UPDATE baiviet SET tenbv = ?, motangan = ?, hinhdd = ?, noidung = ?, updated_at = ? WHERE mabv = ?",
-        [baiviet.tenbv, baiviet.motangan, baiviet.hinhdd, baiviet.noidung, new Date(), mabv],
+        "UPDATE baiviet SET tenbv = ?, motangan = ?, noidung = ?, updated_at = ? WHERE mabv = ?",
+        [baiviet.tenbv, baiviet.motangan, baiviet.noidung, new Date(), mabv],
         (err, res) => {
             if (err) {
                 console.log("error: ", err);
@@ -136,8 +153,8 @@ Baiviet.remove = (mabv, result) => {
 // Update ảnh đại diện bài viết
 Baiviet.updateADD = (mabv, hinhdd, result) => {
     sql.query(
-        "UPDATE baiviet SET hinhdd = ? WHERE mabv = ?",
-        [hinhdd, mabv],
+        "UPDATE baiviet SET hinhdd = ?, updated_at = ? WHERE mabv = ?",
+        [hinhdd,new Date(), mabv],
         (err, res) => {
             if (err) {
                 console.log("error: ", err);
