@@ -67,9 +67,7 @@ module.exports = app => {
     router.get('/khachhang/chonngay', authMiddleware.loggedin, khachhang.showDayForm)
         .post('/khachhang/chonngay', authMiddleware.loggedin, khachhang.chonNgay)
 
-    router.get('/khachhang/datlichrx/:ngayrua', authMiddleware.loggedin, controllerlx.findAllKH, (req, res) => {
-        res.render('datlichrx');
-    });
+    router.get('/khachhang/datlichrx/:ngayrua', authMiddleware.loggedin, khachhang.showDLForm);
 
     // nhấn nút đặt lịch
     router.post("/datlich/:makh", authMiddleware.loggedin, khachhang.datlich);

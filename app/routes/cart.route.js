@@ -39,6 +39,7 @@ module.exports = app => {
 
   router.get('/cart', function (req, res, next) {
 
+    // kieemr tra xem gio hang co ton tai hay khong?
     if (!req.session.cart) {
       return res.render('cart', {
         products: null,

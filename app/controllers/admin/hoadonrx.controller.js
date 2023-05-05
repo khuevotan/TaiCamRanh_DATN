@@ -411,12 +411,12 @@ exports.findAllKH = (req, res) => {
 
     res.locals.khachhang = req.session.khachhang
     const makh = res.locals.khachhang.makh;
-    const tengio = req.query.tengio;
+
     HoaDonRX.getAll(makh, (err, data) => {
         if (err)
             res.redirect('/500')
         else {
-            Gio.getAll(tengio, (err, gio) => {
+            Gio.getAll((err, gio) => {
                 if (err)
                     res.redirect('/500')
                 else {
@@ -441,12 +441,12 @@ exports.findAllKHLS = (req, res) => {
 
     res.locals.khachhang = req.session.khachhang
     const makh = res.locals.khachhang.makh;
-    const tengio = req.query.tengio;
+
     HoaDonRX.getLSAll(makh, (err, data) => {
         if (err)
             res.redirect('/500')
         else {
-            Gio.getAll(tengio, (err, gio) => {
+            Gio.getAll((err, gio) => {
                 if (err)
                     res.redirect('/500')
                 else {
@@ -465,8 +465,7 @@ exports.findAllKHLS = (req, res) => {
 // Hiển thị chi tiết 1 đơn đặt lịch hẹn bên phía khách hàng.
 exports.chitietdatlich = (req, res) => {
     res.locals.status = req.query.status;
-    const tengio = req.query.tendm;
-    const tenlx = req.query.tenlx;
+ 
     HoaDonRX.findBymahdrx(req.params.mahdrx, (err, data) => {
         if (err) {
             if (err.kind === "not_found") {
@@ -475,11 +474,11 @@ exports.chitietdatlich = (req, res) => {
                 res.redirect('/500');
             }
         } else {
-            Gio.getAll(tengio, (err, gio) => {
+            Gio.getAll((err, gio) => {
                 if (err)
                     res.redirect('/500')
                 else {
-                    LoaiXe.getAll(tenlx, (err, tenlx) => {
+                    LoaiXe.getAll((err, tenlx) => {
                         if (err)
                             res.redirect('/500')
                         else {

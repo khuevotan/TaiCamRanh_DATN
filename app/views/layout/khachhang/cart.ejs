@@ -1,54 +1,197 @@
-<style>
-    a {
-        color: #00B7FF;
-    }
-</style>
-
 <title>Giỏ Hàng</title>
-<section class=" section-padding">
-</section>
-<section class=" section-paddinghai">
-</section>
 
+<link rel="stylesheet" href="/home/listproduct/vendors/fontawesome/css/all.min.css">
+<link rel="stylesheet" href="/home/listproduct/vendors/themify-icons/themify-icons.css">
+<link rel="stylesheet" href="/home/listproduct/vendors/linericon/style.css">
+<link rel="stylesheet" href="/home/listproduct/vendors/owl-carousel/owl.theme.default.min.css">
+<link rel="stylesheet" href="/home/listproduct/vendors/owl-carousel/owl.carousel.min.css">
+<link rel="stylesheet" href="/home/listproduct/vendors/nice-select/nice-select.css">
+<link rel="stylesheet" href="/home/listproduct/vendors/nouislider/nouislider.min.css">
 
+<link rel="stylesheet" href="/home/listproduct/css/style.css">
 
-<h1>Giỏ Hàng</h1>
 <% if (products) {%>
-<div class="cart page">
-    <ul class="list-group">
-        <% for(var i = 0; i < products.length; i++) { %>
-        <li class="list-group-item clearfix">
-            <div class="col-xs-3">
-                <strong> <%= products[i].item.tensp %></strong><br />
-
+    <div class="container h-100">
+        <div class="blog-banner">
+            <div class="text-center">
+                <h1>Giỏ Hàng</h1>
+                <nav aria-label="breadcrumb" class="banner-breadcrumb">
+                   
+                  </nav>
             </div>
-            <div class="col-xs-2">
-                <strong> <%= products[i].item.hinhdd %></strong><br />
+        </div>
+    </div>
+    <%  }else{ %>
+    
+        <div class="container h-100">
+            <div class="blog-banner">
+                <div class="text-center">
+                    <h1>Giỏ Hàng Trống!</h1>
+                   
+                </div>
             </div>
-            <div class="col-xs-2 text-right">
-                <span class="badge"> <%= products[i].quantity %></span>
-            </div>
-            <div class="col-xs-3 text-right">
-                <%= products[i].price %> CHF
-
-            </div>
-            <div class="col-xs-2 text-right">
-                <a href="/remove/<%= products[i].item.masp %>" class="btn btn-default"></i> Remove</a>
-            </div>
-        </li>
-        <% }%>
-    </ul>
-</div>
-<div class="text-right">
-    <strong>Total: <%= totalPrice %> CHF</strong>
-</div>
-<hr>
-<div class="text-right">
-    <a href="/khachhang/thongtintt/" type="button" class="btn btn-success">Nhập Thông Tin Đơn Hàng</a>
-</div>
-<% } else{ %>
-Your shopping cart is empty.
-<% }%>
+        </div>
+    
+    <% }%>
 
 
+   
 
+
+<!--================Cart Area =================-->
+
+    
+<% if (products) {%>
+    <div class="container">
+        <div class="cart_inner">
+            <div class="table-responsive">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th scope="col">Tên Sản Phẩm</th>
+                            <th scope="col">Giá Tiền 1 Sản Phẩm</th>
+                            <th scope="col">Số  Lượng</th>
+                            <th scope="col">Tổng Tiền</th>
+                            <th scope="col">Hành Động</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+
+                        <!-- danh sach san pham -->
+
+
+                        <% for(var i = 0; i < products.length; i++) { %>
+
+                            <tr>
+                                <td>
+                                    <div class="media">
+                                        <div class="d-flex">
+                                            <img src="/images/sanpham/<%= products[i].item.hinhdd %>" alt="" height="100px">
+                                        </div>
+                                        <div class="media-body">
+                                            <p><%= products[i].item.tensp %></p>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>
+                                    <h5><%= (products[i].item.giaban).toLocaleString() %> VNĐ</h5>
+                                </td>
+                                <td>
+                                    <div class="product_count">
+                                        <input type="text" name="qty" id="sst" maxlength="12" value="<%= products[i].quantity %>" title="Quantity:"
+                                            class="input-text qty">
+                                        <button
+                                            onclick="var result = document.getElementById('sst'); var sst = result.value; if( !isNaN( sst )) result.value++;return false;"
+                                            class="increase items-count" type="button"><i
+                                                class="lnr lnr-chevron-up"></i></button>
+                                        <button
+                                            onclick="var result = document.getElementById('sst'); var sst = result.value; if( !isNaN( sst ) &amp;&amp; sst > 0 ) result.value--;return false;"
+                                            class="reduced items-count" type="button"><i
+                                                class="lnr lnr-chevron-down"></i></button>
+                                    </div>
+                                </td>
+                                <td>
+                                    <h5><%= (products[i].price).toLocaleString() %> VNĐ</h5>
+                                </td>
+                                <td>
+                                   
+                                    
+                                    <a href="/update/<%= products[i].item.masp %>" class="genric-btn info-border circle small" ><i class="fa fa-check-circle "></i></a>
+ 
+                                    <a href="/remove/<%= products[i].item.masp %>" class="genric-btn danger-border circle small"><i class="fa fa-trash "></i></a>
+
+
+                                   
+                                </td>
+                              
+                            </tr>
+    
+                            <% }%>
+    
+ 
+                        <!-- <tr class="bottom_button">
+                            <td>
+                                <a class="button" href="#">Update Cart</a>
+                            </td>
+                            <td>
+
+                            </td>
+                            <td>
+
+                            </td>
+                            <td>
+                                <div class="cupon_text d-flex align-items-center">
+                                    <input type="text" placeholder="Coupon Code">
+                                    <a class="primary-btn" href="#">Apply</a>
+                                    <a class="button" href="#">Have a Coupon?</a>
+                                </div>
+                            </td>
+                        </tr> -->
+
+
+                        <tr>
+                            <td>
+
+                            </td>
+                            <td>
+
+                            </td>
+                            <td>
+
+                            </td>
+                            <td>
+                                <h5>Tổng Tiền</h5>
+                            </td>
+                            <td>
+                                <h5> <%= (totalPrice).toLocaleString() %> VNĐ</h5>
+                            </td>
+                        </tr>
+
+                 
+                        
+
+                        <tr class="out_button_area">
+                            <td class="d-none-l">
+
+                            </td>
+                            <td class="">
+
+                                
+                            </td>
+                            <td>
+
+
+                            </td>
+                            <td>
+
+                            </td>
+                            <td>
+                                <div class="checkout_btn_inner d-flex align-items-center">
+                                    <a class="gray_btn" href="/shop">Quay lại Shopping</a>
+                                    <a class="primary-btn ml-2" href="/khachhang/thongtintt/">Nhập thông tin </a>
+                                </div>
+
+                                
+                            </td>
+                        </tr>
+
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <% }  %>
+    
+    
+
+
+<!--================End Cart Area =================-->
+
+<script src="/home/listproduct/vendors/jquery/jquery-3.2.1.min.js"></script>
+<script src="/home/listproduct/vendors/bootstrap/bootstrap.bundle.min.js"></script>
+<script src="/home/listproduct/vendors/skrollr.min.js"></script>
+<script src="/home/listproduct/vendors/owl-carousel/owl.carousel.min.js"></script>
+<script src="/home/listproduct/vendors/nice-select/jquery.nice-select.min.js"></script>
+<script src="/home/listproduct/vendors/jquery.ajaxchimp.min.js"></script>
+<script src="/home/listproduct/vendors/mail-script.js"></script>
+<script src="/home/listproduct/js/main.js"></script>

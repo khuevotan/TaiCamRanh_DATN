@@ -3,6 +3,7 @@ const sql = require("./db");
 const Sanpham = function(sanpham){
     this.masp = sanpham.masp;
     this.tensp = sanpham.tensp;
+    this.motangan = sanpham.motangan;
     this.hinhdd = sanpham.hinhdd;
     this.soluong = sanpham.soluong;
     this.motact = sanpham.motact;
@@ -57,8 +58,7 @@ Sanpham.getAll = (tensp, result) => {
     });
 };
 
-
-
+// Hiển thị danh sách sản phẩm gần hết số lượng bên phía admin.
 Sanpham.getAllSH = (soLuongHet, result) => {
     let query = `SELECT * FROM sanpham where soluong <= ${soLuongHet}`;
 
@@ -71,7 +71,6 @@ Sanpham.getAllSH = (soLuongHet, result) => {
         result(null, res);
     });
 };
-
 
 
 Sanpham.remove = (masp, result) => {
@@ -93,8 +92,8 @@ Sanpham.remove = (masp, result) => {
 
 Sanpham.updateBymasp = (masp, sanpham, result) => {
     sql.query(
-        "UPDATE sanpham SET tensp = ?, soluong = ?, motact = ? , giaban = ?, madm = ?, mancc = ? , manv = ?, updated_at = ? WHERE masp = ?",
-        [sanpham.tensp , sanpham.soluong, sanpham.motact , sanpham.giaban, sanpham.madm, sanpham.mancc, sanpham.manv, new Date(),masp],
+        "UPDATE sanpham SET tensp = ?, motangan =? ,soluong = ?, motact = ? , giaban = ?, madm = ?, mancc = ? , manv = ?, updated_at = ? WHERE masp = ?",
+        [sanpham.tensp , sanpham.motangan ,sanpham.soluong, sanpham.motact , sanpham.giaban, sanpham.madm, sanpham.mancc, sanpham.manv, new Date(),masp],
         (err, res) => {
             if (err) {
                 console.log("error: ", err);
@@ -194,8 +193,13 @@ Sanpham.getAllKH = (tensp, limit, offset, result) => {
 };
 
 // Hiển thị sản phẩm theo danh mục bên phía khách hàng
-Sanpham.getAllKHdmsp = (madm, result) => {
-    let query = `SELECT * FROM sanpham WHERE madm = ${madm} `;
+Sanpham.getAllKHdmsp = (madm, limit, offset, result) => {
+   
+    console.log("khuê");
+    console.log(limit);
+    console.log(offset);
+
+    let query = `SELECT * FROM sanpham WHERE madm = ${madm} LIMIT ${limit} OFFSET ${offset} `;
   
     sql.query(query, (err, res) => {
         if (err) {
@@ -203,12 +207,24 @@ Sanpham.getAllKHdmsp = (madm, result) => {
             result(null, err);
             return;
         }
-        console.log("sanpham: ", res);
         result(null, res);
     });
 };
 
 
+// Hiển thị sản phẩm mới nhất theo thứ tự
+Sanpham.getNew = (result) => {
+    let query = `SELECT * FROM sanpham ORDER BY created_at DESC LIMIT 6`;
+   
+    sql.query(query, (err, res) => {
+        if (err) {
+            console.log("error: ", err);
+            result(null, err);
+            return;
+        }
+        result(null, res);
+    });
+};
 
 
 module.exports = Sanpham;

@@ -232,7 +232,7 @@ a:hover,
 
 a,
 button {
-    color: #fff;
+   
     outline: medium none
 }
 
@@ -6270,7 +6270,7 @@ del {
     display: inline-block;
     outline: none;
     line-height: 40px;
-    padding: 0 30px;
+    padding: 0 20px;
     font-size: .8em;
     text-align: center;
     text-decoration: none;

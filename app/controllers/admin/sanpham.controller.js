@@ -1,8 +1,8 @@
-
 const Danhmuc = require("../../models/danhmuc.model");
 const SanPham = require("../../models/sanpham.model");
 const NhaCungCap = require("../../models/nhacungcap.model");
 const ThamSo = require("../../models/thamso.model");
+const Sanpham = require("../../models/sanpham.model");
 
 //======================= GIAO DIEN ADMIN ======================= 
 // Hiển thị form tạo mới sản phẩm.
@@ -12,12 +12,16 @@ exports.create = (req, res) => {
     Danhmuc.getAll(tendm, (err, data) => {
         if (err)
             res.redirect('/admin/500')
-        else { 
+        else {
             NhaCungCap.getAll((err, ncc) => {
                 if (err)
                     res.redirect('/admin/500')
-                else { 
-                    res.render('sanpham/createsp', { nhacungcap: ncc, danhmuc: data, layout: './master2'});
+                else {
+                    res.render('sanpham/createsp', {
+                        nhacungcap: ncc,
+                        danhmuc: data,
+                        layout: './master2'
+                    });
                 }
             });
         }
@@ -36,7 +40,7 @@ exports.store = (req, res) => {
 
     const file = req.file
     let giaBanNumberFL = parseFloat(req.body.giaban.replace(/,/g, ''));
-    
+
     // Create a sanpham
     const sanpham = new SanPham({
         tensp: req.body.tensp,
@@ -69,7 +73,11 @@ exports.findAll = (req, res) => {
                 if (err)
                     res.redirect('/admin/500')
                 else {
-                     res.render('sanpham/indexsp',  {sanpham: data, danhmuc: danhmuc, layout: './master3'});
+                    res.render('sanpham/indexsp', {
+                        sanpham: data,
+                        danhmuc: danhmuc,
+                        layout: './master3'
+                    });
                 }
             });
         }
@@ -87,7 +95,7 @@ exports.findAllSH = (req, res) => {
             res.redirect('/admin/500')
         else {
             SL_SPHET = thamso.giatri;
-       
+
             SanPham.getAllSH(SL_SPHET, (err, data) => {
                 if (err)
                     res.redirect('/admin/500')
@@ -96,14 +104,18 @@ exports.findAllSH = (req, res) => {
                         if (err)
                             res.redirect('/admin/500')
                         else {
-                             res.render('phieunhap/indexspsh',  {sanpham: data, danhmuc: danhmuc, layout: './master3'});
+                            res.render('phieunhap/indexspsh', {
+                                sanpham: data,
+                                danhmuc: danhmuc,
+                                layout: './master3'
+                            });
                         }
                     });
                 }
             });
         }
     });
-  
+
 };
 
 // Hiển thị chi tiết một sản phẩm.
@@ -122,17 +134,22 @@ exports.details = (req, res) => {
                 if (err)
                     res.redirect('/admin/500')
                 else {
-                    NhaCungCap.findBymancc(data.mancc,(err, nhacungcap) => {
+                    NhaCungCap.findBymancc(data.mancc, (err, nhacungcap) => {
                         if (err)
                             res.redirect('/admin/500')
-                        else { 
-                            res.render('sanpham/detailssp', { nhacungcap: nhacungcap, sanpham: data, danhmuc:danhmuc, layout: './master4'});
+                        else {
+                            res.render('sanpham/detailssp', {
+                                nhacungcap: nhacungcap,
+                                sanpham: data,
+                                danhmuc: danhmuc,
+                                layout: './master4'
+                            });
                         }
                     });
-                   
+
                 }
             });
-            }
+        }
     });
 };
 
@@ -141,7 +158,7 @@ exports.edit = (req, res) => {
     res.locals.status = req.query.status;
 
     const tendm = req.query.tensp;
-   
+
     SanPham.findBymasp(req.params.masp, (err, data) => {
         if (err) {
             if (err.kind === "not_found") {
@@ -153,12 +170,17 @@ exports.edit = (req, res) => {
             Danhmuc.getAll(tendm, (err, danhmuc) => {
                 if (err)
                     res.redirect('/admin/500')
-                else { 
+                else {
                     NhaCungCap.getAll((err, nhacungcap) => {
                         if (err)
                             res.redirect('/admin/500')
-                        else { 
-                            res.render('sanpham/editsp', { sanpham: data, danhmuc: danhmuc, nhacungcap: nhacungcap,   layout: './master2'});
+                        else {
+                            res.render('sanpham/editsp', {
+                                sanpham: data,
+                                danhmuc: danhmuc,
+                                nhacungcap: nhacungcap,
+                                layout: './master2'
+                            });
                         }
                     });
                 }
@@ -209,13 +231,13 @@ exports.delete = (req, res) => {
             res.redirect('/admin/500')
         else {
 
-            if(sanpham.hinhdd != ''){
+            if (sanpham.hinhdd != '') {
                 const fs = require('fs');
                 const fileNameCu = sanpham.hinhdd;
-                const filePath = '/images/sanpham/' + fileNameCu; 
-                
-                fs.unlink("app/public"+ filePath,function(err){
-                    if(err) throw err;
+                const filePath = '/images/sanpham/' + fileNameCu;
+
+                fs.unlink("app/public" + filePath, function (err) {
+                    if (err) throw err;
                     console.log('File deleted!');
                 });
             }
@@ -242,17 +264,17 @@ exports.updateADD = (req, res, next) => {
         return next(error);
     }
 
-    if(req.body.hinhdd != ''){
+    if (req.body.hinhdd != '') {
         const fs = require('fs');
         const fileNameCu = req.body.hinhdd;
-        const filePath = '/images/sanpham/' + fileNameCu; 
-        
-        fs.unlink("app/public"+ filePath,function(err){
-            if(err) throw err;
+        const filePath = '/images/sanpham/' + fileNameCu;
+
+        fs.unlink("app/public" + filePath, function (err) {
+            if (err) throw err;
             console.log('File deleted!');
         });
     }
-    
+
     SanPham.updateADD(req.params.masp, file.filename, (err, result) => {
         if (!err) {
             res.redirect('/admin/sanpham/edit/' + req.params.masp + '?status=successhdd');
@@ -264,24 +286,27 @@ exports.updateADD = (req, res, next) => {
 
 //======================= GIAO DIEN KHACH HANG ======================= 
 // Hiển thị sản phẩm bên phía khách hàng.
-exports.findAllKH = (req, res) => {
-    res.locals.deleted = req.query.deleted;
-    const tensp = req.query.tensp;
-    SanPham.getAllKH(tensp, (err, data) => {
-        if (err)
-            res.redirect('/500')
-        else {
-            res.render('shop',  {sanpham: data, layout: './master'});
-            console.log(data);
-        }
-    });
-};
+// exports.findAllKH = (req, res) => {
+//     res.locals.deleted = req.query.deleted;
+//     const tensp = req.query.tensp;
+//     SanPham.getAllKH(tensp, (err, data) => {
+//         if (err)
+//             res.redirect('/500')
+//         else {
+//             res.render('shop', {
+//                 sanpham: data,
+//                 layout: './master'
+//             });
+           
+//         }
+//     });
+// };
 
 exports.findAllKHandDM = (req, res) => {
     const page = parseInt(req.query.page) || 1;
     const limit = parseInt(req.query.limit) || 9;
     const offset = (page - 1) * limit;
-    
+
     res.locals.deleted = req.query.deleted;
 
     const tensp = req.query.tensp;
@@ -298,10 +323,17 @@ exports.findAllKHandDM = (req, res) => {
                         if (err)
                             res.redirect('/500')
                         else {
-                             res.render('shop',  {sanpham: data, danhmuc: danhmuc, nhacungcap: nhacungcap, page, limit ,layout: './master1'});
+                            res.render('shop', {
+                                sanpham: data,
+                                danhmuc: danhmuc,
+                                nhacungcap: nhacungcap,
+                                page,
+                                limit,
+                                layout: './master1'
+                            });
                         }
                     });
-                   
+
                 }
             });
         }
@@ -310,12 +342,21 @@ exports.findAllKHandDM = (req, res) => {
 
 // Hiển thị sản phẩm danh mục chi tiết
 exports.findAllKHandDMct = (req, res) => {
- 
+
+    const page = parseInt(req.query.page) || 1;
+    const limit = parseInt(req.query.limit) || 9;
+    const offset = (page - 1) * limit;
+
     res.locals.status = req.query.status;
     const tensp = req.query.tensp;
     const madm = req.params.madm;
     const tendm = req.params.tendm;
-    SanPham.getAllKHdmsp(req.params.madm, (err, data) => {
+
+    console.log("kwdfbw");
+    console.log(limit);
+    console.log(offset);
+
+    SanPham.getAllKHdmsp(req.params.madm, limit, offset,(err, data) => {
         if (err)
             res.redirect('/500')
         else {
@@ -323,7 +364,20 @@ exports.findAllKHandDMct = (req, res) => {
                 if (err)
                     res.redirect('/500')
                 else {
-                     res.render('shop',  {sanpham: data, danhmuc: danhmuc, layout: './master'});
+                    NhaCungCap.getAll((err, nhacungcap) => {
+                        if (err)
+                            res.redirect('/500')
+                        else {
+                            res.render('shop', {
+                                sanpham: data,
+                                danhmuc: danhmuc,
+                                page,
+                                limit,
+                                nhacungcap: nhacungcap,
+                                layout: './master'
+                            });
+                        }
+                    });
                 }
             });
         }
@@ -333,7 +387,7 @@ exports.findAllKHandDMct = (req, res) => {
 // Hiển thị chi tiết 1 sản phẩm
 exports.chitietsp = (req, res) => {
     res.locals.status = req.query.status;
-    
+
     SanPham.findBymasp(req.params.masp, (err, data) => {
         if (err) {
             if (err.kind === "not_found") {
@@ -341,7 +395,35 @@ exports.chitietsp = (req, res) => {
             } else {
                 res.redirect('/500');
             }
-        } else res.render('sanphamct', { sanpham: data , layout: './master'});
+        } else {
+
+            Sanpham.getNew((err, sanphamNew) => {
+                if (err)
+                    res.redirect('/500')
+                else {
+                    Danhmuc.findByMaDM(data.madm, (err, danhmuc) => {
+                        if (err)
+                            res.redirect('/500')
+                        else {
+                            NhaCungCap.findBymancc(data.mancc, (err, nhacungcap) => {
+                                if (err)
+                                    res.redirect('/500')
+                                else {
+                                    res.render('sanphamct', {
+                                        danhmuc: danhmuc,
+                                        nhacungcap: nhacungcap,
+                                        sanpham: data,
+                                        sanphamNew: sanphamNew,
+                                        layout: './master'
+                                    });
+                                }
+                            });
+
+                        }
+                    });
+                }
+            });
+        }
     });
 };
 

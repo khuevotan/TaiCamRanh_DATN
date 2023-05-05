@@ -940,7 +940,7 @@ a {
     border: 0;
     border-radius: 0;
     padding: 7px 12px;
-    background: #8894ff
+    background: #38a4ff
 }
 
 .card-product__imgOverlay li button i,
@@ -4212,7 +4212,7 @@ a {
 }
 
 .cart_inner .table tbody tr.out_button_area .checkout_btn_inner {
-    margin-left: -395px
+    margin-left: -300px
 }
 
 .cart_inner .table tbody tr.out_button_area .checkout_btn_inner .primary-btn {
@@ -4220,7 +4220,7 @@ a {
     padding: 0px 44px;
     line-height: 38px;
     text-transform: capitalize;
-    background: #384aeb;
+    background: #38a4ff;
     border-radius: 30px;
     color: #fff;
     font-weight: 500
@@ -4443,7 +4443,7 @@ a {
 }
 
 .product_description_area {
-    padding-bottom: 100px;
+    padding-bottom: 70px;
     margin-top: 60px
 }
 

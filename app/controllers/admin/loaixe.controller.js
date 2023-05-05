@@ -144,35 +144,3 @@ exports.details = (req, res) => {
     });
 };
 
-//======================= GIAO DIEN KHACH HANG ======================= 
-// Hiển thị ra màn hình đặt lịch bên phía khách hàng
-exports.findAllKH = (req, res) => {
-    res.locals.deleted = req.query.deleted;
-    const ngayrua = req.params.ngayrua;
-
-    LoaiXe.getAll((err, data) => {
-        if (err)
-            res.redirect('/500')
-        else {
-            ThamSo.findBymats(1, (err, MAX_ĐL) => {
-                if (err)
-                    res.redirect('/500')
-                else {
-                    Gio.getAllKH(ngayrua, MAX_ĐL.giatri, (err, gio) => {
-                        if (err)
-                            res.redirect('/500')
-                        else {
-                            res.render('datlichrx', {
-                                loaixe: data,
-                                gio: gio,
-                                ngayrua,
-                                layout: './master'
-                            });
-                        }
-                    });
-
-                }
-            });
-        }
-    });
-};

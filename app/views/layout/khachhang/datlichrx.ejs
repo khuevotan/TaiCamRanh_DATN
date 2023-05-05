@@ -1,11 +1,5 @@
-<title>Liên Hệ</title>
-<section class=" section-padding">
-</section>
-<section class=" section-paddinghai">
-</section>
-<!-- <div class=" text-center">
-    <h2>Liên Hệ</h2>
-</div> -->
+<title>Nhập Thông Tin Lịch Hẹn</title>
+
 
 <div class="container">
     <div class="row justify-content-center">
@@ -13,17 +7,19 @@
             <div class="card card-default rounded-0 shadow blur" style="border:1px solid black">
                 <h1 class="mb-20 text-center mt-20">Đặt Lịch Hẹn</h1>
                 <div class="card-body container-fluid">
+
+                    
                     <form action="/datlich/:makh" method="post" id="booking-form">
 
                         <input type="hidden" name="id" value="">
                         <div class="row">
                             <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
                                 <div class="form-group mb-3">
-                                    <label for="tennguoidat"><b>Tên Người Đặt</b></label>
-                                    <input type="text" name="tennguoidat" placeholder="Nhập họ tên" class="single-input"
+                                    <label for="tennguoirua"><b>Tên Người Rửa</b></label>
+                                    <input type="text" name="tennguoirua" placeholder="Nhập họ tên" class="single-input"
                                         style="border:1px solid black"
-                                        <% if (typeof tennguoidat != "undefined" && tennguoidat) { %>
-                                        value="<%= tennguoidat %>" <% } %> required>
+                                        <% if (typeof tennguoirua != "undefined" && tennguoirua) { %>
+                                        value="<%= tennguoirua %>" <% } %> required>
                                 </div>
                                 <div class="form-group mb-3">
                                     <label for="sdt"><b>Số Điện Thoại</b></label>
@@ -103,8 +99,10 @@
                         Nếu không có khung giờ phù hợp vui lòng chọn ngày khác.
                         </div>
                         <div class="text-center">
-                            <input class="genric-btn info circle " type="submit" value="Đặt Lịch Ngay">
+                        
+                        <a href="/khachhang/chonngay" class="genric-btn info circle">Chọn Ngày Khác</a>
 
+                            <input class="genric-btn info circle" type="submit" value="Đặt Lịch Ngay">
                         </div>
                     </form>
                 </div>
@@ -113,10 +111,13 @@
     </div>
 </div>
 
-
+</br>
 <script>
-    function myNewFunction(sel) {
+    var giaTriDau = <%= giaTriDau %>;
 
+    document.getElementById('tongtienrx').value = giaTriDau;
+
+    function myNewFunction(sel) {
         document.getElementById('tongtienrx').value = sel.options[sel.selectedIndex].id;
     }
 

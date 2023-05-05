@@ -3,6 +3,9 @@ const Khachhang = require("../../models/khachhang.model");
 const HoaDonRX = require("../../models/hoadonrx.model");
 const HoaDon = require("../../models/hoadon.model");
 const CTHoaDon = require("../../models/cthoadon.model");
+const LoaiXe = require("../../models/loaixe.model");
+const ThamSo = require("../../models/thamso.model");
+const Gio = require("../../models/gio.model");
 
 
 const mailer = require('../../utils/mailer');
@@ -10,6 +13,7 @@ require('dotenv/config');
 
 const bcrypt = require('bcrypt');
 
+// ======================== ADMIN =================================
 // Hiện thị form tạo mới khách hàng
 exports.create = (req, res) => {
     res.locals.status = req.query.status;
@@ -219,132 +223,6 @@ exports.delete = (req, res) => {
     });
 };
 
-exports.trangCaNhan = (req, res) => {
-    res.locals.khachhang = req.session.khachhang
-    const makh = res.locals.khachhang.makh;
-
-    Khachhang.findByMakh(makh, (err, data) => {
-        if (err)
-            res.redirect('/500')
-        else {
-            console.log(data);
-            res.render('home', {
-                khachhang: data
-            });
-        }
-
-    });
-};
-
-// Edit bên phía khách hàng
-exports.editkh = (req, res) => {
-    res.locals.status = req.query.status;
-
-    Khachhang.findByMakh(req.params.makh, (err, data) => {
-        if (err) {
-            if (err.kind === "not_found") {
-                res.redirect('/404');
-            } else {
-                res.redirect('/500');
-            }
-        } else res.render('chinhsuatt', {
-            khachhang: data
-        });
-    });
-};
-
-// đổi password
-exports.doimk = (req, res) => {
-    res.locals.status = req.query.status;
-
-    Khachhang.findByMakh(req.params.makh, (err, data) => {
-        if (err) {
-            if (err.kind === "not_found") {
-                res.redirect('/404');
-            } else {
-                res.redirect('/500');
-            }
-        } else res.render('doimatkhau', {
-            khachhang: data
-        });
-    });
-};
-
-// Update a khachhang khi nhấn vào chỉnh sửa thông tin cá nhân bên phía khách hàng
-exports.update = (req, res) => {
-
-     // Validate Request
-     if (!req.body) {
-        res.redirect('/admin/khachhang/edit/' + req.params.makh + '?status=error')
-    }
-
-    const khachhang = new KhachHang({
-        taikhoan: req.body.taikhoan,
-        email: req.body.email,
-        hokh: req.body.hokh,
-        tenkh: req.body.tenkh,
-        diachi: req.body.diachi,
-        kichhoat: req.body.kichhoat,
-        sodt: req.body.sodt,
-        ngaysinh: req.body.ngaysinh,
-    });
-
-    KhachHang.updateBymakhphiadmin(
-        req.params.makh,
-        khachhang,
-        (err, data) => {
-            if (err) {
-                if (err.kind === "not_found") {
-                    res.redirect('/404');
-                } else {
-                    res.redirect('/500');
-                }
-            } else res.redirect('/admin/khachhang/edit/' + req.params.makh + '?status=success');
-        }
-    );
-};
-
-// Update mật khẩu khi nhấn vào chỉnh sửa thông tin cá nhân bên phía khách hàng
-exports.updatemk = (req, res) => {
-    
-    const {
-        taikhoan,
-        matkhaumoi,
-        matkhaucu
-    } = req.body;
-
-
-    Khachhang.findByTaikhoan(taikhoan, (err, khachhang) => {
-        bcrypt.compare(matkhaucu, khachhang.matkhau, (err, result) => {
-            console.log(result);
-            if (result == true) {
-                if (matkhaumoi.length >= 8 && matkhaumoi.match(/[a-z]/) && matkhaumoi.match(/[A-Z]/) && matkhaumoi.match(/\d/) && matkhaumoi.match(/[^a-zA-Z\d]/)) {
-                    bcrypt.hash(matkhaumoi, parseInt(process.env.BCRYPT_SALT_ROUND)).then((hashedMatkhau) => {
-                        Khachhang.resetPasswordKH(taikhoan, hashedMatkhau, (err, result) => {
-                            if (!err) {
-                                res.redirect('/khachhang/home/?status=doimkthanhcong');
-
-                            } else {
-                                res.redirect("/500");
-                            }
-                        })
-                    })
-                } else {
-                    res.redirect('/khachhang/home/?status=doimatkhauthatbai');
-                }
-
-            } else {
-                const conflictError = 'Sai Password!';
-                res.render('auth/login', {
-                    taikhoan,
-                    matkhaucu,
-                    conflictError
-                });
-            }
-        })
-    })
-};
-
 // Update mật khẩu bến phía admin
 exports.adupdatemk = (req, res) => {
     res.locals.status = req.query.status;
@@ -432,7 +310,158 @@ exports.adupdatemk = (req, res) => {
     }
 };
 
-// update thanh toán khi đặt lịch xong
+// ================================= KHÁCH HÀNG =================================
+// Trang cá nhân của khách hàng.
+exports.trangCaNhan = (req, res) => {
+    res.locals.khachhang = req.session.khachhang
+    const makh = res.locals.khachhang.makh;
+
+    Khachhang.findByMakh(makh, (err, data) => {
+        if (err)
+            res.redirect('/500')
+        else {
+            res.render('home', {
+                khachhang: data
+            });
+        }
+    });
+};
+
+// Edit bên phía khách hàng
+exports.editkh = (req, res) => {
+    res.locals.status = req.query.status;
+
+    Khachhang.findByMakh(req.params.makh, (err, data) => {
+        if (err) {
+            if (err.kind === "not_found") {
+                res.redirect('/404');
+            } else {
+                res.redirect('/500');
+            }
+        } else res.render('chinhsuatt', {
+            khachhang: data
+        });
+    });
+};
+
+// Hiển thị form đổi mật khẩu
+exports.doimk = (req, res) => {
+    res.locals.status = req.query.status;
+
+    Khachhang.findByMakh(req.params.makh, (err, data) => {
+        if (err) {
+            if (err.kind === "not_found") {
+                res.redirect('/404');
+            } else {
+                res.redirect('/500');
+            }
+        } else res.render('doimatkhau', {
+            khachhang: data
+        });
+    });
+};
+
+// Update a khachhang khi nhấn vào chỉnh sửa thông tin cá nhân bên phía khách hàng
+exports.update = (req, res) => {
+
+     // Validate Request
+     if (!req.body) {
+        res.redirect('/admin/khachhang/edit/' + req.params.makh + '?status=error')
+    }
+
+    const khachhang = new KhachHang({
+        taikhoan: req.body.taikhoan,
+        email: req.body.email,
+        hokh: req.body.hokh,
+        tenkh: req.body.tenkh,
+        diachi: req.body.diachi,
+        kichhoat: req.body.kichhoat,
+        sodt: req.body.sodt,
+        ngaysinh: req.body.ngaysinh,
+    });
+    
+    Khachhang.findByEmail(req.body.email, (err, khachhangne) => {  
+        if (err || khachhangne) {
+            const conflictError = 'Email này đã tồn tại';
+         
+            Khachhang.findByMakh(req.params.makh, (err, data) => {
+                if (err) {
+                    if (err.kind === "not_found") {
+                        res.redirect('/404');
+                    } else {
+                        res.redirect('/500');
+                    }
+                } else   res.render('chinhsuatt', {
+                    conflictError,
+                    khachhang: data
+                });
+            });
+
+          
+            
+        } else {
+          
+            KhachHang.updateBymakhphiadmin(
+                req.params.makh,
+                khachhang,
+                (err, data) => {
+                    if (err) {
+                        if (err.kind === "not_found") {
+                            res.redirect('/404');
+                        } else {
+                            res.redirect('/500');
+                        }
+                    } else res.redirect('/admin/khachhang/edit/' + req.params.makh + '?status=success');
+                }
+            );
+        }
+    });
+
+  
+};
+
+// Update mật khẩu khi nhấn vào chỉnh sửa thông tin cá nhân bên phía khách hàng
+exports.updatemk = (req, res) => {
+    
+    const {
+        taikhoan,
+        matkhaumoi,
+        matkhaucu
+    } = req.body;
+
+
+    Khachhang.findByTaikhoan(taikhoan, (err, khachhang) => {
+        bcrypt.compare(matkhaucu, khachhang.matkhau, (err, result) => {
+            console.log(result);
+            if (result == true) {
+                if (matkhaumoi.length >= 8 && matkhaumoi.match(/[a-z]/) && matkhaumoi.match(/[A-Z]/) && matkhaumoi.match(/\d/) && matkhaumoi.match(/[^a-zA-Z\d]/)) {
+                    bcrypt.hash(matkhaumoi, parseInt(process.env.BCRYPT_SALT_ROUND)).then((hashedMatkhau) => {
+                        Khachhang.resetPasswordKH(taikhoan, hashedMatkhau, (err, result) => {
+                            if (!err) {
+                                res.redirect('/khachhang/home/?status=doimkthanhcong');
+
+                            } else {
+                                res.redirect("/500");
+                            }
+                        })
+                    })
+                } else {
+                    res.redirect('/khachhang/home/?status=doimatkhauthatbai');
+                }
+
+            } else {
+                const conflictError = 'Sai Password!';
+                res.render('auth/login', {
+                    taikhoan,
+                    matkhaucu,
+                    conflictError
+                });
+            }
+        })
+    })
+};
+
+// Update thanh toán khi đặt lịch xong
 exports.thanhToan = (req, res, next) => {
     const mahdrxhai = req.body.mahdrx
 
@@ -442,7 +471,7 @@ exports.thanhToan = (req, res, next) => {
     });
 }
 
-// update thanh toán khi đặt hàng xong
+// Update thanh toán khi đặt hàng xong
 exports.thanhToanDH = (req, res, next) => {
     const mahdhai = req.body.mahd
 
@@ -475,18 +504,14 @@ exports.uploadFile = (req, res) => {
         });
     }
 
-    //    res.send(file)
     Khachhang.updateBymakhAva(makh, file.filename, (err, result) => {
         if (!err) {
-            res.redirect('/login');
+            res.redirect('/khachhang/chinhsuatt/' + makh + '?status=successhdd');
         } else {
-            res.redirect('/500');
+            res.redirect('/khachhang/chinhsuatt/' + makh + '?status=errorhdd')
         }
     });
-
-    // res.send(file)
 }
-
 
 // update ảnh bên phía amdin
 exports.updateHddAD = (req, res) => {
@@ -508,7 +533,6 @@ exports.updateHddAD = (req, res) => {
         });
     }
 
-    //    res.send(file)
     Khachhang.updateBymakhAva(req.params.makh, file.filename, (err, result) => {
         if (!err) {
             res.redirect('/admin/khachhang/edit/' + req.params.makh + '?status=successhdd');
@@ -516,8 +540,6 @@ exports.updateHddAD = (req, res) => {
             res.redirect('/admin/khachhang/edit/' + req.params.makh + '?status=errorhdd')
         }
     });
-
-    // res.send(file)
 }
 
 
@@ -556,6 +578,42 @@ exports.chonNgay = (req, res) => {
             });
         }
     }
+};
+
+// Hiển thị ra màn hình đặt lịch bên phía khách hàng
+exports.showDLForm = (req, res) => {
+    res.locals.deleted = req.query.deleted;
+    const ngayrua = req.params.ngayrua;
+
+    LoaiXe.getAll((err, data) => {
+        if (err)
+            res.redirect('/500')
+        else {
+            ThamSo.findBymats(1, (err, MAX_ĐL) => {
+                if (err)
+                    res.redirect('/500')
+                else {
+                    Gio.getAllKH(ngayrua, MAX_ĐL.giatri, (err, gio) => {
+                        if (err)
+                            res.redirect('/500')
+                        else {
+
+                            var giaTriDau = data[0].gia;
+
+                            res.render('datlichrx', {
+                                loaixe: data,
+                                giaTriDau: giaTriDau,
+                                gio: gio,
+                                ngayrua,
+                                layout: './master'
+                            });
+                        }
+                    });
+
+                }
+            });
+        }
+    });
 };
 
 // Nhấn nút đặt lịch
@@ -601,10 +659,8 @@ exports.datlich = (req, res) => {
     });
 };
 
-// hiển thị form thêm thông tin đặt hàng
-exports.showFormTTDH = (req, res) => {
-    res.render('thongtintt');
-};
+
+// ====================== ĐẶT HÀNG =========================
 
 const Cart = require("../../models/cart.model");
 
@@ -690,3 +746,9 @@ exports.nhapThongTinDonHang = (req, res) => {
         });
     }
 }
+
+// Hiển thị form thêm thông tin thanh toán
+exports.showFormTTDH = (req, res) => {
+    res.render('thongtintt');
+};
+

@@ -176,12 +176,12 @@ exports.findAllKH = (req, res) => {
 
     res.locals.khachhang = req.session.khachhang
     const makh = res.locals.khachhang.makh;
-    const tentt = req.query.tentt;
+
     HoaDon.getAll(makh, (err, data) => {
         if (err)
             res.redirect('/500')
         else {
-            TrangThai.getAll(tentt, (err, trangthai) => {
+            TrangThai.getAll((err, trangthai) => {
                 if (err)
                     res.redirect('/500')
                 else {
@@ -237,12 +237,12 @@ exports.findAllKHLS = (req, res) => {
 
     res.locals.khachhang = req.session.khachhang
     const makh = res.locals.khachhang.makh;
-    const tentt = req.query.tentt;
+  
     HoaDon.getLSAll(makh, (err, data) => {
         if (err)
             res.redirect('/500')
         else {
-            TrangThai.getAll(tentt, (err, trangthai) => {
+            TrangThai.getAll((err, trangthai) => {
                 if (err)
                     res.redirect('/500')
                 else {
