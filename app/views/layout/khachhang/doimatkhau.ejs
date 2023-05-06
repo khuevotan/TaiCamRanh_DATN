@@ -62,7 +62,7 @@
         <div class="d-flex flex-column align-items-center text-center">
           <img src="/images/avatarkh/<%= khachhang.hinhdd %>" alt="Khách Hàng" class="rounded-circle" width="150" />
           <div class="mt-3">
-            <h3><%= khachhang.tenkh %></h3>
+            <h3><%= khachhang.hokh %> <%= khachhang.tenkh %></h3>
             <!-- <button class="btn btn-primary">a</button> -->
           </div>
         </div>
@@ -74,19 +74,13 @@
   <div class="col-md-8">
     <div class=" card card-default rounded-0 shadow blur" style="border:1px solid black">
       <h1 class=" mt-10 text-center ">Đổi Mật Khẩu</h1>
-      <form action="/admin/doimatkhau/doimk" method="post">
+      <form action="/doimatkhau/<%= khachhang.makh %>" id="form-sample-1" method="post">
         <input type="hidden" name="_method" value="put" />
         <div class="card-body">
-          <div class="row mb-3">
-            <div class="col-sm-3">
-              <h3 class="mb-0">Tên Tài Khoản</h3>
-            </div>
-            <div class="col-sm-9 text-secondary">
-              <input type="text" style="border:1px solid black" class="single-input" id="taikhoan" name="taikhoan"
-                value="<%= khachhang.taikhoan %>" required readonly />
-            </div>
-          </div>
-          <hr />
+         
+          <% if (typeof conflictError != "undefined" && conflictError) { %>
+            <div class="text-danger text-left  mb-3"><%= conflictError %></div>
+            <% } %>
 
           <div class="row mb-3">
             <div class="col-sm-3">

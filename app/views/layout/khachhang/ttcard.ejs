@@ -1,8 +1,6 @@
-<title>Thanh Toán</title>
-<section class=" section-padding">
-</section>
-<section class=" section-paddinghai">
-</section>
+<title>Thanh Toán Online</title>
+
+
 
 <div class="container">
     <div class="justify-content-center">
@@ -28,3 +26,22 @@
 	</form> 
 </div>
 </div>
+
+
+<script>
+	function getUrlParameter(name) {
+		name = name.replace(/[\[]/, '\\[').replace(/[\]]/, '\\]');
+		var regex = new RegExp('[\\?&]' + name + '=([^&#]*)');
+		var results = regex.exec(location.search);
+		return results === null ? '' : decodeURIComponent(results[1].replace(/\+/g, ' '));
+	};
+
+	var status = getUrlParameter('status');
+
+	console.log(status);
+
+	if (status == 'taothanhcong'){
+		alert("Tạo đơn hàng thành công vui lòng thanh toán!");
+	}
+
+</script>

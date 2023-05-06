@@ -10,6 +10,7 @@ const HoaDonRX = function(hoadonrx){
     this.ghichu = hoadonrx.ghichu;
     this.tongtienrx = hoadonrx.tongtienrx;
     this.thanhtoan = hoadonrx.thanhtoan;
+    this.ptthanhtoan = hoadonrx.ptthanhtoan;
     this.malx = hoadonrx.malx;
     this.matt = hoadonrx.matt;
     this.manv = hoadonrx.manv;
@@ -67,10 +68,31 @@ HoaDonRX.findBymahdrx = (mahdrx, result) => {
     });
 };
 
+HoaDonRX.updateHuy = (mahdrx, result) => {
+    sql.query(
+        "UPDATE hoadonrx SET matt = ?, updated_at = ?  WHERE mahdrx = ?",
+        [ 3, new Date(), mahdrx],
+        (err, res) => {
+            if (err) {
+                console.log("error: ", err);
+                result(null, err);
+                return;
+            }
+            if (res.affectedRows == 0) {
+                // not found hoadonrx with the mahdrx
+                result({ kind: "not_found" }, null);
+                return;
+            }
+            console.log("updated hoadonrx: ", { mahdrx: mahdrx });
+            result(null, { mahdrx: mahdrx });
+        }
+    );
+};
+
 HoaDonRX.updateBymahdrx = (mahdrx, hoadonrx, result) => {
     sql.query(
-        "UPDATE hoadonrx SET tennguoirua = ?, ngayrua = ?, magio = ? , sodt = ? , diachi = ? , ghichu = ? , tongtienrx = ? , thanhtoan = ? , malx = ? , matt = ? , manv = ?, updated_at = ?  WHERE mahdrx = ?",
-        [hoadonrx.tennguoirua , hoadonrx.ngayrua, hoadonrx.magio , hoadonrx.sodt,  hoadonrx.diachi,hoadonrx.ghichu,hoadonrx.tongtienrx,hoadonrx.thanhtoan,hoadonrx.malx,hoadonrx.matt, hoadonrx.manv, new Date(), mahdrx],
+        "UPDATE hoadonrx SET tennguoirua = ?, ngayrua = ?, magio = ? , sodt = ? , diachi = ? , ghichu = ? , tongtienrx = ? , thanhtoan = ?, ptthanhtoan = ? , malx = ? , matt = ? , manv = ?, updated_at = ?  WHERE mahdrx = ?",
+        [hoadonrx.tennguoirua , hoadonrx.ngayrua, hoadonrx.magio , hoadonrx.sodt,  hoadonrx.diachi,hoadonrx.ghichu,hoadonrx.tongtienrx,hoadonrx.thanhtoan, hoadonrx.ptthanhtoan ,hoadonrx.malx,hoadonrx.matt, hoadonrx.manv, new Date(), mahdrx],
         (err, res) => {
             if (err) {
                 console.log("error: ", err);
@@ -277,9 +299,28 @@ HoaDonRX.doanhThuCDTuan = (thanhtoan, trangthai, result) => {
 
 //======================= GIAO DIEN KHÁCH HÀNG ======================= 
 // Hiển thị hóa đơn rửa xe bên phía khách hàng
-HoaDonRX.getAll = (makh, result) => {
-    let query = `SELECT * FROM hoadonrx WHERE makh = ${makh} and matt != 4`;
+HoaDonRX.getAll = (mahdrx, makh,  limit, offset, result) => {
+    let query = `SELECT * FROM hoadonrx WHERE makh = ${makh} and matt != 4 LIMIT ${limit} OFFSET ${offset}`;
+    
+    if (mahdrx) {
+        query = `SELECT * FROM hoadonrx WHERE mahdrx LIKE '%${mahdrx}%' and makh = ${makh} and matt != 4 LIMIT ${limit} OFFSET ${offset}`;
+    }
 
+    sql.query(query, (err, res) => {
+        if (err) {
+            console.log("error: ", err);
+            result(null, err);
+            return;
+        }
+        console.log("hoadonrx: ", res);
+        result(null, res);
+    });
+};
+
+// Kiểm tra xem hôm nay đã đặt lịch quá giới hạn không?
+HoaDonRX.checkToDay = (makh, result) => {
+    let query = `SELECT COUNT(*) AS CheckToDay FROM hoadonrx WHERE makh = ${makh} and DATE(created_at) = CURDATE() `;
+    
     sql.query(query, (err, res) => {
         if (err) {
             console.log("error: ", err);

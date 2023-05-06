@@ -73,9 +73,9 @@
         </div>
       </div>
     </div>
-      <div class=" mt-3" >
+      <div class=" mt-3" > 
             <div class="  align-items-center center text-center" >
-              <form action="/uploadfile" enctype="multipart/form-data" method="POST"> 
+              <form action="/khachhang/uploadfile/<%= khachhang.hinhdd %>" enctype="multipart/form-data" onSubmit="return confirm('Bạn có chắc chắn muốn đổi?')" method="POST"> 
                 <input type="file" name="myFile" accept="image/*"/>
           
                 <input class="mt-3 genric-btn info-border circle" type="submit" value="Đổi Ảnh Đại Diện"/>
@@ -196,6 +196,9 @@
             <div class="col-sm-3"></div>
             <div class="col-sm-9 text-secondary">
               <button type="submit"  class="genric-btn info circle" >Cập Nhật</button>
+              <a href="/khachhang/home" class="genric-btn info circle">Trang Cá Nhân</a>
+
+
             </div>
           </div>
         </div>

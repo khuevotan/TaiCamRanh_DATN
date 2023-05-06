@@ -16,21 +16,21 @@
                             <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
                                 <div class="form-group mb-3">
                                     <label for="tennguoirua"><b>Tên Người Rửa</b></label>
-                                    <input type="text" name="tennguoirua" placeholder="Nhập họ tên" class="single-input"
+                                    <input type="text" name="tennguoirua" maxlength="255" placeholder="Nhập họ tên" class="single-input"
                                         style="border:1px solid black"
                                         <% if (typeof tennguoirua != "undefined" && tennguoirua) { %>
                                         value="<%= tennguoirua %>" <% } %> required>
                                 </div>
                                 <div class="form-group mb-3">
                                     <label for="sdt"><b>Số Điện Thoại</b></label>
-                                    <input type="number" name="sodt" placeholder="Nhập số điện thoại"
+                                    <input type="number" name="sodt" maxlength="15" placeholder="Nhập số điện thoại"
                                         class="single-input" style="border:1px solid black"
                                         <% if (typeof sodt != "undefined" && sodt) { %> value="<%= sodt %>" <% } %>
                                         required>
                                 </div>
                                 <div class="form-group mb-3">
                                     <label for="diachi"><b>Địa Chỉ</b></label>
-                                    <input type="text" name="diachi" placeholder="Nhập địa chỉ" class="single-input"
+                                    <input type="text" name="diachi" maxlength="255" placeholder="Nhập địa chỉ" class="single-input"
                                         style="border:1px solid black"
                                         <% if (typeof diachi != "undefined" && diachi) { %> value="<%= diachi %>"
                                         <% } %> required>
@@ -38,10 +38,10 @@
                                 <div class="form-group mb-3">
                                     <label for="ghichu"><b>Ghi Chú</b></label>
 
-                                    <textarea type="text" name="ghichu" placeholder="Nhập ghi chú" class="single-input"
+                                    <textarea rows="3" cols="50"  type="text" name="ghichu" maxlength="255" placeholder="Nhập ghi chú" class="single-input"
                                         style="border:1px solid black"
                                         <% if (typeof diachi != "undefined" && diachi) { %> value="<%= diachi %>"
-                                        <% } %> required></textarea>
+                                        <% } %> ></textarea>
                                 </div>
                             </div>
                             <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
@@ -89,6 +89,17 @@
                                             class="single-input" readonly style="border:1px solid black">
                                     </div>
                                 </div>
+
+                                <div class="form-group mb-3">
+                                    <label for="ptthanhtoan"><b>Phương Thức Thanh Toán</b></label>
+                                    <div>
+                                            <select class="form-select single-input"  name="ptthanhtoan"
+                                            style="border:1px solid black">      
+                                            <option name="ptthanhtoan" value="1" id="1">Tại Cửa Hàng</option>
+                                            <option name="ptthanhtoan" value="2" id="2">Thẻ Online</option>
+                                            </select>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                         <hr>
@@ -121,18 +132,13 @@
         document.getElementById('tongtienrx').value = sel.options[sel.selectedIndex].id;
     }
 
-    function getUrlParameter(name) {
-        name = name.replace(/[\[]/, '\\[').replace(/[\]]/, '\\]');
-        var regex = new RegExp('[\\?&]' + name + '=([^&#]*)');
-        var results = regex.exec(location.search);
-        return results === null ? '' : decodeURIComponent(results[1].replace(/\+/g, ' '));
-    };
 
-    var status = getUrlParameter('status');
 
-    console.log(status);
-
-    if (status == 'success') {
-        alert("Đặt lịch thành công!");
+    const url = window.location.href;
+    const status = url.slice(url.lastIndexOf('=') + 1);
+   
+    if (status == 'gioihan') {
+        alert("Bạn đã đạt giới hạn đặt lịch hôm nay!");
     }
+
 </script>

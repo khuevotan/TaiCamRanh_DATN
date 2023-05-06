@@ -27,8 +27,10 @@ module.exports = app => {
 
     router.put("/khachhang/:makh", authMiddleware.loggedin, khachhang.update);
 
+    // hiển thị form đổi mật khẩu.
     router.get("/khachhang/doimatkhau/:makh", authMiddleware.loggedin, khachhang.doimk)
 
+    // nhân vào nút đổi mật khẩu.
     router.put("/doimatkhau/:makh", authMiddleware.loggedin, khachhang.updatemk);
 
     router.get("/khachhang/chinhsuatt/:makh", authMiddleware.loggedin, khachhang.editkh);
@@ -59,21 +61,27 @@ module.exports = app => {
         storage: storage
     })
 
-    router.post('/uploadfile', upload.single('myFile'), khachhang.uploadFile)
+    router.post('/khachhang/uploadfile/:hinhdd', upload.single('myFile'), khachhang.uploadFile)
+
+    // xác thực tài khoản
+    router.get("/khachhang/xacthuctaikhoan/:email", authMiddleware.loggedin, khachhang.xacthuctaikhoan);
    
 
     // ======================= Đặt Lịch Rửa Xe ======================= 
     // Đặt Lịch Rửa Xe
-    router.get('/khachhang/chonngay', authMiddleware.loggedin, khachhang.showDayForm)
-        .post('/khachhang/chonngay', authMiddleware.loggedin, khachhang.chonNgay)
+    router.get('/khachhang/chonngay', khachhang.showDayForm)
+        .post('/khachhang/chonngay', khachhang.chonNgay)
 
-    router.get('/khachhang/datlichrx/:ngayrua', authMiddleware.loggedin, khachhang.showDLForm);
+    router.get('/khachhang/datlichrx/:ngayrua', khachhang.showDLForm);
 
     // nhấn nút đặt lịch
     router.post("/datlich/:makh", authMiddleware.loggedin, khachhang.datlich);
 
     // Hiển thị lịch sử đặt lịch
     router.get('/khachhang/lsdatlich', authMiddleware.loggedin, hoadonrx.findAllKHLS)
+
+    // Hủy đơn đặt lịch trong 30p đổ lại
+    router.get('/khachhang/huydonhang/:mahdrx', authMiddleware.loggedin, hoadonrx.huyDonDL)
 
     // Hiển thị đơn đặt lịch.
     router.get('/khachhang/dondatlich', authMiddleware.loggedin, hoadonrx.findAllKH)

@@ -407,12 +407,19 @@ exports.details = (req, res) => {
 
 // Hiển thị hóa đơn đặt lịch bên phía khach hàng.
 exports.findAllKH = (req, res) => {
-    res.locals.deleted = req.query.deleted;
+    
 
     res.locals.khachhang = req.session.khachhang
     const makh = res.locals.khachhang.makh;
 
-    HoaDonRX.getAll(makh, (err, data) => {
+    const page = parseInt(req.query.page) || 1;
+    const limit = parseInt(req.query.limit) || 3;
+    const offset = (page - 1) * limit;
+
+    res.locals.deleted = req.query.deleted;
+    const mahdrx = req.query.mahdrx;
+
+    HoaDonRX.getAll(mahdrx ,makh, limit, offset,(err, data) => {
         if (err)
             res.redirect('/500')
         else {
@@ -423,6 +430,8 @@ exports.findAllKH = (req, res) => {
                     res.render('dondatlich', {
                         hoadonrx: data,
                         gio: gio,
+                        page,
+                        limit,
                         layout: './master'
                     });
                     console.log(gio);
@@ -462,6 +471,22 @@ exports.findAllKHLS = (req, res) => {
     });
 };
 
+exports.huyDonDL = (req, res) => {
+    
+    HoaDonRX.updateHuy(
+        req.params.mahdrx,
+        (err, data) => {
+            if (err) {
+                if (err.kind === "not_found") {
+                    res.redirect('/404');
+                } else {
+                    res.redirect('/500');
+                }
+            } else res.redirect('/khachhang/dondatlich?status=huysuccess');
+        }
+    );
+};
+
 // Hiển thị chi tiết 1 đơn đặt lịch hẹn bên phía khách hàng.
 exports.chitietdatlich = (req, res) => {
     res.locals.status = req.query.status;
@@ -478,14 +503,14 @@ exports.chitietdatlich = (req, res) => {
                 if (err)
                     res.redirect('/500')
                 else {
-                    LoaiXe.getAll((err, tenlx) => {
+                    LoaiXe.getAll((err, loaixe) => {
                         if (err)
                             res.redirect('/500')
                         else {
                             res.render('ctdatlich', {
                                 hoadonrx: data,
                                 gio: gio,
-                                tenlx: tenlx,
+                                loaixe: loaixe,
                                 layout: './master'
                             });
                         }

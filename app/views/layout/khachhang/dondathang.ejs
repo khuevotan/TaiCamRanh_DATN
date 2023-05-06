@@ -113,12 +113,9 @@
                                 </div>
                             </div>
                             <div class="col-md-12">
-                                   <%if (item.manv == 0) { %> 
-                                    Đơn hàng chưa được duyệt bởi nhân viên nào 
-                                    <% }else{ %>
-                                        Đơn hàng đã được duyện bởi nhân viên có mã:
-                                        <% item.manv %>
-                                     <%}%>
+                                  Thời Gian Cập Nhật Gần Nhất: 
+
+                                  <%= moment(item.updated_at).format('dddd, DD-MM-YYYY HH:mm:ss') %>
 
                             </div>
                         </div>

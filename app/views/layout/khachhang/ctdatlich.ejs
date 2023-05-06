@@ -1,146 +1,231 @@
-<title>Đơn Đặt Hàng</title>
-<section class=" section-padding">
-</section>
-<section class=" section-paddinghai">
-</section>
-<div class="section-tittle text-center">
-    <h2>Chi Tiết Đơn Hàng</h2>
-</div>
+<link rel="icon" href="img/Fevicon.png" type="image/png">
 
-<style type="text/css">
-    .card {
-        box-shadow: 0 20px 27px 0 rgb(0 0 0 / 5%);
-    }
+<link rel="stylesheet" href="/home/listproduct/vendors/fontawesome/css/all.min.css">
+<link rel="stylesheet" href="/home/listproduct/vendors/themify-icons/themify-icons.css">
+<link rel="stylesheet" href="/home/listproduct/vendors/linericon/style.css">
+<link rel="stylesheet" href="/home/listproduct/vendors/owl-carousel/owl.theme.default.min.css">
+<link rel="stylesheet" href="/home/listproduct/vendors/owl-carousel/owl.carousel.min.css">
+<link rel="stylesheet" href="/home/listproduct/vendors/nice-select/nice-select.css">
+<link rel="stylesheet" href="/home/listproduct/vendors/nouislider/nouislider.min.css">
 
-    .card {
-        position: relative;
-        display: flex;
-        flex-direction: column;
-        min-width: 0;
-        word-wrap: break-word;
-        background-color: #fff;
-        background-clip: border-box;
-        border: 0 solid rgba(0, 0, 0, .125);
-        border-radius: 1rem;
-    }
+<link rel="stylesheet" href="/home/listproduct/css/style.css">
 
-    .text-reset {
-        --bs-text-opacity: 1;
-        color: inherit !important;
-    }
 
-    a {
-        color: #5465ff;
-        text-decoration: none;
-    }
-</style>
-
-<div class="container-fluid">
-    <div class="container">
-        <div class="row">
-            <div class="col-lg-8">
-                <div class="card mb-4">
-                    <div class="card-body" style="border: 1px solid black">
-                      
-                        <table class="table table-borderless">
-                            <tr>
-                                <td>MÃ HÓA ĐƠN:</td>
-                                <td> <%= hoadonrx.mahdrx  %></td>
-                            </tr>
-                            <tr>
-                                <td>Ngày Rửa: </td>
-                               <td><%= hoadonrx.ngayrua  %></td>
-                            </tr>
-                            <tr>
-                                <td >Giờ Rửa: </td>
-                                <td>
-                                    <% for(var i=0; i<gio.length; i++) { %>
-                                
-                                        <% if(gio[i].magio == hoadonrx.magio){ %>
-                                            <%= gio[i].tengio %>
-                                            <% } else{ %>  
-                                       
-                                           <% } %>
-                                 <%} %>
-                                </td>
-                             </tr>
-                             <tr>
-                                <td >Loại Xe Rửa: </td>
-                                <td>
-                                    <% for(var i=0; i<tenlx.length; i++) { %>
-                                
-                                        <% if(tenlx[i].malx == hoadonrx.malx){ %>
-                                            <%= tenlx[i].tenlx %>
-                                            <% } else{ %>  
-                                       
-                                           <% } %>
-                                 <%} %>
-                                
-                                </td>
-                             </tr>
-                            <tr >
-                                <td>Tổng Tiền</td>
-                                <td class="text-end"> <%=  hoadonrx.tongtienrx %></td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    Trạng Thái:
-                                    <%if (hoadonrx.matt == 1) { %>
-                                    <a data-placement="top" class="genric-btn warning circle" href="#"
-                                        title="Danger">Chờ Xác Nhận</a>
-                                    <% } %>
-
-                                    <%if (hoadonrx.matt == 2) { %>
-                                    <a data-placement="top" class="genric-btn success circle" href="#" title="View">Đã
-                                        Xác Nhận</a>
-                                    <% } %>
-
-                                    <%if (hoadonrx.matt == 3) { %>
-                                    <a data-placement="top" class="genric-btn danger circle" href="#"
-                                        title="Danger">Hủy</a>
-                                    <% } %>
-                                    <%if (hoadonrx.matt == 4) { %>
-                                        <a data-placement="top" class="genric-btn success circle" href="#" title="View">
-                                            Thành Công</a>
-                                        <% } %>
-                                </td>
-                                <td>
-                                    Thanh Toán:
-                                    <%if (hoadonrx.thanhtoan == 1) { %>
-                                    <a data-placement="top" class="genric-btn danger circle" href="#" title="View">Chưa
-                                        Thanh Toán</a>
-                                    <% }else { %>
-                                    <a data-placement="top" class="genric-btn success circle" href="#" title="View">Đã
-                                        Thanh Toán</a>
-                                    <%  } %>
-                                </td>
-                            </tr>
-                        </table>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-4">
-                <div class="card mb-4">
-                    <div class="card-body" style="border: 1px solid black">
-                        <strong>
-                            <h3>Thông Tin Người Đặt</h3>
-                        </strong>
-                        Tên: <%= hoadonrx.tennguoidat  %><br>
-                        Số Điện Thoại: <%= hoadonrx.sodt  %>
-                        <br>
-                        Địa Chỉ: <%= hoadonrx.diachi  %>
-                        <br>
-                        Ngày Tạo Hóa Đơn:
-                        <%= moment(hoadonrx.ngaydat).format('DD-MM-YYYY')  %>
-                    </div>
-                </div>
-                <div class="card mb-4">
-                    <div class="card-body" style="border: 1px solid black">
-                        <h3>Ghi Chú</h3>
-                        <p><%= hoadonrx.ghichu  %></p>
-                    </div>
-                </div>
-            </div>
+<!-- ================ start banner area ================= -->
+<div class="container h-100">
+    <div class="blog-banner">
+        <div class="text-center">
+            <h1>Chi Tiết Đơn Rửa Xe</h1>
+         
         </div>
     </div>
 </div>
+<!-- ================ end banner area ================= -->
+
+<!--================Order Details Area =================-->
+
+    <div class="container">
+        <p class="text-center billing-alert">Cảm ơn đơn đặt lịch của bạn</p>
+        <div class="row mb-5">
+            <div class="col-md-6 col-xl-6 mb-6 mb-xl-0">
+                <div class="confirmation-card">
+                    <h3 class="billing-title">Thông Tin Hóa Đơn Rửa Xe</h3>
+                    <table class="order-rable">
+                        <tr>
+                            <td>Mã Hóa Đơn</td>
+                            <td>: <%= hoadonrx.mahdrx  %></td>
+                        </tr>
+                        <tr>
+                            <td>Ngày Tạo</td>
+                            <td>: <%= moment(hoadonrx.created_at).format('dddd, DD-MM-YYYY HH:mm:ss') %></td>
+                        </tr>
+                        <tr>
+                            <td>Trạng Thái</td>
+                            <td>: <%if (hoadonrx.matt == 1) { %>
+                                <a data-placement="top" class="genric-btn warning circle small" href="#"
+                                    title="Danger">Chờ Xác Nhận</a>
+                                <% } %>
+
+                                <%if (hoadonrx.matt == 2) { %>
+                                <a data-placement="top" class="genric-btn info circle small" href="#" title="View">Đã
+                                    Xác Nhận</a>
+                                <% } %>
+
+                                <%if (hoadonrx.matt == 3) { %>
+                                <a data-placement="top" class="genric-btn danger circle small" href="#"
+                                    title="Danger">Hủy</a>
+                                <% } %>
+                                <%if (hoadonrx.matt == 4) { %>
+                                    <a data-placement="top" class="genric-btn success circle small" href="#" title="View">
+                                        Thành Công</a>
+                                <% } %></td>
+
+                                <%if (hoadonrx.matt == 5) { %>
+                                    <a data-placement="top" class="genric-btn primary circle small" href="#" title="View">
+                                        Đã Giao Cho Đơn Vị Vận Chuyển</a>
+                                <% } %></td>
+                               
+                        </tr>
+                        <tr>
+                            <td>Thanh Toán</td>
+                            <td>:  <%if (hoadonrx.thanhtoan == 1) { %>
+                                <a data-placement="top" class="genric-btn danger circle small" href="#" title="View">Chưa
+                                    Thanh Toán</a>
+                                <% }else { %>
+                                <a data-placement="top" class="genric-btn success circle small" href="#" title="View">Đã
+                                    Thanh Toán</a>
+                                <%  } %></td>
+                        </tr>
+                        <tr>
+                            <td>Cập Nhật Gần Nhất:</td>
+                            <td>: <%= moment(hoadonrx.updated_at).format('dddd, DD-MM-YYYY HH:mm:ss') %></td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+            <div class="col-md-6 col-xl-6 mb-6 mb-xl-0">
+                <div class="confirmation-card">
+                    <h3 class="billing-title">Thông Tin Người Rửa</h3>
+                    <table class="order-rable">
+                        <tr>
+                            <td>Họ Và Tên</td>
+                            <td>: <%= hoadonrx.tennguoirua  %></td>
+                        </tr>
+                        <tr>
+                            <td>Số Điện Thoại</td>
+                            <td>: <%= hoadonrx.sodt  %></td>
+                        </tr>
+                        <tr>
+                            <td>Địa Chỉ</td>
+                            <td>: <%= hoadonrx.diachi  %></td>
+                        </tr>
+                        <tr>
+                            <td>Ghi Chú</td>
+                            <td>: <%= hoadonrx.ghichu  %></td>
+                        </tr>
+                        <tr>
+                            <td>Hình Thức Thanh Toán</td>
+                            <td>:  <%if (hoadonrx.ptthanhtoa == 1) { %>
+                                <button class="genric-btn danger circle small" href="#" title="View">Tại Cửa Hàng</button>
+                                <% }else { %>
+                                <button class="genric-btn success circle small" href="#" title="View">Thẻ Online</button>
+                                <%  } %></td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+         
+        </div>
+        <div class="order_details_table">
+            <h2>Chi Tiết</h2>
+            <div class="table-responsive">
+                <table class="table">
+                   
+                    <tbody>
+                        <tr>
+                            <td>
+                                <h4>Ngày Rửa:</h4>
+                            </td>
+                            <td>
+                                <h5></h5>
+                            </td>
+                            <td>
+                                <p><%= moment(hoadonrx.ngayrua).format('DD-MM-YYYY')  %></p>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <h4>Giờ Rửa</h4>
+                            </td>
+                            <td>
+                                <h5></h5>
+                            </td>
+                            <td>
+                                <p> <% for(var i=0; i<gio.length; i++) { %>
+                                
+                                    <% if(gio[i].magio == hoadonrx.magio){ %>
+                                        <%= gio[i].tengio %>
+                                        <% } else{ %>  
+                                   
+                                       <% } %>
+                             <%} %></p>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <h4>Loại Xe:</h4>
+                            </td>
+                            <td>
+                                <h5></h5>
+                            </td>
+                            <td>
+                                <p><% for(var i=0; i<loaixe.length; i++) { %>
+                                
+                                    <% if(loaixe[i].malx == hoadonrx.malx){ %>
+                                        <%= loaixe[i].tenlx %>
+                                        <% } else{ %>  
+                                   
+                                       <% } %>
+                                <%} %></p>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <h4>Giá:</h4>
+                            </td>
+                            <td>
+                                <h5></h5>
+                            </td>
+                            <td>
+                                <p>
+                                
+                                <% for(var i=0; i<loaixe.length; i++) { %>
+                                
+                                    <% if(loaixe[i].malx == hoadonrx.malx){ %>
+                                        <%= (loaixe[i].gia).toLocaleString() %> VNĐ
+                                        <% } else{ %>  
+                                   
+                                       <% } %>
+                                <%} %>
+
+                              
+                            
+                            </p>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <h4>Tổng Tiền</h4>
+                            </td>
+                            <td>
+                                <h5></h5>
+                            </td>
+                            <td>
+                                <p><%=  (hoadonrx.tongtienrx).toLocaleString() %> VNĐ %></p>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+<!--================End Order Details Area =================-->
+</br>
+<p class="text-center">
+</br>
+    <a class="genric-btn success circle" href="/khachhang/chonngay" >Đặt Thêm Lịch</a>
+
+</p>
+
+
+
+
+<script src="/home/listproduct/vendors/jquery/jquery-3.2.1.min.js"></script>
+<script src="/home/listproduct/vendors/bootstrap/bootstrap.bundle.min.js"></script>
+<script src="/home/listproduct/vendors/skrollr.min.js"></script>
+<script src="/home/listproduct/vendors/owl-carousel/owl.carousel.min.js"></script>
+<script src="/home/listproduct/vendors/nice-select/jquery.nice-select.min.js"></script>
+<script src="/home/listproduct/vendors/jquery.ajaxchimp.min.js"></script>
+<script src="/home/listproduct/vendors/mail-script.js"></script>
+<script src="/home/listproduct/js/main.js"></script>

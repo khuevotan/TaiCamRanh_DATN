@@ -8,6 +8,7 @@ const ThamSo = require("../../models/thamso.model");
 const Gio = require("../../models/gio.model");
 
 
+
 const mailer = require('../../utils/mailer');
 require('dotenv/config');
 
@@ -61,7 +62,7 @@ exports.store = (req, res) => {
                     if(matkhau == matkhauxn){
                         if(matkhau.match(/[a-z]/) && matkhau.match(/[A-Z]/) && matkhau.match(/\d/) && matkhau.match(/[^a-zA-Z\d]/) ){
                             bcrypt.hash(matkhau, parseInt(process.env.BCRYPT_SALT_ROUND)).then((hashed) => {
-                                // Create a nhanvien
+                            
         
                                 const khachhang = new KhachHang({
                                     taikhoan: taikhoan,
@@ -423,42 +424,84 @@ exports.update = (req, res) => {
 // Update mật khẩu khi nhấn vào chỉnh sửa thông tin cá nhân bên phía khách hàng
 exports.updatemk = (req, res) => {
     
+    res.locals.status = req.query.status;
+    const taikhoan = res.locals.khachhang.taikhoan;
+
     const {
-        taikhoan,
         matkhaumoi,
-        matkhaucu
+        matkhaucu,
+        matkhaumoixn
     } = req.body;
 
 
-    Khachhang.findByTaikhoan(taikhoan, (err, khachhang) => {
-        bcrypt.compare(matkhaucu, khachhang.matkhau, (err, result) => {
-            console.log(result);
-            if (result == true) {
-                if (matkhaumoi.length >= 8 && matkhaumoi.match(/[a-z]/) && matkhaumoi.match(/[A-Z]/) && matkhaumoi.match(/\d/) && matkhaumoi.match(/[^a-zA-Z\d]/)) {
-                    bcrypt.hash(matkhaumoi, parseInt(process.env.BCRYPT_SALT_ROUND)).then((hashedMatkhau) => {
-                        Khachhang.resetPasswordKH(taikhoan, hashedMatkhau, (err, result) => {
-                            if (!err) {
-                                res.redirect('/khachhang/home/?status=doimkthanhcong');
-
-                            } else {
-                                res.redirect("/500");
-                            }
-                        })
-                    })
+    if(req.body.matkhaumoi == req.body.matkhaumoixn){
+        KhachHang.findByMakh(req.params.makh, (err, data) => {
+            if (err) {
+                if (err.kind === "not_found") {
+                    res.redirect('/404');
                 } else {
-                    res.redirect('/khachhang/home/?status=doimatkhauthatbai');
+                    res.redirect('/500');
                 }
-
             } else {
-                const conflictError = 'Sai Password!';
-                res.render('auth/login', {
-                    taikhoan,
-                    matkhaucu,
-                    conflictError
+
+                KhachHang.findByTaikhoan(taikhoan, (err, khachhang) => {
+                    bcrypt.compare(matkhaucu, khachhang.matkhau, (err, result) => {
+                        console.log(result);
+                        if (result == true) {
+                            if (matkhaumoi.length >= 8 && matkhaumoi.match(/[a-z]/) && matkhaumoi.match(/[A-Z]/) && matkhaumoi.match(/\d/) && matkhaumoi.match(/[^a-zA-Z\d]/)) {
+                                bcrypt.hash(matkhaumoi, parseInt(process.env.BCRYPT_SALT_ROUND)).then((hashedMatkhau) => {
+                                    KhachHang.resetPasswordKH(taikhoan, hashedMatkhau, (err, result) => {
+                                        if (!err) {
+                                            res.redirect('/khachhang/home?status=doimksuccess');  
+                                        } else {
+                                            res.redirect("/500");
+                                        }
+                                    })
+                                })
+                            } else {
+                                const conflictError = 'Mật khẩu mới phải dài hơn 8 ký tự, cả chữ thường và chữ in hoa, ít nhất một số và một ký tự đặc biệt ví dụ: 012345Kh*';
+                                res.render('doimatkhau.ejs', { 
+                                    khachhang: data,
+                                    conflictError,  
+                                
+                                });
+                            }
+            
+                        } else {
+        
+                            const conflictError = 'Sai Password Cũ!';  
+                            res.render('doimatkhau.ejs', { 
+                                khachhang: data,
+                                conflictError,  
+                            
+                            });
+                        }
+                    })
+                })
+            }
+        });
+
+    }else{
+
+        res.locals.status = req.query.status;
+
+        KhachHang.findByMakh(req.params.makh, (err, data) => {
+            if (err) {
+                if (err.kind === "not_found") {
+                    res.redirect('/404');
+                } else {
+                    res.redirect('/500');
+                }
+            } else {
+
+                const conflictError = 'Mật khẩu mới và xác nhận mật khẩu chưa khớp!';
+                res.render('doimatkhau.ejs', { 
+                    khachhang: data,
+                    conflictError,  
                 });
             }
-        })
-    })
+        });
+    }
 };
 
 // Update thanh toán khi đặt lịch xong
@@ -484,18 +527,23 @@ exports.thanhToanDH = (req, res, next) => {
 // Upload fle ảnh bê hía khách hàng
 exports.uploadFile = (req, res) => {
     const file = req.file
+
     if (!file) {
         const error = new Error('Vui Lòng Up Ảnh')
         error.httpStatusCode = 400
         return next(error);
     }
 
+       // lấy tên hình đại diện
+       var hinhdd = req.params.hinhdd;
+
+
     res.locals.khachhang = req.session.khachhang
     const makh = res.locals.khachhang.makh;
 
-   if(req.body.hinhdd != ''){
+   if(hinhdd != ''){
         const fs = require('fs');
-        const fileNameCu = req.body.hinhdd;
+        const fileNameCu = hinhdd;
         const filePath = '/images/avatarkh/' + fileNameCu; 
         
         fs.unlink("app/public"+ filePath,function(err){
@@ -541,6 +589,21 @@ exports.updateHddAD = (req, res) => {
         }
     });
 }
+
+
+// Nhấn nút xác thực tài khoản nếu chưa xác thực.
+exports.xacthuctaikhoan = (req, res) => {
+
+    var emailkh = req.params.email;
+
+    bcrypt.hash(emailkh, parseInt(process.env.BCRYPT_SALT_ROUND)).then((hashedEmail) => {
+        console.log(`${process.env.APP_URL}/verify?email=${emailkh}&token=${hashedEmail}`);
+        mailer.sendMail(emailkh, "Verify Email", `<a href="${process.env.APP_URL}/verify?email=${emailkh}&token=${hashedEmail}"> Verify </a>`)
+    });
+
+    res.redirect('/khachhang/home?status=daguimailxacthuc');  
+}
+
 
 
 // ====================== ĐẶT LỊCH RỬA XE =========================
@@ -621,6 +684,8 @@ exports.datlich = (req, res) => {
     res.locals.khachhang = req.session.khachhang
     const makh = res.locals.khachhang.makh;
 
+    const email = res.locals.khachhang.email;
+
     // Validate Request
     if (!req.body) {
         res.redirect('/khachhang/datlichrx?status=error')
@@ -629,11 +694,9 @@ exports.datlich = (req, res) => {
     const crypto = require("crypto");
     const id = crypto.randomBytes(16).toString("hex");
 
-    // Create a khachhang
     const hoadonrx = new HoaDonRX({
         mahdrx: id,
-        tennguoidat: req.body.tennguoidat,
-        ngaydat: new Date(),
+        tennguoirua: req.body.tennguoirua,
         ngayrua: req.body.ngayrua,
         magio: req.body.magio,
         sodt: req.body.sodt,
@@ -641,20 +704,71 @@ exports.datlich = (req, res) => {
         ghichu: req.body.ghichu,
         tongtienrx: req.body.tongtienrx,
         thanhtoan: 1,
+        ptthanhtoan: req.body.ptthanhtoan,
         malx: req.body.malx,
         matt: 1,
-        manv: 0,
+        manv: 1,
         makh: makh,
     });
 
-    // Save khachhang in the database
-    HoaDonRX.create(hoadonrx, (err, data) => {
-        console.log(err);
-        if (!err) {
-            const mahdrx = data.mahdrx;
-            res.redirect('/khachhang/chonttrx?mahdrx=' + mahdrx + '&status=taothanhcong')
-        } else {
-            res.redirect('/khachhang/chonttrx?status=thatbai')
+    // Kiểm tra xem MAX đặt lịch hôm nay.
+
+    ThamSo.findBymats(2, (err, MAX_KH_ĐL) => {
+        if (err) {
+            if (err.kind === "not_found") {
+                res.redirect('/404');
+            } else {
+                res.redirect('/500');
+            }
+        }else{
+
+            HoaDonRX.checkToDay(makh, (err, somaxcheck) => {
+                if (err) {
+                    if (err.kind === "not_found") {
+                        res.redirect('/404');
+                    } else {
+                        res.redirect('/500');
+                    }
+                }else{
+
+                 
+                    var biencheck = somaxcheck[0].CheckToDay;
+                    var bienInData = MAX_KH_ĐL.giatri;
+                    console.log(biencheck);
+
+                    console.log(bienInData);
+
+                    if(bienInData <= MAX_KH_ĐL ){
+
+
+                        HoaDonRX.create(hoadonrx, (err, data) => {
+                       
+                            if (!err) {
+                                const mahdrx = data.mahdrx;
+                                if(req.body.ptthanhtoan == 1){
+
+                                    var to = email;
+                                    var subject = "Đặt lịch hẹn thành công!";
+                                    var message = 'Chúng tôi xin gửi thông báo đặt lịch thành công cho bạn. Thời gian của cuộc hẹn. \n Ngày rửa: ' + req.body.ngayrua + '\n Giờ rửa: '+ req.body.magio + ' \n Loại xe: ' + req.body.malx+ ' \n Tổng tiền: ' + req.body.tongtienrx  + 'VNĐ\n \n Tên người rửa:' +  req.body.tennguoirua+ ' \n Số điện thoại: ' + req.body.sodt + ' \n \nXin lưu ý rằng nếu bạn có bất kỳ thay đổi hoặc hủy bỏ cuộc hẹn, vui lòng thông báo cho chúng tôi trước ít nhất 24 giờ để chúng tôi có thể sắp xếp lại lịch cho những khách hàng khác. \nChúc bạn một ngày tốt lành! \nTrân trọng, \nTài Cam Ranh \n0377975929 \n77 Chế Lan Viên, Cam Lộc, Cam Ranh ';
+
+                                    mailer.sendMail(to, subject, message);
+
+                                    res.redirect('/khachhang/thanhtoantc?mahdrx=' + mahdrx + '&status=taothanhcong')
+                                }else{
+                                    res.redirect('/khachhang/ttcard/' + mahdrx)
+                                }
+                            } else {
+                                res.redirect('/khachhang/datlichrx/' + req.body.ngayrua + '&status=thatbai')
+                             
+                            }
+                        });
+
+
+                    }else{
+                        res.redirect('/khachhang/datlichrx/' + req.body.ngayrua + '&status=gioihan')
+                    }
+                }
+            });
         }
     });
 };

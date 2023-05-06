@@ -1,11 +1,46 @@
-<title>Liên Hệ</title>
-<section class=" section-padding">
-</section>
-<section class=" section-paddinghai">
-</section>
+<title>Thành Công</title>
+<div style="height: 100px;"></div>
 
 <div class="container">
     <div class="row justify-content-center">
         <h1>Thành Công!</h1>
+    </div>
 </div>
+
+
+<div class="container">
+    <div class="row justify-content-center">
+
+        <a href="/index" class="genric-btn info circle ">Trang Chủ</a>
+        <!-- <a href="/khachhang/ttcard?mahdrx" class="genric-btn info circle ">Thanh Toán Online</a> -->
+        <div style="width: 10px"></div>
+        <a id="link2" class="genric-btn info circle ">Chi Tiết Hóa Đơn</a>
+        
+      
+    </div>
 </div>
+
+
+<div style="height: 100px;"></div>
+
+<script>
+    function getUrlParameter(name) {
+        name = name.replace(/[\[]/, '\\[').replace(/[\]]/, '\\]');
+        var regex = new RegExp('[\\?&]' + name + '=([^&#]*)');
+        var results = regex.exec(location.search);
+        return results === null ? '' : decodeURIComponent(results[1].replace(/\+/g, ' '));
+    };
+
+    var status = getUrlParameter('status');
+
+    (function() {
+        var mahdrx = getUrlParameter('mahdrx')
+        var strLink = "/khachhang/ctdatlich/" + mahdrx;
+        document.getElementById("link2").setAttribute("href",strLink);
+    })();
+
+    if (status == 'taothanhcong'){
+        alert("Tạo đơn hàng thành công!");
+    }
+
+</script>

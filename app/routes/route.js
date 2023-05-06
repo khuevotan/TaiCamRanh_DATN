@@ -1,5 +1,5 @@
 module.exports = app => {
-    require("./web")(app);
+    require("./web.route")(app);
     require("./admin.route")(app);
     require("./danhmuc.route")(app);
     require("./khachhang.route")(app);

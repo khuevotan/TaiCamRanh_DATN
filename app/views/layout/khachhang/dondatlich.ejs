@@ -58,6 +58,87 @@
 </style>
 
 
+<div class="row">
+    <div class="col-md-9">
+        <form action="/khachhang/dondatlich" method="get">
+
+                <div class="row">
+                    <div class="col-md-6">
+                    <input class="form-control" type="text" name="mahdrx"
+                    placeholder="Nhập Mã Hóa Đơn.." maxlength="255"
+                    onfocus="this.placeholder = ''"
+                    onblur="this.placeholder = 'Nhập Mã Hóa Đơn..'">
+                </div>
+                    <div class=" col-md-6 input-group-append">
+                        <button type="submit"><i class="ti-search"></i></button>
+                    </div>
+                </div>
+        </form>
+    </div>
+
+    <div class=" col-md-1 ml-auto ">
+        <nav >
+                <% if (hoadonrx.length > 0) { %>
+                    <li class="page-item">
+                        <% if (page > 1) { %>
+
+                            <a class="page-link" href="/khachhang/dondatlich?page=<%= page - 1 %>&limit=<%= limit %>" aria-label="Previous">
+                                <i class="ti-angle-double-left"></i>
+                            </a>
+                
+                            <% } %>
+                    </li>
+                
+                    <% if (hoadonrx.length === limit) { %>
+                        
+                        <li class="page-item">
+                            <a class="page-link" href="/khachhang/dondatlich?page=<%= page + 1 %>&limit=<%= limit %>" aria-label="Next">
+                                <i class="ti-angle-double-right"></i>
+                            </a>
+                        </li>
+                               
+                      <% } %>
+                    <% } %>
+            
+       
+        </nav>
+    </div>
+</div>
+
+
+<!-- <div class="row">
+    <div class="col-md-6">
+        <form action="/khachhang/dondatlich" method="get">
+            <div class="form-group">
+                <div class="input-group mb-3">
+                    <input class="form-control" type="text" name="mahdrx"
+                        placeholder="Nhập Mã Hóa Đơn.." maxlength="255"
+                        onfocus="this.placeholder = ''"
+                        onblur="this.placeholder = 'Nhập Mã Hóa Đơn..'">
+        
+                    <div class="input-group-append">
+                        <button class="btns" type="button"><i class="ti-search"></i></button>
+        
+                    </div>
+                </div>
+            </div>
+        
+            <button class="button rounded-0 primary-bg text-white w-100 btn_1 boxed-btn"
+                type="submit">Tìm Kiếm</button>
+        </form>
+        
+    </div>  
+    <div class="col-md-6">
+      
+    </div>
+
+</div> -->
+
+
+
+
+
+
 
     <link rel="stylesheet" type="text/css"
         href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css" />
@@ -73,6 +154,24 @@
                         <div class="row">
                             <div class="col-md-12">
                                 <div class="pull-right"><a href="/khachhang/ctdatlich/<%= item.mahdrx %>" class="genric-btn info-border circle">Xem Chi Tiết</a></div>
+
+
+                                <% 
+                                    var now = new Date(); // Lấy thời gian hiện tại
+                                    var someDate = new Date(item.created_at); // Mốc thời gian đã cho
+                                    var diff = (now.getTime() - someDate.getTime()) / (1000 * 60); // Tính khoảng cách thời gian, chuyển đổi sang phút
+                                    
+                                    if ((diff <= 30) && (item.matt != 3)) { %>
+                                        <div class="pull-right"><a href="/khachhang/huydonhang/<%= item.mahdrx %>"  onclick="return confirm('Bạn có chắc chăn muốn xóa không?')" class="genric-btn danger-border circle">Hủy Đơn Hàng</a></div>
+
+                                    <% } else { %>
+                                        
+                                <% } %>
+
+
+                                
+                               
+                               
                                 <span>
                                     <strong>Mã Hóa Đơn: <%= item.mahdrx  %></strong>
                                 </span>
@@ -95,27 +194,36 @@
                                     <div class="ml-4">
                                    
                                         <%if (item.matt == 1) { %>
-                                            <a data-placement="top" class="genric-btn warning circle" href="#"
-                                            title="Danger">Chờ Xác Nhận</a>
-                                         <% } %>
-        
-                                         <%if (item.matt == 2) { %>
-                                            <a data-placement="top" class="genric-btn success circle" href="#"
-                                            title="View">Đã Xác Nhận</a>
-                                         <% } %>
-                                           
-                                         <%if (item.matt == 3) { %>
-                                            <a data-placement="top" class="genric-btn danger circle" href="#"
-                                            title="Danger">Hủy</a>
-                                         <% } %>
+                                            <a data-placement="top" class="genric-btn warning circle small" href="#"
+                                                title="Danger">Chờ Xác Nhận</a>
+                                            <% } %>
+            
+                                            <%if (item.matt == 2) { %>
+                                            <a data-placement="top" class="genric-btn info circle small" href="#" title="View">Đã
+                                                Xác Nhận</a>
+                                            <% } %>
+            
+                                            <%if (item.matt == 3) { %>
+                                            <a data-placement="top" class="genric-btn danger circle small" href="#"
+                                                title="Danger">Hủy</a>
+                                            <% } %>
+                                            <%if (item.matt == 4) { %>
+                                                <a data-placement="top" class="genric-btn success circle small" href="#" title="View">
+                                                    Thành Công</a>
+                                            <% } %></td>
+            
+                                            <%if (item.matt == 5) { %>
+                                                <a data-placement="top" class="genric-btn primary circle small" href="#" title="View">
+                                                    Đã Giao Cho Đơn Vị Vận Chuyển</a>
+                                            <% } %>
                                     </div>
                                     <div>
                               
                                         <%if (item.thanhtoan == 1) { %>
-                                        <a data-placement="top" class="genric-btn danger circle" href="#" title="View">Chưa
+                                        <a data-placement="top" class="genric-btn danger circle small" href="#" title="View">Chưa
                                             Thanh Toán</a>
                                         <% }else { %>
-                                        <a data-placement="top" class="genric-btn success circle" href="#" title="View">Đã
+                                        <a data-placement="top" class="genric-btn success circle small" href="#" title="View">Đã
                                             Thanh Toán</a>
                                         <%  } %>
                                     </div>
@@ -125,13 +233,9 @@
 
                             </div>
                             <div class="col-md-12">
-                                   <%if (item.manv == 0) { %> 
-                                    Đơn hàng chưa được duyệt bởi nhân viên nào 
-                                    <% }else{ %>
-                                        Đơn hàng đã được duyện bởi nhân viên có mã:
-                                        <% item.manv %>
-                                     <%}%>
+                                    Thời Gian Cập Nhật Gần Nhất: 
 
+                                  <%= moment(item.updated_at).format('dddd, DD-MM-YYYY HH:mm:ss') %>
                             </div>
                         </div>
                     </div>
@@ -147,3 +251,18 @@
 
 
     </script>
+
+
+<script>
+
+const url = window.location.href;
+    const status = url.slice(url.lastIndexOf('=') + 1);
+   
+    if (status == 'huysuccess'){
+		alert("Hủy Thành Công!");
+	}
+
+</script>
+
+
+

@@ -1,5 +1,4 @@
-<section class="section-padding"></section>
-<section class="section-paddinghai"></section>
+
 
 <div class="row">
 	<div class="col-lg-3 col-md-4 mt-sm-30">
@@ -8,7 +7,7 @@
 		<h1 class="mb-20 text-center mt-20">Quên Mật Khẩu</h1>
 		<form action="/password/email" method="POST">
 			<div class="mt-10" style="border:1px solid black">
-				<input type="email" name="email" placeholder="Nhập Email" class="single-input"
+				<input type="email" name="email" maxlength="255" placeholder="Nhập Email" class="single-input"
 					<% if (typeof email != "undefined" && email) { %> value="<%= email %>" <% } %> required>
 			</div>
 

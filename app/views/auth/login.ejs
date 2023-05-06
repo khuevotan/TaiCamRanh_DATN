@@ -10,12 +10,12 @@
 		<form action="/login" method="POST" >
 		
 			<div class="mt-10" style="border:1px solid black" >
-				<input type="text" name="taikhoan" class="single-input" placeholder="Nhập tên tài khoản"
+				<input type="text" name="taikhoan" maxlength="255" class="single-input" placeholder="Nhập tên tài khoản"
 				<% if (typeof taikhoan != "undefined" && taikhoan) { %> value="<%= taikhoan %>"<% } %>  required>
 			</div>
 	
 			<div class="mt-10" style="border:1px solid black">
-				<input type="password"  id="password-field" class="single-input" name="matkhau"  placeholder="Nhập Password"
+				<input type="password"  id="password-field" maxlength="40" class="single-input" name="matkhau"  placeholder="Nhập Password"
 						<% if (typeof matkhau != "undefined" && matkhau) { %> value="<%= matkhau %>"<% } %> required>
 				
 			</div>
@@ -57,18 +57,11 @@
 <script src="/home/login/js/main.js"></script> 
 
 <script>
-	function getUrlParameter(name) {
-		name = name.replace(/[\[]/, '\\[').replace(/[\]]/, '\\]');
-		var regex = new RegExp('[\\?&]' + name + '=([^&#]*)');
-		var results = regex.exec(location.search);
-		return results === null ? '' : decodeURIComponent(results[1].replace(/\+/g, ' '));
-	};
 
-	var status = getUrlParameter('status');
-
-	console.log(status);
-
-	if (status == 'thanhcong'){
+	const url = window.location.href;
+    const status = url.slice(url.lastIndexOf('=') + 1);
+   
+    if (status == 'thanhcong'){
 		alert("Đổi mật khẩu thành công!");
 	}
 
@@ -80,4 +73,5 @@
 	{
 		alert("Tạo tài khoản thành công, vui lòng check mail để xác nhận và đăng nhập!");
 	}
+	
 </script>

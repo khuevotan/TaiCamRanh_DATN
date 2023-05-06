@@ -9,6 +9,7 @@ const HoaDon = function(hoadon){
     this.ghichu = hoadon.ghichu;
     this.tongtiensp = hoadon.tongtiensp;
     this.thanhtoan = hoadon.thanhtoan;
+    this.ptthanhtoan = hoadon.ptthanhtoan;
     this.matt = hoadon.matt;
     this.manv = hoadon.manv;
     this.makh = hoadon.makh;
@@ -67,8 +68,8 @@ HoaDon.findBymahd  = (mahd , result) => {
 
 HoaDon.updateBymahd  = (mahd , hoadon, result) => {
     sql.query(
-        "UPDATE hoadon SET tennguoinhan = ?, ngaygiao = ?, sodt = ?, diachi = ? , ghichu = ? ,  thanhtoan = ? , matt = ? , manv = ?, updated_at = ?  WHERE mahd  = ?",
-        [hoadon.tennguoinhan, hoadon.ngaygiao , hoadon.sodt, hoadon.diachi , hoadon.ghichu,  hoadon.thanhtoan,  hoadon.matt , hoadon.manv,new Date(),  mahd ],
+        "UPDATE hoadon SET tennguoinhan = ?, ngaygiao = ?, sodt = ?, diachi = ? , ghichu = ? ,  thanhtoan = ?, ptthanhtoan = ?, matt = ? , manv = ?, updated_at = ?  WHERE mahd  = ?",
+        [hoadon.tennguoinhan, hoadon.ngaygiao , hoadon.sodt, hoadon.diachi , hoadon.ghichu,  hoadon.thanhtoan, hoadon.ptthanhtoan,  hoadon.matt , hoadon.manv,new Date(),  mahd ],
         (err, res) => {
             if (err) {
                 console.log("error: ", err);
