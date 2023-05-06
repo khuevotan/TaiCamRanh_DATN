@@ -176,8 +176,14 @@ exports.findAllKH = (req, res) => {
 
     res.locals.khachhang = req.session.khachhang
     const makh = res.locals.khachhang.makh;
+    const mahd = req.query.mahd;
 
-    HoaDon.getAll(makh, (err, data) => {
+    const page = parseInt(req.query.page) || 1;
+    const limit = parseInt(req.query.limit) || 3;
+    const offset = (page - 1) * limit;
+
+    
+    HoaDon.getAll(mahd, makh, limit, offset, (err, data) => {
         if (err)
             res.redirect('/500')
         else {
@@ -187,6 +193,8 @@ exports.findAllKH = (req, res) => {
                 else {
                     res.render('dondathang', {
                         hoadon: data,
+                        page,
+                        limit,
                         trangthai: trangthai,
                         layout: './master'
                     });
@@ -237,8 +245,15 @@ exports.findAllKHLS = (req, res) => {
 
     res.locals.khachhang = req.session.khachhang
     const makh = res.locals.khachhang.makh;
-  
-    HoaDon.getLSAll(makh, (err, data) => {
+    
+    const mahd = req.query.mahd;
+
+    const page = parseInt(req.query.page) || 1;
+    const limit = parseInt(req.query.limit) || 3;
+    const offset = (page - 1) * limit;
+
+
+    HoaDon.getLSAll(mahd, makh, limit, offset, (err, data) => {
         if (err)
             res.redirect('/500')
         else {
@@ -248,6 +263,8 @@ exports.findAllKHLS = (req, res) => {
                 else {
                     res.render('lsdathang', {
                         hoadon: data,
+                        page,
+                        limit,
                         trangthai: trangthai,
                         layout: './master'
                     });

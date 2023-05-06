@@ -55,9 +55,10 @@
 </style>
 
 
+<div class="container">
 <div class="row gutters-sm">
   <div class="col-md-4 mb-3">
-    <div class=" card card-default rounded-0 shadow blur" style="border: 1px solid black">
+    <div class=" card card-default rounded-0 shadow blur" style="border: 1px solid #ccc;">
       <div class="card-body">
         <div class="d-flex flex-column align-items-center text-center">
           <img
@@ -86,30 +87,19 @@
   </div>
   
   <div class="col-md-8">
-    <div class=" card card-default rounded-0 shadow blur" style="border:1px solid black">
+    <div class=" card card-default rounded-0 shadow blur" style="border: 1px solid #ccc;">
       <h1 class="mt-10 text-center">Chỉnh Sửa Thông Tin</h1>
       <form action="/khachhang/<%= khachhang.makh %>" method="post">
         <input type="hidden" name="_method" value="put" />
         <div class="card-body">
 
-          <div class="row mb-3" >
-            <div class="col-sm-3">
-       
-              <h3 class="mb-0">Tên Tài Khoản</h3>
-            </div>
-            <div class="col-sm-9 text-secondary" >
-              <input type="text" style="border:1px solid black" class="single-input" id="taikhoan" name="taikhoan" value="<%= khachhang.taikhoan %>" required readonly/>
-            </div>
-          </div>
-          <hr />
-          
           <div class="row mb-3">
             <div class="col-sm-3">
        
               <h3 class="mb-0">Họ</h3>
             </div>
             <div class="col-sm-9 text-secondary"  >
-              <input type="text" style="border:1px solid black" class="single-input" id="hokh" name="hokh" value="<%= khachhang.hokh %>" />
+              <input type="text" style="border: 1px solid #ccc;" class="single-input" id="hokh" name="hokh" value="<%= khachhang.hokh %>" />
             </div>
           </div>
           <hr />
@@ -119,7 +109,7 @@
               <h3 class="mb-0">Tên</h3>
             </div>
             <div class="col-sm-9 text-secondary" >
-              <input type="text" style="border:1px solid black" class="single-input" id="tenkh" name="tenkh" value="<%= khachhang.tenkh %>" />
+              <input type="text" style="border: 1px solid #ccc;" class="single-input" id="tenkh" name="tenkh" value="<%= khachhang.tenkh %>" />
             </div>
           </div>
           <hr />
@@ -130,7 +120,7 @@
             <div class="col-sm-9 text-secondary" >
     
               
-              <input type="date" style="border:1px solid black" class="single-input" id="ngaysinh" name="ngaysinh" value="<%= moment(khachhang.ngaysinh).format('YYYY-MM-DD')%>" />
+              <input type="date" style="border: 1px solid #ccc;" class="single-input" id="ngaysinh" name="ngaysinh" value="<%= moment(khachhang.ngaysinh).format('YYYY-MM-DD')%>" />
             </div>
           </div>
           <hr />
@@ -139,19 +129,11 @@
               <h3 class="mb-0">Số Điện Thoại</h3>
             </div>
             <div class="col-sm-9 text-secondary" >
-              <input type="text" style="border:1px solid black" class="single-input" id="sodt" name="sodt" value="<%= khachhang.sodt %>" />
+              <input type="text" style="border: 1px solid #ccc;" class="single-input" id="sodt" name="sodt" value="<%= khachhang.sodt %>" />
             </div>
           </div>
           <hr />
-          <div class="row mb-3">
-            <div class="col-sm-3">
-              <h3 class="mb-0">Email</h3>
-            </div>
-            <div class="col-sm-9 text-secondary">
-              <input type="email"  style="border:1px solid black" class="single-input" id="email" name="email" value="<%= khachhang.email %>" />
-            </div>
-          </div>
-          <hr />
+          
 
           <% if (typeof conflictError != "undefined" && conflictError) { %>
             <div  class="text-danger text-left  mb-3"><%= conflictError %></div>
@@ -188,14 +170,14 @@
               <h3 class="mb-0">Địa Chỉ</h3>
             </div>
             <div class="col-sm-9 text-secondary">
-              <input type="text"  style="border:1px solid black" class="single-input" id="diachi" name="diachi" value="<%= khachhang.diachi %>" />
+              <input type="text"  style="border: 1px solid #ccc;" class="single-input" id="diachi" name="diachi" value="<%= khachhang.diachi %>" />
             </div>
           </div>
           <hr />
           <div class="row">
             <div class="col-sm-3"></div>
             <div class="col-sm-9 text-secondary">
-              <button type="submit"  class="genric-btn info circle" >Cập Nhật</button>
+              <button type="submit" onclick="return confirm('Bạn có chắc chăn muốn cập nhật không?')" class="genric-btn info circle" >Cập Nhật</button>
               <a href="/khachhang/home" class="genric-btn info circle">Trang Cá Nhân</a>
 
 
@@ -205,6 +187,7 @@
       </form>
     </div>
   </div>
+</div>
 </div>
 
 

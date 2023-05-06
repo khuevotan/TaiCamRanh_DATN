@@ -5,27 +5,27 @@
 <div class="row">
 	<div class="col-lg-3 col-md-4 mt-sm-30">
 	</div>
-	<div class="col-lg-6 col-md-4 card card-default rounded-0 shadow blur" style="border:1px solid black;">
+	<div class="col-lg-6 col-md-4 card card-default rounded-0 shadow blur" style="border: 1px solid #ccc;;">
 		<h1 class="mb-10 text-center mt-10">Đăng Ký</h1>
 		<form action="/register" method="POST">
 			<div class="row mt-10 ">
 				<div class="col-lg-6 col-md-5 col-sm-12 col-xs-12">
 					<label for="hokh"><b>Họ Của Bạn</b></label>
 					<input type="text" name="hokh" maxlength="255" placeholder="Nhập họ" class="single-input"
-						style="border:1px solid black" <% if (typeof hokh != "undefined" && hokh) { %>
+						style="border: 1px solid #ccc;" <% if (typeof hokh != "undefined" && hokh) { %>
 						value="<%= hokh %>" <% } %> required>
 				</div>
 
 				<div class="col-lg-6 col-md-5 col-sm-12 col-xs-12">
 					<label for="tenkh"><b>Tên Của Bạn</b></label>
 					<input type="text" name="tenkh" maxlength="255" placeholder="Nhập tên" class="single-input"
-						style="border:1px solid black" <% if (typeof tenkh != "undefined" && tenkh) { %>
+						style="border: 1px solid #ccc;" <% if (typeof tenkh != "undefined" && tenkh) { %>
 						value="<%= tenkh %>" <% } %> required>
 				</div>
 			</div>
 
 			<label class="mt-10" for="taikhoan"><b>Tên Tài Khoản</b></label>
-			<div class="mt-10" style="border:1px solid black">
+			<div class="mt-10" style="border: 1px solid #ccc;">
 
 				<input type="text" name="taikhoan" maxlength="255" placeholder="Nhập tên tài khoản" class="single-input"
 					<% if (typeof taikhoan != "undefined" && taikhoan) { %> value="<%= taikhoan %>" <% } %> required>
@@ -35,7 +35,7 @@
 				<div class="col-lg-6 col-md-5 col-sm-12 col-xs-12">
 					<label   for="taikhoan"><b>Password</b></label>
 					<input type="password" id="password-field" maxlength="40" name="matkhau" placeholder="Password" class="single-input"
-						style="border:1px solid black" <% if (typeof matkhau != "undefined" && matkhau) { %>
+						style="border: 1px solid #ccc;" <% if (typeof matkhau != "undefined" && matkhau) { %>
 						value="<%= matkhau %>" <% } %> required>
 				</div>
 
@@ -45,7 +45,7 @@
 				<div class="col-lg-6 col-md-5 col-sm-12 col-xs-12">
 					<label for="taikhoan"><b>Nhập Lại Password</b></label>
 					<input type="password" name="matkhauxn" maxlength="40" placeholder="Nhập lại Password" class="single-input"
-						style="border:1px solid black">
+						style="border: 1px solid #ccc;">
 
 				</div>
 			</div>
@@ -60,7 +60,7 @@
 				<div class="col-lg-6 col-md-5 col-sm-12 col-xs-12">
 					<label for="taikhoan"><b>Email</b></label>
 					<input type="email" name="email" maxlength="255" placeholder="Nhập Email" class="single-input"
-						style="border:1px solid black" <% if (typeof email != "undefined" && email) { %>
+						style="border: 1px solid #ccc;" <% if (typeof email != "undefined" && email) { %>
 						value="<%= email %>" <% } %> required>
 				</div>
 
@@ -78,7 +78,7 @@
 			</div>
 			</div>
 			<label class="mt-10" for="taikhoan"><b>Địa Chỉ</b></label>
-			<div class="mt-10" style="border:1px solid black">
+			<div class="mt-10" style="border: 1px solid #ccc;">
 
 				<input type="text" name="diachi" maxlength="255" placeholder="Nhập địa chỉ" class="single-input"
 					<% if (typeof diachi != "undefined" && diachi) { %> value="<%= diachi %>" <% } %> required>
@@ -90,7 +90,7 @@
 				<div class="col-lg-6 col-md-5 col-sm-12 col-xs-12">
 					<label for="sodt"><b>Số Điện Thoại</b></label>
 					<input type="number" name="sodt" maxlength="15" placeholder="Nhập số điện thoại" class="single-input"
-						style="border:1px solid black" <% if (typeof sodt != "undefined" && sodt) { %>
+						style="border: 1px solid #ccc;" <% if (typeof sodt != "undefined" && sodt) { %>
 						value="<%= sodt %>" <% } %> required>
 				</div>
 
@@ -99,7 +99,7 @@
 				<div >
 
 					<input type="date" name="ngaysinh" placeholder="" class="single-input"
-						style="border:1px solid black" <% if (typeof ngaysinh != "undefined" && ngaysinh) { %>
+						style="border: 1px solid #ccc;" <% if (typeof ngaysinh != "undefined" && ngaysinh) { %>
 						value="<%= ngaysinh %>" <% } %> required>
 
 				</div>

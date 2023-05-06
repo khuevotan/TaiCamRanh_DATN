@@ -4,7 +4,7 @@
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-lg-8 col-md-10 col-sm-12 col-xs-12">
-            <div class="card card-default rounded-0 shadow blur" style="border:1px solid black">
+            <div class="card card-default rounded-0 shadow blur" style="border: 1px solid #ccc;">
                 <h1 class="mb-20 text-center mt-20">Đặt Lịch Hẹn</h1>
                 <div class="card-body container-fluid">
 
@@ -17,21 +17,21 @@
                                 <div class="form-group mb-3">
                                     <label for="tennguoirua"><b>Tên Người Rửa</b></label>
                                     <input type="text" name="tennguoirua" maxlength="255" placeholder="Nhập họ tên" class="single-input"
-                                        style="border:1px solid black"
+                                        style="border: 1px solid #ccc;"
                                         <% if (typeof tennguoirua != "undefined" && tennguoirua) { %>
                                         value="<%= tennguoirua %>" <% } %> required>
                                 </div>
                                 <div class="form-group mb-3">
                                     <label for="sdt"><b>Số Điện Thoại</b></label>
                                     <input type="number" name="sodt" maxlength="15" placeholder="Nhập số điện thoại"
-                                        class="single-input" style="border:1px solid black"
+                                        class="single-input" style="border: 1px solid #ccc;"
                                         <% if (typeof sodt != "undefined" && sodt) { %> value="<%= sodt %>" <% } %>
                                         required>
                                 </div>
                                 <div class="form-group mb-3">
                                     <label for="diachi"><b>Địa Chỉ</b></label>
                                     <input type="text" name="diachi" maxlength="255" placeholder="Nhập địa chỉ" class="single-input"
-                                        style="border:1px solid black"
+                                        style="border: 1px solid #ccc;"
                                         <% if (typeof diachi != "undefined" && diachi) { %> value="<%= diachi %>"
                                         <% } %> required>
                                 </div>
@@ -39,7 +39,7 @@
                                     <label for="ghichu"><b>Ghi Chú</b></label>
 
                                     <textarea rows="3" cols="50"  type="text" name="ghichu" maxlength="255" placeholder="Nhập ghi chú" class="single-input"
-                                        style="border:1px solid black"
+                                        style="border: 1px solid #ccc;"
                                         <% if (typeof diachi != "undefined" && diachi) { %> value="<%= diachi %>"
                                         <% } %> ></textarea>
                                 </div>
@@ -50,7 +50,7 @@
                                     <label for="malx"><b>Loại Xe</b></label>
 
                                     <select class="form-select single-input" id="box1" name="malx"
-                                        style="border:1px solid black" onChange="myNewFunction(this);">
+                                        style="border: 1px solid #ccc;" onChange="myNewFunction(this);">
                                         <% loaixe.forEach((item) => { %>
                                         <option name="malx" value="<%= item.malx %>" id="<%= item.gia %>">
                                             <%= item.tenlx %></option>
@@ -64,7 +64,7 @@
                                     <div>
 
                                         <input type="date" name="ngayrua" placeholder="" class="single-input"
-                                            style="border:1px solid black"
+                                            style="border: 1px solid #ccc;"
                                             <% if (typeof ngayrua != "undefined" && ngayrua) { %> value="<%= ngayrua %>"
                                             <% } %> required readonly>
 
@@ -73,7 +73,7 @@
                                 <div class="form-group mb-3">
                                   <b>Giờ Rửa</b>   <b class="text-danger">(Lưu ý!)</b>
 
-                                    <select class="form-select single-input" name="magio" style="border:1px solid black"
+                                    <select class="form-select single-input" name="magio" style="border: 1px solid #ccc;"
                                         onchange="myFunction()">
                                         <% gio.forEach((item) => { %>
                                         <option name="magio" value="<%= item.magio %>"><%= item.tengio %></option>
@@ -86,7 +86,7 @@
                                     <div>
 
                                         <input id="tongtienrx" type="text" name="tongtienrx" placeholder=""
-                                            class="single-input" readonly style="border:1px solid black">
+                                            class="single-input" readonly style="border: 1px solid #ccc;">
                                     </div>
                                 </div>
 
@@ -94,7 +94,7 @@
                                     <label for="ptthanhtoan"><b>Phương Thức Thanh Toán</b></label>
                                     <div>
                                             <select class="form-select single-input"  name="ptthanhtoan"
-                                            style="border:1px solid black">      
+                                            style="border: 1px solid #ccc;">      
                                             <option name="ptthanhtoan" value="1" id="1">Tại Cửa Hàng</option>
                                             <option name="ptthanhtoan" value="2" id="2">Thẻ Online</option>
                                             </select>
@@ -131,8 +131,6 @@
     function myNewFunction(sel) {
         document.getElementById('tongtienrx').value = sel.options[sel.selectedIndex].id;
     }
-
-
 
     const url = window.location.href;
     const status = url.slice(url.lastIndexOf('=') + 1);

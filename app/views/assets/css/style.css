@@ -2754,7 +2754,7 @@ hr {
 }
 
 .full-wrapper {
-    margin: 0 35px
+    margin: 0 15px
 }
 
 @media only screen and (min-width: 992px) and (max-width: 1199px) {
@@ -4326,6 +4326,10 @@ hr {
     position: relative
 }
 
+footer{
+    background: #F1F6F7;
+}
+
 .footer-area .footer-pera p {
     color: #000;
     font-size: 16px;
@@ -4348,9 +4352,9 @@ hr {
     margin-bottom: 15px
 }
 
-.footer-area .footer-tittle ul li a {
+.footer-area .footer-tittle ul li a{
     color: #000;
-    font-weight: 300;
+  
     font-size: 16px;
     text-decoration: underline transparent
 }

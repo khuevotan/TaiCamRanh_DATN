@@ -23,18 +23,23 @@ module.exports = app => {
     // ======================= THÔNG TIN KHÁCH HÀNG ======================= 
     router.get('/khachhang/home', authMiddleware.loggedin, khachhang.trangCaNhan);
 
+    // hiển thị form chỉnh sửa bên phía khách hàng.
     router.get("/khachhang/chinhsuatt/:makh", authMiddleware.loggedin, khachhang.editkh);
 
-    router.put("/khachhang/:makh", authMiddleware.loggedin, khachhang.update);
+    // thay đổi thông tin khách hàng bên phía khách hàng.
+    router.put("/khachhang/:makh", authMiddleware.loggedin, khachhang.updateKH);
+
+    // đổi mail
+    router.get("/khachhang/doimail/:makh", authMiddleware.loggedin, khachhang.editMail);
+
+    // thay đổi thông tin mail
+    router.put("/khachhang/doimail/:makh", authMiddleware.loggedin, khachhang.updateEmail);
 
     // hiển thị form đổi mật khẩu.
     router.get("/khachhang/doimatkhau/:makh", authMiddleware.loggedin, khachhang.doimk)
 
     // nhân vào nút đổi mật khẩu.
     router.put("/doimatkhau/:makh", authMiddleware.loggedin, khachhang.updatemk);
-
-    router.get("/khachhang/chinhsuatt/:makh", authMiddleware.loggedin, khachhang.editkh);
-
 
     //file upload avatar
     const multer = require("multer");
@@ -195,7 +200,7 @@ module.exports = app => {
                 });
             })
             .then((charge) => {
-                res.redirect('/khachhang/thanhtoantc') // If no error occurs
+                res.redirect('/khachhang/thanhtoantc?mahdrx=' + req.body.mahdrx) // If no error occurs
 
             })
             .catch((err) => {

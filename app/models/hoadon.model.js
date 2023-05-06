@@ -231,10 +231,16 @@ HoaDon.updateThanhToan = (mahd , result) => {
     );
 };
 
+
 // Hiển thị lịch sử hóa đơn đặt hàng bên phía khách hàng
-HoaDon.getLSAll = (makh, result) => {
-    let query = `SELECT * FROM hoadon WHERE makh = ${makh} and matt = 4 and thanhtoan = 2`;
-   
+HoaDon.getLSAll =  (mahd, makh,limit, offset, result) => {
+  
+    let query = `SELECT * FROM hoadon WHERE makh = ${makh} and matt = 4 and thanhtoan = 2 ORDER BY updated_at DESC LIMIT ${limit} OFFSET ${offset}`;
+
+    if (mahd) {
+        query = `SELECT * FROM hoadon WHERE mahd LIKE '%${mahd}%' and makh = ${makh} and matt = 4 and thanhtoan = 2  ORDER BY updated_at DESC LIMIT ${limit} OFFSET ${offset}`;
+    }
+
     sql.query(query, (err, res) => {
         if (err) {
             console.log("error: ", err);
@@ -267,12 +273,31 @@ HoaDon.updateBymahdwitdtongtien  = (mahd , tongtiensp, result) => {
     );
 };
 
+// Kiểm tra xem hôm nay đã đặt lịch quá giới hạn không?
+HoaDon.checkToDay = (makh, result) => {
+    let query = `SELECT COUNT(*) AS CheckToDay FROM hoadon WHERE makh = ${makh} and DATE(created_at) = CURDATE() `;
+    
+    sql.query(query, (err, res) => {
+        if (err) {
+            console.log("error: ", err);
+            result(null, err);
+            return;
+        }
+        console.log("hoadon: ", res);
+        result(null, res);
+    });
+};
+
+
 // Hiển thị hóa đơn rửa xe bên phía khách hàng
-HoaDon.getAll = (makh, result) => {
-    let query = `SELECT * FROM hoadon WHERE makh = ${makh} and matt != 4`;
-    // if (tenbv) {
-    //     query += ` WHERE tenbv LIKE '%${tenbv}%'`;
-    // }
+HoaDon.getAll = (mahd, makh,limit, offset, result) => {
+
+    let query = `SELECT * FROM hoadon WHERE makh = ${makh} and matt != 4 ORDER BY updated_at DESC LIMIT ${limit} OFFSET ${offset}`;
+   
+    if (mahd) {
+        query = `SELECT * FROM hoadon WHERE mahd LIKE '%${mahd}%' and makh = ${makh} and matt != 4  ORDER BY updated_at DESC LIMIT ${limit} OFFSET ${offset}`;
+    }
+
     sql.query(query, (err, res) => {
         if (err) {
             console.log("error: ", err);

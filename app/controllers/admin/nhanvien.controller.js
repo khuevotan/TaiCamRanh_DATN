@@ -271,8 +271,8 @@ exports.verify = (req, res) => {
 // Hiển thị danh sách nhân viên.
 exports.findAll = (req, res) => {
     res.locals.deleted = req.query.deleted;
-    const tennv = req.query.tennv;
-    NhanVien.getAll(tennv, (err, data) => {
+ 
+    NhanVien.getAll((err, data) => {
         if (err)
             res.redirect('/500')
         else {
@@ -411,8 +411,8 @@ exports.updateADD = (req, res, next) => {
 // Hiển thị nhân viên bên phía khách hàng
 exports.findAllKHdm = (req, res) => {
     res.locals.deleted = req.query.deleted;
-    const tennv = req.query.tennv;
-    NhanVien.getAll(tennv, (err, nhanvien) => {
+   
+    NhanVien.getAll( (err, nhanvien) => {
         if (err)
             res.redirect('/500')
         else {

@@ -105,11 +105,13 @@
                         </tr>
                         <tr>
                             <td>Hình Thức Thanh Toán</td>
-                            <td>:  <%if (hoadonrx.ptthanhtoa == 1) { %>
+                            <td>:  <%if (hoadonrx.ptthanhtoan == 1) { %>
                                 <button class="genric-btn danger circle small" href="#" title="View">Tại Cửa Hàng</button>
                                 <% }else { %>
                                 <button class="genric-btn success circle small" href="#" title="View">Thẻ Online</button>
                                 <%  } %></td>
+
+                              
                         </tr>
                     </table>
                 </div>
@@ -215,7 +217,14 @@
 <p class="text-center">
 </br>
     <a class="genric-btn success circle" href="/khachhang/chonngay" >Đặt Thêm Lịch</a>
+    <a class="genric-btn success circle" href="/khachhang/dondatlich" >Xem Danh Sách</a>
 
+    <% if ((hoadonrx.ptthanhtoan == 2) && (hoadonrx.thanhtoan == 1)) { %>
+    
+        <a class="genric-btn success circle" href="/khachhang/ttcard/<%= hoadonrx.mahdrx %>" >Thanh Toán</a>
+    
+        <% } %>
+   
 </p>
 
 

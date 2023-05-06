@@ -101,6 +101,7 @@ KhachHang.getAll = (result) => {
 };
 
 
+// Update thông tin bên phía nhân viên.
 KhachHang.updateBymakhphiadmin = (makh, khachhang, result) => {
     sql.query(
         "UPDATE khachhang SET taikhoan =?, hokh = ?, tenkh = ?, ngaysinh = ?, sodt = ?, diachi = ? , email = ?, gioitinh = ?, kichhoat = ?, updated_at = ? WHERE makh = ?",
@@ -122,10 +123,33 @@ KhachHang.updateBymakhphiadmin = (makh, khachhang, result) => {
     );
 };
 
+// Update bên phía khách hàng.
 KhachHang.updateBymakh = (makh, khachhang, result) => {
     sql.query(
-        "UPDATE khachhang SET taikhoan =?, hokh = ?, tenkh = ?, ngaysinh = ?, sodt = ?, diachi = ? , email = ?, gioitinh = ? WHERE makh = ?",
-        [khachhang.taikhoan, khachhang.hokh , khachhang.tenkh, khachhang.ngaysinh , khachhang.sodt, khachhang.diachi, khachhang.email, khachhang.gioitinh,  makh],
+        "UPDATE khachhang SET hokh = ?, tenkh = ?, ngaysinh = ?, sodt = ?, diachi = ?, gioitinh = ?,  updated_at = ? WHERE makh = ?",
+        [khachhang.hokh , khachhang.tenkh, khachhang.ngaysinh , khachhang.sodt, khachhang.diachi, khachhang.gioitinh, new Date(),  makh],
+        (err, res) => {
+            if (err) {
+                console.log("error: ", err);
+                result(null, err);
+                return;
+            }
+            if (res.affectedRows == 0) {
+                // not found khachhang with the makh
+                result({ kind: "not_found" }, null);
+                return;
+            }
+            console.log("updated khachhang: ", { makh: makh, ...khachhang });
+            result(null, { makh: makh, ...khachhang });
+        }
+    );
+};
+
+// Update bên phía khách hàng.
+KhachHang.updateMail = (makh, khachhang, result) => {
+    sql.query(
+        "UPDATE khachhang SET  email = ?,  updated_at = ? WHERE makh = ?",
+        [khachhang.email, new Date(),  makh],
         (err, res) => {
             if (err) {
                 console.log("error: ", err);
@@ -144,7 +168,7 @@ KhachHang.updateBymakh = (makh, khachhang, result) => {
 };
 
 
-// cập nhật ảnh đại diện
+// cập nhật ảnh đại diện.
 KhachHang.updateBymakhAva = (makh, hinhdd, result) => {
     sql.query(
         "UPDATE khachhang SET hinhdd = ?,updated_at = ?  WHERE makh = ?",
@@ -164,6 +188,7 @@ KhachHang.updateBymakhAva = (makh, hinhdd, result) => {
     );
 };
 
+// xóa khách hàng.
 KhachHang.remove = (makh, result) => {
     sql.query("DELETE FROM khachhang WHERE makh = ?", makh, (err, res) => {
         if (err) {

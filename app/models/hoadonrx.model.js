@@ -300,10 +300,10 @@ HoaDonRX.doanhThuCDTuan = (thanhtoan, trangthai, result) => {
 //======================= GIAO DIEN KHÁCH HÀNG ======================= 
 // Hiển thị hóa đơn rửa xe bên phía khách hàng
 HoaDonRX.getAll = (mahdrx, makh,  limit, offset, result) => {
-    let query = `SELECT * FROM hoadonrx WHERE makh = ${makh} and matt != 4 LIMIT ${limit} OFFSET ${offset}`;
+    let query = `SELECT * FROM hoadonrx WHERE makh = ${makh} and matt != 4  ORDER BY updated_at DESC LIMIT ${limit} OFFSET ${offset}`;
     
     if (mahdrx) {
-        query = `SELECT * FROM hoadonrx WHERE mahdrx LIKE '%${mahdrx}%' and makh = ${makh} and matt != 4 LIMIT ${limit} OFFSET ${offset}`;
+        query = `SELECT * FROM hoadonrx WHERE mahdrx LIKE '%${mahdrx}%' and makh = ${makh} and matt != 4  ORDER BY updated_at DESC LIMIT ${limit} OFFSET ${offset}`;
     }
 
     sql.query(query, (err, res) => {
@@ -352,11 +352,13 @@ HoaDonRX.updateThanhToan = (mahdrx, result) => {
 };
 
 // hiển thị lịch sử hóa đơn rửa xe bên phía khách hàng
-HoaDonRX.getLSAll = (makh, result) => {
-    let query = `SELECT * FROM hoadonrx WHERE makh = ${makh} and matt = 4 and thanhtoan = 2`;
-    // if (tenbv) {
-    //     query += ` WHERE tenbv LIKE '%${tenbv}%'`;
-    // }
+HoaDonRX.getLSAll = (mahdrx, makh,limit, offset, result) => {
+    let query = `SELECT * FROM hoadonrx WHERE makh = ${makh} and matt = 4 and thanhtoan = 2 ORDER BY updated_at DESC LIMIT ${limit} OFFSET ${offset}`;
+
+    if (mahdrx) {
+        query = `SELECT * FROM hoadonrx WHERE mahdrx LIKE '%${mahdrx}%' and makh = ${makh} and matt = 4 and thanhtoan = 2  ORDER BY updated_at DESC LIMIT ${limit} OFFSET ${offset}`;
+    }
+
     sql.query(query, (err, res) => {
         if (err) {
             console.log("error: ", err);

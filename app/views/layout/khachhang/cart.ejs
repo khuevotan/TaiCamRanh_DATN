@@ -78,26 +78,28 @@
                                 </td>
                                 <td>
                                     <div class="product_count">
-                                        <input type="text" name="qty" id="sst" maxlength="12" value="<%= products[i].quantity %>" title="Quantity:"
-                                            class="input-text qty">
-                                        <button
-                                            onclick="var result = document.getElementById('sst'); var sst = result.value; if( !isNaN( sst )) result.value++;return false;"
-                                            class="increase items-count" type="button"><i
-                                                class="lnr lnr-chevron-up"></i></button>
-                                        <button
-                                            onclick="var result = document.getElementById('sst'); var sst = result.value; if( !isNaN( sst ) &amp;&amp; sst > 0 ) result.value--;return false;"
-                                            class="reduced items-count" type="button"><i
-                                                class="lnr lnr-chevron-down"></i></button>
+                                        <form action="/addfromgh/<%= products[i].item.masp %>" method="post">
+
+                                        <input type="number" name="quantity" id="sst" min="1" max="<%= products[i].item.soluong %>"  value="<%= products[i].quantity %>" 
+                                            >
+                                       
                                     </div>
                                 </td>
                                 <td>
                                     <h5><%= (products[i].price).toLocaleString() %> VNĐ</h5>
                                 </td>
                                 <td>
-                                   
                                     
-                                    <a href="/update/<%= products[i].item.masp %>" class="genric-btn info-border circle small" ><i class="fa fa-check-circle "></i></a>
- 
+                                    
+                                   
+                                   
+
+                                        <button type="submit" class="genric-btn info-border circle small"><i class="fa fa-check-circle "></i></button>
+                                        <!-- <a href="/update/<%= products[i].item.masp %>" class="genric-btn info-border circle small" ><i class="fa fa-check-circle "></i></a> -->
+                                    </form>
+
+
+
                                     <a href="/remove/<%= products[i].item.masp %>" class="genric-btn danger-border circle small"><i class="fa fa-trash "></i></a>
 
 
@@ -131,7 +133,7 @@
 
                         <tr>
                             <td>
-
+                                <a class="gray_btn" href="/removeALL">Xóa Tất Cả</a>
                             </td>
                             <td>
 

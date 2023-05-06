@@ -5,16 +5,16 @@
 <div class="row">
 	<div class="col-lg-3 col-md-4 mt-sm-30">
 	</div>
-	<div class="col-lg-6 col-md-4 card card-default rounded-0 shadow blur" style="border:1px solid black">
+	<div class="col-lg-6 col-md-4 card card-default rounded-0 shadow blur" style="border: 1px solid #ccc;">
 		<h1 class="mb-20 text-center mt-20">Đăng Nhập</h1>
 		<form action="/login" method="POST" >
 		
-			<div class="mt-10" style="border:1px solid black" >
+			<div class="mt-10" style="border: 1px solid #ccc;" >
 				<input type="text" name="taikhoan" maxlength="255" class="single-input" placeholder="Nhập tên tài khoản"
 				<% if (typeof taikhoan != "undefined" && taikhoan) { %> value="<%= taikhoan %>"<% } %>  required>
 			</div>
 	
-			<div class="mt-10" style="border:1px solid black">
+			<div class="mt-10" style="border: 1px solid #ccc;">
 				<input type="password"  id="password-field" maxlength="40" class="single-input" name="matkhau"  placeholder="Nhập Password"
 						<% if (typeof matkhau != "undefined" && matkhau) { %> value="<%= matkhau %>"<% } %> required>
 				
@@ -31,7 +31,7 @@
 			<div class="text-center">
 				<input class="genric-btn info circle " type="submit" value="Đăng Nhập">
 			</div>
-			<!-- <div class="mt-10" style="border:1px solid black" >
+			<!-- <div class="mt-10" style="border: 1px solid #ccc;" >
 				<input  class="form-control btn btn-primary rounded submit px-3" type="submit"> 
 			</div> -->
 			<div class="form-group d-md-flex">

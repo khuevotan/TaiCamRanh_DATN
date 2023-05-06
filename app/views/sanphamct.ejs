@@ -13,31 +13,43 @@
 				<div class="single-prd-item">
 					<img class="img-fluid" src="/images/sanpham/<%= sanpham.hinhdd %>" alt="">
 				</div>
-				
+
 			</div>
 		</div>
 		<div class="col-lg-5 offset-lg-1">
 			<div class="s_product_text">
 				<h3><%= sanpham.tensp %></h3>
+				
 				<h2><%= (sanpham.giaban).toLocaleString() %> VNĐ</h2>
 				<ul class="list">
-					<li><a class="active" href="#"><span>Danh Mục</span> : <%= danhmuc.tendm %></a></li>
-					<li><a href="#"><span>Nhà Cung</span> : <%= nhacungcap.tenncc %></a></li>
+					
+					<li ><span>Số Lượng Trong Kho</span> : <%= sanpham.soluong %></li>
+					<li><span>Danh Mục</span> : <%= danhmuc.tendm %></li>
+					<li><span>Nhà Cung</span> : <%= nhacungcap.tenncc %></li>
 				</ul>
 				<p> <%= sanpham.motangan %></p>
+
+				<label for="qty">Số Lượng:</label>
+
+
 				<div class="product_count">
-					<label for="qty">Số Lượng:</label>
-					<button
-						onclick="var result = document.getElementById('sst'); var sst = result.value; if( !isNaN( sst )) result.value++;return false;"
-						class="increase items-count" type="button"><i class="ti-angle-left"></i></button>
-					<input type="text" name="qty" id="sst" size="2" maxlength="12" value="1" title="Quantity:"
-						class="input-text qty">
-					<button
-						onclick="var result = document.getElementById('sst'); var sst = result.value; if( !isNaN( sst ) &amp;&amp; sst > 0 ) result.value--;return false;"
-						class="reduced items-count" type="button"><i class="ti-angle-right"></i></button>
-					<a class="button primary-btn" href="#">Thêm Vào Giỏ</a>
+
+					
+					<form action="/addfromct/<%= sanpham.masp %>" method="post">
+						
+					
+						<input type="number" min="1" max="<%= sanpham.soluong %>"  name="quantity" value="1" >
+		
 				</div>
-				
+
+
+
+				<button type="submit" class="genric-btn info circle">Thêm Vào Giỏ</button>
+
+				</form>
+
+
+
 			</div>
 		</div>
 	</div>
@@ -49,15 +61,15 @@
 <section class="product_description_area">
 	<div class="container">
 		<ul class="nav nav-tabs" id="myTab" role="tablist">
-			
+
 			<li class="nav-item">
-				<a class="nav-link active" id="review-tab" data-toggle="tab" href="#review" role="tab" aria-controls="review"
-				 aria-selected="false">Thông Tin Chi Tiết Về Sản Phẩm</a>
+				<a class="nav-link active" id="review-tab" data-toggle="tab" href="#review" role="tab"
+					aria-controls="review" c aria-selected="false">Thông Tin Chi Tiết Về Sản Phẩm</a>
 			</li>
 		</ul>
 		<div class="tab-content" id="myTabContent">
-			
-		
+
+
 			<div class="tab-pane fade show active" id="review" role="tabpanel" aria-labelledby="review-tab">
 				<%- sanpham.motact %>
 			</div>
@@ -75,26 +87,26 @@
 		</div>
 		<div class="row mt-30">
 
-			
+
 			<% sanphamNew.forEach((item) => { %>
 
-				<div class="col-sm-6 col-xl-6 mb-4 mb-xl-0">
-					<div class="single-search-product-wrapper">
-						<div class="single-search-product d-flex">
-							<a href="#"><img src="/images/sanpham/<%= item.hinhdd %>" alt="" width="70px"></a>
-							<div class="desc">
-								<a href="#" class="title"><%= item.tensp %></a>
-								<div class="price"><%= (item.giaban).toLocaleString() %> VNĐ</div>
-							</div>
+			<div class="col-sm-6 col-xl-6 mb-4 mb-xl-0">
+				<div class="single-search-product-wrapper">
+					<div class="single-search-product d-flex">
+						<a href="#"><img src="/images/sanpham/<%= item.hinhdd %>" alt="" width="70px"></a>
+						<div class="desc">
+							<a href="#" class="title"><%= item.tensp %></a>
+							<div class="price"><%= (item.giaban).toLocaleString() %> VNĐ</div>
 						</div>
 					</div>
 				</div>
+			</div>
 
 			<% }) %>
 
-	
 
-			
+
+
 		</div>
 	</div>
 </section>

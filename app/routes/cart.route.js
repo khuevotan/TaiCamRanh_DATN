@@ -8,32 +8,61 @@ module.exports = app => {
 
   router.get('/add/:id', function (req, res, next) {
     var productId = req.params.id;
-    const tensp = req.query.tendm;
+
     var cart = new Cart(req.session.cart ? req.session.cart : {});
-    SanPham.getAll(tensp, (err, data) => {
-         const producthai = JSON.parse(JSON.stringify(data));
-     
 
-         // đổi obj sang aray
-         var product = producthai.filter(function(item) {
-          return item.masp == productId;
-        });
+    SanPham.findBymasp(productId, function (err, product) {
+      if (err) {
+        return res.redirect('/');
+      }
+      cart.add(product, productId, product.soluong);
+      req.session.cart = cart;
+      res.locals.cart = req.session.cart;
 
-        // const product = values.filter(masp => masp === productId);
+      res.redirect('/shop');
+    });
+  });
 
-        // const product = Object.values(producthai).filter(item => {
-        //   return item.masp === productId;
-        // });
+  // từ ct sản phẩm
+  router.post('/addfromct/:masp/', function (req, res, next) {
 
-        // console.log(product);
-        // console.log(product[0]);
-        
-        //  cart.add(product[0], productId);
-         cart.add(product[0], productId);
-         req.session.cart = cart;
-         res.locals.cart = req.session.cart;
-         
-         res.redirect('/shop');
+    var productId = req.params.masp;
+    var quantity = parseInt(req.body.quantity);
+    // var quantitykho = parseInt(req.body.quantitykho);
+    var cart = new Cart(req.session.cart ? req.session.cart : {});
+
+    // tìm sản phẩm trong cơ sở dữ liệu
+
+    SanPham.findBymasp(productId, function (err, product) {
+      if (err) {
+        return res.redirect('/');
+      }
+
+      // thêm sản phẩm vào giỏ hàng
+      cart.addToCart(product, product.masp, quantity, product.soluong);
+      req.session.cart = cart;
+      res.redirect('/sanphamct/' + product.masp);
+    });
+  });
+
+  // từ giỏ hàng
+  router.post('/addfromgh/:masp/', function (req, res, next) {
+
+    var productId = req.params.masp;
+    var quantity = parseInt(req.body.quantity);
+    var cart = new Cart(req.session.cart ? req.session.cart : {});
+
+    // tìm sản phẩm trong cơ sở dữ liệu
+
+    SanPham.findBymasp(productId, function (err, product) {
+      if (err) {
+        return res.redirect('/');
+      }
+
+      // thêm sản phẩm vào giỏ hàng
+      cart.addToGH(product, product.masp, quantity);
+      req.session.cart = cart;
+      res.redirect('/cart');
     });
   });
 
@@ -51,7 +80,7 @@ module.exports = app => {
       title: 'NodeJS Shopping Cart',
       products: cart.getItems(),
       totalPrice: cart.totalPrice,
-    
+
     });
   });
 
@@ -63,6 +92,14 @@ module.exports = app => {
     req.session.cart = cart;
     res.redirect('/cart');
   });
+
+  router.get('/removeAll', function(req, res, next) {
+    var cart = new Cart(req.session.cart);
+    cart.removeAll();
+    req.session.cart = cart;
+    res.redirect('/cart');
+  });
+
 
   app.use(router);
 

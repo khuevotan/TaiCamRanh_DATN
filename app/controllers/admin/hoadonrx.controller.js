@@ -447,11 +447,18 @@ exports.findAllKH = (req, res) => {
 // Hiển thị hóa đơn lịch sử đặt lịch bên phía khách hàng.
 exports.findAllKHLS = (req, res) => {
     res.locals.deleted = req.query.deleted;
-
+  
     res.locals.khachhang = req.session.khachhang
     const makh = res.locals.khachhang.makh;
+    
+    const mahdrx = req.query.mahdrx;
 
-    HoaDonRX.getLSAll(makh, (err, data) => {
+    const page = parseInt(req.query.page) || 1;
+    const limit = parseInt(req.query.limit) || 3;
+    const offset = (page - 1) * limit;
+
+
+    HoaDonRX.getLSAll(mahdrx, makh, limit, offset,(err, data) => {
         if (err)
             res.redirect('/500')
         else {
@@ -462,15 +469,18 @@ exports.findAllKHLS = (req, res) => {
                     res.render('lsdatlich', {
                         hoadonrx: data,
                         gio: gio,
+                        page,
+                        limit,
                         layout: './master'
                     });
-                    console.log(gio);
+            
                 }
             });
         }
     });
 };
 
+// Hủy đơn đặt lịch trong 30p đầu tiên.
 exports.huyDonDL = (req, res) => {
     
     HoaDonRX.updateHuy(
