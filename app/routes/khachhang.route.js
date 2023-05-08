@@ -108,8 +108,6 @@ module.exports = app => {
     // nhập thông hóa đơn đặt hàng
     router.get('/khachhang/thongtintt', khachhang.showFormTTDH);
 
-
- 
     app.get('/getHuyen', (req, res) => {
         const selectedMatinh = req.query.matinh; // Lấy giá trị matinh từ query parameters
       

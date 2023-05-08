@@ -8,6 +8,7 @@ const ThamSo = require("../../models/thamso.model");
 const Gio = require("../../models/gio.model");
 const Tinh = require("../../models/tinh.model");
 const Huyen = require("../../models/huyen.model");
+const PhiShip = require("../../models/phiship.model");
 
 
 
@@ -886,6 +887,7 @@ const Cart = require("../../models/cart.model");
 
 // nhấn nút đặt đơn hàng
 exports.nhapThongTinDonHang = (req, res) => {
+
     res.locals.khachhang = req.session.khachhang
     const makh = res.locals.khachhang.makh;
     const email = res.locals.khachhang.email;
@@ -898,16 +900,19 @@ exports.nhapThongTinDonHang = (req, res) => {
     const crypto = require("crypto");
     const id = crypto.randomBytes(16).toString("hex");
 
+    const idphi = crypto.randomBytes(16).toString("hex");
+
     const {
         tennguoinhan,
         sodt,
         diachi,
         ptthanhtoan,
         ghichu,
+        matinh,
+        mahuyen,
     } = req.body;
 
-    if (tennguoinhan && sodt && diachi && ptthanhtoan) {
-
+    if (tennguoinhan && sodt && diachi && ptthanhtoan && matinh && mahuyen) {
 
         // Lấy thời gian hiện tại
         var currentDate = new Date();
@@ -915,109 +920,125 @@ exports.nhapThongTinDonHang = (req, res) => {
         // Cộng thêm 3 ngày
         var futureDate = new Date(currentDate.getTime() + (3 * 24 * 60 * 60 * 1000));
 
-        // Create a hoadon
-        const hoadon = new HoaDon({
-            mahd: id,
-            ngaygiao: futureDate,
-            tennguoinhan: req.body.tennguoinhan,
-            sodt: req.body.sodt,
-            diachi: req.body.diachi,
-            ghichu: req.body.ghichu,
-            tongtiensp: tongtiensp,
-            thanhtoan: 1,
-            ptthanhtoan: ptthanhtoan,
-            matt: 1,
-            manv: 1,
-            makh: makh,
-        });
-
-
-
         // Kiểm tra xem MAX đặt lịch hôm nay.
-        ThamSo.findBymats(3, (err, MAX_KH_ĐH) => {
-            if (err) {
-                res.redirect('/500');
-            } else {
+        ThamSo.findBymats(3, (err, MAX_KH_ĐH) => {  
 
                 HoaDon.checkToDay(makh, (err, somaxcheck) => {
-                    if (err) {
-                        res.redirect('/500');
-                    } else {
 
-                        var biencheck = somaxcheck[0].CheckToDay;
-                        var bienInData = MAX_KH_ĐH.giatri;
+                    var biencheck = somaxcheck[0].CheckToDay;
+                    var bienInData = MAX_KH_ĐH.giatri;
 
-                        console.log("innnnnnnnnnnnnnnn");
-                        console.log(biencheck);
-                        console.log(bienInData);
+                    if (biencheck < bienInData) {
+                        ThamSo.findBymats(5, (err, dataKH) => {
+                            const giaShipKH = dataKH.giatri;
+                                
+                            ThamSo.findBymats(6, (err, dataNKH) => {
+                                const giaShipNKH = dataNKH.giatri;
 
-                        if (biencheck < bienInData) {
-
-
-                            HoaDon.create(hoadon, (err, data) => {
-
-                                if (!err) {
-                                    const mahd = data.mahd;
-                                    var cart = new Cart(req.session.cart);
-                                    var cartArr = cart.getItems();
-
-                                    for (let i = 0; i < cartArr.length; i++) {
-                                        var masp = cartArr[i].item.masp;
-                                        var soluong = cartArr[i].quantity;
-                                        var giatien = cartArr[i].price;
-
-                                        const cthoadon = new CTHoaDon({
-                                            mahd: mahd,
-                                            masp: masp,
-                                            soluong: soluong,
-                                            giatien: giatien,
-                                        });
-
-                                        CTHoaDon.create(cthoadon, (err, data) => {
-                                            if (!err) {
-
-                                            } else {
-                                                console.log(err);
-                                            }
-                                        });
-                                    }
-
-
-                                    if (req.body.ptthanhtoan == 1) {
-
-                                        var to = email;
-                                        var subject = "Đặt hàng thành công!";
-                                        var message = 'Chúng tôi xin gửi';
-
-
-                                        mailer.sendMail(to, subject, message);
-
-                                        res.redirect('/khachhang/thanhtoantc?mahd' + mahd + 'status=dhtctaich')
-                                    } else {
-
-                                        var to = email;
-                                        var subject = "Đặt hàng thành công!";
-                                        var message = 'Chúng tôi xin gửi';
-
-
-                                        mailer.sendMail(to, subject, message);
-
-                                        res.redirect('/khachhang/ttcarddh/' + mahd)
-                                    }
-
+                                // Kiểm tra xem có phải là phí ship không?
+                                if (matinh == 37) {
+                                    var giashipne = giaShipKH;
                                 } else {
-                                    res.redirect('/khachhang/chonttdh?status=thatbai')
+                                    var giashipne = giaShipNKH;
                                 }
+
+                                const phiship = new PhiShip({
+                                    maphiship: idphi,
+                                    giaphi: giashipne,
+                                    mavanchuyen: '',
+                                    mahuyen: mahuyen,
+                                });
+
+
+                                PhiShip.create(phiship, (err, dataphisipne) => {
+
+                                    console.log("gia phi");
+
+                                    console.log(dataphisipne);
+                                    console.log(dataphisipne.giaphi);
+
+                                    const hoadon = new HoaDon({
+                                        mahd: id,
+                                        ngaygiao: futureDate,
+                                        tennguoinhan: req.body.tennguoinhan,
+                                        sodt: req.body.sodt,
+                                        diachi: req.body.diachi,
+                                        ghichu: req.body.ghichu,
+                                        tongtiensp: tongtiensp,
+                                        tongtienhd: tongtiensp + dataphisipne.giaphi,
+                                        maphiship : dataphisipne.maphiship ,
+                                        thanhtoan: 1,
+                                        ptthanhtoan: ptthanhtoan,
+                                        matt: 1,
+                                        manv: 1,
+                                        makh: makh,
+                                    });
+            
+                                    HoaDon.create(hoadon, (err, data) => {
+            
+                                        if (!err) {
+                                            const mahd = data.mahd;
+                                            var cart = new Cart(req.session.cart);
+                                            var cartArr = cart.getItems();
+            
+                                            for (let i = 0; i < cartArr.length; i++) {
+                                                var masp = cartArr[i].item.masp;
+                                                var soluong = cartArr[i].quantity;
+                                                var giatien = cartArr[i].price;
+            
+                                                const cthoadon = new CTHoaDon({
+                                                    mahd: mahd,
+                                                    masp: masp,
+                                                    soluong: soluong,
+                                                    giatien: giatien,
+                                                });
+            
+                                                CTHoaDon.create(cthoadon, (err, data) => {
+                                                    if (!err) {
+            
+                                                    } else {
+                                                        console.log(err);
+                                                    }
+                                                });
+                                            }
+            
+            
+                                            // Chuyển trang tùy theo phương thức thanh toán.
+                                            if (req.body.ptthanhtoan == 1) {
+            
+                                                var to = email;
+                                                var subject = "Đặt hàng thành công!";
+                                                var message = 'Chúng tôi xin gửi';
+                                                mailer.sendMail(to, subject, message);
+            
+                                                res.redirect('/khachhang/thanhtoantc?mahd' + mahd + 'status=dhtctaich')
+                                            } else {
+            
+                                                var to = email;
+                                                var subject = "Đặt hàng thành công!";
+                                                var message = 'Chúng tôi xin gửi';
+            
+                                                mailer.sendMail(to, subject, message);
+                                                res.redirect('/khachhang/ttcarddh/' + mahd)
+                                            }
+            
+                                        } else {
+                                            res.redirect('/khachhang/thongtintt?status=thatbai')
+                                        }
+                                    });
+            
+                                });   
+
+
                             });
 
-                        } else {
-                            res.redirect('/dathang&status=gioihan')
-                        }
+                        });
+
+                    } else {
+                        res.redirect('/khachhang/thongtintt?status=gioihan')
                     }
                 });
-            }
         });
-
     } else {
         const conflictError = 'Bạn phải nhập đầy đủ thông tin!';
         res.render('thongtintt', {
@@ -1025,6 +1046,8 @@ exports.nhapThongTinDonHang = (req, res) => {
             sodt,
             diachi,
             ghichu,
+            mahuyen,
+            matinh,
             ptthanhtoan,
             conflictError
         });

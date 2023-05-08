@@ -16,8 +16,8 @@ PhiShip.create = (newphiship, result) => {
             result(err, null);
             return;
         }
-        console.log("created phiship: ", { maphiship : res.insertmaphiship , ...newphiship });
-        result(null, { maphiship : res.insertmaphiship , ...newphiship });
+       
+        result(null, {...newphiship });
     });
 };
 

@@ -8,7 +8,7 @@
                 <h1 class="mb-20 text-center mt-20">Nhập Thông Tin</h1>
                 <div class="card-body container-fluid">
 
-                    <form action="/dathang" method="post" id="booking-form">
+                    <form action="/dathang" method="post" id="orderForm" >
                         <input type="hidden" name="id" value="">
 
                         <div class="row">
@@ -16,23 +16,25 @@
                             <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
 
                                 <div class="form-group mb-3">
-                                    <label for="tennguoinhan"><b>Tên Người Nhận</b></label>
-                                    <input type="text" name="tennguoinhan" maxlength="255"
+                                    <label for="tennguoinhan"><b>Tên Người Nhận</b></label>  <b class="text-danger">(*)</b>
+                                    <input type="text" name="tennguoinhan"  maxlength="255"
                                         placeholder="Nhập tên người nhận..." class="single-input"
                                         style="border: 1px solid #ccc;"
                                         <% if (typeof tennguoinhan != "undefined" && tennguoinhan) { %>
                                         value="<%= diachi %>" <% } %> required>
                                 </div>
 
-
-
+                                
                                 <div class="form-group mb-3">
-                                    <label for="diachi"><b>Địa Chỉ</b></label>
-                                    <input type="text" name="diachi" maxlength="255" placeholder="Nhập địa chỉ"
+                                    <label for="sdt"><b>Số Điện Thoại Người Nhận</b></label>  <b class="text-danger">(*)</b>
+                                    <input type="number" name="sodt" maxlength="15" placeholder="Nhập số điện thoại"
                                         class="single-input" style="border: 1px solid #ccc;"
-                                        <% if (typeof diachi != "undefined" && diachi) { %> value="<%= diachi %>"
-                                        <% } %> required>
+                                        <% if (typeof sodt != "undefined" && sodt) { %> value="<%= sodt %>" <% } %>
+                                        required>
                                 </div>
+
+
+
 
                                 <div class="form-group mb-3">
                                     <label for="ghichu"><b>Ghi Chú</b></label>
@@ -46,18 +48,43 @@
 
                             <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
 
+                              
 
                                 <div class="form-group mb-3">
-                                    <label for="sdt"><b>Số Điện Thoại Người Nhận</b></label>
-                                    <input type="number" name="sodt" maxlength="15" placeholder="Nhập số điện thoại"
-                                        class="single-input" style="border: 1px solid #ccc;"
-                                        <% if (typeof sodt != "undefined" && sodt) { %> value="<%= sodt %>" <% } %>
-                                        required>
+                                    <label for="matinh"><b>Tỉnh/Thành phố</b></label> <b class="text-danger">(*)</b>
+                                    <div>
+
+                                          <select class="form-select single-input" name="matinh" id="matinhSelect"  style="border: 1px solid #ccc;">
+                                            <option value="" class="chon-thanh-pho">Chọn Thành Phố</option>
+                                            <% tinh.forEach((item) => { %>
+                                            <option name="matinh" value="<%= item.matinh %>"><%= item.tentinh %></option>
+                                            <% }) %>
+                                        </select>
+                                    </div>
                                 </div>
 
 
                                 <div class="form-group mb-3">
-                                    <label for="ptthanhtoan"><b>Phương Thức Thanh Toán</b></label>
+                                    <label for="ptthanhtoan"><b>Quận/Huyện</b></label>  <b class="text-danger">(*)</b>
+                                    <div>
+
+                                        <select class="form-select single-input" style="border: 1px solid #ccc;" name="mahuyen" id="mahuyenSelect">
+                                            <option value="">Chọn Huyện</option>
+                                        
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="form-group mb-3">
+                                    <label for="diachi"><b>Địa Chỉ</b></label>  <b class="text-danger">(*)</b>
+                                    <input type="text" name="diachi" maxlength="255" placeholder="Nhập địa chỉ"
+                                        class="single-input" style="border: 1px solid #ccc;"
+                                        <% if (typeof diachi != "undefined" && diachi) { %> value="<%= diachi %>"
+                                        <% } %> required>
+                                </div>
+
+                                <div class="form-group mb-3">
+                                    <label for="ptthanhtoan"><b>Phương Thức Thanh Toán</b></label>  <b class="text-danger">(*)</b>
                                     <div>
                                         <select class="form-select single-input" name="ptthanhtoan"
                                             style="border: 1px solid #ccc;">
@@ -65,71 +92,6 @@
                                             </option>
                                             <option name="ptthanhtoan" value="2" id="2">Thẻ Online</option>
                                         </select>
-                                    </div>
-                                </div>
-
-
-                                <div class="form-group mb-3">
-                                    <label for="matinh"><b>Tỉnh/Thành phố</b></label> <b class="text-danger">(Lưu
-                                        ý!)</b>
-                                    <div>
-
-
-                                        <!-- <select class="form-select single-input" name="matinh" style="border: 1px solid #ccc;"
-                                        onChange="myNewFunction(this);">
-                                        <% tinh.forEach((item) => { %>
-                                        <option name="matinh" value="<%= item.matinh %>" id="<%= item.matinh %>"><%= item.tentinh %></option>
-                                        <% }) %>
-                                        </select> -->
-
-                                        <!-- <select name="matinh">
-                                            <% tinh.forEach((item) => { %>
-                                            <option name="matinh" value="<%= item.matinh %>" id="<%= item.matinh %>"><%= item.tentinh %></option>
-                                            <% }) %>
-                                          </select> -->
-
-
-
-
-                                    </div>
-                                </div>
-
-
-
-
-
-                                <div class="form-group mb-3">
-                                    <label for="ptthanhtoan"><b>Quận/Huyện</b></label>
-                                    <div>
-
-                                        <!-- <select class="form-select single-input" name="mahuyen" style="border: 1px solid #ccc;"
-                                        onchange="myFunction()">
-
-
-                                        <% for(var i=0; i< huyen.length; i++) { %>
-                                            <% if(huyen[i].matinh == 1 ){ %>
-                                                <option name="mahuyen" value="<%= huyen[i].mahuyen %>"><%= huyen[i].tenhuyen %></option>
-                                                <% } %>  
-                                          <%} %>
-                                          
-                                     
-                                        </select> -->
-
-
-                                        <!-- <select name="mahuyen">
-                                                <% if (typeof selectedMatinh === 'undefined') { %>
-                                                  <option value="">Vui lòng chọn tỉnh/thành phố trước</option>
-                                                <% } else { %>
-                                                  <% for (var i = 0; i < huyen.length; i++) { %>
-                                                    <% if (huyen[i].matinh == selectedMatinh) { %>
-                                                      <option value="<%= huyen[i].mahuyen %>"><%= huyen[i].tenhuyen %></option>
-                                                    <% } %>
-                                                  <% } %>
-                                                <% } %>
-                                              </select> -->
-
-
-
                                     </div>
                                 </div>
 
@@ -155,18 +117,6 @@
         </div>
     </div>
 </div>
-
-<select name="matinh" id="matinhSelect">
-    <option value="" class="chon-thanh-pho">Chọn thành phố</option>
-    <% tinh.forEach((item) => { %>
-    <option name="matinh" value="<%= item.matinh %>"><%= item.tentinh %></option>
-    <% }) %>
-</select>
-
-<select name="mahuyen" id="mahuyenSelect">
-    <option value="">Chọn huyện</option>
-
-</select>
 
 <script>
     var matinhSelect = document.getElementById("matinhSelect");
@@ -208,8 +158,31 @@
 </script>
 
 
-
-
+<script>
+    var orderForm = document.getElementById("orderForm");
+  
+    orderForm.addEventListener("submit", function(e) {
+      e.preventDefault(); // Ngăn chặn hành vi mặc định của form
+  
+      var nameInput = document.getElementsByName("tennguoinhan")[0];
+    var emailInput = document.getElementsByName("sodt")[0];
+  
+      var confirmMessage = "Xác nhận thông tin đơn hàng:\n" +
+                           "Tên: " + nameInput.value + "\n" +
+                           "Email: " + emailInput.value + "\n\n" +
+                           "Bạn có chắc muốn xác nhận?";
+  
+      var isConfirmed = confirm(confirmMessage);
+  
+      if (isConfirmed) {
+        // Submit form nếu người dùng xác nhận
+        orderForm.submit();
+      } else {
+        // Thực hiện các xử lý khác khi người dùng không xác nhận
+        console.log("Người dùng đã hủy xác nhận thông tin đơn hàng");
+      }
+    });
+  </script>
 
 
 <script>
