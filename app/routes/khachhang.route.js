@@ -3,6 +3,7 @@ const controllerlx = require('../controllers/admin/loaixe.controller');
 const khachhang = require("../controllers/khachhang/khachhang.controller");
 const hoadonrx = require("../controllers/admin/hoadonrx.controller");
 const hoadon = require("../controllers/admin/hoadon.controller");
+const Huyen = require("../models/huyen.model");
 
 // thanh toán bằng Stripe
 const Publishable_Key = 'pk_test_51MqHEXDWd2W6upWFp32vuRnPei7IjHDNJMJ0rQ8vBc6L4AetU7RqtYP6zXizThorGPFP5d08e76hAcAfWRcUMXPZ00xCXY4HTv'
@@ -106,6 +107,36 @@ module.exports = app => {
 
     // nhập thông hóa đơn đặt hàng
     router.get('/khachhang/thongtintt', khachhang.showFormTTDH);
+
+
+ 
+    app.get('/getHuyen', (req, res) => {
+        const selectedMatinh = req.query.matinh; // Lấy giá trị matinh từ query parameters
+      
+        // Xử lý logic để lấy danh sách huyện tương ứng với selectedMatinh
+
+        Huyen.getALLByMT(selectedMatinh,(err, data) => {
+
+            const huyenList = data;
+
+            // Gửi danh sách huyện về cho client dưới dạng JSON
+            res.json(huyenList);
+        });
+      });
+
+
+
+    //   function getHuyenList(selectedMatinh) {
+    //     // Thực hiện các bước để lấy danh sách huyện tương ứng với selectedMatinh
+    //     // Ví dụ:
+    //     const huyenList = [
+    //       { mahuyen: 'huyen1', tenhuyen: 'Huyện 1', matinh:'2' },
+    //       { mahuyen: 'huyen2', tenhuyen: 'Huyện 2', matinh:'1'  },
+    //       { mahuyen: 'huyen3', tenhuyen: 'Huyện 3', matinh:'3'  },
+    //     ];
+      
+    //     return huyenList;
+    //   }
 
     // nhấn nút đặt hàng
     router.post("/dathang",  khachhang.nhapThongTinDonHang);

@@ -6,6 +6,8 @@ const CTHoaDon = require("../../models/cthoadon.model");
 const LoaiXe = require("../../models/loaixe.model");
 const ThamSo = require("../../models/thamso.model");
 const Gio = require("../../models/gio.model");
+const Tinh = require("../../models/tinh.model");
+const Huyen = require("../../models/huyen.model");
 
 
 
@@ -1031,5 +1033,26 @@ exports.nhapThongTinDonHang = (req, res) => {
 
 // Hiển thị form thêm thông tin thanh toán
 exports.showFormTTDH = (req, res) => {
-    res.render('thongtintt');
+
+    res.locals.deleted = req.query.deleted;
+
+     Tinh.getAll((err, data) => {
+        if (err)
+            res.redirect('/500')
+        else {
+            Huyen.getAll((err, dataHuyen) => {
+                if (err)
+                    res.redirect('/500')
+                else {
+                    res.render('thongtintt', {
+                        tinh: data,
+                        huyen: dataHuyen,
+                    
+                     });
+                }
+            });
+        }
+    });
+
+   
 };

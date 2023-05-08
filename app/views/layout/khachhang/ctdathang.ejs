@@ -33,34 +33,34 @@
                     <table class="order-rable">
                         <tr>
                             <td>Mã Hóa Đơn</td>
-                            <td>: <%= hoadonrx.mahdrx  %></td>
+                            <td>: <%= hoadon.mahd  %></td>
                         </tr>
                         <tr>
                             <td>Ngày Tạo</td>
-                            <td>: <%= moment(hoadonrx.created_at).format('dddd, DD-MM-YYYY HH:mm:ss') %></td>
+                            <td>: <%= moment(hoadon.created_at).format('dddd, DD-MM-YYYY HH:mm:ss') %></td>
                         </tr>
                         <tr>
                             <td>Trạng Thái</td>
-                            <td>: <%if (hoadonrx.matt == 1) { %>
+                            <td>: <%if (hoadon.matt == 1) { %>
                                 <a data-placement="top" class="genric-btn warning circle small" href="#"
                                     title="Danger">Chờ Xác Nhận</a>
                                 <% } %>
 
-                                <%if (hoadonrx.matt == 2) { %>
+                                <%if (hoadon.matt == 2) { %>
                                 <a data-placement="top" class="genric-btn info circle small" href="#" title="View">Đã
                                     Xác Nhận</a>
                                 <% } %>
 
-                                <%if (hoadonrx.matt == 3) { %>
+                                <%if (hoadon.matt == 3) { %>
                                 <a data-placement="top" class="genric-btn danger circle small" href="#"
                                     title="Danger">Hủy</a>
                                 <% } %>
-                                <%if (hoadonrx.matt == 4) { %>
+                                <%if (hoadon.matt == 4) { %>
                                     <a data-placement="top" class="genric-btn success circle small" href="#" title="View">
                                         Thành Công</a>
                                 <% } %></td>
 
-                                <%if (hoadonrx.matt == 5) { %>
+                                <%if (hoadon.matt == 5) { %>
                                     <a data-placement="top" class="genric-btn primary circle small" href="#" title="View">
                                         Đã Giao Cho Đơn Vị Vận Chuyển</a>
                                 <% } %></td>
@@ -68,7 +68,7 @@
                         </tr>
                         <tr>
                             <td>Thanh Toán</td>
-                            <td>:  <%if (hoadonrx.thanhtoan == 1) { %>
+                            <td>:  <%if (hoadon.thanhtoan == 1) { %>
                                 <a data-placement="top" class="genric-btn danger circle small" href="#" title="View">Chưa
                                     Thanh Toán</a>
                                 <% }else { %>
@@ -78,7 +78,7 @@
                         </tr>
                         <tr>
                             <td>Cập Nhật Gần Nhất:</td>
-                            <td>: <%= moment(hoadonrx.updated_at).format('dddd, DD-MM-YYYY HH:mm:ss') %></td>
+                            <td>: <%= moment(hoadon.updated_at).format('dddd, DD-MM-YYYY HH:mm:ss') %></td>
                         </tr>
                     </table>
                 </div>
@@ -89,23 +89,23 @@
                     <table class="order-rable">
                         <tr>
                             <td>Họ Và Tên</td>
-                            <td>: <%= hoadonrx.tennguoirua  %></td>
+                            <td>: <%= hoadon.tennguoirua  %></td>
                         </tr>
                         <tr>
                             <td>Số Điện Thoại</td>
-                            <td>: <%= hoadonrx.sodt  %></td>
+                            <td>: <%= hoadon.sodt  %></td>
                         </tr>
                         <tr>
                             <td>Địa Chỉ</td>
-                            <td>: <%= hoadonrx.diachi  %></td>
+                            <td>: <%= hoadon.diachi  %></td>
                         </tr>
                         <tr>
                             <td>Ghi Chú</td>
-                            <td>: <%= hoadonrx.ghichu  %></td>
+                            <td>: <%= hoadon.ghichu  %></td>
                         </tr>
                         <tr>
                             <td>Hình Thức Thanh Toán</td>
-                            <td>:  <%if (hoadonrx.ptthanhtoan == 1) { %>
+                            <td>:  <%if (hoadon.ptthanhtoan == 1) { %>
                                 <button class="genric-btn danger circle small" href="#" title="View">Tại Cửa Hàng</button>
                                 <% }else { %>
                                 <button class="genric-btn success circle small" href="#" title="View">Thẻ Online</button>
@@ -122,106 +122,102 @@
             <h2>Chi Tiết</h2>
             <div class="table-responsive">
                 <table class="table">
-                   
-                    <tbody>
+               
+                    <thead>
                         <tr>
-                            <td>
-                                <h4>Ngày Rửa:</h4>
-                            </td>
-                            <td>
-                                <h5></h5>
-                            </td>
-                            <td>
-                                <p><%= moment(hoadonrx.ngayrua).format('DD-MM-YYYY')  %></p>
-                            </td>
+                          <th scope="col">Product</th>
+                          <th scope="col">Quantity</th>
+                          <th scope="col">Total</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr>
+                          <td>
+                            <p>Pixelstore fresh Blackberry</p>
+                          </td>
+                          <td>
+                            <h5>x 02</h5>
+                          </td>
+                          <td>
+                            <p>$720.00</p>
+                          </td>
                         </tr>
                         <tr>
-                            <td>
-                                <h4>Giờ Rửa</h4>
-                            </td>
-                            <td>
-                                <h5></h5>
-                            </td>
-                            <td>
-                                <p> <% for(var i=0; i<gio.length; i++) { %>
-                                
-                                    <% if(gio[i].magio == hoadonrx.magio){ %>
-                                        <%= gio[i].tengio %>
-                                        <% } else{ %>  
-                                   
-                                       <% } %>
-                             <%} %></p>
-                            </td>
+                          <td>
+                            <p>Pixelstore fresh Blackberry</p>
+                          </td>
+                          <td>
+                            <h5>x 02</h5>
+                          </td>
+                          <td>
+                            <p>$720.00</p>
+                          </td>
                         </tr>
                         <tr>
-                            <td>
-                                <h4>Loại Xe:</h4>
-                            </td>
-                            <td>
-                                <h5></h5>
-                            </td>
-                            <td>
-                                <p><% for(var i=0; i<loaixe.length; i++) { %>
-                                
-                                    <% if(loaixe[i].malx == hoadonrx.malx){ %>
-                                        <%= loaixe[i].tenlx %>
-                                        <% } else{ %>  
-                                   
-                                       <% } %>
-                                <%} %></p>
-                            </td>
+                          <td>
+                            <p>Pixelstore fresh Blackberry</p>
+                          </td>
+                          <td>
+                            <h5>x 02</h5>
+                          </td>
+                          <td>
+                            <p>$720.00</p>
+                          </td>
                         </tr>
                         <tr>
-                            <td>
-                                <h4>Giá:</h4>
-                            </td>
-                            <td>
-                                <h5></h5>
-                            </td>
-                            <td>
-                                <p>
-                                
-                                <% for(var i=0; i<loaixe.length; i++) { %>
-                                
-                                    <% if(loaixe[i].malx == hoadonrx.malx){ %>
-                                        <%= (loaixe[i].gia).toLocaleString() %> VNĐ
-                                        <% } else{ %>  
-                                   
-                                       <% } %>
-                                <%} %>
-
-                              
-                            
-                            </p>
-                            </td>
+                          <td>
+                            <h4>Subtotal</h4>
+                          </td>
+                          <td>
+                            <h5></h5>
+                          </td>
+                          <td>
+                            <p>$2160.00</p>
+                          </td>
                         </tr>
                         <tr>
-                            <td>
-                                <h4>Tổng Tiền</h4>
-                            </td>
-                            <td>
-                                <h5></h5>
-                            </td>
-                            <td>
-                                <p><%=  (hoadonrx.tongtienrx).toLocaleString() %> VNĐ %></p>
-                            </td>
+                          <td>
+                            <h4>Shipping</h4>
+                          </td>
+                          <td>
+                            <h5></h5>
+                          </td>
+                          <td>
+                            <p>Flat rate: $50.00</p>
+                          </td>
                         </tr>
-                    </tbody>
+                        <tr>
+                          <td>
+                            <h4>Total</h4>
+                          </td>
+                          <td>
+                            <h5></h5>
+                          </td>
+                          <td>
+                            <h4>$2210.00</h4>
+                          </td>
+                        </tr>
+                      </tbody>
+                      
+               
                 </table>
             </div>
         </div>
     </div>
 
+
+    <p><%=  (hoadon.tongtiensp).toLocaleString() %> VNĐ %></p>
+
 <!--================End Order Details Area =================-->
 </br>
 <p class="text-center">
 </br>
-    <a class="genric-btn success circle" href="/khachhang/chonngay" >Đặt Thêm Lịch</a>
-    <a class="genric-btn success circle" href="/khachhang/dondatlich" >Xem Danh Sách</a>
+    <a class="genric-btn success circle" href="/shop" >Mua Thêm</a>
+    <a class="genric-btn success circle" href="/khachhang/dondathang" >Xem Danh Sách</a>
 
-    <% if ((hoadonrx.ptthanhtoan == 2) && (hoadonrx.thanhtoan == 1)) { %>
+    <% if ((hoadon.ptthanhtoan == 2) && (hoadon.thanhtoan == 1)) { %>
     
-        <a class="genric-btn success circle" href="/khachhang/ttcard/<%= hoadonrx.mahdrx %>" >Thanh Toán</a>
+        <a class="genric-btn success circle" href="/khachhang/ttcard/<%= hoadon.mahd %>" >Thanh Toán</a>
     
         <% } %>
    

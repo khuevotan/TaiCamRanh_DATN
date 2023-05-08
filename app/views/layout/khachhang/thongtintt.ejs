@@ -17,14 +17,14 @@
 
                                 <div class="form-group mb-3">
                                     <label for="tennguoinhan"><b>Tên Người Nhận</b></label>
-                                    <input type="text" name="tennguoinhan" maxlength="255" placeholder="Nhập tên người nhận..."
-                                        class="single-input" style="border: 1px solid #ccc;"
-                                        <% if (typeof tennguoinhan != "undefined" && tennguoinhan) { %> value="<%= diachi %>"
-                                        <% } %> required>
+                                    <input type="text" name="tennguoinhan" maxlength="255"
+                                        placeholder="Nhập tên người nhận..." class="single-input"
+                                        style="border: 1px solid #ccc;"
+                                        <% if (typeof tennguoinhan != "undefined" && tennguoinhan) { %>
+                                        value="<%= diachi %>" <% } %> required>
                                 </div>
-                      
 
-                                
+
 
                                 <div class="form-group mb-3">
                                     <label for="diachi"><b>Địa Chỉ</b></label>
@@ -61,11 +61,78 @@
                                     <div>
                                         <select class="form-select single-input" name="ptthanhtoan"
                                             style="border: 1px solid #ccc;">
-                                            <option name="ptthanhtoan" value="1" id="1">Thanh Toán Khi Nhận Hàng</option>
+                                            <option name="ptthanhtoan" value="1" id="1">Thanh Toán Khi Nhận Hàng
+                                            </option>
                                             <option name="ptthanhtoan" value="2" id="2">Thẻ Online</option>
                                         </select>
                                     </div>
                                 </div>
+
+
+                                <div class="form-group mb-3">
+                                    <label for="matinh"><b>Tỉnh/Thành phố</b></label> <b class="text-danger">(Lưu
+                                        ý!)</b>
+                                    <div>
+
+
+                                        <!-- <select class="form-select single-input" name="matinh" style="border: 1px solid #ccc;"
+                                        onChange="myNewFunction(this);">
+                                        <% tinh.forEach((item) => { %>
+                                        <option name="matinh" value="<%= item.matinh %>" id="<%= item.matinh %>"><%= item.tentinh %></option>
+                                        <% }) %>
+                                        </select> -->
+
+                                        <!-- <select name="matinh">
+                                            <% tinh.forEach((item) => { %>
+                                            <option name="matinh" value="<%= item.matinh %>" id="<%= item.matinh %>"><%= item.tentinh %></option>
+                                            <% }) %>
+                                          </select> -->
+
+
+
+
+                                    </div>
+                                </div>
+
+
+
+
+
+                                <div class="form-group mb-3">
+                                    <label for="ptthanhtoan"><b>Quận/Huyện</b></label>
+                                    <div>
+
+                                        <!-- <select class="form-select single-input" name="mahuyen" style="border: 1px solid #ccc;"
+                                        onchange="myFunction()">
+
+
+                                        <% for(var i=0; i< huyen.length; i++) { %>
+                                            <% if(huyen[i].matinh == 1 ){ %>
+                                                <option name="mahuyen" value="<%= huyen[i].mahuyen %>"><%= huyen[i].tenhuyen %></option>
+                                                <% } %>  
+                                          <%} %>
+                                          
+                                     
+                                        </select> -->
+
+
+                                        <!-- <select name="mahuyen">
+                                                <% if (typeof selectedMatinh === 'undefined') { %>
+                                                  <option value="">Vui lòng chọn tỉnh/thành phố trước</option>
+                                                <% } else { %>
+                                                  <% for (var i = 0; i < huyen.length; i++) { %>
+                                                    <% if (huyen[i].matinh == selectedMatinh) { %>
+                                                      <option value="<%= huyen[i].mahuyen %>"><%= huyen[i].tenhuyen %></option>
+                                                    <% } %>
+                                                  <% } %>
+                                                <% } %>
+                                              </select> -->
+
+
+
+                                    </div>
+                                </div>
+
                             </div>
                         </div>
                         <hr>
@@ -78,9 +145,9 @@
 
                         <div class="text-center">
 
-                            <a href="/khachhang/chonngay" class="genric-btn info circle">Giỏ Hàng</a>
+                            <!-- <a href="/khachhang/chonngay" class="genric-btn info circle">Giỏ Hàng</a> -->
 
-                            <input class="genric-btn info circle" type="submit" value="Đặt Hàng Ngay">
+                            <input class="genric-btn info circle" type="submit" value="Xác Nhận Giao Đến Địa Chỉ Này">
                         </div>
                     </form>
                 </div>
@@ -89,13 +156,67 @@
     </div>
 </div>
 
-<script>
-const url = window.location.href;
-    const status = url.slice(url.lastIndexOf('=') + 1);
-   
-    if (status == 'gioihan'){
-		alert("Bạn đã đạt giới hạn đặt hàng hôm nay!");
-	}
+<select name="matinh" id="matinhSelect">
+    <option value="" class="chon-thanh-pho">Chọn thành phố</option>
+    <% tinh.forEach((item) => { %>
+    <option name="matinh" value="<%= item.matinh %>"><%= item.tentinh %></option>
+    <% }) %>
+</select>
 
+<select name="mahuyen" id="mahuyenSelect">
+    <option value="">Chọn huyện</option>
+
+</select>
+
+<script>
+    var matinhSelect = document.getElementById("matinhSelect");
+    var mahuyenSelect = document.getElementById("mahuyenSelect");
+
+
+    //  sử dụng Ajax và JavaScript để gửi yêu cầu từ client đến server và nhận kết quả trả về để cập nhật select box "mahuyen":
+
+    matinhSelect.onchange = function () {
+        var selectedMatinh = matinhSelect.value;
+        mahuyenSelect.innerHTML = ""; // Xóa các option hiện tại trong select mahuyen
+
+        // Gửi yêu cầu Ajax đến server với giá trị matinh
+        var xhr = new XMLHttpRequest();
+        xhr.open("GET", `/getHuyen?matinh=${selectedMatinh}`, true);
+        xhr.onload = function () {
+            if (xhr.status === 200) {
+                var huyenList = JSON.parse(xhr.responseText);
+
+                // Tạo các option mới dựa trên kết quả nhận được
+                huyenList.forEach(function (item) {
+                    var option = document.createElement("option");
+                    option.value = item.mahuyen;
+                    option.textContent = item.tenhuyen;
+                    mahuyenSelect.appendChild(option);
+                });
+            }
+        };
+        xhr.send();
+
+        // Ẩn option "Chọn thành phố" nếu đã chọn thành phố
+        var chonThanhPhoOption = document.querySelector(".chon-thanh-pho");
+        if (selectedMatinh) {
+            chonThanhPhoOption.style.display = "none";
+        } else {
+            chonThanhPhoOption.style.display = ""; // Hiển thị lại option nếu chưa chọn thành phố
+        }
+    };
 </script>
 
+
+
+
+
+
+<script>
+    const url = window.location.href;
+    const status = url.slice(url.lastIndexOf('=') + 1);
+
+    if (status == 'gioihan') {
+        alert("Bạn đã đạt giới hạn đặt hàng hôm nay!");
+    }
+</script>
