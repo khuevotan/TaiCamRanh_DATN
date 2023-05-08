@@ -33,9 +33,6 @@
                                         required>
                                 </div>
 
-
-
-
                                 <div class="form-group mb-3">
                                     <label for="ghichu"><b>Ghi Chú</b></label>
 
@@ -57,8 +54,9 @@
                                           <select class="form-select single-input" name="matinh" id="matinhSelect"  style="border: 1px solid #ccc;">
                                             <option value="" class="chon-thanh-pho">Chọn Thành Phố</option>
                                             <% tinh.forEach((item) => { %>
-                                            <option name="matinh" value="<%= item.matinh %>"><%= item.tentinh %></option>
+                                            <option name="matinh" value="<%= item.matinh %>" data-tentinh="<%= item.tentinh %>"><%= item.tentinh %></option>
                                             <% }) %>
+                                          
                                         </select>
                                     </div>
                                 </div>
@@ -86,11 +84,11 @@
                                 <div class="form-group mb-3">
                                     <label for="ptthanhtoan"><b>Phương Thức Thanh Toán</b></label>  <b class="text-danger">(*)</b>
                                     <div>
-                                        <select class="form-select single-input" name="ptthanhtoan"
+                                        <select class="form-select single-input" name="ptthanhtoan"  id="thanhtoanSelect"
                                             style="border: 1px solid #ccc;">
-                                            <option name="ptthanhtoan" value="1" id="1">Thanh Toán Khi Nhận Hàng
+                                            <option name="ptthanhtoan"  data-tenthanhtoan="Thanh Toán Khi Nhận Hàng" value="1" id="1">Thanh Toán Khi Nhận Hàng
                                             </option>
-                                            <option name="ptthanhtoan" value="2" id="2">Thẻ Online</option>
+                                            <option name="ptthanhtoan"  data-tenthanhtoan="Thẻ Online" value="2" id="2">Thẻ Online</option>
                                         </select>
                                     </div>
                                 </div>
@@ -141,6 +139,8 @@
                     var option = document.createElement("option");
                     option.value = item.mahuyen;
                     option.textContent = item.tenhuyen;
+                
+                    option.setAttribute("data-tenhuyen", item.tenhuyen);
                     mahuyenSelect.appendChild(option);
                 });
             }
@@ -165,11 +165,28 @@
       e.preventDefault(); // Ngăn chặn hành vi mặc định của form
   
       var nameInput = document.getElementsByName("tennguoinhan")[0];
-    var emailInput = document.getElementsByName("sodt")[0];
+        var sdtInput = document.getElementsByName("sodt")[0];
+        var diachiInput = document.getElementsByName("diachi")[0];
+
+        // Lấy giá trị từ option matinh
+        var matinhOption = matinhSelect.options[matinhSelect.selectedIndex];
+        var selectedTentinh = matinhOption.getAttribute("data-tentinh");
+
+        // Lấy giá trị từ huyện.
+        var mahuyenOption = mahuyenSelect.options[mahuyenSelect.selectedIndex];
+        var selectedTenhuyen= mahuyenOption.getAttribute("data-tenhuyen");
+
+
+         // Lấy giá trị phương thức thanh toán.
+         var mathanhtoanOption = thanhtoanSelect.options[thanhtoanSelect.selectedIndex];
+        var selectedThanhtoan= mathanhtoanOption.getAttribute("data-tenthanhtoan");
+
   
       var confirmMessage = "Xác nhận thông tin đơn hàng:\n" +
-                           "Tên: " + nameInput.value + "\n" +
-                           "Email: " + emailInput.value + "\n\n" +
+                           "Tên người nhận: " + nameInput.value + "\n" +
+                           "Số điện thoại: " + sdtInput.value + "\n" +
+                           "Địa Chỉ: " + diachiInput.value +', '+ selectedTenhuyen + ', '+ selectedTentinh + "\n" +
+                           "Phương thức thanh toán: " + selectedThanhtoan + "\n\n" +
                            "Bạn có chắc muốn xác nhận?";
   
       var isConfirmed = confirm(confirmMessage);

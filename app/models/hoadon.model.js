@@ -11,7 +11,7 @@ const HoaDon = function(hoadon){
     this.tongtienhd = hoadon.tongtienhd;
     this.thanhtoan = hoadon.thanhtoan;
     this.ptthanhtoan = hoadon.ptthanhtoan;
-    this.maphiship  = hoadon.maphiship;
+    this.maps  = hoadon.maps;
     this.matt = hoadon.matt;
     this.manv = hoadon.manv;
     this.makh = hoadon.makh;
@@ -114,23 +114,23 @@ HoaDon.thongKeDG = (result) => {
     let query = `SELECT COUNT(*) FROM hoadon WHERE matt = 1`;
 
     // Doanh thu hóa đơn đặt hàng ngày hôm nay.
-    let query2 = `SELECT SUM(tongtiensp) FROM hoadon WHERE DATE(created_at) = CURDATE()`;
+    let query2 = `SELECT SUM(tongtienhd) FROM hoadon WHERE DATE(created_at) = CURDATE()`;
 
-    let query2ago = `SELECT SUM(tongtiensp) as tongtiensp FROM hoadon WHERE DATE(created_at) = DATE(CURRENT_DATE - INTERVAL 1 DAY)`;
+    let query2ago = `SELECT SUM(tongtienhd) as tongtienhd FROM hoadon WHERE DATE(created_at) = DATE(CURRENT_DATE - INTERVAL 1 DAY)`;
 
     // Doanh thu hóa đơn đặt hàng tháng này.
-    let query3 = `SELECT SUM(tongtiensp) FROM hoadon WHERE MONTH(created_at) = MONTH(CURDATE()) AND YEAR(created_at) = YEAR(CURDATE())`;
+    let query3 = `SELECT SUM(tongtienhd) FROM hoadon WHERE MONTH(created_at) = MONTH(CURDATE()) AND YEAR(created_at) = YEAR(CURDATE())`;
 
-    let query3ago = `SELECT SUM(tongtiensp) as tongtiensp FROM hoadon WHERE MONTH(created_at) = MONTH(CURRENT_DATE - INTERVAL 1 MONTH) AND YEAR(created_at) = YEAR(CURRENT_DATE)`;
+    let query3ago = `SELECT SUM(tongtienhd) as tongtienhd FROM hoadon WHERE MONTH(created_at) = MONTH(CURRENT_DATE - INTERVAL 1 MONTH) AND YEAR(created_at) = YEAR(CURRENT_DATE)`;
 
     // Doanh thu hóa đơn đặt hàng 7 ngày gần nhất.
-    let queryn6 = `SELECT SUM(tongtiensp), COUNT(*) AS sldh FROM hoadon WHERE DATEDIFF(NOW(), created_at) = 6;`;
-    let queryn5 = `SELECT SUM(tongtiensp), COUNT(*) AS sldh FROM hoadon WHERE DATEDIFF(NOW(), created_at) = 5;`;
-    let queryn4 = `SELECT SUM(tongtiensp), COUNT(*) AS sldh FROM hoadon WHERE DATEDIFF(NOW(), created_at) = 4;`;
-    let queryn3 = `SELECT SUM(tongtiensp), COUNT(*) AS sldh FROM hoadon WHERE DATEDIFF(NOW(), created_at) = 3;`;
-    let queryn2 = `SELECT SUM(tongtiensp), COUNT(*) AS sldh FROM hoadon WHERE DATEDIFF(NOW(), created_at) = 2;`;
-    let queryn1 = `SELECT SUM(tongtiensp), COUNT(*) AS sldh FROM hoadon WHERE DATEDIFF(NOW(), created_at) = 1;`;
-    let queryn0 = `SELECT SUM(tongtiensp), COUNT(*) AS sldh FROM hoadon WHERE DATEDIFF(NOW(), created_at) = 0;`;
+    let queryn6 = `SELECT SUM(tongtienhd), COUNT(*) AS sldh FROM hoadon WHERE DATEDIFF(NOW(), created_at) = 6;`;
+    let queryn5 = `SELECT SUM(tongtienhd), COUNT(*) AS sldh FROM hoadon WHERE DATEDIFF(NOW(), created_at) = 5;`;
+    let queryn4 = `SELECT SUM(tongtienhd), COUNT(*) AS sldh FROM hoadon WHERE DATEDIFF(NOW(), created_at) = 4;`;
+    let queryn3 = `SELECT SUM(tongtienhd), COUNT(*) AS sldh FROM hoadon WHERE DATEDIFF(NOW(), created_at) = 3;`;
+    let queryn2 = `SELECT SUM(tongtienhd), COUNT(*) AS sldh FROM hoadon WHERE DATEDIFF(NOW(), created_at) = 2;`;
+    let queryn1 = `SELECT SUM(tongtienhd), COUNT(*) AS sldh FROM hoadon WHERE DATEDIFF(NOW(), created_at) = 1;`;
+    let queryn0 = `SELECT SUM(tongtienhd), COUNT(*) AS sldh FROM hoadon WHERE DATEDIFF(NOW(), created_at) = 0;`;
 
     sql.query(query, (err, res1) => {
         sql.query(query2, (err, res2) => {
@@ -285,7 +285,7 @@ HoaDon.checkToDay = (makh, result) => {
             result(null, err);
             return;
         }
-        console.log("hoadon: ", res);
+      
         result(null, res);
     });
 };

@@ -2,12 +2,13 @@ const HoaDon = require("../../models/HoaDon.model");
 const CTHoaDon = require("../../models/CTHoaDon.model");
 const TrangThai = require("../../models/TrangThai.model");
 const SanPham = require("../../models/SanPham.model");
+const PhiShip = require("../../models/phiship.model");
 
 //======================= GIAO DIEN ADMIN ======================= 
 // Hiển thị danh sách hóa đơn.
 exports.findAll = (req, res) => {
     res.locals.deleted = req.query.deleted;
- 
+
     HoaDon.getAllAD((err, data) => {
         if (err)
             res.redirect('/500')
@@ -31,7 +32,7 @@ exports.findAll = (req, res) => {
 // Chỉnh sửa thông tin hóa đơn.
 exports.edit = (req, res) => {
     res.locals.status = req.query.status;
-  
+
     const tensp = req.query.tentt;
     HoaDon.findBymahd(req.params.mahd, (err, data) => {
         if (err) {
@@ -61,7 +62,7 @@ exports.edit = (req, res) => {
                                         cthd: cthd,
                                         sanpham: sanpham,
                                         layout: './master2'
-                                    });                 
+                                    });
                                 }
                             });
                         }
@@ -82,8 +83,8 @@ exports.update = (req, res) => {
     res.locals.nhanvien = req.session.nhanvien
     const manv = res.locals.nhanvien.manv;
 
-     // Create a hoadon
-     const hoadon = new HoaDon({
+    // Create a hoadon
+    const hoadon = new HoaDon({
         tennguoinhan: req.body.tennguoinhan,
         ngaygiao: req.body.ngaygiao,
         sodt: req.body.sodt,
@@ -111,7 +112,7 @@ exports.update = (req, res) => {
 
 // Xóa thông tin hóa đơn đặt hàng.
 exports.delete = (req, res) => {
-    
+
     CTHoaDon.remove(req.params.mahd, (err, data) => {
         if (err) {
             if (err.kind === "not_found") {
@@ -120,8 +121,8 @@ exports.delete = (req, res) => {
                 res.redirect('/admin/500');
             }
         } else {
-                HoaDon.remove(req.params.mahd, (err, data) => {
-                    res.redirect('/admin/hoadon/index?deleted=true')
+            HoaDon.remove(req.params.mahd, (err, data) => {
+                res.redirect('/admin/hoadon/index?deleted=true')
             });
         }
     });
@@ -182,7 +183,7 @@ exports.findAllKH = (req, res) => {
     const limit = parseInt(req.query.limit) || 3;
     const offset = (page - 1) * limit;
 
-    
+
     HoaDon.getAll(mahd, makh, limit, offset, (err, data) => {
         if (err)
             res.redirect('/500')
@@ -216,22 +217,27 @@ exports.chitietdathang = (req, res) => {
                 res.redirect('/500');
             }
         } else {
-            CTHoaDon.findBymahd(req.params.mahd, (err, cthd) => {
+            CTHoaDon.findBymahd(req.params.mahd, (err, datacthd) => {
                 if (err)
                     res.redirect('/500')
                 else {
-                    SanPham.getAll(tensp, (err, sanpham) => {
-                        if (err)
-                            res.redirect('/500')
-                        else {
-                            res.render('ctdathang', {
-                                hoadon: data,
-                                cthd: cthd,
-                                sanpham: sanpham,
-                                layout: './master'
-                            });
-                        }
+
+                    PhiShip.findBymaps(data.maps, (err, phiship) => {
+                        SanPham.getAll(tensp, (err, sanpham) => {
+                            if (err)
+                                res.redirect('/500')
+                            else {
+                                res.render('ctdathang', {
+                                    hoadon: data,
+                                    cthd: datacthd,
+                                    phiship: phiship,
+                                    sanpham: sanpham,
+                                    layout: './master'
+                                });
+                            }
+                        });
                     });
+
                 }
             });
         }
@@ -245,7 +251,7 @@ exports.findAllKHLS = (req, res) => {
 
     res.locals.khachhang = req.session.khachhang
     const makh = res.locals.khachhang.makh;
-    
+
     const mahd = req.query.mahd;
 
     const page = parseInt(req.query.page) || 1;
@@ -273,3 +279,18 @@ exports.findAllKHLS = (req, res) => {
         }
     });
 };
+
+
+// thanh toán bằng Stripe
+const Publishable_Key = 'pk_test_51MqHEXDWd2W6upWFp32vuRnPei7IjHDNJMJ0rQ8vBc6L4AetU7RqtYP6zXizThorGPFP5d08e76hAcAfWRcUMXPZ00xCXY4HTv'
+const Secret_Key = 'sk_test_51MqHEXDWd2W6upWF1VZ7dn4skGPysk27NeODNhPsXlPgoyMbjqoFEl4hICGaAv1WexgSrFcRTo7vGS3S6hHZF1Py00jhzifGQJ'
+const stripe = require('stripe')(Secret_Key)
+
+exports.thanhToanThe = (req, res) => {
+
+    mahd = req.params.mahd
+    res.render('ttcarddh', {
+            key: Publishable_Key,
+            mahd: mahd,
+    })
+}

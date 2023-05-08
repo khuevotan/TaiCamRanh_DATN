@@ -44,7 +44,7 @@ Huyen.getALLByMT = (matinh, result) => {
             result(null, err);
             return;
         }
-        console.log("huyen: ", res);
+      
         result(null, res);
     });
 };
@@ -59,7 +59,7 @@ Huyen.getAll = (result) => {
             result(null, err);
             return;
         }
-        console.log("huyen: ", res);
+     
         result(null, res);
     });
 };

@@ -224,7 +224,7 @@ HoaDonRX.doanhThuTC = (ngaybatdau, ngayketthuc, thanhtoan, trangthai, result) =>
 
     const query = `SELECT DATE(created_at) AS date, SUM(tongtienrx) AS tongtienrx FROM hoadonrx WHERE created_at BETWEEN '${ngaybatdau}' AND '${ngayketthuc}' AND thanhtoan = ${thanhtoan} AND matt =  ${trangthai} GROUP BY DATE(created_at) ORDER BY DATE(created_at);`
 
-    const query2 = `SELECT DATE(created_at) AS date, SUM(tongtiensp) AS tongtiensp FROM hoadon WHERE created_at BETWEEN '${ngaybatdau}' AND '${ngayketthuc}' AND thanhtoan = ${thanhtoan} AND matt =  ${trangthai} GROUP BY DATE(created_at) ORDER BY DATE(created_at);`
+    const query2 = `SELECT DATE(created_at) AS date, SUM(tongtienhd) AS tongtienhd FROM hoadon WHERE created_at BETWEEN '${ngaybatdau}' AND '${ngayketthuc}' AND thanhtoan = ${thanhtoan} AND matt =  ${trangthai} GROUP BY DATE(created_at) ORDER BY DATE(created_at);`
 
     sql.query(query, (err, dtHDRX) => {
         if (err) {
@@ -250,7 +250,7 @@ HoaDonRX.doanhThuCDT = (thanhtoan, trangthai, result) => {
 
     const queryhrdx = `SELECT MONTH(created_at) as month_number, SUM(tongtienrx) as tongtienrx FROM hoadonrx WHERE YEAR(created_at) = YEAR(NOW()) AND thanhtoan = ${thanhtoan} AND matt =  ${trangthai} GROUP BY MONTH(created_at);`
 
-    const queryhd = `SELECT MONTH(created_at) as month_number, SUM(tongtiensp) as tongtiensp FROM hoadon WHERE YEAR(created_at) = YEAR(NOW()) AND thanhtoan = ${thanhtoan} AND matt =  ${trangthai} GROUP BY MONTH(created_at);`
+    const queryhd = `SELECT MONTH(created_at) as month_number, SUM(tongtienhd) as tongtienhd FROM hoadon WHERE YEAR(created_at) = YEAR(NOW()) AND thanhtoan = ${thanhtoan} AND matt =  ${trangthai} GROUP BY MONTH(created_at);`
 
     sql.query(queryhrdx, (err, dtHDRX) => {
         if (err) {
@@ -276,7 +276,7 @@ HoaDonRX.doanhThuCDTuan = (thanhtoan, trangthai, result) => {
 
     const queryhrdx = `SELECT WEEK(created_at) as week_number, SUM(tongtienrx) as tongtienrx FROM hoadonrx WHERE YEAR(created_at) = YEAR(NOW()) AND MONTH(created_at) = MONTH(NOW()) AND thanhtoan = ${thanhtoan} AND matt =  ${trangthai} GROUP BY WEEK(created_at) HAVING week_number >= WEEK(NOW()) - 3;`
 
-    const queryhd = `SELECT WEEK(created_at) as week_number, SUM(tongtiensp) as tongtiensp FROM hoadon WHERE YEAR(created_at) = YEAR(NOW()) AND MONTH(created_at) = MONTH(NOW()) AND thanhtoan = ${thanhtoan} AND matt =  ${trangthai} GROUP BY WEEK(created_at) HAVING week_number >= WEEK(NOW()) - 3;`
+    const queryhd = `SELECT WEEK(created_at) as week_number, SUM(tongtienhd) as tongtienhd FROM hoadon WHERE YEAR(created_at) = YEAR(NOW()) AND MONTH(created_at) = MONTH(NOW()) AND thanhtoan = ${thanhtoan} AND matt =  ${trangthai} GROUP BY WEEK(created_at) HAVING week_number >= WEEK(NOW()) - 3;`
 
     sql.query(queryhrdx, (err, dtHDRX) => {
         if (err) {

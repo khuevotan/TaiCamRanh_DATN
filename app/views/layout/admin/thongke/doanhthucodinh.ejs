@@ -15,26 +15,27 @@
 </style>
 
 <div class="page-heading">
-    <h1 class="page-title">Doanh Thu</h1>
+    <h1 class="page-title">Doanh Thu Cố Định</h1>
 </div>
 
 <div class="container">
     <form action="/admin/doanhthucodinh" method="post">
-      
+        <div class="form-group">
+            <div class="input-daterange input-group">
+                <select class="form-select form-control" name="codinh">
+                    <% if(codinh == 1){ %>
+                    <option name="codinh" selected value="1">Tuần</option>
+                    <option name="codinh" value="2"> Tháng</option>
+                    <% } else{ %>
+                    <option name="codinh" value="1"> Tuần</option>
+                    <option name="codinh" selected value="2"> Tháng</option>
+                    <% } %>
+                </select>
+            </div>
+        </div>
 
         <div class="form-group">
             <div class="input-daterange input-group">
-                <label class="font-normal">Thuoc Tinh</label>
-                <select class="form-select form-control" name="codinh">
-                    <% if(codinh == 1){ %>
-                    <option name="codinh" selected value="1">Tuan</option>
-                    <option name="codinh" value="2"> Thang</option>
-                    <% } else{ %>
-                    <option name="codinh" value="1"> Tuan</option>
-                    <option name="codinh" selected value="2"> Thang</option>
-                    <% } %>
-                </select>
-
                 <select class="form-select form-control" name="thanhtoan">
                     <% if(thanhtoan == 1){ %>
                     <option name="thanhtoan" selected value="1"> Chưa Thanh Toán</option>
@@ -52,6 +53,7 @@
                     <option name="trangthai" value="2"> Đã Xác Nhận </option>
                     <option name="trangthai" value="3"> Hủy </option>
                     <option name="trangthai" value="4"> Thành Công </option>
+                    <option name="trangthai" value="5"> Đã Giao Cho Đơn Vị Vận Chuyển</option>
                     <% } %>
 
                     <% if(trangthai == 2){ %>
@@ -59,6 +61,7 @@
                     <option name="trangthai" selected value="2"> Đã Xác Nhận </option>
                     <option name="trangthai" value="3"> Hủy </option>
                     <option name="trangthai" value="4"> Thành Công </option>
+                    <option name="trangthai" value="5"> Đã Giao Cho Đơn Vị Vận Chuyển</option>
                     <% } %>
 
                     <% if(trangthai == 3){ %>
@@ -66,6 +69,7 @@
                     <option name="trangthai" value="2"> Đã Xác Nhận </option>
                     <option name="trangthai" selected value="3"> Hủy </option>
                     <option name="trangthai" value="4"> Thành Công </option>
+                    <option name="trangthai" value="5"> Đã Giao Cho Đơn Vị Vận Chuyển</option>
                     <% } %>
 
                     <% if(trangthai == 4){ %>
@@ -73,7 +77,17 @@
                     <option name="trangthai" value="2"> Đã Xác Nhận </option>
                     <option name="trangthai" value="3"> Hủy </option>
                     <option name="trangthai" selected value="4"> Thành Công </option>
+                    <option name="trangthai" value="5"> Đã Giao Cho Đơn Vị Vận Chuyển</option>
                     <% } %>
+
+                    <% if(trangthai == 5){ %>
+                        <option name="trangthai" value="1"> Chờ Xác Nhận</option>
+                        <option name="trangthai" value="2"> Đã Xác Nhận </option>
+                        <option name="trangthai" value="3"> Hủy </option>
+                        <option name="trangthai" value="4"> Thành Công </option>
+                        <option name="trangthai" selected value="5"> Đã Giao Cho Đơn Vị Vận Chuyển</option>
+                    <% } %>
+                    
                 </select>
             </div>
         </div>
@@ -83,11 +97,11 @@
             </div>
 
             <div class=" row col-6">
-               Doanh Thu Đơn Hàng:  <div id="doanhThuDH"></div> VNĐ
+                Doanh Thu Đơn Hàng: <div id="doanhThuDH"></div> VNĐ
             </div>
-          
+
             <div class=" row col-4"> Doanh Thu Đơn Đặt Lịch: <div id="doanhThuRX"></div> VNĐ
-             </div>
+            </div>
 
         </div>
     </form>
@@ -102,6 +116,8 @@
     </div>
 </div>
 
+
+<div style="height: 350px;"></div>
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js@3.7.1/dist/chart.min.js"></script>
 
@@ -138,18 +154,17 @@
     // Gán dữ liệu vào nội dung của thẻ div
     if (!isNaN(doanhThuHD)) {
         doanhThuDH.textContent = doanhThuHD;
-    } 
+    }
 
     if (!isNaN(doanhThuHDRX)) {
         doanhThuRX.textContent = doanhThuHDRX;
-    } 
+    }
 
     var barData = {
         labels: mangchuoidate,
-        datasets: [
-            {
+        datasets: [{
                 label: "Đơn Đặt Hàng",
-                backgroundColor:'#DADDE0',
+                backgroundColor: '#DADDE0',
                 data: mangchuoitienhd
             },
             {
@@ -166,6 +181,9 @@
     };
 
     var ctx = document.getElementById("bar_chartne").getContext("2d");
-    new Chart(ctx, {type: 'bar', data: barData, options:barOptions}); 
-
+    new Chart(ctx, {
+        type: 'bar',
+        data: barData,
+        options: barOptions
+    });
 </script>

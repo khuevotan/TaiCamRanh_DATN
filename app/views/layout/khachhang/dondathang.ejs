@@ -161,8 +161,12 @@ href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css" />
                 <div class="row">
                     <div class="col-md-12">
                         <div class="pull-right"><a href="/khachhang/ctdathang/<%= item.mahd %>" class="genric-btn info-border circle">Xem Chi Tiết</a></div>
-
-
+                        
+                        
+                        <% if ((item.thanhtoan == 1) && (item.ptthanhtoan == 2)){%>
+                            <div class="pull-right"><a href="/khachhang/ttcarddh/<%= item.mahd %>" class="genric-btn warning-border circle">Thanh Toán</a></div>
+                          
+                            <% }%>
                         <% 
                             var now = new Date(); // Lấy thời gian hiện tại
                             var someDate = new Date(item.created_at); // Mốc thời gian đã cho

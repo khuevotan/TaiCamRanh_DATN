@@ -15,7 +15,7 @@
 <div class="container h-100">
     <div class="blog-banner">
         <div class="text-center">
-            <h1>Chi Tiết Đơn Rửa Xe</h1>
+            <h1>Chi Tiết Đơn Đặt Hàng</h1>
          
         </div>
     </div>
@@ -25,11 +25,11 @@
 <!--================Order Details Area =================-->
 
     <div class="container">
-        <p class="text-center billing-alert">Cảm ơn đơn đặt lịch của bạn</p>
+        <p class="text-center billing-alert">Cảm ơn đơn đặt hàng của bạn</p>
         <div class="row mb-5">
             <div class="col-md-6 col-xl-6 mb-6 mb-xl-0">
                 <div class="confirmation-card">
-                    <h3 class="billing-title">Thông Tin Hóa Đơn Rửa Xe</h3>
+                    <h3 class="billing-title">Thông Tin Hóa Đơn</h3>
                     <table class="order-rable">
                         <tr>
                             <td>Mã Hóa Đơn</td>
@@ -77,6 +77,10 @@
                                 <%  } %></td>
                         </tr>
                         <tr>
+                          <td>Mã Vận Chuyển:</td>
+                          <td>: <%= phiship.mavanchuyen %></td>
+                      </tr>
+                        <tr>
                             <td>Cập Nhật Gần Nhất:</td>
                             <td>: <%= moment(hoadon.updated_at).format('dddd, DD-MM-YYYY HH:mm:ss') %></td>
                         </tr>
@@ -85,11 +89,11 @@
             </div>
             <div class="col-md-6 col-xl-6 mb-6 mb-xl-0">
                 <div class="confirmation-card">
-                    <h3 class="billing-title">Thông Tin Người Rửa</h3>
+                    <h3 class="billing-title">Thông Tin Người Nhận</h3>
                     <table class="order-rable">
                         <tr>
                             <td>Họ Và Tên</td>
-                            <td>: <%= hoadon.tennguoirua  %></td>
+                            <td>: <%= hoadon.tennguoinhan  %></td>
                         </tr>
                         <tr>
                             <td>Số Điện Thoại</td>
@@ -106,7 +110,7 @@
                         <tr>
                             <td>Hình Thức Thanh Toán</td>
                             <td>:  <%if (hoadon.ptthanhtoan == 1) { %>
-                                <button class="genric-btn danger circle small" href="#" title="View">Tại Cửa Hàng</button>
+                                <button class="genric-btn danger circle small" href="#" title="View">Thanh Toán Khi Nhận Hàng</button>
                                 <% }else { %>
                                 <button class="genric-btn success circle small" href="#" title="View">Thẻ Online</button>
                                 <%  } %></td>
@@ -125,76 +129,75 @@
                
                     <thead>
                         <tr>
-                          <th scope="col">Product</th>
-                          <th scope="col">Quantity</th>
-                          <th scope="col">Total</th>
+                          <th scope="col">Sản Phẩm</th>
+                          <th scope="col">Số Lượng</th>
+                          <th scope="col">Tổng Tiền</th>
                         </tr>
                       </thead>
                       <tbody>
-                        <tr>
+
+                       
+
+                        <% for(var i=0; i< cthd.length; i++) { %>
+                          <% for(var j=0; j< sanpham.length; j++) { %>
+                            <% if(cthd[i].masp == sanpham[j].masp){ %>
+                          <tr>
+                            <td>
+                              <p> 
+                             
+                                
+                                <%= sanpham[i].tensp %>
+                              
+                              
+                              
+                              </p>
+                            </td>
+                            <td>
+                              <h5>x <%= cthd[i].soluong %></h5>
+                            </td>
+                            <td>
+                              <p><%=  (cthd[i].giatien).toLocaleString() %> VNĐ </p>
+                            </td>
+                          </tr>
+                          <% } %>
+                          <%} %>
+                        <%} %>
+
+                      
                           <td>
-                            <p>Pixelstore fresh Blackberry</p>
-                          </td>
-                          <td>
-                            <h5>x 02</h5>
-                          </td>
-                          <td>
-                            <p>$720.00</p>
-                          </td>
-                        </tr>
-                        <tr>
-                          <td>
-                            <p>Pixelstore fresh Blackberry</p>
-                          </td>
-                          <td>
-                            <h5>x 02</h5>
-                          </td>
-                          <td>
-                            <p>$720.00</p>
-                          </td>
-                        </tr>
-                        <tr>
-                          <td>
-                            <p>Pixelstore fresh Blackberry</p>
-                          </td>
-                          <td>
-                            <h5>x 02</h5>
-                          </td>
-                          <td>
-                            <p>$720.00</p>
-                          </td>
-                        </tr>
-                        <tr>
-                          <td>
-                            <h4>Subtotal</h4>
+                            <h4>Tổng Tiền Sản Phẩm</h4>
                           </td>
                           <td>
                             <h5></h5>
                           </td>
                           <td>
-                            <p>$2160.00</p>
+                            <p><%=  (hoadon.tongtiensp).toLocaleString() %> VNĐ </p>
                           </td>
                         </tr>
                         <tr>
                           <td>
-                            <h4>Shipping</h4>
+                            <h4>Tiền Ship</h4>
                           </td>
                           <td>
                             <h5></h5>
                           </td>
                           <td>
-                            <p>Flat rate: $50.00</p>
+                            <p>
+
+                                      <%=  (phiship.giaphi).toLocaleString() %> VNĐ %>                
+                                
+                            </p>
                           </td>
                         </tr>
                         <tr>
                           <td>
-                            <h4>Total</h4>
+                            <h4>Tổng Tiền</h4>
                           </td>
                           <td>
                             <h5></h5>
                           </td>
                           <td>
-                            <h4>$2210.00</h4>
+                            <p class="text-danger"><%=  (hoadon.tongtienhd).toLocaleString() %> VNĐ %></p>
                           </td>
                         </tr>
                       </tbody>
@@ -206,7 +209,7 @@
     </div>
 
 
-    <p><%=  (hoadon.tongtiensp).toLocaleString() %> VNĐ %></p>
+    
 
 <!--================End Order Details Area =================-->
 </br>

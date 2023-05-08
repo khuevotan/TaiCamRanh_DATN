@@ -14,7 +14,7 @@ Tinh.create = (newtinh, result) => {
             result(err, null);
             return;
         }
-        console.log("created tinh: ", { matinh: res.insertmatinh, ...newtinh });
+      
         result(null, { matinh: res.insertmatinh, ...newtinh });
     });
 };
@@ -42,7 +42,7 @@ Tinh.getAll = (result) => {
             result(null, err);
             return;
         }
-        console.log("tinh: ", res);
+    
         result(null, res);
     });
 };

@@ -61,15 +61,15 @@
                             <div class="px-3" style="border-right: 1px solid rgba(0,0,0,.1);">
                                 <div class="text-muted">ĐƠN HÀNG</div>
                                 <div>
-                                    <span id="doanhthudonhang" class="h2 m-0"></span> <small>(VNĐ)</small>
+                                    <span class="h2 m-0"><%= (doanhThuDatHang7Ngay).toLocaleString() %>   </span> <small>(VNĐ)</small>
                                     
                                 </div>
                             </div>
                             <div class="px-3">
                                 <div class="text-muted">ĐƠN RỬA XE</div>
                                 <div>
-                                    <span id="doanhthudonruaxe" class="h2 m-0"></span> <small>(VNĐ)</small>
-                                    <!-- <span class="text-warning ml-2"><i class="fa fa-level-down"></i> -12%</span> -->
+                                    <span class="h2 m-0"><%= (doanhThuDatLich7Ngay).toLocaleString() %> </span> <small>(VNĐ)</small>
+                                  
                                 </div>
                             </div>
                         </div>
@@ -89,17 +89,7 @@
                     <div class=" ">
                     
                             <canvas id="doughnut_chart" style="height:160px;"></canvas>
-                   
-                       
-                            <!-- <% slxe.forEach((item) => { %>
-                              <% loaixe.forEach((itemhai) => { %>
-                                <%  if(item.malx == itemhai.malx){ %>
-                                    <div class="m-b-20 text-success"><i class="fa fa-circle-o m-r-10"></i><%= itemhai.tenlx %></div>  
-                                    <% }  %> 
-                                <% }) %>
-
-                            <% }) %> -->
-                          
+                 
                             <div class="row align-items-center">
                                 <div class="col-md-6">
                                     <div class="m-b-20 m-t-20 text-muted"><i class="fa fa-circle-o m-r-10"></i>Chờ Xác Nhận</div>
@@ -221,28 +211,18 @@
     var sldhn1 = <%= soLuongDHN1 %>;
     var sldhn0 = <%= soLuongDHN0 %>;
 
-    let sumdthd7n = 0;
     let sumslhd7n = 0;
 
     // Sử dụng vòng lặp for để tính tổng các phần tử trong mảng
-    for (let i = 0; i < 6; i++) {
-        sumdthd7n = dhn6 + dhn5 + dhn4 + dhn3 + dhn2 + dhn1 + dhn0;
-    }
-
+ 
     for (let i = 0; i < 6; i++) {
         sumslhd7n = sldhn6 + sldhn5 + sldhn4 + sldhn3 + sldhn2 + sldhn1 + sldhn0;
     }
 
-    var sumdthd7ncv = sumdthd7n.toLocaleString();
-
     // Lấy thẻ div cần hiển thị dữ liệu
-    const SUMdthd7n = document.getElementById("doanhthudonhang");
     const SUMslhd7n = document.getElementById("soluongdhtuan");
 
     // Gán dữ liệu vào nội dung của thẻ div
-    if (!isNaN(sumdthd7ncv)) {
-        SUMdthd7n.textContent = sumdthd7ncv;
-    } 
 
     if (!isNaN(sumslhd7n)) {
         SUMslhd7n.textContent = sumslhd7n;
@@ -266,28 +246,17 @@
     var slrxn1 = <%= soLuongRXN1 %>;
     var slrxn0 = <%= soLuongRXN0 %>;
 
-    let sumdthdrx7n = 0;
     let sumslhdrx7n = 0;
 
     // Sử dụng vòng lặp for để tính tổng các phần tử trong mảng
     for (let i = 0; i < 6; i++) {
-        sumdthdrx7n = dhrxn6 + dhrxn5 + dhrxn4 + dhrxn3 + dhrxn2 + dhrxn1 + dhrxn0;
-    }
-
-    for (let i = 0; i < 6; i++) {
         sumslhdrx7n = slrxn6 + slrxn5 + slrxn4 + slrxn3 + slrxn2 + slrxn1 + slrxn0;
     }
 
-    var sumdthdrx7ncv = sumdthdrx7n.toLocaleString();
 
     // Lấy thẻ div cần hiển thị dữ liệu
-    const SUMdthdrx7n = document.getElementById("doanhthudonruaxe");
     const SUMslhdrx7n = document.getElementById("soluongdhrxtuan");
 
-    // Gán dữ liệu vào nội dung của thẻ div
-    if (!isNaN(sumdthdrx7ncv)) {
-        SUMdthdrx7n.textContent = sumdthdrx7ncv;
-    } 
 
     if (!isNaN(sumslhdrx7n)) {
         SUMslhdrx7n.textContent = sumslhdrx7n;

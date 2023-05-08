@@ -1,7 +1,7 @@
 const sql = require("./db")
 
 const PhiShip = function(phiship){
-    this.maphiship  = phiship.maphiship ;
+    this.maps  = phiship.maps ;
     this.mavanchuyen = phiship.mavanchuyen;
     this.giaphi = phiship.giaphi;
     this.mahuyen  = phiship.mahuyen ;
@@ -21,8 +21,8 @@ PhiShip.create = (newphiship, result) => {
     });
 };
 
-PhiShip.findBymaphiship  = (maphiship , result) => {
-    sql.query(`SELECT * from phiship WHERE maphiship  = '${maphiship }'`, (err, res) => {
+PhiShip.findBymaps  = (maps , result) => {
+    sql.query(`SELECT * from phiship WHERE maps  = '${maps}'`, (err, res) => {
         if (err) {
             result(err, null);
             return;
@@ -49,10 +49,10 @@ PhiShip.getAll = (result) => {
     });
 };
 
-PhiShip.updateBymaphiship  = (maphiship , phiship, result) => {
+PhiShip.updateBymaps  = (maps , phiship, result) => {
     sql.query(
-        "UPDATE phiship SET mavanchuyen = ?, giaphi = ?, mahuyen  = ?, updated_at = ? WHERE maphiship  = ?",
-        [phiship.mavanchuyen, phiship.giaphi , phiship.mahuyen  ,new Date(), maphiship ],
+        "UPDATE phiship SET mavanchuyen = ?, giaphi = ?, mahuyen  = ?, updated_at = ? WHERE maps  = ?",
+        [phiship.mavanchuyen, phiship.giaphi , phiship.mahuyen  ,new Date(), maps ],
         (err, res) => {
             if (err) {
                 console.log("error: ", err);
@@ -60,12 +60,12 @@ PhiShip.updateBymaphiship  = (maphiship , phiship, result) => {
                 return;
             }
             if (res.affectedRows == 0) {
-                // not found phiship with the maphiship 
+                // not found phiship with the maps 
                 result({ kind: "not_found" }, null);
                 return;
             }
-            console.log("updated phiship: ", { maphiship : maphiship , ...phiship });
-            result(null, { maphiship : maphiship , ...phiship });
+            console.log("updated phiship: ", { maps : maps , ...phiship });
+            result(null, { maps : maps , ...phiship });
         }
     );
 };

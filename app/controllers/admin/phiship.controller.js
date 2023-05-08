@@ -45,7 +45,7 @@ exports.findAll = (req, res) => {
 exports.edit = (req, res) => {
     res.locals.status = req.query.status;
 
-    PhiShip.findBymaphiship(req.params.maphiship, (err, data) => {
+    PhiShip.findBymaps(req.params.maps, (err, data) => {
         if (err) {
             if (err.kind === "not_found") {
                 res.redirect('/404');
@@ -61,15 +61,15 @@ exports.update = (req, res) => {
 
     // Validate Request
     if (!req.body) {
-        res.redirect('/admin/phiship/edit/' + req.params.maphiship + '?status=error')
+        res.redirect('/admin/phiship/edit/' + req.params.maps + '?status=error')
     }
 
     const phiship = new PhiShip({
         tenphiship: req.body.tenphiship,
     });
 
-    PhiShip.updateBymaphiship(
-        req.params.maphiship,
+    PhiShip.updateBymaps(
+        req.params.maps,
         phiship,
         (err, data) => {
             if (err) {
@@ -78,7 +78,7 @@ exports.update = (req, res) => {
                 } else {
                     res.redirect('/500');
                 }
-            } else res.redirect('/admin/phiship/edit/' + req.params.maphiship + '?status=success');
+            } else res.redirect('/admin/phiship/edit/' + req.params.maps + '?status=success');
         }
     );
 };
@@ -87,7 +87,7 @@ exports.update = (req, res) => {
 exports.details = (req, res) => {
     res.locals.status = req.query.status;
 
-    PhiShip.findBymaphiship(req.params.maphiship, (err, data) => {
+    PhiShip.findBymaps(req.params.maps, (err, data) => {
         if (err) {
             if (err.kind === "not_found") {
                 res.redirect('/404');
@@ -100,7 +100,7 @@ exports.details = (req, res) => {
 
 // Xóa giờ 
 exports.delete = (req, res) => {
-    PhiShip.remove(req.params.maphiship, (err, data) => {
+    PhiShip.remove(req.params.maps, (err, data) => {
         if (err) {
             if (err.kind === "not_found") {
                 res.redirect('/404');

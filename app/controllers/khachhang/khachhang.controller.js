@@ -835,10 +835,6 @@ exports.datlich = (req, res) => {
                     var biencheck = somaxcheck[0].CheckToDay;
                     var bienInData = MAX_KH_ĐL.giatri;
 
-                    console.log("innnnnnnnnnnnnnnn");
-                    console.log(biencheck);
-                    console.log(bienInData);
-
                     if (biencheck < bienInData) {
 
                         HoaDonRX.create(hoadonrx, (err, data) => {
@@ -943,7 +939,7 @@ exports.nhapThongTinDonHang = (req, res) => {
                                 }
 
                                 const phiship = new PhiShip({
-                                    maphiship: idphi,
+                                    maps: idphi,
                                     giaphi: giashipne,
                                     mavanchuyen: '',
                                     mahuyen: mahuyen,
@@ -951,81 +947,85 @@ exports.nhapThongTinDonHang = (req, res) => {
 
 
                                 PhiShip.create(phiship, (err, dataphisipne) => {
+                                    Tinh.findBymatinh(req.body.matinh, (err, tentinh) => {
+                                        Huyen.findBymahuyen(req.body.mahuyen, (err, tenhuyen) => {
 
-                                    console.log("gia phi");
 
-                                    console.log(dataphisipne);
-                                    console.log(dataphisipne.giaphi);
+                                            const hoadon = new HoaDon({
+                                                mahd: id,
+                                                ngaygiao: futureDate,
+                                                tennguoinhan: req.body.tennguoinhan,
+                                                sodt: req.body.sodt,
+                                                diachi: req.body.diachi + ',' + tenhuyen.tenhuyen + ',' + tentinh.tentinh,
+                                                ghichu: req.body.ghichu,
+                                                tongtiensp: tongtiensp,
+                                                tongtienhd: tongtiensp + dataphisipne.giaphi,
+                                                maps : dataphisipne.maps ,
+                                                thanhtoan: 1,
+                                                ptthanhtoan: ptthanhtoan,
+                                                matt: 1,
+                                                manv: 1,
+                                                makh: makh,
+                                            });
 
-                                    const hoadon = new HoaDon({
-                                        mahd: id,
-                                        ngaygiao: futureDate,
-                                        tennguoinhan: req.body.tennguoinhan,
-                                        sodt: req.body.sodt,
-                                        diachi: req.body.diachi,
-                                        ghichu: req.body.ghichu,
-                                        tongtiensp: tongtiensp,
-                                        tongtienhd: tongtiensp + dataphisipne.giaphi,
-                                        maphiship : dataphisipne.maphiship ,
-                                        thanhtoan: 1,
-                                        ptthanhtoan: ptthanhtoan,
-                                        matt: 1,
-                                        manv: 1,
-                                        makh: makh,
-                                    });
-            
-                                    HoaDon.create(hoadon, (err, data) => {
-            
-                                        if (!err) {
-                                            const mahd = data.mahd;
-                                            var cart = new Cart(req.session.cart);
-                                            var cartArr = cart.getItems();
-            
-                                            for (let i = 0; i < cartArr.length; i++) {
-                                                var masp = cartArr[i].item.masp;
-                                                var soluong = cartArr[i].quantity;
-                                                var giatien = cartArr[i].price;
-            
-                                                const cthoadon = new CTHoaDon({
-                                                    mahd: mahd,
-                                                    masp: masp,
-                                                    soluong: soluong,
-                                                    giatien: giatien,
-                                                });
-            
-                                                CTHoaDon.create(cthoadon, (err, data) => {
-                                                    if (!err) {
-            
-                                                    } else {
-                                                        console.log(err);
+                                          
+                    
+                                            HoaDon.create(hoadon, (err, data) => {
+                    
+                                                if (!err) {
+                                                    const mahd = data.mahd;
+                                                    var cart = new Cart(req.session.cart);
+                                                    var cartArr = cart.getItems();
+                    
+                                                    for (let i = 0; i < cartArr.length; i++) {
+                                                        var masp = cartArr[i].item.masp;
+                                                        var soluong = cartArr[i].quantity;
+                                                        var giatien = cartArr[i].price;
+                    
+                                                        const cthoadon = new CTHoaDon({
+                                                            mahd: mahd,
+                                                            masp: masp,
+                                                            soluong: soluong,
+                                                            giatien: giatien,
+                                                        });
+                    
+                                                        CTHoaDon.create(cthoadon, (err, data) => {
+                                                            if (!err) {
+                    
+                                                            } else {
+                                                                console.log(err);
+                                                            }
+                                                        });
                                                     }
-                                                });
-                                            }
-            
-            
-                                            // Chuyển trang tùy theo phương thức thanh toán.
-                                            if (req.body.ptthanhtoan == 1) {
-            
-                                                var to = email;
-                                                var subject = "Đặt hàng thành công!";
-                                                var message = 'Chúng tôi xin gửi';
-                                                mailer.sendMail(to, subject, message);
-            
-                                                res.redirect('/khachhang/thanhtoantc?mahd' + mahd + 'status=dhtctaich')
-                                            } else {
-            
-                                                var to = email;
-                                                var subject = "Đặt hàng thành công!";
-                                                var message = 'Chúng tôi xin gửi';
-            
-                                                mailer.sendMail(to, subject, message);
-                                                res.redirect('/khachhang/ttcarddh/' + mahd)
-                                            }
-            
-                                        } else {
-                                            res.redirect('/khachhang/thongtintt?status=thatbai')
-                                        }
-                                    });
+                    
+                    
+                                                    // Chuyển trang tùy theo phương thức thanh toán.
+                                                    if (req.body.ptthanhtoan == 1) {
+                    
+                                                        var to = email;
+                                                        var subject = "Đặt hàng thành công!";
+                                                        var message = 'Chúng tôi xin gửi';
+                                                        mailer.sendMail(to, subject, message);
+                    
+                                                        res.redirect('/khachhang/thanhtoantcdh?mahd=' + mahd + '&status=dhtctaich')
+                                                    } else {
+                    
+                                                        var to = email;
+                                                        var subject = "Đặt hàng thành công!";
+                                                        var message = 'Chúng tôi xin gửi';
+                    
+                                                        mailer.sendMail(to, subject, message);
+                                                        res.redirect('/khachhang/ttcarddh/' + mahd)
+                                                    }
+                    
+                                                } else {
+                                                    res.redirect('/khachhang/thongtintt?status=thatbai')
+                                                }
+                                            });
+                                        });  
+                                    });  
+
+                                   
             
                                 });   
 

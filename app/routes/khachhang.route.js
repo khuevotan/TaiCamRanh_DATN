@@ -10,7 +10,8 @@ const Publishable_Key = 'pk_test_51MqHEXDWd2W6upWFp32vuRnPei7IjHDNJMJ0rQ8vBc6L4A
 const Secret_Key = 'sk_test_51MqHEXDWd2W6upWF1VZ7dn4skGPysk27NeODNhPsXlPgoyMbjqoFEl4hICGaAv1WexgSrFcRTo7vGS3S6hHZF1Py00jhzifGQJ'
 const stripe = require('stripe')(Secret_Key)
 
-const bodyparser = require('body-parser')
+const bodyparser = require('body-parser');
+const HoaDon = require('../models/hoadon.model');
 
 module.exports = app => {
     var router = require('express').Router();
@@ -71,7 +72,7 @@ module.exports = app => {
 
     // xác thực tài khoản
     router.get("/khachhang/xacthuctaikhoan/:email", authMiddleware.loggedin, khachhang.xacthuctaikhoan);
-   
+
 
     // ======================= Đặt Lịch Rửa Xe ======================= 
     // Đặt Lịch Rửa Xe
@@ -100,103 +101,83 @@ module.exports = app => {
     router.get('/khachhang/dondathang', authMiddleware.loggedin, hoadon.findAllKH)
 
     // Hiển thị chi tiết 1 đơn đặt hàng
-    router.get('/khachhang/ctdathang/:mahd', authMiddleware.loggedin , hoadon.chitietdathang)
+    router.get('/khachhang/ctdathang/:mahd', authMiddleware.loggedin, hoadon.chitietdathang)
 
-     // Hiển thị lịch sử đặt hàng
+    // Hiển thị lịch sử đặt hàng
     router.get('/khachhang/lsdathang', authMiddleware.loggedin, hoadon.findAllKHLS)
 
     // nhập thông hóa đơn đặt hàng
-    router.get('/khachhang/thongtintt', khachhang.showFormTTDH);
+    router.get('/khachhang/thongtintt', authMiddleware.loggedin, khachhang.showFormTTDH);
 
     app.get('/getHuyen', (req, res) => {
         const selectedMatinh = req.query.matinh; // Lấy giá trị matinh từ query parameters
-      
+
         // Xử lý logic để lấy danh sách huyện tương ứng với selectedMatinh
 
-        Huyen.getALLByMT(selectedMatinh,(err, data) => {
+        Huyen.getALLByMT(selectedMatinh, (err, data) => {
 
             const huyenList = data;
 
             // Gửi danh sách huyện về cho client dưới dạng JSON
             res.json(huyenList);
         });
-      });
-
-
-
-    //   function getHuyenList(selectedMatinh) {
-    //     // Thực hiện các bước để lấy danh sách huyện tương ứng với selectedMatinh
-    //     // Ví dụ:
-    //     const huyenList = [
-    //       { mahuyen: 'huyen1', tenhuyen: 'Huyện 1', matinh:'2' },
-    //       { mahuyen: 'huyen2', tenhuyen: 'Huyện 2', matinh:'1'  },
-    //       { mahuyen: 'huyen3', tenhuyen: 'Huyện 3', matinh:'3'  },
-    //     ];
-      
-    //     return huyenList;
-    //   }
+    });
 
     // nhấn nút đặt hàng
-    router.post("/dathang",  khachhang.nhapThongTinDonHang);
+    router.post("/dathang", khachhang.nhapThongTinDonHang);
 
-    
-     // ======================= THANH TOÁN ======================= 
-    // chọn phương thức thanh toán rửa xe
-    router.get('/khachhang/chonttrx', authMiddleware.loggedin,(req, res) => {
-        res.render('chonttrx');
+    // Đặt lịch thành công.
+    router.get('/khachhang/thanhtoantc', authMiddleware.loggedin, (req, res) => {
+        res.render('thanhtoantc');
     });
 
-     // chọn phương thức thanh toán đặt hàng
-    router.get('/khachhang/chonttdh', authMiddleware.loggedin,(req, res) => {
-        res.render('chonttdh');
+    // Đặt hàng thành công.
+    router.get('/khachhang/thanhtoantcdh', authMiddleware.loggedin, (req, res) => {
+        res.render('thanhtoantcdh');
     });
 
+    // ======================= THANH TOÁN ======================= 
 
     // thnah toán bằng online bên đặt hàng
-    router.get('/khachhang/ttcarddh/:mahd', authMiddleware.loggedin, (req, res) => {
-        mahd = req.params.mahd
-        res.render('ttcarddh', {
-            key: Publishable_Key,
-            mahd: mahd,
-        })
-    });
+    router.get('/khachhang/ttcarddh/:mahd', authMiddleware.loggedin, hoadon.thanhToanThe)
 
-    router.post('/khachhang/ttcarddh/payment/', khachhang.thanhToanDH,authMiddleware.loggedin, function (req, res) {
+    router.post('/khachhang/ttcarddh/payment/', khachhang.thanhToanDH, authMiddleware.loggedin, function (req, res) {
 
         const mahdhai = req.body.mahd
 
-        stripe.customers.create({
-                email: req.body.stripeEmail,
-                source: req.body.stripeToken,
-                name: 'TaiCamRanh',
-                address: {
-                    line1: 'TC 9/4 Old MES colony',
-                    postal_code: '110092',
-                    city: 'New Delhi',
-                    state: 'Delhi',
-                    country: 'India',
-                }
-            })
-            .then((customer) => {
-                return stripe.charges.create({
-                    amount: 8000, // Charing Rs 25
-                    description: 'Web Development Product',
-                    currency: 'USD',
-                    customer: customer.id
-                });
-            })
-            .then((charge) => {
-                res.redirect('/khachhang/thanhtoantc') // If no error occurs
+            stripe.customers.create({
+                    email: req.body.stripeEmail,
+                    source: req.body.stripeToken,
+                    name: 'TaiCamRanh',
+                    address: {
+                        line1: 'TC 9/4 Old MES colony',
+                        postal_code: '110092',
+                        city: 'New Delhi',
+                        state: 'Delhi',
+                        country: 'India',
+                    }
+                })
+                .then((customer) => {
+                    return stripe.charges.create({
+                        amount: 1000, // Charing Rs 25
+                        description: 'Web Development Product',
+                        currency: 'USD',
+                        customer: customer.id
+                    });
+                })
+                .then((charge) => {
+                    res.redirect('/khachhang/thanhtoantcdh?mahd=' + req.body.mahd + '&status=thanhtoantc') // If no error occurs
 
-            })
-            .catch((err) => {
-                res.send(err) // If some error occurs
-            });
+                })
+                .catch((err) => {
+                    res.send(err) // If some error occurs
+                });
+    
     })
 
 
     //Thanh toán bằng Stripe bên đặt lịch
-    router.get('/khachhang/ttcard/:mahdrx',authMiddleware.loggedin, (req, res) => {
+    router.get('/khachhang/ttcard/:mahdrx', authMiddleware.loggedin, (req, res) => {
         mahdrx = req.params.mahdrx
         res.render('ttcard', {
             key: Publishable_Key,
@@ -204,7 +185,7 @@ module.exports = app => {
         })
     });
 
-    router.post('/khachhang/ttcard/payment/', khachhang.thanhToan,authMiddleware.loggedin, function (req, res) {
+    router.post('/khachhang/ttcard/payment/', khachhang.thanhToan, authMiddleware.loggedin, function (req, res) {
 
         const mahdrxhai = req.body.mahdrx
 
@@ -229,7 +210,7 @@ module.exports = app => {
                 });
             })
             .then((charge) => {
-                res.redirect('/khachhang/thanhtoantc?mahdrx=' + req.body.mahdrx) // If no error occurs
+                res.redirect('/khachhang/thanhtoantc?mahdrx=' + req.body.mahdrx + '&status=thanhtoantc') // If no error occurs
 
             })
             .catch((err) => {
@@ -237,10 +218,7 @@ module.exports = app => {
             });
     })
 
-    // Thanh Toán Thành Công
-    router.get('/khachhang/thanhtoantc',authMiddleware.loggedin, (req, res) => {
-        res.render('thanhtoantc');
-    });
+
 
     app.use(router);
 }

@@ -12,7 +12,7 @@
 </style>
 
 <div class="page-heading">
-    <h1 class="page-title">Doanh Thu</h1>
+    <h1 class="page-title">Doanh Thu Tùy Chọn</h1>
 </div>
 
 <div class="container">
@@ -49,6 +49,7 @@
                     <option name="trangthai" value="2"> Đã Xác Nhận </option>
                     <option name="trangthai" value="3"> Hủy </option>
                     <option name="trangthai" value="4"> Thành Công </option>
+                    <option name="trangthai" value="5"> Đã Giao Cho Đơn Vị Vận Chuyển</option>
                     <% } %>
 
                     <% if(trangthai == 2){ %>
@@ -56,6 +57,7 @@
                     <option name="trangthai" selected value="2"> Đã Xác Nhận </option>
                     <option name="trangthai" value="3"> Hủy </option>
                     <option name="trangthai" value="4"> Thành Công </option>
+                    <option name="trangthai" value="5"> Đã Giao Cho Đơn Vị Vận Chuyển</option>
                     <% } %>
 
                     <% if(trangthai == 3){ %>
@@ -63,6 +65,7 @@
                     <option name="trangthai" value="2"> Đã Xác Nhận </option>
                     <option name="trangthai" selected value="3"> Hủy </option>
                     <option name="trangthai" value="4"> Thành Công </option>
+                    <option name="trangthai" value="5"> Đã Giao Cho Đơn Vị Vận Chuyển</option>
                     <% } %>
 
                     <% if(trangthai == 4){ %>
@@ -70,7 +73,16 @@
                     <option name="trangthai" value="2"> Đã Xác Nhận </option>
                     <option name="trangthai" value="3"> Hủy </option>
                     <option name="trangthai" selected value="4"> Thành Công </option>
+                    <option name="trangthai" value="5"> Đã Giao Cho Đơn Vị Vận Chuyển</option>
                     <% } %>
+
+                    <% if(trangthai == 5){ %>
+                        <option name="trangthai" value="1"> Chờ Xác Nhận</option>
+                        <option name="trangthai" value="2"> Đã Xác Nhận </option>
+                        <option name="trangthai" value="3"> Hủy </option>
+                        <option name="trangthai" value="4"> Thành Công </option>
+                        <option name="trangthai" selected value="5"> Đã Giao Cho Đơn Vị Vận Chuyển</option>
+                        <% } %>
                 </select>
             </div>
         </div>
@@ -103,6 +115,7 @@
 
 </div>
 
+<div style="height: 350px;"></div>
 
 
 

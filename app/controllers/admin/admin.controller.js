@@ -265,65 +265,65 @@ exports.getIndex = (req, res) => {
             data1[0]['COUNT(*)'] = 0;
         }
 
-        if(data2[0]['SUM(tongtiensp)'] == null){
-            data2[0]['SUM(tongtiensp)'] = 0;
+        if(data2[0]['SUM(tongtienhd)'] == null){
+            data2[0]['SUM(tongtienhd)'] = 0;
         }
 
-        if(dataago[0]['tongtiensp'] == null){
-            dataago[0]['SUM(tongtiensp)'] = 0;
+        if(dataago[0]['tongtienhd'] == null){
+            dataago[0]['SUM(tongtienhd)'] = 0;
         }
 
-        if(data3[0]['SUM(tongtiensp)'] == null){
-            data3[0]['SUM(tongtiensp)'] = 0;
+        if(data3[0]['SUM(tongtienhd)'] == null){
+            data3[0]['SUM(tongtienhd)'] = 0;
         }
 
-        if(datatrago[0]['tongtiensp'] == null){
-            datatrago[0]['SUM(tongtiensp)'] = 0;
+        if(datatrago[0]['tongtienhd'] == null){
+            datatrago[0]['SUM(tongtienhd)'] = 0;
         }
 
 
         // Doanh thu ngày 7.
-        if(ngay6[0]['SUM(tongtiensp)'] == null){
-            ngay6[0]['SUM(tongtiensp)'] = 0;
+        if(ngay6[0]['SUM(tongtienhd)'] == null){
+            ngay6[0]['SUM(tongtienhd)'] = 0;
         }
 
         // Doanh thu ngày 6.
-        if(ngay5[0]['SUM(tongtiensp)'] == null){
-            ngay5[0]['SUM(tongtiensp)'] = 0;
+        if(ngay5[0]['SUM(tongtienhd)'] == null){
+            ngay5[0]['SUM(tongtienhd)'] = 0;
         }
 
         // Doanh thu ngày 5.
-        if(ngay4[0]['SUM(tongtiensp)'] == null){
-            ngay4[0]['SUM(tongtiensp)'] = 0;
+        if(ngay4[0]['SUM(tongtienhd)'] == null){
+            ngay4[0]['SUM(tongtienhd)'] = 0;
         }
 
         // Doanh thu ngày 4.
-        if(ngay3[0]['SUM(tongtiensp)'] == null){
-            ngay3[0]['SUM(tongtiensp)'] = 0;
+        if(ngay3[0]['SUM(tongtienhd)'] == null){
+            ngay3[0]['SUM(tongtienhd)'] = 0;
         }
 
         // Doanh thu ngày 3.
-        if(ngay2[0]['SUM(tongtiensp)'] == null){
-            ngay2[0]['SUM(tongtiensp)'] = 0;
+        if(ngay2[0]['SUM(tongtienhd)'] == null){
+            ngay2[0]['SUM(tongtienhd)'] = 0;
         }
 
         // Doanh thu ngày 2.
-        if(ngay1[0]['SUM(tongtiensp)'] == null){
-            ngay1[0]['SUM(tongtiensp)'] = 0;
+        if(ngay1[0]['SUM(tongtienhd)'] == null){
+            ngay1[0]['SUM(tongtienhd)'] = 0;
         }
 
         // Doanh thu ngày 1.
-        if(ngay0[0]['SUM(tongtiensp)'] == null){
-            ngay0[0]['SUM(tongtiensp)'] = 0;
+        if(ngay0[0]['SUM(tongtienhd)'] == null){
+            ngay0[0]['SUM(tongtienhd)'] = 0;
         }
 
-        const doanhThuN6 = ngay6[0]['SUM(tongtiensp)'];
-        const doanhThuN5 = ngay5[0]['SUM(tongtiensp)'];
-        const doanhThuN4 = ngay4[0]['SUM(tongtiensp)'];
-        const doanhThuN3 = ngay3[0]['SUM(tongtiensp)'];
-        const doanhThuN2 = ngay2[0]['SUM(tongtiensp)'];
-        const doanhThuN1 = ngay1[0]['SUM(tongtiensp)'];
-        const doanhThuN0 = ngay0[0]['SUM(tongtiensp)'];
+        const doanhThuN6 = ngay6[0]['SUM(tongtienhd)'];
+        const doanhThuN5 = ngay5[0]['SUM(tongtienhd)'];
+        const doanhThuN4 = ngay4[0]['SUM(tongtienhd)'];
+        const doanhThuN3 = ngay3[0]['SUM(tongtienhd)'];
+        const doanhThuN2 = ngay2[0]['SUM(tongtienhd)'];
+        const doanhThuN1 = ngay1[0]['SUM(tongtienhd)'];
+        const doanhThuN0 = ngay0[0]['SUM(tongtienhd)'];
 
         const soLuongDHN6 = ngay6[0]['sldh'];
         const soLuongDHN5 = ngay5[0]['sldh'];
@@ -337,16 +337,16 @@ exports.getIndex = (req, res) => {
          const SLHDCD = data1[0]['COUNT(*)'];
 
          // Doanh thu hóa đơn đặt hàng ngày hôm nay.
-         const DTDHHN = data2[0]['SUM(tongtiensp)'];
+         const DTDHHN = data2[0]['SUM(tongtienhd)'];
 
          // Doanh thu hóa đơn đặt hàng ngày hôm qua.
-         const DTDHHNago = dataago[0]['SUM(tongtiensp)'];
+         const DTDHHNago = dataago[0]['SUM(tongtienhd)'];
 
          // Doanh thu hóa đơn đặt hàng tháng này.
-         const DTHDTN = data3[0]['SUM(tongtiensp)'];
+         const DTHDTN = data3[0]['SUM(tongtienhd)'];
 
           // Doanh thu hóa đơn đặt hàng tháng trước.
-        const DTHDTNago = datatrago[0]['tongtiensp'];
+        const DTHDTNago = datatrago[0]['tongtienhd'];
 
         HoaDonRX.thongKeDG((err, hdrxcd, dtrxn, dtrxnago , dtrxt,  dtrxtago,ngayrx6, ngayrx5, ngayrx4, ngayrx3, ngayrx2, ngayrx1, ngayrx0) => {
             
@@ -445,12 +445,6 @@ exports.getIndex = (req, res) => {
             var doanthuthangnay =  DTHDTN + dtrxtne;
             var doanthuthangtruoc = dtrxtneago + DTHDTNago;
 
-            console.log("khue2424");
-            console.log(doanthuhomnay);
-            console.log(doanthuhomqua);
-            console.log(doanthuthangnay);
-            console.log(doanthuthangtruoc);
-
             // so sanh donah thu ngày
             if (doanthuhomnay == 0 && doanthuhomqua == 0){
                 var tyledaanhthuhn = 0;
@@ -504,7 +498,6 @@ exports.getIndex = (req, res) => {
                     var tyleTuanDH = ((SLDHTuan - SLDHTuanT) / SLDHTuanT * 100);
                 }
 
-                HoaDonRX.thongkeSLXT((err, slxe, xe ) => {
 
                 HoaDonRX.thongkeTT((err, tt1, tt2, tt3, tt4) => {
                     var tt1 = tt1[0]['SoLuongHoaDon'];
@@ -539,12 +532,6 @@ exports.getIndex = (req, res) => {
                         SLDHTuan: SLDHTuan,
                         tyleTuanDH: tyleTuanDH,
 
-                        // tỷ lệ xe
-                        slxe: slxe,
-                        loaixe: xe,
-
-                      
-    
                         dhn6 : doanhThuN6,
                         dhn5 : doanhThuN5,
                         dhn4 : doanhThuN4,
@@ -553,6 +540,8 @@ exports.getIndex = (req, res) => {
                         dhn1 : doanhThuN1,
                         dhn0 : doanhThuN0,
 
+                        doanhThuDatHang7Ngay: doanhThuN6 + doanhThuN5 + doanhThuN4 + doanhThuN3 + doanhThuN2 + doanhThuN1 + doanhThuN0,
+
                         soLuongDHN6: soLuongDHN6,
                         soLuongDHN5: soLuongDHN5,
                         soLuongDHN4: soLuongDHN4,
@@ -560,6 +549,8 @@ exports.getIndex = (req, res) => {
                         soLuongDHN2: soLuongDHN2,
                         soLuongDHN1: soLuongDHN1,
                         soLuongDHN0 : soLuongDHN0,
+
+                        
         
                         dhrxn6 : doanhThuRXN6,
                         dhrxn5 : doanhThuRXN5,
@@ -568,6 +559,8 @@ exports.getIndex = (req, res) => {
                         dhrxn2 : doanhThuRXN2,
                         dhrxn1 : doanhThuRXN1,
                         dhrxn0 : doanhThuRXN0,
+
+                        doanhThuDatLich7Ngay: doanhThuRXN6 + doanhThuRXN5 + doanhThuRXN4 + doanhThuRXN3 + doanhThuRXN2 + doanhThuRXN1 + doanhThuRXN0,
 
                         soLuongRXN6 : soLuongRXN6,
                         soLuongRXN5 : soLuongRXN5,
@@ -588,17 +581,12 @@ exports.getIndex = (req, res) => {
                         ttdh4: ttdh4,
                         ttdh5: ttdh5,
 
-
-                        
                         layout: './master2'
                     });
 
                     });
                 });
-
-                });
-
-                
+             
             });
         });
     });
@@ -639,7 +627,7 @@ exports.doanhthuCoDinhSecond = (req, res) => {
 
             // Lấy giá trị date và tongtienrx thành một mảng 2 chiều
             const manghdrx = dtHDRX.map(item => [item.week_number, item.tongtienrx]);
-            const manghd = dtHD.map(item => [item.week_number , item.tongtiensp]);
+            const manghd = dtHD.map(item => [item.week_number , item.tongtienhd]);
     
             // mang 1 chieu
             console.log(manghdrx);
@@ -716,7 +704,7 @@ exports.doanhthuCoDinhSecond = (req, res) => {
 
             // Lấy giá trị date và tongtienrx thành một mảng 2 chiều
             const manghdrx = dtHDRX.map(item => [item.month_number, item.tongtienrx]);
-            const manghd = dtHD.map(item => [item.month_number , item.tongtiensp]);
+            const manghd = dtHD.map(item => [item.month_number , item.tongtienhd]);
     
             // mang 1 chieu
             console.log(manghdrx);
@@ -919,7 +907,7 @@ exports.doanhThuTuyChinh= (req, res) => {
 
         // Lấy giá trị date và tongtienrx thành một mảng 2 chiều
         const manghdrx = dtHDRX.map(item => [item.date, item.tongtienrx]);
-        const manghd = dtHD.map(item => [item.date , item.tongtiensp]);
+        const manghd = dtHD.map(item => [item.date , item.tongtienhd]);
 
         
         let mang2chieu = [];
@@ -937,7 +925,6 @@ exports.doanhThuTuyChinh= (req, res) => {
             mang2chieu.push(row);
         }
 
-        console.log("KHUE TEST1");
         
         for (let i = 0; i < manghdrx.length; i++) {
             const ngayrx = new Date(manghdrx[i][0]);
