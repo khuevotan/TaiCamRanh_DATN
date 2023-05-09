@@ -1,20 +1,21 @@
-const authMiddleware = require('../middlewares/authad.middleware');
+
+const authMiddQL = require('../middlewares/authadql.middleware');
 
 module.exports = app => {
     const thamso = require("../controllers/admin/thamso.controller");
     var router = require("express").Router();
 
     // Hiển thị danh sách các tham số
-    router.get("/index",authMiddleware.loggedinad, thamso.findAll);
+    router.get("/index",authMiddQL.loggedinadql, thamso.findAll);
 
     // Xem thông tin chi tiết 1 tham số
-    router.get("/details/:mats", authMiddleware.loggedinad, thamso.details);
+    router.get("/details/:mats", authMiddQL.loggedinadql, thamso.details);
 
     // Chỉnh sửa 1 tham số khi nhấn nút chỉnh sửa -> hiển thị form
-    router.get("/edit/:mats", authMiddleware.loggedinad, thamso.edit);
+    router.get("/edit/:mats", authMiddQL.loggedinadql, thamso.edit);
 
     // Lưu tham số khi nhấn nút update
-    router.put("/:mats", authMiddleware.loggedinad, thamso.update);
+    router.put("/:mats", authMiddQL.loggedinadql, thamso.update);
 
     app.use('/admin/thamso', router);
 }

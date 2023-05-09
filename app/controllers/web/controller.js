@@ -26,6 +26,12 @@ exports.showView = (req, res) => {
     res.render('view.ejs',{layout: './master2'});
 }
 
+
+
+exports.quyenTruyCap = (req, res) => {
+    res.render('quyentruycap.ejs',{layout: false});
+}
+
 exports.dangNhap = (req, res) => {
     res.render('dangnhap.ejs');
 }

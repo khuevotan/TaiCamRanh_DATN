@@ -29,6 +29,14 @@ module.exports = app => {
     router.get('/dangnhap', controller.dangNhap);
 
     router.get('/view/index', controller.showView);
+
+    router.get('/admin/quyentruycap', controller.quyenTruyCap);
+
+
+    
+    
+    
+  
     
     app.use(router);
 }

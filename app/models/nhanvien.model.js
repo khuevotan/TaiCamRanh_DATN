@@ -128,8 +128,8 @@ NhanVien.updateByMaNV = (manv, nhanvien, result) => {
 
 NhanVien.updateByMaNVAD = (manv, nhanvien, result) => {
     sql.query(
-        "UPDATE nhanvien SET taikhoan =?, honv = ?, tennv = ?, ngaysinh = ?, sodt = ?, diachi = ? , email = ?, gioitinh = ?, luong =?, manhom =?, updated_at = ?   WHERE manv = ?",
-        [nhanvien.taikhoan, nhanvien.honv , nhanvien.tennv, nhanvien.ngaysinh , nhanvien.sodt, nhanvien.diachi, nhanvien.email, nhanvien.gioitinh,nhanvien.luong,nhanvien.manhom , new Date(), manv],
+        "UPDATE nhanvien SET honv = ?, tennv = ?, ngaysinh = ?, sodt = ?, diachi = ?, gioitinh = ?, luong =?, manhom =?, kichhoat =? , updated_at = ?   WHERE manv = ?",
+        [nhanvien.honv , nhanvien.tennv, nhanvien.ngaysinh , nhanvien.sodt, nhanvien.diachi, nhanvien.gioitinh,nhanvien.luong, nhanvien.manhom , nhanvien.kichhoat, new Date(), manv],
         (err, res) => {
             if (err) {
                 console.log("error: ", err);

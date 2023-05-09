@@ -30,7 +30,7 @@
                     <h5 class="font-strong m-b-10 m-t-10"><%= nhanvien.honv %> <%= nhanvien.tennv %></h5>
 
                     <div>
-                        <form action="/admin/uploadfile/<%= nhanvien.hinhdd %>" enctype="multipart/form-data" method="POST"
+                        <form action="/admin/uploadfile" enctype="multipart/form-data" method="POST"
                             onSubmit="return confirm('Bạn có chắc chắn muốn đổi?') ">
                             <input type="file" name="myFile" accept="image/*" required />
                             </br>

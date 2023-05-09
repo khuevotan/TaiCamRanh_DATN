@@ -1,14 +1,14 @@
-const authMiddleware = require('../middlewares/authad.middleware');
+const authMiddQL = require('../middlewares/authadql.middleware');
 
 module.exports = app => {
     const baiviet = require("../controllers/admin/baiviet.controller");
     var router = require("express").Router();
 
     // Hiển thị danh sách các bài viết
-    router.get("/index", authMiddleware.loggedinad, baiviet.findAll);
+    router.get("/index", authMiddQL.loggedinadql, baiviet.findAll);
 
     // Hiển thị form tạo bài viết
-    router.get("/create", authMiddleware.loggedinad, baiviet.create);
+    router.get("/create", authMiddQL.loggedinadql, baiviet.create);
 
      //File upload images Bài Viết
      const multer = require("multer");
@@ -40,21 +40,21 @@ module.exports = app => {
 
     
     // Lưu bài viết mới khi nhấn nút lưu
-    router.post("/", authMiddleware.loggedinad, upload.single('hinhdd'), baiviet.store);
+    router.post("/", authMiddQL.loggedinadql, upload.single('hinhdd'), baiviet.store);
 
     // Xem thông tin chi tiết 1 bài viết
-    router.get("/details/:mabv", authMiddleware.loggedinad, baiviet.details);
+    router.get("/details/:mabv", authMiddQL.loggedinadql, baiviet.details);
 
     // Chỉnh sửa 1 bài viết khi nhấn nút chỉnh sửa -> hiển thị form
-    router.get("/edit/:mabv", authMiddleware.loggedinad, baiviet.edit);
+    router.get("/edit/:mabv", authMiddQL.loggedinadql, baiviet.edit);
 
     // Lưu bài viết khi nhấn nút update
-    router.put("/:mabv", authMiddleware.loggedinad, baiviet.update);
+    router.put("/:mabv", authMiddQL.loggedinadql, baiviet.update);
 
-    router.post("/anhdaidien/:mabv", authMiddleware.loggedinad, upload.single('hinhddmoi'), baiviet.updateADD);
+    router.post("/anhdaidien/:mabv", authMiddQL.loggedinadql, upload.single('hinhddmoi'), baiviet.updateADD);
 
     // Xóa một bài viết
-    router.get("/delete/:mabv", authMiddleware.loggedinad, baiviet.delete);
+    router.get("/delete/:mabv", authMiddQL.loggedinadql, baiviet.delete);
 
     app.use('/admin/baiviet', router);
 }

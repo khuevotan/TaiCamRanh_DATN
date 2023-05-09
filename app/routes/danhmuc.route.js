@@ -1,11 +1,12 @@
-const authMiddleware = require('../middlewares/authad.middleware');
+
+const authMiddBH = require('../middlewares/authadbh.middleware');
 
 module.exports = app => {
     const danhMuc = require("../controllers/admin/danhmuc.controller");
     var router = require("express").Router();
 
     // Hiển thị danh sách các danh mục
-    router.get("/index",authMiddleware.loggedinad, danhMuc.findAll);
+    router.get("/index",authMiddBH.loggedinadbh, danhMuc.findAll);
 
     // Hiển thị form tạo danh mục
 
@@ -37,24 +38,24 @@ module.exports = app => {
         storage: storage
     })
 
-    router.get("/create", authMiddleware.loggedinad, danhMuc.create);
+    router.get("/create", authMiddBH.loggedinadbh, danhMuc.create);
 
     // Lưu danh mục mới khi nhấn nút lưu
-    router.post("/", authMiddleware.loggedinad, upload.single('hinhdd'), danhMuc.store);
+    router.post("/", authMiddBH.loggedinadbh, upload.single('hinhdd'), danhMuc.store);
 
     // Xem thông tin chi tiết 1 danh mục
-    router.get("/details/:madm", authMiddleware.loggedinad, danhMuc.details);
+    router.get("/details/:madm", authMiddBH.loggedinadbh, danhMuc.details);
 
     // Chỉnh sửa 1 danh mục khi nhấn nút chỉnh sửa -> hiển thị form
-    router.get("/edit/:madm", authMiddleware.loggedinad, danhMuc.edit);
+    router.get("/edit/:madm", authMiddBH.loggedinadbh, danhMuc.edit);
     
     // Lưu danh mục khi nhấn nút update
-    router.put("/:madm", authMiddleware.loggedinad, danhMuc.update);
+    router.put("/:madm", authMiddBH.loggedinadbh, danhMuc.update);
 
-    router.post("/anhdaidien/:madm", authMiddleware.loggedinad, upload.single('hinhddmoi'), danhMuc.updateADD);
+    router.post("/anhdaidien/:madm", authMiddBH.loggedinadbh, upload.single('hinhddmoi'), danhMuc.updateADD);
 
     // // Delete a danhmuc with id
-    router.get("/delete/:madm", authMiddleware.loggedinad, danhMuc.delete);
+    router.get("/delete/:madm", authMiddBH.loggedinadbh, danhMuc.delete);
 
     app.use('/admin/danhmuc', router);
 }

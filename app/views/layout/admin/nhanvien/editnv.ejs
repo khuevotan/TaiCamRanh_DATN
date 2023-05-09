@@ -124,10 +124,31 @@
                         <div class="form-group row">
                             <label class="col-sm-2 col-form-label">Lương</label>
                             <div class="col-sm-10">
-                                <input class="form-control " type="text" name="luong"
+                                <input class="form-control number-input" type="text" name="luong"
                                     value="<%= nhanvien.luong %>">
                             </div>
                         </div>
+
+                        <div class="form-group row">
+                            <label class="col-sm-2 col-form-label">Nhóm</label>
+                            <div class="col-sm-10">
+
+                                <select class="form-control" name="manhom">
+
+                                    <% for(var i=0; i< nhom.length; i++) { %>
+                                        <% if(nhom[i].manhom == nhanvien.manhom){ %>
+                                            <option name="manhom" selected  value="<%= nhom[i].manhom  %>"><%= nhom[i].tennhom %></option>   
+                                               <% } else{ %>  
+                                                <option name="manhom"  value="<%= nhom[i].manhom  %>"><%= nhom[i].tennhom %></option>            
+                                               <% } %>
+                                      <%} %>
+
+                                       
+                                </select>
+                            </div>
+                        </div>
+
+
 
                         <div class="form-group row">
                             <label class="col-sm-2 col-form-label">Giới Tính</label>
@@ -275,7 +296,7 @@
     <div class="row">
         <div class="col-md-7">
             <% if (typeof status !== 'undefined') { %>
-                <%if (status == 'success') { %>
+                <%if (status == 'successemail') { %>
 
                 <div class="ibox ibox-success">
                     <div class="ibox-head">
@@ -291,7 +312,7 @@
                         </div>
 
                 <% } else { %>
-                    <%if (status == 'error') { %>
+                    <%if (status == 'erroremail') { %>
                 <div class=" ibox ibox-danger">
                     <div class="ibox-head">
                             <div class="ibox-title">
@@ -310,7 +331,7 @@
                                     <div class="ibox-title">
                                        
                                         <div style="color: rgb(255, 255, 255);">
-                                          
+                                            Đổi Email
                                         </div>
                                     </div>
                                     <div class="ibox-tools">
@@ -379,15 +400,13 @@
 <script type="text/javascript">
     $("#form-sample-1").validate({
         rules: {
-           
-           
             honv: {
                 required: !0,
-                rangelength: [2, 30],
+                rangelength: [2, 255],
             },
             tennv: {
                 required: !0,
-                rangelength: [2, 30],
+                rangelength: [2, 255],
             },
             ngaysinh: {
                 required: !0,
@@ -398,12 +417,14 @@
             },
             diachi: {
                 required: !0,
-                rangelength: [2, 50],
+                rangelength: [2, 255],
             },
             luong: {
-             required: !0,
-              number: true,
-               rangelength: [2, 9],
+                required: !0,
+                rangelength: [2, 11],
+           },
+           manhom: {
+                required: !0,
            },
 
         },
@@ -430,4 +451,18 @@
 		alert("Đổi Email Thành công!");
 	}
 
+</script>
+
+
+<script>
+     const inputs = document.querySelectorAll('.number-input');
+
+    inputs.forEach(input => {
+        input.addEventListener('input', function() {
+            let value = parseInt(this.value.replace(/\D/g, ''));
+            if (value) {
+            this.value = value.toLocaleString('en-US');
+            }
+        });
+    });
 </script>

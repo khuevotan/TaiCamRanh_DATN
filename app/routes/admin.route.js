@@ -1,4 +1,6 @@
 const authMiddleware = require('../middlewares/authad.middleware');
+const authMiddQL = require('../middlewares/authadql.middleware');
+
 const nhanVien = require('../controllers/admin/admin.controller');
 
 module.exports = app => {
@@ -63,15 +65,15 @@ module.exports = app => {
         storage: storage
     })
 
-    router.post('/uploadfile/:hinhdd', authMiddleware.loggedinad, upload.single('myFile'), nhanVien.uploadFile)
+    router.post('/uploadfile', authMiddleware.loggedinad, upload.single('myFile'), nhanVien.uploadFile)
 
     // =================== Ứng Dụng  =================== 
 
     router.get('/huongdansd', authMiddleware.loggedinad, nhanVien.huongDanSD);
 
-    router.get('/soanmail', authMiddleware.loggedinad, nhanVien.soanMail);
+    router.get('/soanmail', authMiddQL.loggedinadql, nhanVien.soanMail);
 
-    router.post('/guimail', authMiddleware.loggedinad, nhanVien.guiMail);
+    router.post('/guimail', authMiddQL.loggedinadql, nhanVien.guiMail);
 
     // =================== Thống kê  =================== 
     router.get('/index', authMiddleware.loggedinad, nhanVien.getIndex);

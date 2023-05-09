@@ -251,34 +251,35 @@ exports.uploadFile = (req, res) => {
     const file = req.file
     res.locals.nhanvien = req.session.nhanvien
     const manv = res.locals.nhanvien.manv;
-
-    // lấy tên hình đại diện
-    var hinhdd = req.params.hinhdd;
-
-    if (!file) {
-        const error = new Error('Please upload a file')
-        error.httpStatusCode = 400
-        return next(error)
-    }
- 
-    if(hinhdd != ''){
-      
-        const fs = require('fs');
-        const fileNameCu = hinhdd;
-        const filePath = '/images/avatarad/' + fileNameCu; 
-      
-        fs.unlink("app/public"+ filePath,function(err){
-            if(err) throw err;
-            console.log('File deleted!');
-        });
-    }
-
-    NhanVien.updateAvaByMaNV(manv, file.filename, (err, result) => {
-        if (!err) {
-            res.redirect('/admin/trangcanhan');
-        } else {
-            res.redirect('/admin/500');
+    
+    NhanVien.findByMaNV(manv, (err, data) => {
+        var hinhdd = data.hinhdd;
+        
+        if (!file) {
+            const error = new Error('Please upload a file')
+            error.httpStatusCode = 400
+            return next(error)
         }
+
+        if(hinhdd != ''){
+          
+            const fs = require('fs');
+            const fileNameCu = hinhdd;
+            const filePath = '/images/avatarad/' + fileNameCu; 
+          
+            fs.unlink("app/public"+ filePath,function(err){
+                if(err) throw err;
+                console.log('File deleted!');
+            });
+        }
+    
+        NhanVien.updateAvaByMaNV(manv, file.filename, (err, result) => {
+            if (!err) {
+                res.redirect('/admin/trangcanhan');
+            } else {
+                res.redirect('/admin/500');
+            }
+        });
     });
 }
 

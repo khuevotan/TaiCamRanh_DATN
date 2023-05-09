@@ -1,11 +1,11 @@
-const authMiddleware = require('../middlewares/authad.middleware');
+const authMiddQL = require('../middlewares/authadql.middleware');
 
 module.exports = app => {
     const khachhang = require("../controllers/khachhang/khachhang.controller");
     var router = require("express").Router();
 
     // Hiển thị danh sách các khách hàng
-    router.get("/index",authMiddleware.loggedinad, khachhang.findAll);
+    router.get("/index",authMiddQL.loggedinadql, khachhang.findAll);
 
     // Hiển thị form tạo khách hàng
 
@@ -37,33 +37,33 @@ module.exports = app => {
         storage: storage
     })
 
-    router.get("/create", authMiddleware.loggedinad, khachhang.create);
+    router.get("/create", authMiddQL.loggedinadql, khachhang.create);
 
     // Lưu khách hàng mới khi nhấn nút lưu
-    router.post("/", authMiddleware.loggedinad, khachhang.store);
+    router.post("/", authMiddQL.loggedinadql, khachhang.store);
 
     // Xem thông tin chi tiết 1 khách hàng
-    router.get("/details/:makh", authMiddleware.loggedinad, khachhang.details);
+    router.get("/details/:makh", authMiddQL.loggedinadql, khachhang.details);
 
     // thay đổi mật khẩu
-    router.get("/changepass/:makh", authMiddleware.loggedinad, khachhang.formthaypasss);
+    router.get("/changepass/:makh", authMiddQL.loggedinadql, khachhang.formthaypasss);
 
     // đổi mật khẩu khi nhấn nút
-    router.put("/doimatkhau/:makh", authMiddleware.loggedinad, khachhang.adupdatemk);
+    router.put("/doimatkhau/:makh", authMiddQL.loggedinadql, khachhang.adupdatemk);
 
     // Chỉnh sửa 1 khách hàng khi nhấn nút chỉnh sửa -> hiển thị form
-    router.get("/edit/:makh", authMiddleware.loggedinad, khachhang.edit);
+    router.get("/edit/:makh", authMiddQL.loggedinadql, khachhang.edit);
 
     // đổi email
-    router.put("/doiemail/:manv", authMiddleware.loggedinad, khachhang.changeEmail);
+    router.put("/doiemail/:manv", authMiddQL.loggedinadql, khachhang.changeEmail);
 
     // Lưu khách hàng khi nhấn nút update
-    router.put("/:makh", authMiddleware.loggedinad, khachhang.update);
+    router.put("/:makh", authMiddQL.loggedinadql, khachhang.update);
 
-    router.post("/anhdaidien/:makh", authMiddleware.loggedinad, upload.single('hinhddmoi'), khachhang.updateHddAD);
+    router.post("/anhdaidien/:makh", authMiddQL.loggedinadql, upload.single('hinhddmoi'), khachhang.updateHddAD);
 
     // Delete a khachhang with id
-    router.get("/delete/:makh", authMiddleware.loggedinad, khachhang.delete);
+    router.get("/delete/:makh", authMiddQL.loggedinadql, khachhang.delete);
 
     app.use('/admin/khachhang', router);
 }

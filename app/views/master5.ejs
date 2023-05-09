@@ -39,20 +39,20 @@
             <div id="sidebar-collapse">
                 <div class="admin-block d-flex">
                     <div>
-                        <img src="/images/avatarad/<%= nhanvien.hinhdd %>" width="45px" />
+                        <img src="/images/avatarad/<%= locals.session.nhanvien.hinhdd %>" width="45px" />
                     </div>
                     <div class="admin-info">
-                        <div class="font-strong"><%= nhanvien.honv %> <%= nhanvien.tennv %></div>
+                        <div class="font-strong"><%= locals.session.nhanvien.honv %> <%= locals.session.nhanvien.tennv %></div>
                         <small>
-                            <% if(nhanvien.manhom == 1){ %>
+                            <% if(locals.session.nhanvien.manhom == 1){ %>
                             Quản Lý
                             <% } %>
 
-                            <% if(nhanvien.manhom == 2){ %>
+                            <% if(locals.session.nhanvien.manhom == 2){ %>
                             Nhân Viên Bán Hàng
                             <% } %>
 
-                            <% if(nhanvien.manhom == 3){ %>
+                            <% if(locals.session.nhanvien.manhom == 3){ %>
                             Nhân Viên Rửa Xe
                             <% } %>
                         </small>
@@ -65,6 +65,7 @@
                         </a>
                     </li>
                     <li class="heading">Quản Lý</li>
+                    <%if (locals.session.nhanvien.manhom == 1 || locals.session.nhanvien.manhom == 3) { %>
 
                        <!-- Đơn Đặt Lịch -->
                        <li>
@@ -80,7 +81,10 @@
                         </ul>
                     </li>
 
+                    <%}%>
+
                     <!-- Đơn Đặt Hàng -->
+                    <%if (locals.session.nhanvien.manhom == 1 || locals.session.nhanvien.manhom == 2) { %>
                     <li>
                         <a href="javascript:;"><i class="sidebar-item-icon fa fa-shopping-cart"></i>
                             <span class="nav-label">Đơn Đặt Hàng</span><i class="fa fa-angle-left arrow"></i></a>
@@ -140,6 +144,9 @@
                         </ul>
                     </li>
 
+                    <%}%>
+
+                    <%if (locals.session.nhanvien.manhom == 1 || locals.session.nhanvien.manhom == 3) { %>
                     <!-- Loại Xe - Giờ Rửa -->
                     <li>
                         <a href="javascript:;"><i class="sidebar-item-icon fa fa-car"></i>
@@ -155,7 +162,9 @@
                            
                         </ul>
                     </li>
+                    <%}%>
 
+                    <%if (locals.session.nhanvien.manhom == 1 ) { %>
                     <!-- Nhân Viên - Nhóm -->
                     <li>
                         <a href="javascript:;"><i class="sidebar-item-icon fa fa-user-circle"></i>
@@ -196,6 +205,8 @@
                         </ul>
                     </li>
 
+                   
+
                     <!-- Bài Viết -->
                     <li>
                         <a href="javascript:;"><i class="sidebar-item-icon fa fa-list-alt"></i>
@@ -209,6 +220,8 @@
                             </li>
                         </ul>
                     </li>
+
+                    <%}%>
 
                     <li class="heading">Hệ Thống</li>
                     <li>
@@ -235,12 +248,13 @@
                     </li>
 
                     <!-- Gửi Mail -->
-
+                    <%if (locals.session.nhanvien.manhom == 1 ) { %>
                     <li>
                         <a href="/admin/soanmail"><i class="sidebar-item-icon fa fa-envelope"></i>
                             <span class="nav-label">Soạn Mail</span>
                         </a>
                     </li>
+                    <%}%>
 
 
                     <li>

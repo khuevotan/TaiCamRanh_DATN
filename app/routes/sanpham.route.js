@@ -1,17 +1,17 @@
-const authMiddleware = require('../middlewares/authad.middleware');
+const authMiddBH = require('../middlewares/authadbh.middleware');
 
 module.exports = app => {
     const sanPham = require("../controllers/admin/sanpham.controller");
     var router = require("express").Router();
 
     // Hiển thị danh sách các sản phẩm
-    router.get("/index", authMiddleware.loggedinad, sanPham.findAll);
+    router.get("/index", authMiddBH.loggedinadbh, sanPham.findAll);
 
      // Hiển thị danh sách sản phẩm sắp hết
-    router.get("/spsaphet", authMiddleware.loggedinad, sanPham.findAllSH);
+    router.get("/spsaphet", authMiddBH.loggedinadbh, sanPham.findAllSH);
     
 
-    router.get("/details/:masp", authMiddleware.loggedinad, sanPham.details);
+    router.get("/details/:masp", authMiddBH.loggedinadbh, sanPham.details);
 
     // Hiển thị form tạo sản phẩm
 
@@ -43,21 +43,21 @@ module.exports = app => {
         storage: storage
     })
 
-    router.get("/create", authMiddleware.loggedinad, sanPham.create);
+    router.get("/create", authMiddBH.loggedinadbh, sanPham.create);
 
     // Lưu sản phẩm mới khi nhấn nút lưu
-    router.post("/", authMiddleware.loggedinad, upload.single('hinhdd'), sanPham.store);
+    router.post("/", authMiddBH.loggedinadbh, upload.single('hinhdd'), sanPham.store);
 
     // Chỉnh sửa 1 sản phẩm khi nhấn nút chỉnh sửa -> hiển thị form
-    router.get("/edit/:masp", authMiddleware.loggedinad, sanPham.edit);
+    router.get("/edit/:masp", authMiddBH.loggedinadbh, sanPham.edit);
 
     // Lưu sản phẩm khi nhấn nút update
-    router.put("/:masp", authMiddleware.loggedinad, sanPham.update);
+    router.put("/:masp", authMiddBH.loggedinadbh, sanPham.update);
 
-    router.post("/anhdaidien/:masp", authMiddleware.loggedinad, upload.single('hinhddmoi'), sanPham.updateADD);
+    router.post("/anhdaidien/:masp", authMiddBH.loggedinadbh, upload.single('hinhddmoi'), sanPham.updateADD);
 
     // Delete a sanPham with id
-    router.get("/delete/:masp", authMiddleware.loggedinad, sanPham.delete);
+    router.get("/delete/:masp", authMiddBH.loggedinadbh, sanPham.delete);
 
     app.use('/admin/sanpham', router); 
 }

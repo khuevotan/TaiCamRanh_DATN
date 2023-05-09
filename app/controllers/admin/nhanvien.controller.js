@@ -10,12 +10,142 @@ exports.create = (req, res) => {
     res.locals.status = req.query.status;
     Nhom.getAll((err, nhom) => {
         if (err)
-            res.redirect('/500')
+            res.redirect('/admin/500')
         else { 
             res.render('nhanvien/createnv',  { nhom: nhom,  layout: './master2'});
         }
     });
 }
+
+// Lưu nhân viên mới khi nhấn nút.
+exports.store = (req, res) => {
+    // Validate request
+    if (!req.body) {
+        res.redirect('/admin/nhanvien/create?status=error')
+    }
+
+    Nhom.getAll((err, nhom) => {
+        if (err)
+            res.redirect('/admin/500')
+        else { 
+
+            let luongNumber = parseFloat(req.body.luong.replace(/,/g, ''));
+            
+            const {
+                taikhoan,
+                matkhau,
+                matkhauxn,
+                tennv,
+                honv,
+                sodt,
+                luong,
+                diachi,
+                email,
+                ngaysinh,
+                gioitinh,
+                manhom,
+            } = req.body;
+        
+            NhanVien.findByTaikhoanvaEmail(taikhoan, email, (err, nhanvien) => {   
+                if (err || nhanvien) {
+        
+                    const conflictError = 'Tên tài khoản hoặc email này đã tồn tại';
+                    res.render('nhanvien/createnv', {
+                        taikhoan,
+                        matkhau,
+                        matkhauxn,
+                        tennv,
+                        honv,
+                        sodt,
+                        diachi,
+                        email,
+                        luong,
+                        ngaysinh,
+                        gioitinh,
+                        manhom,
+                        conflictError,
+                        nhom : nhom,
+                        layout: './master2'
+                    });
+                } else {
+                    if(matkhau == matkhauxn){
+                        if(matkhau.match(/[a-z]/) && matkhau.match(/[A-Z]/) && matkhau.match(/\d/) && matkhau.match(/[^a-zA-Z\d]/) ){
+                            bcrypt.hash(matkhau, parseInt(process.env.BCRYPT_SALT_ROUND)).then((hashed) => {
+                                // Create a nhanvien
+        
+                                const nhanvien = new NhanVien({
+                                    taikhoan: taikhoan,
+                                    matkhau: hashed,
+                                    email: email,
+                                    honv: honv,
+                                    tennv: tennv,
+                                    luong : luongNumber,
+                                    gioitinh: gioitinh,
+                                    diachi: diachi,
+                                    hinhdd: '',
+                                    kichhoat: 1,
+                                    ngaytaotk: new Date(),
+                                    sodt: sodt,
+                                    ngaysinh: ngaysinh,
+                                    manhom: manhom,
+                                });
+        
+                                NhanVien.create(nhanvien, (err, nhanvien) => {
+                                    if (!err) {
+                                        bcrypt.hash(nhanvien.email, parseInt(process.env.BCRYPT_SALT_ROUND)).then((hashedEmail) => {
+                                            console.log(`${process.env.APP_URL}/verify?email=${nhanvien.email}&token=${hashedEmail}`);
+                                            mailer.sendMail(nhanvien.email, "Verify Email", `<a href="${process.env.APP_URL}/admin/nhanvien/verify?email=${nhanvien.email}&token=${hashedEmail}"> Verify </a>`)
+                                        });
+        
+                                        res.redirect('/admin/nhanvien/create?status=success')
+                                    }
+                                })
+                            });
+                        }else{
+                            const conflictError = 'Mật khẩu phải dài hơn 8 ký tự, cả chữ thường và chữ in hoa, ít nhất một số và một ký tự đặc biệt ví dụ: 012345Kh*';
+                            res.render('nhanvien/createnv', {
+                                honv,
+                                tennv,
+                                matkhauxn,
+                                gioitinh,
+                                diachi,
+                                sodt,
+                                luong,
+                                ngaysinh,
+                                taikhoan,
+                                manhom,
+                                matkhau,
+                                email,
+                                conflictError,
+                                nhom : nhom,
+                                layout: './master2'
+                            });
+                        }
+                    }else{
+                        const conflictError = 'Bạn phải xác nhận mật khẩu đúng!';
+                        res.render('nhanvien/createnv', {
+                            taikhoan,
+                            matkhau,
+                            matkhauxn,
+                            tennv,
+                            honv,
+                            sodt,
+                            diachi,
+                            email,
+                            luong,
+                            ngaysinh,
+                            gioitinh,
+                            manhom,
+                            conflictError,
+                            nhom : nhom,
+                            layout: './master2'
+                        });
+                    }
+                }
+            })
+        }
+    });
+};
 
 // Hiển thị form thanh mật khẩu.
 exports.formthaypasss = (req, res) => {
@@ -31,7 +161,6 @@ exports.formthaypasss = (req, res) => {
         } else res.render('nhanvien/changepassnv', { nhanvien: data,  layout: './master2'});
     });
 };
-
 
 // Update mật khẩu bến phía admin
 exports.adupdatemk = (req, res) => {
@@ -120,136 +249,7 @@ exports.adupdatemk = (req, res) => {
     }
 };
 
-// Lưu nhân viên mới khi nhấn nút.
-exports.store = (req, res) => {
-    // Validate request
-    if (!req.body) {
-        res.redirect('/admin/nhanvien/create?status=error')
-    }
 
-    Nhom.getAll((err, nhom) => {
-        if (err)
-            res.redirect('/500')
-        else { 
-           
-            const {
-                taikhoan,
-                matkhau,
-                matkhauxn,
-                tennv,
-                honv,
-                sodt,
-                diachi,
-                email,
-                luong,
-                ngaysinh,
-                gioitinh,
-                manhom,
-            } = req.body;
-        
-            NhanVien.findByTaikhoanvaEmail(taikhoan, email, (err, nhanvien) => {   
-                if (err || nhanvien) {
-        
-                    const conflictError = 'Tên tài khoản hoặc email này đã tồn tại';
-                    res.render('nhanvien/createnv', {
-                        taikhoan,
-                        matkhau,
-                        matkhauxn,
-                        tennv,
-                        honv,
-                        sodt,
-                        diachi,
-                        email,
-                        luong,
-                        ngaysinh,
-                        gioitinh,
-                        manhom,
-                        conflictError,
-                        nhom : nhom,
-                        layout: './master2'
-                    });
-                } else {
-                    if(matkhau == matkhauxn){
-                        if(matkhau.match(/[a-z]/) && matkhau.match(/[A-Z]/) && matkhau.match(/\d/) && matkhau.match(/[^a-zA-Z\d]/) ){
-                            bcrypt.hash(matkhau, parseInt(process.env.BCRYPT_SALT_ROUND)).then((hashed) => {
-                                // Create a nhanvien
-        
-                                const nhanvien = new NhanVien({
-                                    taikhoan: taikhoan,
-                                    matkhau: hashed,
-                                    email: email,
-                                    honv: honv,
-                                    tennv: tennv,
-                                    luong : luong,
-                                    gioitinh: gioitinh,
-                                    diachi: diachi,
-                                    hinhdd: '',
-                                    kichhoat: 1,
-                                    ngaytaotk: new Date(),
-                                    sodt: sodt,
-                                    ngaysinh: ngaysinh,
-                                    manhom: manhom,
-                                });
-        
-                                NhanVien.create(nhanvien, (err, nhanvien) => {
-                                    if (!err) {
-                                        bcrypt.hash(nhanvien.email, parseInt(process.env.BCRYPT_SALT_ROUND)).then((hashedEmail) => {
-                                            console.log(`${process.env.APP_URL}/verify?email=${nhanvien.email}&token=${hashedEmail}`);
-                                            mailer.sendMail(nhanvien.email, "Verify Email", `<a href="${process.env.APP_URL}/admin/nhanvien/verify?email=${nhanvien.email}&token=${hashedEmail}"> Verify </a>`)
-                                        });
-        
-                                        res.redirect('/admin/nhanvien/create?status=success')
-                                    }
-                                })
-                            });
-                        }else{
-                            const conflictError = 'Mật khẩu phải dài hơn 8 ký tự, cả chữ thường và chữ in hoa, ít nhất một số và một ký tự đặc biệt ví dụ: 012345Kh*';
-                            res.render('nhanvien/createnv', {
-                                honv,
-                                tennv,
-                                matkhauxn,
-                                gioitinh,
-                                diachi,
-                                sodt,
-                                luong,
-                                ngaysinh,
-                                taikhoan,
-                                manhom,
-                                matkhau,
-                                email,
-                                conflictError,
-                                nhom : nhom,
-                                layout: './master2'
-
-                            });
-                        }
-                    }else{
-                        const conflictError = 'Bạn phải xác nhận mật khẩu đúng!';
-                        res.render('nhanvien/createnv', {
-                            taikhoan,
-                            matkhau,
-                            matkhauxn,
-                            tennv,
-                            honv,
-                            sodt,
-                            diachi,
-                            email,
-                            luong,
-                            ngaysinh,
-                            gioitinh,
-                            manhom,
-                            conflictError,
-                            nhom : nhom,
-                            layout: './master2'
-                        });
-                    }
-                }
-            })
-
-            // bự
-        }
-    });
-};
 
 // Xác thực tài khoản của nhân viên.
 exports.verify = (req, res) => {
@@ -274,7 +274,7 @@ exports.findAll = (req, res) => {
  
     NhanVien.getAll((err, data) => {
         if (err)
-            res.redirect('/500')
+            res.redirect('/admin/500')
         else {
             res.render('nhanvien/indexnv',  {nhanvien: data, layout: './master3'});
         }
@@ -293,7 +293,6 @@ exports.edit = (req, res) => {
                 res.redirect('/500');
             }
         } else {
-            
             Nhom.getAll((err, nhom) => {
                 if (err)
                     res.redirect('/500')
@@ -343,17 +342,18 @@ exports.update = (req, res) => {
         res.redirect('/admin/nhanvien/edit/' + req.params.manv + '?status=error')
     }
 
+    let luongNumber = parseFloat(req.body.luong.replace(/,/g, ''));
+
     const nhanvien = new NhanVien({
-        taikhoan: req.body.taikhoan,
-        email: req.body.email,
         honv: req.body.honv,
         tennv: req.body.tennv,
-        luong: req.body.luong,
-        diachi: req.body.diachi,
-        kichhoat: req.body.kichhoat,
-        sodt: req.body.sodt,
         ngaysinh: req.body.ngaysinh,
+        sodt: req.body.sodt,
+        diachi: req.body.diachi,
+        luong: luongNumber,
         manhom: req.body.manhom,
+        kichhoat: req.body.kichhoat,
+        gioitinh: req.body.gioitinh,
     });
 
     NhanVien.updateByMaNVAD(
@@ -416,7 +416,6 @@ exports.updateADD = (req, res, next) => {
         error.httpStatusCode = 400
         return next(error);
     }
-
         if(req.body.hinhdd != ''){
             const fs = require('fs');
             const fileNameCu = req.body.hinhdd;
@@ -428,7 +427,7 @@ exports.updateADD = (req, res, next) => {
             });
         }
     
-        NhanVien.updateADD(req.params.manv, file.filename, (err, result) => {
+        NhanVien.updateAvaByMaNV(req.params.manv, file.filename, (err, result) => {
         if (!err) {
             res.redirect('/admin/nhanvien/edit/' + req.params.manv + '?status=successhdd');
         } else {

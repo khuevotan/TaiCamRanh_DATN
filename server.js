@@ -76,6 +76,11 @@ app.set('layout', './master')
 //truyen app sang router
 require("./app/routes/route")(app);
 
+// Đăng ký middleware để bắt các yêu cầu không xác định
+app.use(function(req, res, next) {
+    res.redirect('/admin/404'); // Chuyển hướng đến trang lỗi 404
+});
+
 app.listen(process.env.PORT, function(){
     console.log('sever running: http://localhost:' + process.env.PORT);
 });
