@@ -26,10 +26,14 @@
                                     <dd class="col-sm-6"><%= hoadon.sodt  %></dd>
                                     <dt class="col-sm-6">Địa Chỉ Người Nhận:</dt>
                                     <dd class="col-sm-6"><%= hoadon.diachi  %></dd>
-                                    <dt class="col-sm-6">Ghi Chú:</dt>
-                                    <dd class="col-sm-6"><%= hoadon.ghichu  %></dd>
-                                    <dt class="col-sm-6">Ngày Giao Hàng Cho Đơn Vị Vận Chuyển</dt>
+                                   
+                                    <dt class="col-sm-6">Ngày Giao Hàng</dt>
                                     <dd class="col-sm-6"><%= moment(hoadon.ngaygiao).format('DD-MM-YYYY')  %></dd>
+                                    <dt class="col-sm-6">Mã Vận Chuyển</dt>
+                                    <dd class="col-sm-6"><%= phiship.mavanchuyen  %></dd>
+
+                                   
+
                                     <dt class="col-sm-6">Mã Trạng Thái</dt>
                                     <dd class="col-sm-6"><%= trangthai.tentt %></dd>
                                 </dl>
@@ -43,6 +47,8 @@
                                
                                 <dt class="col-sm-6">Mã Khách Hàng</dt>
                                 <dd class="col-sm-6"><%= hoadon.makh  %></dd>
+                                <dt class="col-sm-6">Ghi Chú:</dt>
+                                <dd class="col-sm-6"><%= hoadon.ghichu  %></dd>
                                 <dt class="col-sm-6">Mã Nhân Viên Chỉnh Sửa Gần Nhất</dt>
                                 <dd class="col-sm-6"><%= hoadon.manv  %></dd>
                                 <dt class="col-sm-6">Thời Gian Cập Nhật Gần Nhất</dt>
@@ -92,8 +98,24 @@
                 </thead>
                 <tbody>
                     <tr class="text-right">
-                        <td class="font-bold font-18">TỔNG TIỀN:</td>
+                        <td class="font-bold font-18">TỔNG TIỀN SẢN PHẨM:</td>
                         <td class="font-bold font-18"> <%= (hoadon.tongtiensp).toLocaleString() %> VNĐ</td>
+                    </tr>
+
+                    <tr class="text-right">
+                        <td class="font-bold font-18">TIỀN SHIP:</td>
+                        <td class="font-bold font-18"> <%= (phiship.giaphi).toLocaleString() %> VNĐ</td>
+                    </tr>
+
+
+                    <tr class="text-right">
+                        <td class="font-bold font-18">TỔNG TIỀN HÓA ĐƠN:</td>
+                        <td class="font-bold font-18"> <%= (hoadon.tongtienhd).toLocaleString() %> VNĐ</td>
+                    </tr>
+
+                    <tr class="text-right">
+                        <td class="font-bold font-18">Phương Thức Thanh Toán:</td>
+                        <td class="font-bold font-18"> <%if (hoadon.ptthanhtoan == 1) { %> <b >Khi Nhận Hàng</b> <% }else { %> <b>Thẻ Online</b> <%  } %></td>
                     </tr>
 
                     <tr class="text-right">
@@ -126,4 +148,4 @@
         </style>
      </div>
     </div>
-</div>
+

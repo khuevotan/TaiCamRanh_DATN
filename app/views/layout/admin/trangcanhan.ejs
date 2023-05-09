@@ -27,7 +27,7 @@
                     <div class="m-t-20">
                         <img class="img-circle" src="/images/avatarad/<%= nhanvien.hinhdd %>" />
                     </div>
-                    <h5 class="font-strong m-b-10 m-t-10"><%= nhanvien.tennv %></h5>
+                    <h5 class="font-strong m-b-10 m-t-10"><%= nhanvien.honv %> <%= nhanvien.tennv %></h5>
                 </div>
             </div>
         </div>
@@ -115,6 +115,9 @@
                                         <a href="/admin/chinhsuatt/<%= nhanvien.manv %>"
                                 class="btn btn-info btn-rounded">Chỉnh Sửa</a>
 
+                                <a href="/admin/chinhsuatt/formdoimail/<%= nhanvien.manv %>"
+                                    class="btn btn-info btn-rounded">Đổi Email</a>
+
                             <a href="/admin/chinhsuatt/formdmk/<%= nhanvien.manv %>"
                                 class="btn btn-info btn-rounded">Đổi Mật Khẩu</a>
 
@@ -134,25 +137,24 @@
     <div style="height: 350px;"></div>
 
     <script>
-        function getUrlParameter(name) {
-            name = name.replace(/[\[]/, '\\[').replace(/[\]]/, '\\]');
-            var regex = new RegExp('[\\?&]' + name + '=([^&#]*)');
-            var results = regex.exec(location.search);
-            return results === null ? '' : decodeURIComponent(results[1].replace(/\+/g, ' '));
-        };
 
-        var status = getUrlParameter('status');
+    const url = window.location.href;
+    const status = url.slice(url.lastIndexOf('=') + 1);
+   
+    if (status == 'updatetc'){
+		alert("Cập nhật thành công!");
+	}
 
-        if (status == 'updatetc') {
-            alert("Cập nhật thành công!");
-        }
+    if (status == 'doimksuccess') {
+        alert("Đổi mật khẩu thành công!");
+    }
 
-        if (status == 'doimksuccess') {
-            alert("Đổi mật khẩu thành công!");
-        }
+    if (status == 'daguimailxacthuc') {
+        alert("Đã gửi mail xác thực, vui lòng check mail!");
+    }
 
-        if (status == 'daguimailxacthuc') {
-            alert("Đã gửi mail xác thực, vui lòng check mail!");
-        }
+    if (status == 'successdoimail') {
+        alert("Đổi email thành công!");
+    }
 
     </script>

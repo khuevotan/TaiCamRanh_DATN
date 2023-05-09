@@ -103,10 +103,18 @@
                         </div>
 
                         <div class="form-group row">
-                            <label class="col-sm-2 col-form-label">Ngày Giao Cho Đơn Vị Vận Chuyển</label>
+                            <label class="col-sm-2 col-form-label">Ngày Giao</label>
                             <div class="col-sm-10">
                                 <input class="form-control" type="date" name="ngaygiao"
                                     value="<%= moment(hoadon.ngaygiao).format('YYYY-MM-DD')%>">
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label class="col-sm-2 col-form-label">Mã Vận Chuyển</label>
+                            <div class="col-sm-10">
+                                    <input class="form-control" type="text" name="mavanchuyen"
+                                    value="<%= phiship.mavanchuyen %>" > 
                             </div>
                         </div>
 
@@ -119,10 +127,45 @@
                         </div>
 
                         <div class="form-group row">
-                            <label class="col-sm-2 col-form-label">Tổng tiền</label>
+                            <label class="col-sm-2 col-form-label">Tổng Tiền Sản Phẩm</label>
                             <div class="col-sm-10">
-                                    <input class="form-control" type="text" name="tongtiensp"
-                                    value="<%= hoadon.tongtiensp %>" readonly> 
+                                    <input class="form-control number-input" type="text" name="tongtiensp"
+                                     value="<%= (hoadon.tongtiensp).toLocaleString() %> VNĐ " readonly> 
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label class="col-sm-2 col-form-label">Tiền Ship</label>
+                            <div class="col-sm-10">
+                                    <input class="form-control number-input" type="text" name="giaphi"
+                                
+                                    value="<%= phiship.giaphi %>" required> 
+                            </div>
+                        </div>
+
+
+                        <div class="form-group row">
+                            <label class="col-sm-2 col-form-label">Tổng Tiền Hóa Đơn</label>
+                            <div class="col-sm-10">
+                                    <input class="form-control number-input" type="text" name="tongtienhd"
+                                
+                                    value="<%= (hoadon.tongtienhd).toLocaleString() %> VNĐ " readonly> 
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label class="col-sm-2 col-form-label">Phương Thức Thanh Toán</label>
+                            <div class="col-sm-10">
+
+                                <select class="form-control" name="ptthanhtoan">
+                                        <% if(hoadon.ptthanhtoan == 2){ %>
+                                            <option name="ptthanhtoan" selected value="2">Thẻ Online</option>
+                                            <option name="ptthanhtoan"  value="1">Khi Nhận Hàng</option>
+                                            <% } else{ %>  
+                                                <option name="ptthanhtoan"  value="2">Thẻ Online</option>
+                                                <option name="ptthanhtoan" selected value="1">Khi Nhận Hàng</option>
+                                        <% } %>
+                                </select>
                             </div>
                         </div>
 
@@ -319,16 +362,24 @@
 
 
 <script>
-    function getUrlParameter(name) {
-        name = name.replace(/[\[]/, '\\[').replace(/[\]]/, '\\]');
-        var regex = new RegExp('[\\?&]' + name + '=([^&#]*)');
-        var results = regex.exec(location.search);
-        return results === null ? '' : decodeURIComponent(results[1].replace(/\+/g, ' '));
-    };
 
-    var status = getUrlParameter('status');
-
+const url = window.location.href;
+    const status = url.slice(url.lastIndexOf('=') + 1);
+   
     if (status == 'khongxoaduoc') {
         alert("Không xóa được sản phẩm cuối");
     }
+
+
+    const inputs = document.querySelectorAll('.number-input');
+
+inputs.forEach(input => {
+  input.addEventListener('input', function() {
+    let value = parseInt(this.value.replace(/\D/g, ''));
+    if (value) {
+      this.value = value.toLocaleString('en-US');
+    }
+  });
+});
+
 </script>

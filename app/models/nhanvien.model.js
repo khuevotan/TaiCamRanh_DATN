@@ -148,6 +148,26 @@ NhanVien.updateByMaNVAD = (manv, nhanvien, result) => {
 };
 
 
+// cập nhật Mail
+NhanVien.updateMail = (manv, emailmoi, result) => {
+    sql.query(
+        "UPDATE nhanvien SET email = ?, updated_at = ? WHERE manv = ?",
+        [emailmoi, new Date(), manv],
+        (err, res) => {
+            if (err) {
+                console.log("error: ", err);
+                result(null, err);
+                return;
+            }
+            if (res.affectedRows == 0) {
+                result({ kind: "not_found" }, null);
+                return;
+            }
+            result(null, { manv: manv, emailmoi: emailmoi });
+        }
+    );
+};
+
 // cập nhật ảnh đại diện
 NhanVien.updateAvaByMaNV = (manv, hinhdd, result) => {
     sql.query(

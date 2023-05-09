@@ -3,6 +3,7 @@ const Gio = require("../../models/Gio.model");
 const LoaiXe = require("../../models/LoaiXe.model");
 const CTHoaDon = require("../../models/CTHoaDon.model");
 const HoaDon = require("../../models/HoaDon.model");
+const PhiShip = require("../../models/phiship.model");
 
 
 // ========================== GIAO DIỆN AMDIN =============================
@@ -48,19 +49,29 @@ exports.update = (req, res) => {
                             tongtiensp += giatien[i];
                         }
 
-                        HoaDon.updateBymahdwitdtongtien(
-                            req.params.mahd,
-                            tongtiensp,
-                            (err, data) => {
-                                if (err) {
-                                    if (err.kind === "not_found") {
-                                        res.redirect('/404');
-                                    } else {
-                                        res.redirect('/500');
-                                    }
-                                } else res.redirect('/admin/hoadon/edit/' + req.params.mahd + '?status=successSP');
-                            }
-                        );
+                        HoaDon.findBymahd(req.params.mahd, (err, datahoadon) => {
+
+                            PhiShip.findBymaps(datahoadon.maps, (err, dataphiship) => {
+
+                           
+                            HoaDon.updateBymahdwitdtongtien(
+                                req.params.mahd,
+                                tongtiensp,
+                                tongtiensp + dataphiship.giaphi,
+                                (err, data) => {
+                                    if (err) {
+                                        if (err.kind === "not_found") {
+                                            res.redirect('/404');
+                                        } else {
+                                            res.redirect('/500');
+                                        }
+                                    } else res.redirect('/admin/hoadon/edit/' + req.params.mahd + '?status=successSP');
+                                }
+                            );
+
+                        });
+                        });
+                        
 
                     }
                 });

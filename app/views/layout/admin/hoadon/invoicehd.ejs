@@ -165,6 +165,12 @@
             </tr>
 
             <tr class="details">
+                <td>Mã Vận Chuyển: </td>
+                <td></td>
+                <td><%=phiship.mavanchuyen %> </td>
+            </tr>
+
+            <tr class="details">
                 <td> Mã Nhân Viên Duyệt</td>
                 <td></td>
                 <td><%= datahoadon.manv %></td>
@@ -180,6 +186,12 @@
                 <td> Ghi Chú </td>
                 <td></td>
                 <td><%= datahoadon.ghichu %></td>
+            </tr>
+
+            <tr class="details">
+                <td>Phương Thức Thanh Toán </td>
+                <td></td>
+                <td><%= datahoadon.ptthanhtoan %></td>
             </tr>
 
             <tr class="heading">
@@ -207,10 +219,25 @@
 
             <tr class="total">
                 <td></td>
+                <td></td>
+
+                <td><b>Tổng Tiền Sản Phẩm:</b> <%= (datahoadon.tongtiensp).toLocaleString() %> VNĐ</td>
+            </tr>
+
+            <tr class="total">
+                <td></td>
+                <td></td>
+
+                <td><b>Tiền Ship:</b> <%= (phiship.giaphi).toLocaleString() %> VNĐ</td>
+            </tr>
+
+
+            <tr class="total">
+                <td></td>
                 <td><%if (datahoadon.thanhtoan == 1) { %> <b style="color: red;">Chưa Thanh Toán</b> <% }else { %> <b
                         style="color: green;">Đã Thanh Toán</b> <%  } %></td>
                         
-                <td><b>Tổng Tiền:</b> <%= (datahoadon.tongtiensp).toLocaleString() %> VNĐ</td>
+                <td><b>Tổng Tiền:</b> <%= (datahoadon.tongtienhd).toLocaleString() %> VNĐ</td>
             </tr>
         </table>
     </div>

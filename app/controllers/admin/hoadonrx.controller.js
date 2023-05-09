@@ -102,7 +102,8 @@ exports.datlich = (req, res) => {
         diachi: req.body.diachi,
         ghichu: req.body.ghichu,
         tongtienrx: req.body.tongtienrx,
-        thanhtoan: 1,
+        phuongthuctt: req.body.phuongthuctt,
+        thanhtoan: req.body.thanhtoan,
         malx: req.body.malx,
         matt: 1,
         manv: manv,
@@ -310,6 +311,7 @@ exports.update = (req, res) => {
     res.locals.nhanvien = req.session.nhanvien
     const manv = res.locals.nhanvien.manv;
 
+    console.log();
     // Create a hoadonrx
     const hoadonrx = new HoaDonRX({
         tennguoirua: req.body.tennguoirua,
@@ -319,6 +321,7 @@ exports.update = (req, res) => {
         diachi: req.body.diachi,
         ghichu: req.body.ghichu,
         tongtienrx: req.body.tongtienrx,
+        ptthanhtoan: req.body.ptthanhtoan,
         thanhtoan: req.body.thanhtoan,
         malx: req.body.malx,
         matt: req.body.matt,
@@ -387,18 +390,11 @@ exports.details = (req, res) => {
                                         layout: './master2'
                                     });
                                 }
-
                             });
-
                         }
-
                     });
-
                 }
-
             });
-
-
         }
     });
 };

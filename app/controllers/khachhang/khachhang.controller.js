@@ -12,6 +12,7 @@ const PhiShip = require("../../models/phiship.model");
 
 
 
+
 const mailer = require('../../utils/mailer');
 require('dotenv/config');
 
@@ -378,6 +379,38 @@ exports.update = (req, res) => {
 
 
 };
+
+
+// Đổi Email 
+exports.changeEmail = (req, res) => {
+
+    res.locals.status = req.query.status;
+    
+    KhachHang.findByEmail(req.body.emailmoi, (err, khachhangne) => {
+        if (khachhangne) {
+
+            res.redirect('/admin/khachhang/edit/' + req.params.makh + '?status=Emailtontai');
+
+        } else {
+
+            KhachHang.updateMail(
+                req.params.makh,
+                req.body.emailmoi,
+                (err, data) => {
+                    if (err) {
+                        if (err.kind === "not_found") {
+                            res.redirect('/admin/404');
+                        } else {
+                            res.redirect('/admin/500');
+                        }
+                    } else res.redirect('/admin/khachhang/edit/' + req.params.makh + '?status=Emailtc');
+                }
+            );
+        }
+    });
+  
+};
+
 
 // ================================= KHÁCH HÀNG =================================
 // Trang cá nhân của khách hàng.
@@ -1007,6 +1040,12 @@ exports.nhapThongTinDonHang = (req, res) => {
                                                         var message = 'Chúng tôi xin gửi';
                                                         mailer.sendMail(to, subject, message);
                     
+                                                       
+                                                        const Cart = require("../../models/cart.model");
+                                                        var cart = new Cart(req.session.cart);
+                                                        cart.removeAll();
+                                                        req.session.cart = cart;
+
                                                         res.redirect('/khachhang/thanhtoantcdh?mahd=' + mahd + '&status=dhtctaich')
                                                     } else {
                     
@@ -1015,6 +1054,12 @@ exports.nhapThongTinDonHang = (req, res) => {
                                                         var message = 'Chúng tôi xin gửi';
                     
                                                         mailer.sendMail(to, subject, message);
+
+                                                        const Cart = require("../../models/cart.model");
+                                                        var cart = new Cart(req.session.cart);
+                                            
+                                                        cart.removeAll();
+                                                        req.session.cart = cart;
                                                         res.redirect('/khachhang/ttcarddh/' + mahd)
                                                     }
                     

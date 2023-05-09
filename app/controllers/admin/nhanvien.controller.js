@@ -305,6 +305,36 @@ exports.edit = (req, res) => {
     });
 };
 
+// Đổi Email 
+exports.changeEmail = (req, res) => {
+
+    res.locals.status = req.query.status;
+    
+    NhanVien.findByEmail(req.body.emailmoi, (err, nhanvienne) => {
+        if (nhanvienne) {
+
+            res.redirect('/admin/nhanvien/edit/' + req.params.manv + '?status=Emailtontai');
+
+        } else {
+
+            NhanVien.updateMail(
+                req.params.manv,
+                req.body.emailmoi,
+                (err, data) => {
+                    if (err) {
+                        if (err.kind === "not_found") {
+                            res.redirect('/admin/404');
+                        } else {
+                            res.redirect('/admin/500');
+                        }
+                    } else res.redirect('/admin/nhanvien/edit/' + req.params.manv + '?status=Emailtc');
+                }
+            );
+        }
+    });
+  
+};
+
 // Cập nhật thông tin nhân viên khi nhấn nút cập  nhật
 exports.update = (req, res) => {
 

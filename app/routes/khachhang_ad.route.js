@@ -54,6 +54,9 @@ module.exports = app => {
     // Chỉnh sửa 1 khách hàng khi nhấn nút chỉnh sửa -> hiển thị form
     router.get("/edit/:makh", authMiddleware.loggedinad, khachhang.edit);
 
+    // đổi email
+    router.put("/doiemail/:manv", authMiddleware.loggedinad, khachhang.changeEmail);
+
     // Lưu khách hàng khi nhấn nút update
     router.put("/:makh", authMiddleware.loggedinad, khachhang.update);
 

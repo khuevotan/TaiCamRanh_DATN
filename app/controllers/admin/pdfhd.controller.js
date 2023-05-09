@@ -5,6 +5,7 @@ const readFile = require('util').promisify(fs.readFile);
 const HoaDon = require("../../models/HoaDon.model");
 const SanPham = require("../../models/SanPham.model");
 const CTHoaDon = require("../../models/cthoadon.model");
+const PhiShip = require("../../models/PhiShip.model");
 
 const moment = require('moment');
 
@@ -16,7 +17,6 @@ exports.print = (req, res) => {
     var datahoadon;
     var dtasanpham;
   
-    console.log("INNNNNNNNN");
 
     HoaDon.findBymahd(req.params.mahd, (err, data) => {
         if (err) {
@@ -27,58 +27,67 @@ exports.print = (req, res) => {
             }
         } else {
 
-            CTHoaDon.findBymahd(req.params.mahd, (err, datacthd) => {
+
+            PhiShip.findBymaps(data.maps, (err, phiship) => {
                 if (err)
                     res.redirect('/500')
                 else {
-                    const tensp = req.query.tensp;
-                    SanPham.getAll( tensp, (err, sanpham) => {
+                    CTHoaDon.findBymahd(req.params.mahd, (err, datacthd) => {
                         if (err)
                             res.redirect('/500')
                         else {
-                   
-                            datahoadon = data;
-                            dtasanpham = sanpham;
-    
-                            dtangaydat = moment(data.ngaydat).format('DD-MM-YYYY');
-               
-                            const pdfData = {
-                                datahoadon,
-                                datacthd: datacthd,
+                            const tensp = req.query.tensp;
+                            SanPham.getAll( tensp, (err, sanpham) => {
+                                if (err)
+                                    res.redirect('/500')
+                                else {
+                           
+                                    datahoadon = data;
+                                    dtasanpham = sanpham;
+            
+                                    dtangaydat = moment(data.created_at).format('DD-MM-YYYY');
 
-                                dtangaydat: dtangaydat,
-                       
-                                dtasanpham,
-                     
-                                baseUrl: `${req.protocol}://${req.get('host')}` // http://localhost:3000
-                            }
-                        
-                            console.log(pdfData);
-                        
-                            const options = {
-                                format: 'A4'
-                            }
-                        
-                            readFile('app/views/layout/admin/hoadon/invoicehd.ejs', 'utf8')
-                                .then((html) => {
-                                    const template = ejs.compile(html);
-                                    const content = template(pdfData);
-                        
-                                    return htmlPDF.create(content, options);
-                                })
-                                .then((buffer) => {
-                                    res.attachment('hoadondathang.pdf')
-                                    res.end(buffer);
-                                })
-                                .catch((error) => {
-                                    console.log(error);
-                                    res.send('Something went wrong.');
-                                });
-
+                                
+                                    const pdfData = {
+                                        datahoadon,
+                                        datacthd: datacthd,
+                                        phiship: phiship,
+                                        dtangaydat: dtangaydat,
+                                      
+                                        dtasanpham,
+                             
+                                        baseUrl: `${req.protocol}://${req.get('host')}` // http://localhost:3000
+                                    }
+                                
+                                
+                                    const options = {
+                                        format: 'A4'
+                                    }
+                                
+                                    readFile('app/views/layout/admin/hoadon/invoicehd.ejs', 'utf8')
+                                        .then((html) => {
+                                            const template = ejs.compile(html);
+                                            const content = template(pdfData);
+                                
+                                            return htmlPDF.create(content, options);
+                                        })
+                                        .then((buffer) => {
+                                            res.attachment('hoadondathang.pdf')
+                                            res.end(buffer);
+                                        })
+                                        .catch((error) => {
+                                            console.log(error);
+                                            res.send('Something went wrong.');
+                                        });
+        
+                                }
+                            });
                         }
                     });
                 }
             });
+
+        
         }
     });
 }

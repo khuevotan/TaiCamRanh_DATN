@@ -51,8 +51,8 @@ PhiShip.getAll = (result) => {
 
 PhiShip.updateBymaps  = (maps , phiship, result) => {
     sql.query(
-        "UPDATE phiship SET mavanchuyen = ?, giaphi = ?, mahuyen  = ?, updated_at = ? WHERE maps  = ?",
-        [phiship.mavanchuyen, phiship.giaphi , phiship.mahuyen  ,new Date(), maps ],
+        "UPDATE phiship SET mavanchuyen = ?, giaphi = ?, updated_at = ? WHERE maps  = ?",
+        [phiship.mavanchuyen, phiship.giaphi ,new Date(), maps ],
         (err, res) => {
             if (err) {
                 console.log("error: ", err);

@@ -30,6 +30,12 @@ module.exports = app => {
     // Nhấn vào nút đổi mk.
     router.put("/doimatkhau/:manv", authMiddleware.loggedinad, nhanVien.changePassword);
 
+    // Hien thi form doi mail
+    router.get("/chinhsuatt/formdoimail/:manv", authMiddleware.loggedinad, nhanVien.formDoiMailTT);
+
+    // Nhấn vào nút đổi email.
+    router.put("/doiemail/:manv", authMiddleware.loggedinad, nhanVien.changeEmailTT);
+
     // xác thực tài khoản
     router.get("/xacthuctaikhoan/:email", authMiddleware.loggedinad, nhanVien.xacthuctaikhoan);
 

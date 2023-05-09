@@ -40,9 +40,9 @@ exports.chinhSuaTT = (req, res) => {
     NhanVien.findByMaNV(req.params.manv, (err, data) => {
         if (err) {
             if (err.kind === "not_found") {
-                res.redirect('/404');
+                res.redirect('/admin/404');
             } else {
-                res.redirect('/500');
+                res.redirect('/admin/500');
             }
         } else res.render('chinhsuattnv', {
             nhanvien: data, 
@@ -89,9 +89,9 @@ exports.formdoimktt = (req, res) => {
     NhanVien.findByMaNV(req.params.manv, (err, data) => {
         if (err) {
             if (err.kind === "not_found") {
-                res.redirect('/404');
+                res.redirect('/admin/404');
             } else {
-                res.redirect('/500');
+                res.redirect('/admin/500');
             }
         } else res.render('changpassnvtt', {
             nhanvien: data, 
@@ -100,7 +100,25 @@ exports.formdoimktt = (req, res) => {
     });
 };
 
-// Update mật khẩu khi nhấn vào nút thay đổi cá nhân bên phía nhân viên
+// Hiển thị form đổi mail bên phía cá nhân của nhân viên.
+exports.formDoiMailTT = (req, res) => {
+    res.locals.status = req.query.status;
+
+    NhanVien.findByMaNV(req.params.manv, (err, data) => {
+        if (err) {
+            if (err.kind === "not_found") {
+                res.redirect('/admin/404');
+            } else {
+                res.redirect('/admin/500');
+            }
+        } else res.render('changmailnvtt', {
+            nhanvien: data, 
+            layout: './master2'
+        });
+    });
+};
+
+// Update mật khẩu khi nhấn vào nút thay đổi cá nhân bên phía nhân viên.
 exports.changePassword = (req, res) => {
 
     res.locals.status = req.query.status;
@@ -166,9 +184,9 @@ exports.changePassword = (req, res) => {
         NhanVien.findByMaNV(req.params.manv, (err, data) => {
             if (err) {
                 if (err.kind === "not_found") {
-                    res.redirect('/404');
+                    res.redirect('/admin/404');
                 } else {
-                    res.redirect('/500');
+                    res.redirect('/admin/500');
                 }
             } else {
 
@@ -181,6 +199,50 @@ exports.changePassword = (req, res) => {
             }
         });
     }
+};
+
+// Update mật khẩu khi nhấn vào nút thay đổi cá nhân bên phía nhân viên.
+exports.changeEmailTT = (req, res) => {
+
+    res.locals.status = req.query.status;
+    
+    NhanVien.findByEmail(req.body.emailmoi, (err, nhanvienne) => {
+        if (nhanvienne) {
+
+            const conflictError = 'Email này đã tồn tại';
+
+            NhanVien.findByMaNV(req.params.manv, (err, data) => {
+                if (err) {
+                    if (err.kind === "not_found") {
+                        res.redirect('/admin/404');
+                    } else {
+                        res.redirect('/admin/500');
+                    }
+                } else res.render('changmailnvtt', {
+                    conflictError,
+                    nhanvien: data,
+                    layout: './master2'
+                });
+            });
+
+        } else {
+
+            NhanVien.updateMail(
+                req.params.manv,
+                req.body.emailmoi,
+                (err, data) => {
+                    if (err) {
+                        if (err.kind === "not_found") {
+                            res.redirect('/admin/404');
+                        } else {
+                            res.redirect('/admin/500');
+                        }
+                    } else res.redirect('/admin/trangcanhan?status=successdoimail');
+                }
+            );
+        }
+    });
+  
 };
 
 

@@ -59,7 +59,7 @@ HoaDon.findBymahd  = (mahd , result) => {
             return;
         }
         if (res.length) {
-            console.log("found hoadon: ", res[0]);
+          
             result(null, res[0]);
             return;
         }
@@ -70,8 +70,8 @@ HoaDon.findBymahd  = (mahd , result) => {
 
 HoaDon.updateBymahd  = (mahd , hoadon, result) => {
     sql.query(
-        "UPDATE hoadon SET tennguoinhan = ?, ngaygiao = ?, sodt = ?, diachi = ? , ghichu = ? ,  thanhtoan = ?, ptthanhtoan = ?, matt = ? , manv = ?, updated_at = ?  WHERE mahd  = ?",
-        [hoadon.tennguoinhan, hoadon.ngaygiao , hoadon.sodt, hoadon.diachi , hoadon.ghichu,  hoadon.thanhtoan, hoadon.ptthanhtoan,  hoadon.matt , hoadon.manv,new Date(),  mahd ],
+        "UPDATE hoadon SET tennguoinhan = ?, ngaygiao = ?, sodt = ?, diachi = ? , ghichu = ? ,  thanhtoan = ?, ptthanhtoan = ?, matt = ? ,  tongtienhd = ? ,manv = ?, updated_at = ?  WHERE mahd  = ?",
+        [hoadon.tennguoinhan, hoadon.ngaygiao , hoadon.sodt, hoadon.diachi , hoadon.ghichu,  hoadon.thanhtoan, hoadon.ptthanhtoan,  hoadon.matt , hoadon.tongtienhd,hoadon.manv,new Date(),  mahd ],
         (err, res) => {
             if (err) {
                 console.log("error: ", err);
@@ -255,10 +255,10 @@ HoaDon.getLSAll =  (mahd, makh,limit, offset, result) => {
 };
 
 
-HoaDon.updateBymahdwitdtongtien  = (mahd , tongtiensp, result) => {
+HoaDon.updateBymahdwitdtongtien  = (mahd , tongtiensp, tongtienhd, result) => {
     sql.query(
-        "UPDATE hoadon SET  tongtiensp = ?, updated_at = ?  WHERE mahd  = ?",
-        [tongtiensp, new Date(), mahd ],
+        "UPDATE hoadon SET  tongtiensp = ?, tongtienhd = ? ,updated_at = ?  WHERE mahd  = ?",
+        [tongtiensp, tongtienhd, new Date(), mahd ],
         (err, res) => {
             if (err) {
                 console.log("error: ", err);

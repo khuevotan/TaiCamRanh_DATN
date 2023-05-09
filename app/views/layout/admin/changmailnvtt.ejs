@@ -1,6 +1,6 @@
 <!-- START PAGE CONTENT-->
 <div class="page-heading">
-    <h1 class="page-title">Đổi Mật Khẩu</h1>
+    <h1 class="page-title">Đổi Email</h1>
 
 </div>
 <div class="page-content fade-in-up">
@@ -19,7 +19,7 @@
         <div class="col-lg-9 col-md-8">
             <div class="ibox">
                 <div class="ibox-body">
-                    <form action="/admin/doimatkhau/<%= nhanvien.manv %>" id="form-sample-1" method="post">
+                    <form action="/admin/doiemail/<%= nhanvien.manv %>" id="form-sample-1" method="post">
                         <input type="hidden" name="_method" value="put" />
                       
                         <% if (typeof conflictError != "undefined" && conflictError) { %>
@@ -27,31 +27,19 @@
                             <% } %>
                             
                         <div class="form-group">
-                            <label>Mật Khẩu Cũ</label>
+                            <label>Email Cũ</label>
 
-                            <input class="form-control" type="password" name="matkhaucu"
-                                placeholder="Nhập Password cũ" required>
+                            <input class="form-control" type="email" name="emailcu"
+                               value="<%= nhanvien.email %> " readonly>
                         </div>
+                      
                         <div class="form-group">
-                            <label>Mật Khẩu Mới</label>
+                            <label>Email Mới</label>
 
-                            <input id="password-field" class="form-control" type="password"
-                                name="matkhaumoi" placeholder="Nhập Password mới" required>
+                            <input class="form-control" type="email" name="emailmoi"
+                               required>
                         </div>
-
-                        <div class="form-group">
-                            <label>Xác Nhận Mật Khẩu Mới</label>
-
-                            <input id="password-field" class="form-control" type="password"
-                                name="matkhaumoixn" placeholder="Nhập Password mới" required>
-                        </div>
-
-                        <div class="text-danger text-left  mb-3">
-                            Chú Ý: Mật khẩu phải dài hơn 8 ký tự, cả chữ thường và chữ in hoa, ít nhất một
-                            số và một ký tự đặc biệt ví
-                            dụ: 012345Kh*
-                        </div>
-
+                      
                         <div class="form-group">
                             <input class="btn btn-info btn-rounded" type="submit" value="Đổi">
                         </div>

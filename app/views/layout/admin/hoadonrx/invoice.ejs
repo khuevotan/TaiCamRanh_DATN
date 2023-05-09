@@ -199,7 +199,13 @@
                 <td><%= dtahoadonrx.ghichu %></td>
             </tr>
 
+            <tr class="item">
+                <td>Phương Thức Thanh Toán</td>
+                <td><%if (dtahoadonrx.ptthanhtoan == 1) { %> <b>Tại Cửa Hàng</b>  <% }else { %> <b>Thẻ Online</b>  <%  } %></td>
+            </tr>
+
             <tr class="total">
+             
                 <td><%if (dtahoadonrx.thanhtoan == 1) { %> <b style="color: red;">Chưa Thanh Toán</b>  <% }else { %> <b style="color: green;">Đã Thanh Toán</b>  <%  } %></td>
                 <td>Tổng Tiền: <%= (dtahoadonrx.tongtienrx).toLocaleString() %> VNĐ</td>
             </tr>

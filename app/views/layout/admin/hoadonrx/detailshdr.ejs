@@ -110,10 +110,19 @@
                         </tr>
 
                         <tr class="text-right">
+                            <td class="font-bold font-18">Phương Thức Thanh Toán:</td>
+                            <td class="font-bold font-18"> <%if (hoadonrx.ptthanhtoan == 1) { %> <b >Tại Cửa Hàng</b> <% }else { %> <b>Thẻ Online</b> <%  } %></td>
+                        </tr>
+                        
+
+                        <tr class="text-right">
                             <td class="font-bold font-18"></td>
+                          
+
                             <td class="font-bold font-18"> <%if (hoadonrx.thanhtoan == 1) { %> <b
                                     style="color: red;">Chưa Thanh Toán</b> <% }else { %> <b style="color: green;">Đã
                                     Thanh Toán</b> <%  } %></td>
+                            
                         </tr>
                     </tbody>
                 </table>

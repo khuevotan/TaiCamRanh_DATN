@@ -59,8 +59,11 @@ module.exports = app => {
      // thay đổi mật khẩu
      router.get("/changepass/:manv", authMiddleware.loggedinad, nhanvien.formthaypasss);
 
-     // đổi mật khẩu khi nhấn nút
+     // Đổi mật khẩu khi nhấn nút
      router.put("/doimatkhau/:manv", authMiddleware.loggedinad, nhanvien.adupdatemk);
+
+     // đổi Email
+     router.put("/doiemail/:manv", authMiddleware.loggedinad, nhanvien.changeEmail);
 
     // Lưu nhân viên khi nhấn nút update
     router.put("/:manv", authMiddleware.loggedinad, nhanvien.update);

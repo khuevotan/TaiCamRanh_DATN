@@ -11,17 +11,25 @@ exports.findAll = (req, res) => {
 
     HoaDon.getAllAD((err, data) => {
         if (err)
-            res.redirect('/500')
+            res.redirect('/admin/500')
         else {
             TrangThai.getAll((err, trangthai) => {
                 if (err)
-                    res.redirect('/500')
+                    res.redirect('/admin/500')
                 else {
-                    res.render('hoadon/indexhd', {
-                        hoadon: data,
-                        trangthai: trangthai,
-                        layout: './master3'
+                    PhiShip.findBymaps(data.maps,(err, phiship) => {
+                        if (err)
+                            res.redirect('/admin/500')
+                        else {
+                            res.render('hoadon/indexhd', {
+                                hoadon: data,
+                                phiship: phiship,
+                                trangthai: trangthai,
+                                layout: './master3'
+                            });
+                        }
                     });
+                   
                 }
             });
         }
@@ -56,13 +64,22 @@ exports.edit = (req, res) => {
                                 if (err)
                                     res.redirect('/500')
                                 else {
-                                    res.render('hoadon/edithd', {
-                                        hoadon: data,
-                                        trangthai: trangthai,
-                                        cthd: cthd,
-                                        sanpham: sanpham,
-                                        layout: './master2'
+
+                                    PhiShip.findBymaps(data.maps,(err, phiship) => {
+                                        if (err)
+                                            res.redirect('/admin/500')
+                                        else {
+                                            res.render('hoadon/edithd', {
+                                                hoadon: data,
+                                                phiship: phiship,
+                                                trangthai: trangthai,
+                                                cthd: cthd,
+                                                sanpham: sanpham,
+                                                layout: './master2'
+                                            });
+                                        }
                                     });
+                                    
                                 }
                             });
                         }
@@ -83,6 +100,11 @@ exports.update = (req, res) => {
     res.locals.nhanvien = req.session.nhanvien
     const manv = res.locals.nhanvien.manv;
 
+    let tienShipNumber = parseFloat(req.body.giaphi.replace(/,/g, ''));
+    let tongTienSPNumber = parseFloat(req.body.tongtiensp.replace(/,/g, ''));
+    let tongtienhdNUmber = tienShipNumber + tongTienSPNumber;
+
+    console.log(tongtienhdNUmber);
     // Create a hoadon
     const hoadon = new HoaDon({
         tennguoinhan: req.body.tennguoinhan,
@@ -91,29 +113,18 @@ exports.update = (req, res) => {
         diachi: req.body.diachi,
         ghichu: req.body.ghichu,
         thanhtoan: req.body.thanhtoan,
+        ptthanhtoan: req.body.ptthanhtoan,
+        tongtienhd: tongtienhdNUmber,
         matt: req.body.matt,
         manv: manv,
     });
 
-    HoaDon.updateBymahd(
-        req.params.mahd,
-        hoadon,
-        (err, data) => {
-            if (err) {
-                if (err.kind === "not_found") {
-                    res.redirect('/404');
-                } else {
-                    res.redirect('/500');
-                }
-            } else res.redirect('/admin/hoadon/edit/' + req.params.mahd + '?status=success');
-        }
-    );
-};
+    const phiship = new PhiShip({
+        mavanchuyen: req.body.mavanchuyen,
+        giaphi: tienShipNumber,
+    });
 
-// Xóa thông tin hóa đơn đặt hàng.
-exports.delete = (req, res) => {
-
-    CTHoaDon.remove(req.params.mahd, (err, data) => {
+    HoaDon.findBymahd(req.params.mahd, (err, data) => {
         if (err) {
             if (err.kind === "not_found") {
                 res.redirect('/admin/404');
@@ -121,8 +132,64 @@ exports.delete = (req, res) => {
                 res.redirect('/admin/500');
             }
         } else {
-            HoaDon.remove(req.params.mahd, (err, data) => {
-                res.redirect('/admin/hoadon/index?deleted=true')
+            PhiShip.updateBymaps(
+                data.maps,
+                phiship,
+                (err, data) => {
+                    if (err) {
+                        if (err.kind === "not_found") {
+                            res.redirect('/admin/404');
+                        } else {
+                            res.redirect('/admin/500');
+                        }
+                    } else {
+    
+                        HoaDon.updateBymahd(
+                            req.params.mahd,
+                            hoadon,
+                            (err, data) => {
+                                if (err) {
+                                    if (err.kind === "not_found") {
+                                        res.redirect('/admin/404');
+                                    } else {
+                                        res.redirect('/admin/500');
+                                    }
+                                } else res.redirect('/admin/hoadon/edit/' + req.params.mahd + '?status=success');
+                            }
+                        );
+        
+                    }
+                }
+            );
+        
+        }
+    });
+   
+};
+
+// Xóa thông tin hóa đơn đặt hàng.
+exports.delete = (req, res) => {
+
+    HoaDon.findBymahd(req.params.mahd,(err, datahoadon) => {
+        if (err)
+            res.redirect('/admin/500')
+        else{
+
+            PhiShip.remove(datahoadon.maps, (err, data) => {
+                
+                CTHoaDon.remove(req.params.mahd, (err, data) => {
+                    if (err) {
+                        if (err.kind === "not_found") {
+                            res.redirect('/admin/404');
+                        } else {
+                            res.redirect('/admin/500');
+                        }
+                    } else {
+                        HoaDon.remove(req.params.mahd, (err, data) => {
+                            res.redirect('/admin/hoadon/index?deleted=true')
+                        });
+                    }
+                });
             });
         }
     });
@@ -135,29 +202,36 @@ exports.details = (req, res) => {
     HoaDon.findBymahd(req.params.mahd, (err, data) => {
         if (err) {
             if (err.kind === "not_found") {
-                res.redirect('/404');
+                res.redirect('/admin/404');
             } else {
-                res.redirect('/500');
+                res.redirect('/admin/500');
             }
         } else {
             TrangThai.findBymatt(data.matt, (err, trangthai) => {
                 if (err)
-                    res.redirect('/500')
+                    res.redirect('/admin/500')
                 else {
                     CTHoaDon.findBymahd(req.params.mahd, (err, cthd) => {
                         if (err)
-                            res.redirect('/500')
+                            res.redirect('/admin/500')
                         else {
                             SanPham.getAll(tensp, (err, sanpham) => {
                                 if (err)
-                                    res.redirect('/500')
+                                    res.redirect('/admin/500')
                                 else {
-                                    res.render('hoadon/detailshd', {
-                                        hoadon: data,
-                                        trangthai: trangthai,
-                                        cthd: cthd,
-                                        sanpham: sanpham,
-                                        layout: './master2'
+                                    PhiShip.findBymaps(data.maps,(err, phiship) => {
+                                        if (err)
+                                            res.redirect('/admin/500')
+                                        else {
+                                            res.render('hoadon/detailshd', {
+                                                hoadon: data,
+                                                trangthai: trangthai,
+                                                cthd: cthd,
+                                                phiship: phiship,
+                                                sanpham: sanpham,
+                                                layout: './master2'
+                                            });
+                                        }
                                     });
                                 }
                             });
