@@ -1,10 +1,8 @@
+<title>Danh Sách Xe</title>
 
-    <div class="page-content fade-in-up">
-       
-
+ <div class="page-content fade-in-up">
             <% if (typeof deleted !== 'undefined') { %>
                 <%if (deleted == 'true') { %>
-
                     <div class="ibox ibox-success">
                         <div class="ibox-head">
                             <div class="ibox-title">   
@@ -16,7 +14,6 @@
                 <% } %>
            
           <% } else { %>
-
             <div class="ibox ibox-info">
                 <div class="ibox-head">
                     <div class="ibox-title">   
@@ -28,7 +25,6 @@
                 </div>
             <% } %>
             <div class="ibox-body">
-                
                 <table class="table table-striped table-bordered table-hover" id="example-table" cellspacing="0" width="100%">
                     <thead>
                         <tr>
@@ -44,7 +40,6 @@
                             <td><%= item.malx %></td>
                             <td><%= item.tenlx %></td>
                             <td><%= (item.gia).toLocaleString() %> VNĐ</td>
-                           
                                 <td>
                                     <a href="/admin/loaixe/details/<%= item.malx %>" class="btn btn-default btn-xs m-r-5" data-toggle="tooltip" data-original-title="Details"><i class="fa fa-info font-14"></i></a>
                                     <a href="/admin/loaixe/edit/<%= item.malx %>" class="btn btn-default btn-xs m-r-5" data-toggle="tooltip" data-original-title="Edit"><i class="fa fa-pencil font-14"></i></a>

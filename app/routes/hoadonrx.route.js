@@ -1,4 +1,5 @@
 const authMiddRX = require('../middlewares/authadrx.middleware');
+const LoaiXe = require('../models/LoaiXe.model');
 
 module.exports = app => {
     const hoadonrx = require("../controllers/admin/hoadonrx.controller");

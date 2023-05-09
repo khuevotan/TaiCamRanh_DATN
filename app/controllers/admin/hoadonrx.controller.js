@@ -221,6 +221,54 @@ exports.edit = (req, res) => {
     });
 };
 
+// Cập nhật thông tin một hóa đơn đặt lịch.
+exports.update = (req, res) => {
+    
+    // Validate Request
+    if (!req.body) {
+        res.redirect('/admin/hoadonrx/edit/' + req.params.mahdrx + '?status=error')
+    }
+
+    res.locals.nhanvien = req.session.nhanvien
+    const manv = res.locals.nhanvien.manv;
+
+    LoaiXe.findBymalx(req.body.malx, (err, dataxe) => {
+        
+        const hoadonrx = new HoaDonRX({
+            tennguoirua: req.body.tennguoirua,
+            ngayrua: req.body.ngayrua,
+            magio: req.body.magio,
+            sodt: req.body.sodt,
+            diachi: req.body.diachi,
+            ghichu: req.body.ghichu,
+            tongtienrx: dataxe.gia,
+            ptthanhtoan: req.body.ptthanhtoan,
+            thanhtoan: req.body.thanhtoan,
+            malx: req.body.malx,
+            matt: req.body.matt,
+            manv: manv,
+        });
+
+        HoaDonRX.updateBymahdrx(
+            req.params.mahdrx,
+            hoadonrx,
+            (err, data) => {
+                if (err) {
+                    if (err.kind === "not_found") {
+                        res.redirect('/admin/404');
+                    } else {
+                        res.redirect('/admin/500');
+                    }
+                } else res.redirect('/admin/hoadonrx/edit/' + req.params.mahdrx + '?status=success');
+            }
+        );
+    });
+
+    
+};
+
+
+// Thay đổi ngày rửa.
 exports.editdoingay = (req, res) => {
 
     res.locals.status = req.query.status;
@@ -299,49 +347,6 @@ exports.editdoingay = (req, res) => {
     }  
 };
 
-
-// Cập nhật thông tin một hóa đơn đặt lịch.
-exports.update = (req, res) => {
-    
-    // Validate Request
-    if (!req.body) {
-        res.redirect('/admin/hoadonrx/edit/' + req.params.mahdrx + '?status=error')
-    }
-
-    res.locals.nhanvien = req.session.nhanvien
-    const manv = res.locals.nhanvien.manv;
-
-    console.log();
-    // Create a hoadonrx
-    const hoadonrx = new HoaDonRX({
-        tennguoirua: req.body.tennguoirua,
-        ngayrua: req.body.ngayrua,
-        magio: req.body.magio,
-        sodt: req.body.sodt,
-        diachi: req.body.diachi,
-        ghichu: req.body.ghichu,
-        tongtienrx: req.body.tongtienrx,
-        ptthanhtoan: req.body.ptthanhtoan,
-        thanhtoan: req.body.thanhtoan,
-        malx: req.body.malx,
-        matt: req.body.matt,
-        manv: manv,
-    });
-
-    HoaDonRX.updateBymahdrx(
-        req.params.mahdrx,
-        hoadonrx,
-        (err, data) => {
-            if (err) {
-                if (err.kind === "not_found") {
-                    res.redirect('/404');
-                } else {
-                    res.redirect('/500');
-                }
-            } else res.redirect('/admin/hoadonrx/edit/' + req.params.mahdrx + '?status=success');
-        }
-    );
-};
 
 // Xóa lịch.
 exports.delete = (req, res) => {
