@@ -12,7 +12,7 @@ exports.login = (req, res) => {
         Khachhang.findByTaikhoan(taikhoan, (err, khachhang) => {
             if (!khachhang) {
                 // res.redirect('/login');
-                const conflictError = 'Tài khoản này không tồn tại!';
+                const conflictError = 'Tài khoản này không tồn tại, xin vui lòng nhập lại!';
                 res.render('auth/login', { taikhoan, conflictError });
             } else {
                 bcrypt.compare(matkhau,khachhang.matkhau, (err, result) => {      
@@ -21,7 +21,7 @@ exports.login = (req, res) => {
                         req.session.khachhang = khachhang;
                         res.redirect('/');
                     } else {
-                        const conflictError = 'Sai Password!';
+                        const conflictError = 'Sai mật khẩu, xin vui lòng nhập lại!';
                         res.render('auth/login', { taikhoan, matkhau, conflictError });
                     }
                 })
@@ -37,6 +37,6 @@ exports.login = (req, res) => {
 exports.logout = (req, res) => {
     req.session.destroy((err) => {
         if (err) res.redirect('/500');
-        res.redirect('/');
+        res.redirect('/login');
     })
 }

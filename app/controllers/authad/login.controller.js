@@ -11,7 +11,7 @@ exports.login = (req, res) => {
     if (taikhoan && matkhau) {
         NhanVien.findByTaikhoan(taikhoan, (err, nhanvien) => {
             if (!nhanvien) {
-                const conflictError = 'Tài khoản này không tồn tại!';
+                const conflictError = 'Tài khoản này không tồn tại, xin vui lòng nhập lại!';
                 res.render('authad/login', { taikhoan, conflictError, layout: false });
             } else {
                 bcrypt.compare(matkhau,nhanvien.matkhau, (err, result) => {      
@@ -20,7 +20,7 @@ exports.login = (req, res) => {
                         req.session.nhanvien = nhanvien;
                         res.redirect('/admin/index');
                     } else {
-                        const conflictError = 'Sai Password!';
+                        const conflictError = 'Sai mật khẩu, xin vui lòng nhập lại!';
                         res.render('authad/login', { taikhoan, matkhau, conflictError , layout: false});
                     }
                 })

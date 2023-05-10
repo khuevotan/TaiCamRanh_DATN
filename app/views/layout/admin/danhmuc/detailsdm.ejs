@@ -1,4 +1,4 @@
-
+<title>Chi Tiết Danh Mục</title>
 
 <div class="page-content fade-in-up">
   
@@ -16,47 +16,47 @@
 
                 <div class="ibox-body">
                         <div class="form-group row">
-                            <label class="col-sm-2 col-form-label">Mã Danh Mục</label>
-                            <div class="col-sm-10">
+                            <label class="col-sm-3 col-form-label">Mã Danh Mục</label>
+                            <div class="col-sm-9">
                                 <input class="form-control" type="text" name="madm"
                                     value="<%= danhmuc.madm %>" readonly>
                             </div>
                         </div>
 
                         <div class="form-group row">
-                            <label class="col-sm-2 col-form-label">Tên Danh Mục</label>
-                            <div class="col-sm-10">
+                            <label class="col-sm-3 col-form-label">Tên Danh Mục</label>
+                            <div class="col-sm-9">
                                 <input class="form-control" type="text" name="tendm"
                                     value="<%= danhmuc.tendm %>" readonly>
                             </div>
                         </div>
 
                         <div class="form-group row">
-                            <label class="col-sm-2 col-form-label">Hình Đại Diện</label>
-                            <div class="col-sm-10">
+                            <label class="col-sm-3 col-form-label">Hình Đại Diện</label>
+                            <div class="col-sm-9">
                                 <img src="/images/danhmuc/<%= danhmuc.hinhdd %>" width="200px" />
                             </div>
                         </div>
                       
                         <div class="form-group row">
-                            <label class="col-sm-2 col-form-label">Mô Tả Chi Tiết</label>
-                            <div class="col-sm-10">
+                            <label class="col-sm-3 col-form-label">Mô Tả Chi Tiết</label>
+                            <div class="col-sm-9">
                                 <textarea class="form-control" rows="6"
                                     name="motact" readonly><%= danhmuc.motact %></textarea>
                             </div>
                         </div>
 
                         <div class="form-group row">
-                            <label class="col-sm-2 col-form-label">Ngày Tạo</label>
-                            <div class="col-sm-10">
+                            <label class="col-sm-3 col-form-label">Ngày Tạo</label>
+                            <div class="col-sm-9">
                                 <input class="form-control" type="text" name="soluong"
                                     value="<%= moment(danhmuc.created_at).format('DD-MM-YYYY HH:mm:ss') %>" readonly>
                             </div>
                         </div>
 
                         <div class="form-group row">
-                            <label class="col-sm-2 col-form-label">Thời Gian Chỉnh Sửa Gần Nhất</label>
-                            <div class="col-sm-10">
+                            <label class="col-sm-3 col-form-label">Thời Gian Chỉnh Sửa Gần Nhất</label>
+                            <div class="col-sm-9">
                                 <input class="form-control" type="text" name="updated_at" value="<%= moment(danhmuc.updated_at).format('DD-MM-YYYY HH:mm:ss') %>" readonly>
                             </div>
                         </div>
@@ -64,8 +64,9 @@
             
 
                         <div class="form-group row">
-                            <div class="col-sm-10 ml-sm-auto">
+                            <div class="col-sm-9 ml-sm-auto">
                                 <a href="/admin/danhmuc/edit/<%= danhmuc.madm %>" class="btn btn-info btn-rounded" >Chỉnh Sửa </a>
+                                <a href="/admin/danhmuc/index" class="btn btn-info btn-rounded" >Xem Danh Sách</a>
                             </div>
                         </div>
                     </form>

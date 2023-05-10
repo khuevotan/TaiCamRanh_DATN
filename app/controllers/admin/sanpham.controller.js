@@ -46,6 +46,7 @@ exports.store = (req, res) => {
         tensp: req.body.tensp,
         hinhdd: file.filename,
         soluong: req.body.soluong,
+        motangan: req.body.motangan,
         motact: req.body.motact,
         giaban: giaBanNumberFL,
         madm: req.body.madm,
@@ -202,6 +203,7 @@ exports.update = (req, res) => {
     const sanpham = new SanPham({
         tensp: req.body.tensp,
         soluong: req.body.soluong,
+        motangan: req.body.motangan,
         motact: req.body.motact,
         giaban: parseFloat(req.body.giaban.replace(/,/g, '')),
         madm: req.body.madm,

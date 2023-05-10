@@ -1,3 +1,5 @@
+<title>Nhập Số Lượng Sản Phẩm</title>
+
 <div class="page-content fade-in-up">
     <% if (typeof status !== 'undefined') { %>
     <%if (status == 'successSP') { %>
@@ -65,7 +67,7 @@
                                                 <th>Tên Sản Phẩm</th>
                                                 <th>Giá Tiền Hiện Tại Ở Shop</th>
                                                 <th>Số Lượng Trong Kho</th>
-                                                <th>Số Lượng Nhập Cũ</th>
+                                                <th>Số Lượng Nhập Trước Đó</th>
                                                 <th>Số Lượng Nhập</th>
                                                 <th>Giá Nhập</th>
                                                 <th>Hành Động</th>
@@ -115,6 +117,17 @@
                                             <% }) %>
                                         </tbody>
                                     </table>
+                                    <span style="color: red;">
+                                        
+                                        
+                                        Chú Ý: Bấm Các Nút Cập Nhật Từng Sản Phẩm Trước Khi Bấm Vào Đây Để Hoàn Thành
+                                    </br>
+                                        Nếu muốn xóa thì cập nhật số lượng và giá trị nhập = 0
+                                    
+                                    </span>
+                                    
+                                </br>
+                            </br>
                                     <a href="/admin/phieunhap/index" class="btn btn-info btn-rounded">Hoàn Thành</a>
                                 </div>
                              
