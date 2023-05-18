@@ -14,16 +14,22 @@ exports.login = (req, res) => {
                 const conflictError = 'Tài khoản này không tồn tại, xin vui lòng nhập lại!';
                 res.render('authad/login', { taikhoan, conflictError, layout: false });
             } else {
-                bcrypt.compare(matkhau,nhanvien.matkhau, (err, result) => {      
-                    if (result == true) {
-                        req.session.loggedin = true;
-                        req.session.nhanvien = nhanvien;
-                        res.redirect('/admin/index');
-                    } else {
-                        const conflictError = 'Sai mật khẩu, xin vui lòng nhập lại!';
-                        res.render('authad/login', { taikhoan, matkhau, conflictError , layout: false});
-                    }
-                })
+                if(nhanvien.tinhtrang == 1){
+                    bcrypt.compare(matkhau,nhanvien.matkhau, (err, result) => {      
+                        if (result == true) {
+                            req.session.loggedin = true;
+                            req.session.nhanvien = nhanvien;
+                            res.redirect('/admin/index');
+                        } else {
+                            const conflictError = 'Sai mật khẩu, xin vui lòng nhập lại!';
+                            res.render('authad/login', { taikhoan, matkhau, conflictError , layout: false});
+                        }
+                    })
+
+                }else{
+                    const conflictError = 'Tài Khoản Đã Bị Vô Hiệu Hóa!';
+                    res.render('authad/login', { taikhoan, matkhau, conflictError , layout: false});
+                }
             }
         })
     } else {

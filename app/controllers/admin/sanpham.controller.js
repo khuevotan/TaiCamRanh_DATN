@@ -51,6 +51,7 @@ exports.store = (req, res) => {
         giaban: giaBanNumberFL,
         madm: req.body.madm,
         mancc: req.body.mancc,
+        tinhtrang : 1,
         manv: manv,
     });
     // Save sanpham in the database

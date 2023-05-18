@@ -1,14 +1,24 @@
+
+const LoaiXe = require("../../models/loaixe.model");
+
 exports.getIndex = (req, res) => {
     res.render('index.ejs');
 }
 
-exports.getDichvu = (req, res) => {
-    res.render('dichvu.ejs');
+exports.getDichVuRuaXe = (req, res) => {
+
+    LoaiXe.getAll((err, loaixe) => {
+        if (err)
+            res.redirect('/500')
+        else {
+            res.render('dichvuruaxe.ejs', {loaixe: loaixe});
+        }
+    });
+   
 }
 
-exports.getVetcr = (req, res) => {
-    res.render('vetaicamranh.ejs');
-}
+
+
 
 exports.getLienhe = (req, res) => {
     res.render('lienhe.ejs');

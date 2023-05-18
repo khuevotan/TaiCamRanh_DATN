@@ -40,6 +40,7 @@ exports.store = (req, res) => {
     const loaixe = new LoaiXe({
         tenlx: req.body.tenlx,
         gia: giaBanNumberFL,
+        tinhtrang : 1,
     });
     // Save loaixe in the database
     LoaiXe.create(loaixe, (err, data) => {

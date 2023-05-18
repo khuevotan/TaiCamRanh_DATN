@@ -6,20 +6,22 @@
         <div class="container">
             <div class="row">
                 <div class="col-lg-8 mb-5 mb-lg-0">
-                    <div class="blog_left_sidebar">
-
+                    <div class="blog_left_sidebar" >
+                        
                         <% baiviet.forEach((item) => { %>
                         <!-- <td><%= item.hinhdd	%></td> -->
-                        <article class="blog_item">
+                        <article class="blog_item" style="border: 1px solid #ccc;">
                             <div class="blog_item_img">
                                 <img class="card-img rounded-0" src="/images/baiviet/<%= item.hinhdd %>" alt=""
                                     height="300px">
                             </div>
                             <div class="blog_details">
-                                <a class="d-inline-block" href="/baivietct/<%= item.mabv %>">
+                                <a  href="/baivietct/<%= item.mabv %>">
                                     <h2 class="blog-head" style="color: #2d2d2d;"><%= item.tenbv %></h2>
                                 </a>
+                                <a href="/baivietct/<%= item.mabv %>">
                                 <li><%= item.motangan %>...</li>
+                             </a>
                                 <br>
                                 <ul class="blog-info-link">
 
@@ -35,6 +37,12 @@
                                     </li>
                                     <li>Ngày Đăng:
                                         <%= moment(item.created_at).format('dddd, DD-MM-YYYY HH:mm:ss')  %>
+                                    </li>
+
+                                    <li>
+                                        <a  href="/baivietct/<%= item.mabv %>">
+                                        Xem Chi Tiết
+                                    </a>
                                     </li>
 
                                 </ul>

@@ -21,6 +21,7 @@ exports.store = (req, res) => {
         tenncc: req.body.tenncc,
         sodt: req.body.sodt,
         diachi: req.body.diachi,
+        tinhtrang : 1,
     });
 
     // Save nhacungcap in the database

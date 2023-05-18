@@ -2,7 +2,6 @@ const sql = require("./db")
 
 const HoaDon = function(hoadon){
     this.mahd   = hoadon.mahd ;
-    this.ngaygiao = hoadon.ngaygiao;
     this.tennguoinhan = hoadon.tennguoinhan;
     this.sodt = hoadon.sodt;
     this.diachi = hoadon.diachi;
@@ -70,8 +69,8 @@ HoaDon.findBymahd  = (mahd , result) => {
 
 HoaDon.updateBymahd  = (mahd , hoadon, result) => {
     sql.query(
-        "UPDATE hoadon SET tennguoinhan = ?, ngaygiao = ?, sodt = ?, diachi = ? , ghichu = ? ,  thanhtoan = ?, ptthanhtoan = ?, matt = ? ,  tongtienhd = ? ,manv = ?, updated_at = ?  WHERE mahd  = ?",
-        [hoadon.tennguoinhan, hoadon.ngaygiao , hoadon.sodt, hoadon.diachi , hoadon.ghichu,  hoadon.thanhtoan, hoadon.ptthanhtoan,  hoadon.matt , hoadon.tongtienhd,hoadon.manv,new Date(),  mahd ],
+        "UPDATE hoadon SET tennguoinhan = ? , sodt = ?, diachi = ? , ghichu = ? , ptthanhtoan = ?,  tongtienhd = ? ,manv = ?, updated_at = ?  WHERE mahd  = ?",
+        [hoadon.tennguoinhan, hoadon.sodt, hoadon.diachi , hoadon.ghichu,  hoadon.ptthanhtoan,  hoadon.tongtienhd,hoadon.manv,new Date(),  mahd ],
         (err, res) => {
             if (err) {
                 console.log("error: ", err);
@@ -88,6 +87,30 @@ HoaDon.updateBymahd  = (mahd , hoadon, result) => {
         }
     );
 };
+
+
+// Update Fast
+HoaDon.updateFastByMaHD  = (mahd , hoadon, result) => {
+    sql.query(
+        "UPDATE hoadon SET  thanhtoan = ?, matt = ? ,manv = ?, updated_at = ?  WHERE mahd  = ?",
+        [ hoadon.thanhtoan, hoadon.matt,hoadon.manv,new Date(),  mahd ],
+        (err, res) => {
+            if (err) {
+                console.log("error: ", err);
+                result(null, err);
+                return;
+            }
+            if (res.affectedRows == 0) {
+                // not found hoadon with the mahd 
+                result({ kind: "not_found" }, null);
+                return;
+            }
+            console.log("updated hoadon: ", { mahd : mahd , ...hoadon });
+            result(null, { mahd : mahd , ...hoadon });
+        }
+    );
+};
+
 
 HoaDon.remove = (mahd , result) => {
     sql.query("DELETE FROM hoadon WHERE mahd  = ?", mahd , (err, res) => {

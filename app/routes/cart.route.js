@@ -15,11 +15,22 @@ module.exports = app => {
       if (err) {
         return res.redirect('/');
       }
-      cart.add(product, productId, product.soluong);
-      req.session.cart = cart;
-      res.locals.cart = req.session.cart;
+   
+    
+      cart.add(product, productId, product.soluong, (error, thongbao) => {
+        if (thongbao) {
+          req.session.cart = cart;
+          res.locals.cart = req.session.cart;
+          res.redirect('/shop?status=khongdusl');
+       
+        }else{
 
-      res.redirect('/shop');
+          req.session.cart = cart;
+          res.locals.cart = req.session.cart;
+          res.redirect('/shop');
+        }
+    });
+
     });
   });
 
@@ -39,9 +50,21 @@ module.exports = app => {
       }
 
       // thêm sản phẩm vào giỏ hàng
-      cart.addToCart(product, product.masp, quantity, product.soluong);
-      req.session.cart = cart;
-      res.redirect('/sanphamct/' + product.masp);
+      // cart.addToCart(product, product.masp, quantity, product.soluong);
+   
+      
+      cart.addToCart(product, product.masp, quantity, product.soluong, (error, thongbao) => {
+        if (thongbao) {
+          req.session.cart = cart;
+          console.log(thongbao);
+          res.redirect('/sanphamct/' + product.masp + '?status=khongdusl');
+       
+        }else{
+          req.session.cart = cart;
+          res.redirect('/sanphamct/' + product.masp);
+        }
+    });
+    
     });
   });
 
@@ -60,7 +83,7 @@ module.exports = app => {
       }
 
       // thêm sản phẩm vào giỏ hàng
-      cart.addToGH(product, product.masp, quantity);
+      cart.addToGH(product, product.masp, quantity, product.soluong);
       req.session.cart = cart;
       res.redirect('/cart');
     });

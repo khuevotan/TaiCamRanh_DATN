@@ -68,7 +68,7 @@ module.exports = app => {
         storage: storage
     })
 
-    router.post('/khachhang/uploadfile/:hinhdd', upload.single('myFile'), khachhang.uploadFile)
+    router.post('/khachhang/uploadfile/', upload.single('myFile'), khachhang.uploadFile)
 
     // xác thực tài khoản
     router.get("/khachhang/xacthuctaikhoan/:email", authMiddleware.loggedin, khachhang.xacthuctaikhoan);

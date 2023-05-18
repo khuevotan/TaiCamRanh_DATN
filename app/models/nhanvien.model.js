@@ -15,6 +15,7 @@ const NhanVien = function(nhanvien){
     this.manhom = nhanvien.manhom;
     this.luong = nhanvien.luong;
     this.kichhoat = nhanvien.kichhoat;
+    this.tinhtrang = nhanvien.tinhtrang;
     this.created_at = nhanvien.created_at;
     this.updated_at = nhanvien.updated_at;
 };
@@ -84,6 +85,7 @@ NhanVien.findByEmail = (email, result) => {
             result(null, res[0])
             return;
         }
+        
         result(null, null);
     });
 }
@@ -91,7 +93,7 @@ NhanVien.findByEmail = (email, result) => {
 
 // Hiển thị danh sách nhân viên
 NhanVien.getAll = (result) => {
-    let query = "SELECT * FROM nhanvien";
+    let query = "SELECT * FROM nhanvien WHERE tinhtrang = 1";
    
     sql.query(query, (err, res) => {
         if (err) {
@@ -99,7 +101,7 @@ NhanVien.getAll = (result) => {
             result(null, err);
             return;
         }
-        console.log("nhanvien: ", res);
+     
         result(null, res);
     });
 };
@@ -188,21 +190,24 @@ NhanVien.updateAvaByMaNV = (manv, hinhdd, result) => {
     );
 };
 
+// Xóa nhân viên
 NhanVien.remove = (manv, result) => {
-    sql.query("DELETE FROM nhanvien WHERE manv = ?", manv, (err, res) => {
-        if (err) {
-            console.log("error: ", err);
-            result(null, err);
-            return;
+    sql.query(
+        "UPDATE nhanvien SET tinhtrang = ?, updated_at = ? WHERE manv = ?",
+        [2,new Date(), manv],
+        (err, res) => {
+            if (err) {
+                console.log("error: ", err);
+                result(null, err);
+                return;
+            }
+            if (res.affectedRows == 0) {
+                result({ kind: "not_found" }, null);
+                return;
+            }
+            result(null, { manv: manv });
         }
-        if (res.affectedRows == 0) {
-            // not found nhanvien with the manv
-            result({ kind: "not_found" }, null);
-            return;
-        }
-        console.log("deleted nhanvien with manv: ", manv);
-        result(null, res);
-    });
+    );
 };
 
 

@@ -84,6 +84,7 @@ exports.store = (req, res) => {
                                     diachi: diachi,
                                     hinhdd: '',
                                     kichhoat: 1,
+                                    tinhtrang : 1,
                                     ngaytaotk: new Date(),
                                     sodt: sodt,
                                     ngaysinh: ngaysinh,
@@ -148,28 +149,27 @@ exports.store = (req, res) => {
 };
 
 // Hiển thị form thanh mật khẩu.
-exports.formthaypasss = (req, res) => {
+exports.formThayPass = (req, res) => {
     res.locals.status = req.query.status;
 
     NhanVien.findByMaNV(req.params.manv, (err, data) => {
         if (err) {
             if (err.kind === "not_found") {
-                res.redirect('/404');
+                res.redirect('/admin/404');
             } else {
-                res.redirect('/500');
+                res.redirect('/admin/500');
             }
         } else res.render('nhanvien/changepassnv', { nhanvien: data,  layout: './master2'});
     });
 };
 
-// Update mật khẩu bến phía admin
+// Update mật khẩu bến phía admin.
 exports.adupdatemk = (req, res) => {
     res.locals.status = req.query.status;
     const {
         taikhoan,
         matkhaumoi,
         matkhaumoixn,
-        matkhaucu
     } = req.body;
 
     if(req.body.matkhaumoi == req.body.matkhaumoixn){
@@ -183,41 +183,26 @@ exports.adupdatemk = (req, res) => {
             } else {
 
                 NhanVien.findByTaikhoan(taikhoan, (err, nhanvien) => {
-                    bcrypt.compare(matkhaucu, nhanvien.matkhau, (err, result) => {
-                        console.log(result);
-                        if (result == true) {
-                            if (matkhaumoi.length >= 8 && matkhaumoi.match(/[a-z]/) && matkhaumoi.match(/[A-Z]/) && matkhaumoi.match(/\d/) && matkhaumoi.match(/[^a-zA-Z\d]/)) {
-                                bcrypt.hash(matkhaumoi, parseInt(process.env.BCRYPT_SALT_ROUND)).then((hashedMatkhau) => {
-                                    NhanVien.resetPasswordNV(taikhoan, hashedMatkhau, (err, result) => {
-                                        if (!err) {
-                                            res.redirect('/admin/nhanvien/changepass/'+ req.params.manv + '?status=success');  
-            
-                                        } else {
-                                            res.redirect("/admin/500");
-                                        }
-                                    })
-                                })
-                            } else {
-                                const conflictError = 'Mật khẩu mới phải dài hơn 8 ký tự, cả chữ thường và chữ in hoa, ít nhất một số và một ký tự đặc biệt ví dụ: 012345Kh*';
-                                res.render('nhanvien/changepassnv', { 
-                                    nhanvien: data,
-                                    conflictError,  
-                                    layout: './master2'
-                                });
+                    if (matkhaumoi.length >= 8 && matkhaumoi.match(/[a-z]/) && matkhaumoi.match(/[A-Z]/) && matkhaumoi.match(/\d/) && matkhaumoi.match(/[^a-zA-Z\d]/)) {
+                        bcrypt.hash(matkhaumoi, parseInt(process.env.BCRYPT_SALT_ROUND)).then((hashedMatkhau) => {
+                            NhanVien.resetPasswordNV(taikhoan, hashedMatkhau, (err, result) => {
+                                if (!err) {
+                                    res.redirect('/admin/nhanvien/changepass/'+ req.params.manv + '?status=success');  
+    
+                                } else {
+                                    res.redirect("/admin/500");
+                                }
+                            })
+                        })
+                    } else {
+                        const conflictError = 'Mật khẩu mới phải dài hơn 8 ký tự, cả chữ thường và chữ in hoa, ít nhất một số và một ký tự đặc biệt ví dụ: 012345Kh*';
+                        res.render('nhanvien/changepassnv', { 
+                            nhanvien: data,
+                            conflictError,  
+                            layout: './master2'
+                        });
 
-                            }
-            
-                        } else {
-        
-                          
-                            const conflictError = 'Sai Password Cũ!';
-                            res.render('nhanvien/changepassnv', { 
-                                nhanvien: data,
-                                conflictError,  
-                                layout: './master2'
-                            });
-                        }
-                    })
+                    }
                 })
             }
         });

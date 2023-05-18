@@ -55,8 +55,9 @@ exports.register = (req, res) => {
                                 gioitinh: gioitinh,
                                 diachi: diachi,
                                 hinhdd: '',
-                                kichhoat: 0,
-                                email_verified_at: new Date(),
+                                kichhoat: 1,
+                                tinhtrang: 1,
+                             
                                 sodt: sodt,
                                 ngaysinh: ngaysinh,
                             });

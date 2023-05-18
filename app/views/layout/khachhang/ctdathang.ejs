@@ -80,8 +80,10 @@
                           <td>Mã Vận Chuyển:</td>
                           <td>: <%= phiship.mavanchuyen %></td>
                       </tr>
+                     
                         <tr>
                             <td>Cập Nhật Gần Nhất:</td>
+                            
                             <td>: <%= moment(hoadon.updated_at).format('dddd, DD-MM-YYYY HH:mm:ss') %></td>
                         </tr>
                     </table>
@@ -107,6 +109,12 @@
                             <td>Ghi Chú</td>
                             <td>: <%= hoadon.ghichu  %></td>
                         </tr>
+
+                        <tr>
+                          <td>Ngày Giao Dự Kiến:</td>
+                          <td>: <%= moment(phiship.ngaygiaohang).format('dddd, DD-MM-YYYY ') %></td>
+                       
+                      </tr>
                         <tr>
                             <td>Hình Thức Thanh Toán</td>
                             <td>:  <%if (hoadon.ptthanhtoan == 1) { %>
@@ -117,6 +125,7 @@
 
                               
                         </tr>
+
                     </table>
                 </div>
             </div>

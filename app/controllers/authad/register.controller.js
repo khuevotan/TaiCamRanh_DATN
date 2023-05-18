@@ -61,6 +61,7 @@ exports.register = (req, res) => {
                                 diachi: diachi,
                                 hinhdd: '',
                                 kichhoat: 1,
+                                tinhtrang: 1,
                                 manhom: manhom, 
                                 ngaytaotk: new Date(),
                                 sodt: sodt,

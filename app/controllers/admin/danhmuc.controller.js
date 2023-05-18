@@ -21,6 +21,7 @@ exports.store = (req, res) => {
         tendm: req.body.tendm,
         hinhdd: file.filename,
         motact: req.body.motact,
+        tinhtrang : 1,
     });
 
     // Save danhmuc in the database

@@ -1,0 +1,61 @@
+<title>Dịch Vụ Rửa Xe</title>
+
+
+<div class="section-tittle text-center">
+    <h2>Bảng Giá Dịch Vụ</h2>
+</div>
+
+
+<style>
+    table {
+      font-family: arial, sans-serif;
+      border-collapse: collapse;
+      width: 100%;
+    }
+    
+    td, th {
+      border: 1px solid #000000;
+      text-align: left;
+      padding: 8px;
+    }
+    
+    tr:nth-child(even) {
+      background-color: #dddddd;
+    }
+    </style>
+
+  
+        <div class="container">
+
+            <p>
+                Chào mừng bạn đến với dịch vụ rửa xe chuyên nghiệp của chúng tôi. Chúng tôi cam kết mang đến cho bạn sự sạch sẽ và bảo vệ tốt nhất cho chiếc xe của bạn.
+Với đội ngũ nhân viên giàu kinh nghiệm và các công nghệ tiên tiến, chúng tôi đảm bảo rằng xe của bạn sẽ được làm sạch một cách tỉ mỉ và chính xác nhất.
+            </p>
+
+            <table>
+                <tr>
+                  <th>Tên Loại Xe</th>
+                  <th>Giá Tiền</th>
+                </tr>
+                <% loaixe.forEach((item) => { %>
+                    <tr>
+                        <td><%= item.tenlx %></td>
+                        <td><%= (item.gia).toLocaleString() %> VNĐ %></td>
+                    
+                    </tr>
+                <% }) %>
+            </table>
+
+        </br>
+            <p>
+                Hãy liên hệ với chúng tôi ngay hôm nay để trải nghiệm dịch vụ rửa xe chuyên nghiệp và đáng tin cậy. Xe của bạn xứng đáng nhận được sự chăm sóc tốt nhất từ chúng tôi!
+            </p>
+        </div>
+    
+        <div class="text-center">
+       
+                <a class="genric-btn info circle " href="/khachhang/chonngay">Đặt Lịch Ngay</a>
+        </div>
+
+
+    </br>

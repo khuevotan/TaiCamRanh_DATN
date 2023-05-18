@@ -3,6 +3,7 @@ const sql = require("./db")
 const PhiShip = function(phiship){
     this.maps  = phiship.maps ;
     this.mavanchuyen = phiship.mavanchuyen;
+    this.ngaygiaohang = phiship.ngaygiaohang;
     this.giaphi = phiship.giaphi;
     this.mahuyen  = phiship.mahuyen ;
     this.created_at = phiship.created_at;
@@ -51,8 +52,31 @@ PhiShip.getAll = (result) => {
 
 PhiShip.updateBymaps  = (maps , phiship, result) => {
     sql.query(
-        "UPDATE phiship SET mavanchuyen = ?, giaphi = ?, updated_at = ? WHERE maps  = ?",
-        [phiship.mavanchuyen, phiship.giaphi ,new Date(), maps ],
+        "UPDATE phiship SET giaphi = ?, updated_at = ? WHERE maps  = ?",
+        [phiship.giaphi ,new Date(), maps ],
+        (err, res) => {
+            if (err) {
+                console.log("error: ", err);
+                result(null, err);
+                return;
+            }
+            if (res.affectedRows == 0) {
+                // not found phiship with the maps 
+                result({ kind: "not_found" }, null);
+                return;
+            }
+            console.log("updated phiship: ", { maps : maps , ...phiship });
+            result(null, { maps : maps , ...phiship });
+        }
+    );
+};
+
+// Update Fast
+PhiShip.updateFastByMaPS  = (maps , phiship, result) => {
+    sql.query(
+
+        "UPDATE phiship SET mavanchuyen = ?, ngaygiaohang = ?, updated_at = ? WHERE maps  = ?",
+        [phiship.mavanchuyen,  phiship.ngaygiaohang ,new Date(), maps ],
         (err, res) => {
             if (err) {
                 console.log("error: ", err);

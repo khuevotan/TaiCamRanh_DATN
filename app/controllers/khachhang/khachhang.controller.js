@@ -10,9 +10,6 @@ const Tinh = require("../../models/tinh.model");
 const Huyen = require("../../models/huyen.model");
 const PhiShip = require("../../models/phiship.model");
 
-
-
-
 const mailer = require('../../utils/mailer');
 require('dotenv/config');
 
@@ -80,6 +77,7 @@ exports.store = (req, res) => {
                             diachi: diachi,
                             hinhdd: '',
                             kichhoat: 1,
+                            tinhtrang : 1,
                             ngaytaotk: new Date(),
                             sodt: sodt,
                             ngaysinh: ngaysinh,
@@ -170,16 +168,16 @@ exports.findAll = (req, res) => {
     });
 };
 
-// Xem chi tiết thông tin một khách hàng bên phía admin
+// Xem chi tiết thông tin một khách hàng bên phía admin.
 exports.details = (req, res) => {
     res.locals.status = req.query.status;
 
     Khachhang.findByMakh(req.params.makh, (err, data) => {
         if (err) {
             if (err.kind === "not_found") {
-                res.redirect('/404');
+                res.redirect('/admin/404');
             } else {
-                res.redirect('/500');
+                res.redirect('/admin/500');
             }
         } else res.render('khachhang/detailskh', {
             khachhang: data,
@@ -194,9 +192,9 @@ exports.formthaypasss = (req, res) => {
     Khachhang.findByMakh(req.params.makh, (err, data) => {
         if (err) {
             if (err.kind === "not_found") {
-                res.redirect('/404');
+                res.redirect('/admin/404');
             } else {
-                res.redirect('/500');
+                res.redirect('/admin/500');
             }
         } else res.render('khachhang/changepass', {
             khachhang: data,
@@ -232,7 +230,7 @@ exports.delete = (req, res) => {
             } else {
                 res.redirect('/500');
             }
-        } else res.redirect('/admin/khachhang?deleted=true')
+        } else res.redirect('/admin/khachhang/index?deleted=true')
     });
 };
 
@@ -243,7 +241,6 @@ exports.adupdatemk = (req, res) => {
         taikhoan,
         matkhaumoi,
         matkhaumoixn,
-        matkhaucu
     } = req.body;
 
     if (req.body.matkhaumoi == req.body.matkhaumoixn) {
@@ -257,9 +254,7 @@ exports.adupdatemk = (req, res) => {
             } else {
 
                 Khachhang.findByTaikhoan(taikhoan, (err, khachhang) => {
-                    bcrypt.compare(matkhaucu, khachhang.matkhau, (err, result) => {
-                        console.log(result);
-                        if (result == true) {
+              
                             if (matkhaumoi.length >= 8 && matkhaumoi.match(/[a-z]/) && matkhaumoi.match(/[A-Z]/) && matkhaumoi.match(/\d/) && matkhaumoi.match(/[^a-zA-Z\d]/)) {
                                 bcrypt.hash(matkhaumoi, parseInt(process.env.BCRYPT_SALT_ROUND)).then((hashedMatkhau) => {
                                     Khachhang.resetPasswordKH(taikhoan, hashedMatkhau, (err, result) => {
@@ -280,18 +275,7 @@ exports.adupdatemk = (req, res) => {
                                 });
 
                             }
-
-                        } else {
-
-                            // const conflictError = 'Mật khẩu phải dài hơn 8 ký tự, cả chữ thường và chữ in hoa, ít nhất một số và một ký tự đặc biệt ví dụ: 012345Kh*';
-                            const conflictError = 'Sai Password Cũ!';
-                            res.render('khachhang/changepass', {
-                                khachhang: data,
-                                conflictError,
-                                layout: './master2'
-                            });
-                        }
-                    })
+ 
                 })
             }
         });
@@ -670,37 +654,37 @@ exports.thanhToanDH = (req, res, next) => {
 // Upload fle ảnh bê hía khách hàng
 exports.uploadFile = (req, res) => {
     const file = req.file
-
-    if (!file) {
-        const error = new Error('Vui Lòng Up Ảnh')
-        error.httpStatusCode = 400
-        return next(error);
-    }
-
-    // lấy tên hình đại diện
-    var hinhdd = req.params.hinhdd;
-
-
-    res.locals.khachhang = req.session.khachhang
+    res.locals.khachhang = req.session.khachhang;
     const makh = res.locals.khachhang.makh;
 
-    if (hinhdd != '') {
-        const fs = require('fs');
-        const fileNameCu = hinhdd;
-        const filePath = '/images/avatarkh/' + fileNameCu;
-
-        fs.unlink("app/public" + filePath, function (err) {
-            if (err) throw err;
-            console.log('File deleted!');
-        });
-    }
-
-    Khachhang.updateBymakhAva(makh, file.filename, (err, result) => {
-        if (!err) {
-            res.redirect('/khachhang/chinhsuatt/' + makh + '?status=successhdd');
-        } else {
-            res.redirect('/khachhang/chinhsuatt/' + makh + '?status=errorhdd')
+    KhachHang.findByMakh(makh, (err, data) => {
+        var hinhdd = data.hinhdd;
+        
+        if (!file) {
+            const error = new Error('Please upload a file')
+            error.httpStatusCode = 400
+            return next(error)
         }
+
+        if(hinhdd != ''){
+          
+            const fs = require('fs');
+            const fileNameCu = hinhdd;
+            const filePath = '/images/avatarkh/' + fileNameCu; 
+          
+            fs.unlink("app/public"+ filePath,function(err){
+                if(err) throw err;
+                console.log('File deleted!');
+            });
+        }
+
+        KhachHang.updateBymakhAva(makh, file.filename, (err, result) => {
+            if (!err) {
+                res.redirect('/khachhang/chinhsuatt/' + makh + '?status=successhdd');
+            } else {
+                res.redirect('/khachhang/chinhsuatt/' + makh + '?status=errorhdd')
+            }
+        });
     });
 }
 
@@ -854,6 +838,9 @@ exports.datlich = (req, res) => {
         makh: makh,
     });
 
+      // Lấy thời gian hiện tại
+      var currentDate = new Date();
+
     // Kiểm tra xem MAX đặt lịch hôm nay.
     ThamSo.findBymats(2, (err, MAX_KH_ĐL) => {
         if (err) {
@@ -874,23 +861,71 @@ exports.datlich = (req, res) => {
 
                             if (!err) {
                                 const mahdrx = data.mahdrx;
+
+                                if (req.body.ptthanhtoan == 1){
+                                    var thanhtoanpt = "Thanh Toán Tại Cửa Hàng";
+                                  
+                                }else{
+                                    var thanhtoanpt = "Thanh Toán Bằng Thẻ Online";
+                                   
+                                }
+
                                 if (req.body.ptthanhtoan == 1) {
 
                                     var to = email;
-                                    var subject = "Đặt lịch hẹn thành công!";
-                                    var message = 'Chúng tôi xin gửi thông báo đặt lịch thành công cho bạn. Thời gian của cuộc hẹn. \n Ngày rửa: ' + req.body.ngayrua + '\n Giờ rửa: ' + req.body.magio + ' \n Loại xe: ' + req.body.malx + ' \n Tổng tiền: ' + req.body.tongtienrx + 'VNĐ\n \n Tên người rửa:' + req.body.tennguoirua + ' \n Số điện thoại: ' + req.body.sodt + ' \n \nXin lưu ý rằng nếu bạn có bất kỳ thay đổi hoặc hủy bỏ cuộc hẹn, vui lòng thông báo cho chúng tôi trước ít nhất 24 giờ để chúng tôi có thể sắp xếp lại lịch cho những khách hàng khác. \nChúc bạn một ngày tốt lành! \nTrân trọng, \nTài Cam Ranh \n0377975929 \n77 Chế Lan Viên, Cam Lộc, Cam Ranh ';
-
+                                    var subject = "Xác nhận đặt lịch thành công";
+                                    var message = `CChúng tôi xin gửi thông báo đặt lịch thành công cho bạn. Dưới đây là thông tin chi tiết về đơn đặt lịch của bạn:'
+                                    <br><br>Mã đơn hàng: ${mahdrx}
+                                    <br>Ngày đặt hàng: ${currentDate}
+                                    <br>Tên Người Rửa: ${req.body.tennguoirua}
+                                    <br>Số Điện Thoại:  ${req.body.sodt}
+                                    <br>Ngày Rửa: ${req.body.ngayrua} 
+                                    <br>Giờ Rửa: ${req.body.magio} 
+                                    <br>Loại Xe: ${req.body.malx} 
+                                    <br>Tổng công: ${req.body.tongtienrx} VNĐ
+                                    <br>Phương thức thanh toán: ${thanhtoanpt}
+                                    <br><br>Xin lưu ý rằng nếu bạn có bất kỳ thay đổi hoặc hủy bỏ cuộc hẹn, 
+                                    vui lòng thông báo cho chúng tôi trước ít nhất 24 giờ để chúng tôi có thể sắp xếp lại lịch cho những khách hàng khác. Chúng tôi rất mong được phục vụ bạn trong tương lai.
+                                    <br><br>Trân trọng,
+                                    <br>Tài Cam Ranh.
+                                    <br>0377975929.
+                                    <br>77 Chế Lan Viên, Cam Lộc, Cam Ranh, Khánh Hòa.
+                                    `;
+                                    
+                                   
                                     mailer.sendMail(to, subject, message);
+
+                           
 
                                     res.redirect('/khachhang/thanhtoantc?mahdrx=' + mahdrx + '&status=taothanhcong')
                                 } else {
 
 
+                                  
                                     var to = email;
-                                    var subject = "Đặt lịch hẹn thành công!";
-                                    var message = 'Chúng tôi xin gửi thông báo đặt lịch thành công cho bạn. Thời gian của cuộc hẹn. \n Ngày rửa: ' + req.body.ngayrua + '\n Giờ rửa: ' + req.body.magio + ' \n Loại xe: ' + req.body.malx + ' \n Tổng tiền: ' + req.body.tongtienrx + 'VNĐ\n \n Tên người rửa:' + req.body.tennguoirua + ' \n Số điện thoại: ' + req.body.sodt + ' \n \nXin lưu ý rằng nếu bạn có bất kỳ thay đổi hoặc hủy bỏ cuộc hẹn, vui lòng thông báo cho chúng tôi trước ít nhất 24 giờ để chúng tôi có thể sắp xếp lại lịch cho những khách hàng khác. \nChúc bạn một ngày tốt lành! \nTrân trọng, \nTài Cam Ranh \n0377975929 \n77 Chế Lan Viên, Cam Lộc, Cam Ranh ';
-
+                                    var subject = "Xác nhận đặt lịch thành công";
+                                    var message = `CChúng tôi xin gửi thông báo đặt lịch thành công cho bạn. Dưới đây là thông tin chi tiết về đơn đặt lịch của bạn:'
+                                    <br><br>Mã đơn hàng: ${mahdrx}
+                                    <br>Ngày đặt hàng: ${currentDate}
+                                    <br>Tên Người Rửa: ${req.body.tennguoirua}
+                                    <br>Số Điện Thoại:  ${req.body.sodt}
+                                    <br>Ngày Rửa: ${req.body.ngayrua} 
+                                    <br>Giờ Rửa: ${req.body.magio} 
+                                    <br>Loại Xe: ${req.body.malx} 
+                                    <br>Tổng công: ${req.body.tongtienrx} VNĐ
+                                    <br>Phương thức thanh toán: ${thanhtoanpt}
+                                    <br><br>Xin lưu ý rằng nếu bạn có bất kỳ thay đổi hoặc hủy bỏ cuộc hẹn, 
+                                    vui lòng thông báo cho chúng tôi trước ít nhất 24 giờ để chúng tôi có thể sắp xếp lại lịch cho những khách hàng khác. Chúng tôi rất mong được phục vụ bạn trong tương lai.
+                                    <br><br>Trân trọng,
+                                    <br>Tài Cam Ranh.
+                                    <br>0377975929.
+                                    <br>77 Chế Lan Viên, Cam Lộc, Cam Ranh, Khánh Hòa.
+                                    `;
+                                    
+                                   
                                     mailer.sendMail(to, subject, message);
+
+                             
                                     
                                     res.redirect('/khachhang/ttcard/' + mahdrx)
                                 }
@@ -974,6 +1009,7 @@ exports.nhapThongTinDonHang = (req, res) => {
                                 const phiship = new PhiShip({
                                     maps: idphi,
                                     giaphi: giashipne,
+                                    ngaygiaohang: futureDate,
                                     mavanchuyen: '',
                                     mahuyen: mahuyen,
                                 });
@@ -986,7 +1022,7 @@ exports.nhapThongTinDonHang = (req, res) => {
 
                                             const hoadon = new HoaDon({
                                                 mahd: id,
-                                                ngaygiao: futureDate,
+                                          
                                                 tennguoinhan: req.body.tennguoinhan,
                                                 sodt: req.body.sodt,
                                                 diachi: req.body.diachi + ',' + tenhuyen.tenhuyen + ',' + tentinh.tentinh,
@@ -1001,8 +1037,6 @@ exports.nhapThongTinDonHang = (req, res) => {
                                                 makh: makh,
                                             });
 
-                                          
-                    
                                             HoaDon.create(hoadon, (err, data) => {
                     
                                                 if (!err) {
@@ -1030,14 +1064,36 @@ exports.nhapThongTinDonHang = (req, res) => {
                                                             }
                                                         });
                                                     }
+
+                                                    if (req.body.ptthanhtoan == 1){
+                                                        var thanhtoanpt = "Thanh Toán Khi Nhận Hàng";
+                                                        var tongtienhdmail = tongtiensp + dataphisipne.giaphi;
+                                                    }else{
+                                                        var thanhtoanpt = "Thanh Toán Bằng Thẻ Online";
+                                                        var tongtienhdmail = tongtiensp + dataphisipne.giaphi;
+                                                    }
                     
                     
                                                     // Chuyển trang tùy theo phương thức thanh toán.
                                                     if (req.body.ptthanhtoan == 1) {
-                    
+
                                                         var to = email;
-                                                        var subject = "Đặt hàng thành công!";
-                                                        var message = 'Chúng tôi xin gửi';
+                                                        var subject = "Xác nhận đặt hàng thành công";
+                                                        var message = `Cảm ơn bạn đã đặt hàng tại chúng tôi. Chúng tôi xin xác nhận rằng đơn hàng của bạn đã được xử lý thành công. Dưới đây là thông tin chi tiết về đơn hàng của bạn:'
+                                                        <br><br>Mã đơn hàng: ${mahd}
+                                                        <br>Ngày đặt hàng: ${currentDate}
+                                                        <br>Tổng giá trị sản phẩm: ${tongtiensp} VNĐ
+                                                        <br>Phí Ship: ${dataphisipne.giaphi} VNĐ
+                                                        <br>Tổng công: ${tongtienhdmail} VNĐ
+                                                        <br>Phương thức thanh toán: ${thanhtoanpt}
+                                                        <br><br>Một lần nữa, chúng tôi xin chân thành cảm ơn bạn đã lựa chọn sản phẩm/dịch vụ của chúng tôi. Chúng tôi rất mong được phục vụ bạn trong tương lai.
+                                                        <br><br>Trân trọng,
+                                                        <br>Tài Cam Ranh.
+                                                        <br>0377975929.
+                                                        <br>77 Chế Lan Viên, Cam Lộc, Cam Ranh, Khánh Hòa.
+                                                        `;
+                                                        
+                                                       
                                                         mailer.sendMail(to, subject, message);
                     
                                                        
@@ -1050,9 +1106,21 @@ exports.nhapThongTinDonHang = (req, res) => {
                                                     } else {
                     
                                                         var to = email;
-                                                        var subject = "Đặt hàng thành công!";
-                                                        var message = 'Chúng tôi xin gửi';
-                    
+                                                        var subject = "Xác nhận đặt hàng thành công";
+                                                        var message = `Cảm ơn bạn đã đặt hàng tại chúng tôi. Chúng tôi xin xác nhận rằng đơn hàng của bạn đã được xử lý thành công. Dưới đây là thông tin chi tiết về đơn hàng của bạn:'
+                                                        <br><br>Mã đơn hàng: ${mahd}
+                                                        <br>Ngày đặt hàng: ${currentDate}
+                                                        <br>Tổng giá trị sản phẩm: ${tongtiensp} VNĐ
+                                                        <br>Phí Ship: ${dataphisipne.giaphi} VNĐ
+                                                        <br>Tổng công: ${tongtienhdmail} VNĐ
+                                                        <br>Phương thức thanh toán: ${thanhtoanpt}
+                                                        <br><br>Một lần nữa, chúng tôi xin chân thành cảm ơn bạn đã lựa chọn sản phẩm/dịch vụ của chúng tôi. Chúng tôi rất mong được phục vụ bạn trong tương lai.
+                                                        <br><br>Trân trọng,
+                                                        <br>Tài Cam Ranh.
+                                                        <br>0377975929.
+                                                        <br>77 Chế Lan Viên, Cam Lộc, Cam Ranh, Khánh Hòa.
+                                                        `;
+
                                                         mailer.sendMail(to, subject, message);
 
                                                         const Cart = require("../../models/cart.model");
@@ -1069,14 +1137,8 @@ exports.nhapThongTinDonHang = (req, res) => {
                                             });
                                         });  
                                     });  
-
-                                   
-            
                                 });   
-
-
                             });
-
                         });
 
                     } else {

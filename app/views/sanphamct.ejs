@@ -121,3 +121,13 @@
 <script src="/home/listproduct/vendors/jquery.ajaxchimp.min.js"></script>
 <script src="/home/listproduct/vendors/mail-script.js"></script>
 <script src="/home/listproduct/js/main.js"></script>
+
+
+<script>
+	const url = window.location.href;
+    const status = url.slice(url.lastIndexOf('=') + 1);
+   
+    if (status == 'khongdusl'){
+		alert("Không đủ số lượng trong kho!");
+	}
+</script>

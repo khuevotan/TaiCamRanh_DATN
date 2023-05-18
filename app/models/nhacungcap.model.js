@@ -5,6 +5,7 @@ const NhaCungCap = function(nhacungcap){
     this.tenncc = nhacungcap.tenncc;
     this.sodt = nhacungcap.sodt;
     this.diachi = nhacungcap.diachi;
+    this.tinhtrang = nhacungcap.tinhtrang;
     this.created_at = nhacungcap.created_at;
     this.updated_at = nhacungcap.updated_at;
 };
@@ -42,7 +43,7 @@ NhaCungCap.findBymancc = (mancc, result) => {
 
 // Hiển thị danh sách nhà cung cấp rửa.
 NhaCungCap.getAll = (result) => {
-    let query = "SELECT * FROM nhacungcap";
+    let query = "SELECT * FROM nhacungcap WHERE tinhtrang = 1";
  
     sql.query(query, (err, res) => {
         if (err) {
@@ -77,20 +78,24 @@ NhaCungCap.updateBymancc = (mancc, nhacungcap, result) => {
 
 // Xóa nhà cung cấp.
 NhaCungCap.remove = (mancc, result) => {
-    sql.query("DELETE FROM nhacungcap WHERE mancc = ?", mancc, (err, res) => {
-        if (err) {
-            console.log("error: ", err);
-            result(null, err);
-            return;
+
+    sql.query(
+        "UPDATE nhacungcap SET tinhtrang = ? , updated_at = ? WHERE mancc = ?",
+        [2, new Date(), mancc],
+        (err, res) => {
+            if (err) {
+                console.log("error: ", err);
+                result(null, err);
+                return;
+            }
+            if (res.affectedRows == 0) {
+                // not found nhacungcap with the mancc
+                result({ kind: "not_found" }, null);
+                return;
+            }
+            result(null, { mancc: mancc });
         }
-        if (res.affectedRows == 0) {
-            // not found nhacungcap with the mancc
-            result({ kind: "not_found" }, null);
-            return;
-        }
-        console.log("deleted nhacungcap with mancc: ", mancc);
-        result(null, res);
-    });
+    );
 };
 
 

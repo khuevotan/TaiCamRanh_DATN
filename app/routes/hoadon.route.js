@@ -19,6 +19,9 @@ module.exports = app => {
     // Lưu hóa đơn khi nhấn nút update
     router.put("/:mahd", authMiddBH.loggedinadbh, hoadon.update);
 
+    // update nhanh hóa đơn
+    router.put("/fast/:mahd", authMiddBH.loggedinadbh, hoadon.updateFast);
+
     // // Delete a hoadon with id
     router.get("/delete/:mahd", authMiddBH.loggedinadbh, hoadon.delete);
 

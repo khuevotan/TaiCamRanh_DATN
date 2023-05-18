@@ -52,7 +52,7 @@
                     <div class="ibox-title">
                     
                         <div style="color: rgb(255, 255, 255);">
-                            Chỉnh Sửa Thông Tin
+                            Cập Nhật Đơn Hàng
                         </div>
                     </div>
                     <div class="ibox-tools">
@@ -63,7 +63,7 @@
                 </div>
 
                 <div class="ibox-body">
-                    <form action="/admin/hoadon/<%= hoadon.mahd %>" class="form-horizontal"
+                    <form action="/admin/hoadon/fast/<%= hoadon.mahd %>" class="form-horizontal"
                         id="form-sample-1" method="post" novalidate="novalidate"
                         onSubmit="return confirm('Bạn có chắc chắn muốn thay đổi thông tin?') "
                         >
@@ -78,99 +78,25 @@
                         </div>
 
                         <div class="form-group row">
-                            <label class="col-sm-2 col-form-label">Tên Người Nhận</label>
-                            <div class="col-sm-10">
-                                <input class="form-control" type="text" name="tennguoinhan"
-                                    value="<%= hoadon.tennguoinhan %>">
-                            </div>
-                        </div>
-
-                        
-                        <div class="form-group row">
-                            <label class="col-sm-2 col-form-label">Số Điện Thoại</label>
-                            <div class="col-sm-10">
-                                <input class="form-control" type="text" name="sodt"
-                                    value="<%= hoadon.sodt %>">
-                            </div>
-                        </div>
-
-                        <div class="form-group row">
-                            <label class="col-sm-2 col-form-label">Địa Chỉ</label>
-                            <div class="col-sm-10">
-                                <input class="form-control" type="text" name="diachi"
-                                    value="<%= hoadon.diachi %>">
-                            </div>
-                        </div>
-
-                        <div class="form-group row">
-                            <label class="col-sm-2 col-form-label">Ngày Giao</label>
-                            <div class="col-sm-10">
-                                <input class="form-control" type="date" name="ngaygiao"
-                                    value="<%= moment(hoadon.ngaygiao).format('YYYY-MM-DD')%>">
-                            </div>
-                        </div>
-
-                        <div class="form-group row">
                             <label class="col-sm-2 col-form-label">Mã Vận Chuyển</label>
                             <div class="col-sm-10">
                                     <input class="form-control" type="text" name="mavanchuyen"
                                     value="<%= phiship.mavanchuyen %>" > 
                             </div>
                         </div>
-
+                       
                         <div class="form-group row">
-                            <label class="col-sm-2 col-form-label">Ghi Chú</label>
+                            <label class="col-sm-2 col-form-label">Ngày Giao Hàng</label>
                             <div class="col-sm-10">
-                                <textarea class="form-control" rows="6"
-                                    name="ghichu"><%= hoadon.ghichu %></textarea>
+                                    <input class="form-control" type="date" name="ngaygiaohang"
+                                 
+
+                                    value="<%= moment(phiship.ngaygiaohang).format('YYYY-MM-DD')%>">
                             </div>
                         </div>
 
-                        <div class="form-group row">
-                            <label class="col-sm-2 col-form-label">Tổng Tiền Sản Phẩm</label>
-                            <div class="col-sm-10">
-                                    <input class="form-control number-input" type="text" name="tongtiensp"
-                                     value="<%= (hoadon.tongtiensp).toLocaleString() %> VNĐ " readonly> 
-                            </div>
-                        </div>
-
-                        <div class="form-group row">
-                            <label class="col-sm-2 col-form-label">Tiền Ship</label>
-                            <div class="col-sm-10">
-                                    <input class="form-control number-input" type="text" name="giaphi"
-                                
-                                    value="<%= phiship.giaphi %>" required> 
-                            </div>
-                        </div>
-
-
-                        <div class="form-group row">
-                            <label class="col-sm-2 col-form-label">Tổng Tiền Hóa Đơn</label>
-                            <div class="col-sm-10">
-                                    <input class="form-control number-input" type="text" name="tongtienhd"
-                                
-                                    value="<%= (hoadon.tongtienhd).toLocaleString() %> VNĐ " readonly> 
-                            </div>
-                        </div>
-
-                        <div class="form-group row">
-                            <label class="col-sm-2 col-form-label">Phương Thức Thanh Toán</label>
-                            <div class="col-sm-10">
-
-                                <select class="form-control" name="ptthanhtoan">
-                                        <% if(hoadon.ptthanhtoan == 2){ %>
-                                            <option name="ptthanhtoan" selected value="2">Thẻ Online</option>
-                                            <option name="ptthanhtoan"  value="1">Khi Nhận Hàng</option>
-                                            <% } else{ %>  
-                                                <option name="ptthanhtoan"  value="2">Thẻ Online</option>
-                                                <option name="ptthanhtoan" selected value="1">Khi Nhận Hàng</option>
-                                        <% } %>
-                                </select>
-                            </div>
-                        </div>
-
-              
-
+                   
+                      
                         <div class="form-group row">
                             <label class="col-sm-2 col-form-label">Thanh Toán</label>
                             <div class="col-sm-10">
@@ -214,9 +140,8 @@
                     </form>
                 </div>
             </div> 
-
         </div>
-
+  
         <div class="col-md-7">
             <% if (typeof status !== 'undefined') { %>
                 <%if (status == 'successSP') { %>
@@ -309,8 +234,10 @@
                                                 </td>
                                              
                                                 <td>
-                                                    <input class="form-control" type="number" name="soluong"
+                                                    <input class="form-control" type="number" min="1" name="soluong" max="<%= sanpham[i].soluong %>" 
                                             value="<%= item.soluong %>">
+
+
                                         </td>
                                                 </td>
                                                 <td><%= (item.giatien).toLocaleString() %> VNĐ</td>
@@ -333,6 +260,183 @@
         </div>
     </div>
 </div>
+
+
+<div class="page-content fade-in-up">
+    <div class="row">
+        <div class="col-md-10"> 
+
+            <% if (typeof status !== 'undefined') { %>
+                <%if (status == 'success') { %>
+
+                <div class="ibox ibox-success">
+                    <div class="ibox-head">
+                        <div class="ibox-title">
+                            <div style="color: rgb(255, 255, 255);">
+                                Cập Nhật Thành Công!
+                            </div>
+                        </div>
+                        <div class="ibox-tools">
+                            <a class="ibox-collapse"><i class="fa fa-minus"></i></a>
+                            <a class="fullscreen-link"><i class="fa fa-expand"></i></a>
+                        </div>
+
+                <% } else { %>
+                    <%if (status == 'error') { %>
+                <div class=" ibox ibox-danger">
+                    <div class="ibox-head">
+                            <div class="ibox-title">
+                              
+                                    <div style="color: rgb(255, 255, 255);">
+                                        Đã xảy ra lỗi khi cập nhật Hóa Đơn RX!
+                                    </div>
+                            </div>
+                            <div class="ibox-tools">
+                                    <a class="ibox-collapse"><i class="fa fa-minus"></i></a>
+                                    <a class="fullscreen-link"><i class="fa fa-expand"></i></a>
+                            </div>
+                        <% } else { %>
+                            <div class="ibox ibox-info">
+                                <div class="ibox-head">
+                                    <div class="ibox-title">
+                                     
+                                        <div style="color: rgb(255, 255, 255);">
+                                          
+                                        </div>
+                                    </div>
+                                    <div class="ibox-tools">
+                                        <a class="ibox-collapse"><i class="fa fa-minus"></i></a>
+                                        <a class="fullscreen-link"><i class="fa fa-expand"></i></a>
+                                    </div>
+                            <% } %>
+                <% } %>
+            <% } else { %>
+            <div class="ibox ibox-info">
+                <div class="ibox-head">
+                    <div class="ibox-title">
+                    
+                        <div style="color: rgb(255, 255, 255);">
+                            Chỉnh Sửa Thông Tin
+                        </div>
+                    </div>
+                    <div class="ibox-tools">
+                        <a class="ibox-collapse"><i class="fa fa-minus"></i></a>
+                        <a class="fullscreen-link"><i class="fa fa-expand"></i></a>
+                    </div>
+            <% } %>
+                </div>
+
+                <div class="ibox-body">
+                    <form action="/admin/hoadon/<%= hoadon.mahd %>" class="form-horizontal"
+                        id="form-sample-1" method="post" novalidate="novalidate"
+                        onSubmit="return confirm('Bạn có chắc chắn muốn thay đổi thông tin?') "
+                        >
+                        <input type="hidden" name="_method" value="put" />
+                        
+                        <div class="form-group row">
+                            <label class="col-sm-2 col-form-label">Mã Hóa Đơn</label>
+                            <div class="col-sm-10">
+                                <input class="form-control" type="text" name="mahd"
+                                    value="<%= hoadon.mahd %>" readonly>
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label class="col-sm-2 col-form-label">Tên Người Nhận</label>
+                            <div class="col-sm-10">
+                                <input class="form-control" type="text" name="tennguoinhan"
+                                    value="<%= hoadon.tennguoinhan %>">
+                            </div>
+                        </div>
+
+                        
+                        <div class="form-group row">
+                            <label class="col-sm-2 col-form-label">Số Điện Thoại</label>
+                            <div class="col-sm-10">
+                                <input class="form-control" type="text" name="sodt"
+                                    value="<%= hoadon.sodt %>">
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label class="col-sm-2 col-form-label">Địa Chỉ</label>
+                            <div class="col-sm-10">
+                                <input class="form-control" type="text" name="diachi"
+                                    value="<%= hoadon.diachi %>">
+                            </div>
+                        </div>
+
+
+                        <div class="form-group row">
+                            <label class="col-sm-2 col-form-label">Ghi Chú</label>
+                            <div class="col-sm-10">
+                                <textarea class="form-control" rows="6"
+                                    name="ghichu"><%= hoadon.ghichu %></textarea>
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label class="col-sm-2 col-form-label">Tổng Tiền Sản Phẩm</label>
+                            <div class="col-sm-10">
+                                    <input class="form-control number-input" type="text" name="tongtiensp"
+                                     value="<%= (hoadon.tongtiensp).toLocaleString() %> VNĐ " readonly> 
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label class="col-sm-2 col-form-label">Tiền Ship</label>
+                            <div class="col-sm-10">
+                                    <input class="form-control number-input" type="text" name="giaphi"
+                                
+                                    value="<%= phiship.giaphi %>" required> 
+                            </div>
+                        </div>
+
+
+                        <div class="form-group row">
+                            <label class="col-sm-2 col-form-label">Tổng Tiền Hóa Đơn</label>
+                            <div class="col-sm-10">
+                                    <input class="form-control number-input" type="text" name="tongtienhd"
+                                
+                                    value="<%= (hoadon.tongtienhd).toLocaleString() %> VNĐ " readonly> 
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label class="col-sm-2 col-form-label">Phương Thức Thanh Toán</label>
+                            <div class="col-sm-10">
+
+                                <select class="form-control" name="ptthanhtoan">
+                                        <% if(hoadon.ptthanhtoan == 2){ %>
+                                            <option name="ptthanhtoan" selected value="2">Thẻ Online</option>
+                                            <option name="ptthanhtoan"  value="1">Khi Nhận Hàng</option>
+                                            <% } else{ %>  
+                                                <option name="ptthanhtoan"  value="2">Thẻ Online</option>
+                                                <option name="ptthanhtoan" selected value="1">Khi Nhận Hàng</option>
+                                        <% } %>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <div class="col-sm-10 ml-sm-auto">
+                                <button class="btn btn-info btn-rounded " type="submit">Cập Nhật</button>
+                                <a href="/admin/hoadon/details/<%= hoadon.mahd %>" class="btn btn-info btn-rounded">Xem Chi Tiết</a>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div> 
+
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
 
 
 <!-- Sử dụng cho jquery - validation -->

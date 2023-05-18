@@ -26,7 +26,7 @@
         <div class="container h-100">
             <div class="blog-banner">
                 <div class="text-center">
-                    <h1>Bạn Chưa Chọn Sản Phẩm!</h1>
+                    <h1>Giỏ Hàng Trống!</h1>
                     <img src="/images/cart.png" alt="" >
                 </div>
             </div>
@@ -66,10 +66,14 @@
                                 <td>
                                     <div class="media">
                                         <div class="d-flex">
+                                            <a  href="/sanphamct/<%= products[i].item.masp %>">
                                             <img src="/images/sanpham/<%= products[i].item.hinhdd %>" alt="" height="100px">
+                                        </a>
                                         </div>
                                         <div class="media-body">
+                                            <a  href="/sanphamct/<%= products[i].item.masp %>">
                                             <p><%= products[i].item.tensp %></p>
+                                            </a>
                                         </div>
                                     </div>
                                 </td>
@@ -170,7 +174,7 @@
                             <td>
                                 <div class="checkout_btn_inner d-flex align-items-center">
                                     <a class="gray_btn" href="/shop">Quay lại Shopping</a>
-                                    <a class="primary-btn ml-2" href="/khachhang/thongtintt/">Nhập thông tin </a>
+                                    <a class="primary-btn ml-2" href="/khachhang/thongtintt/">Đặt Hàng</a>
                                 </div>
 
                                 

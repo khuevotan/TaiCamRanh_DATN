@@ -41,21 +41,20 @@ Baiviet.create = (newbaiviet) => {
 
 
 // Tìm một bài viết bằng mabv
-Baiviet.findBymabv = (mabv, result) => {
+Baiviet.findBymabv = (mabv, result) => {    
     sql.query(`SELECT * FROM baiviet WHERE mabv = ${mabv}`, (err, res) => {
         if (err) {
-            console.log("error: ", err);
+         
             result(err, null);
             return;
         }
         if (res.length) {
+        
             result(null, res[0]);
             return;
         }
-        // Không tìm được bài viết nào
-        result({
-            kind: "not_found"
-        }, null);
+        // not found baiviet with the madm
+        result({ kind: "not_found" }, null);
     });
 };
 
@@ -63,7 +62,6 @@ Baiviet.findBymabv = (mabv, result) => {
 Baiviet.getAllKH = (tenbv, limit, offset, result) => {
     let query = `SELECT * FROM baiviet ORDER BY created_at DESC LIMIT ${limit} OFFSET ${offset} `;
    
-
     if (tenbv) {
         query = `SELECT * FROM baiviet WHERE tenbv LIKE '%${tenbv}%' ORDER BY created_at DESC LIMIT ${limit} OFFSET ${offset}`;
     }

@@ -5,6 +5,8 @@
 <link rel="stylesheet" href="/home/listproduct/css/style.css">
 
 
+
+
 <!-- ================ category section start ================= -->
 
 <div class="container">
@@ -58,14 +60,7 @@
             <!-- Start Filter Bar -->
             <div class="filter-bar d-flex flex-wrap align-items-center">
 
-                <!-- <div>
-                    <div class="input-group filter-bar-search">
-                        <input type="text" placeholder="Search">
-                        <div class="input-group-append">
-                            <button type="button"><i class="ti-search"></i></button>
-                        </div>
-                    </div>
-                </div> -->
+             
 
                 <div>
                     <div class="input-group filter-bar-search">
@@ -183,3 +178,13 @@
 <script src="/home/listproduct/vendors/jquery.ajaxchimp.min.js"></script>
 <script src="/home/listproduct/vendors/mail-script.js"></script>
 <script src="/home/listproduct/js/main.js"></script>
+
+
+<script>
+	const url = window.location.href;
+    const status = url.slice(url.lastIndexOf('=') + 1);
+   
+    if (status == 'khongdusl'){
+		alert("Không đủ số lượng trong kho!");
+	}
+</script>

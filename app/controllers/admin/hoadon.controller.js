@@ -104,23 +104,18 @@ exports.update = (req, res) => {
     let tongTienSPNumber = parseFloat(req.body.tongtiensp.replace(/,/g, ''));
     let tongtienhdNUmber = tienShipNumber + tongTienSPNumber;
 
-    console.log(tongtienhdNUmber);
     // Create a hoadon
     const hoadon = new HoaDon({
         tennguoinhan: req.body.tennguoinhan,
-        ngaygiao: req.body.ngaygiao,
         sodt: req.body.sodt,
         diachi: req.body.diachi,
         ghichu: req.body.ghichu,
-        thanhtoan: req.body.thanhtoan,
         ptthanhtoan: req.body.ptthanhtoan,
         tongtienhd: tongtienhdNUmber,
-        matt: req.body.matt,
         manv: manv,
     });
 
     const phiship = new PhiShip({
-        mavanchuyen: req.body.mavanchuyen,
         giaphi: tienShipNumber,
     });
 
@@ -158,6 +153,118 @@ exports.update = (req, res) => {
                             }
                         );
         
+                    }
+                }
+            );
+        
+        }
+    });
+   
+};
+
+// Cập nhật hóa đơn khi nhấn nút Update.
+exports.updateFast = (req, res) => {
+    // Validate Request
+    if (!req.body) {
+        res.redirect('/admin/hoadon/edit/' + req.params.mahd + '?status=error')
+    }
+
+    res.locals.nhanvien = req.session.nhanvien
+    const manv = res.locals.nhanvien.manv;
+
+    // Create a hoadon
+    const hoadonfast = new HoaDon({
+        thanhtoan: req.body.thanhtoan,
+        matt: req.body.matt,
+        manv: manv,
+    });
+
+    const phishipfast = new PhiShip({
+        mavanchuyen: req.body.mavanchuyen,
+        ngaygiaohang: req.body.ngaygiaohang,
+    });
+
+    HoaDon.findBymahd(req.params.mahd, (err, data) => {
+        if (err) {
+            if (err.kind === "not_found") {
+                res.redirect('/admin/404');
+            } else {
+                res.redirect('/admin/500');
+            }
+        } else {
+            PhiShip.updateFastByMaPS(
+                data.maps,
+                phishipfast,
+                (err, data) => {
+                    if (err) {
+                        if (err.kind === "not_found") {
+                            res.redirect('/admin/404');
+                        } else {
+                            res.redirect('/admin/500');
+                        }
+                    } else {
+    
+                        HoaDon.updateFastByMaHD(
+                            req.params.mahd,
+                            hoadonfast,
+                            (err, data) => {
+                                if (err) {
+                                    if (err.kind === "not_found") {
+                                        res.redirect('/admin/404');
+                                    } else {
+                                        res.redirect('/admin/500');
+                                    }
+                                } else {
+                                    
+                                    // trừ số lượng sản phẩm nếu đơn hàng được đưa cho nhà vận chuyển
+                                    if(req.body.matt == 5){
+
+                                        CTHoaDon.findBymahd(req.params.mahd, (err, cthd) => {
+                                            if (err)
+                                                res.redirect('/admin/500')
+                                            else {
+
+                                                console.log("log các san rpahamr");
+                                                console.log(cthd);
+
+                                                const maspArray = [];
+                                                const slspArray = [];
+
+                                                cthd.forEach((item) => {
+                                                    maspArray.push(item.masp);
+                                                });
+
+                                                cthd.forEach((item) => {
+                                                    slspArray.push(item.soluong);
+                                                });         
+
+                                                for (let i = 0; i < maspArray.length; i++) {
+                                               
+                                                    var masp = maspArray[i];
+                                                    var soluong = slspArray[i];
+                                                
+            
+                                                    // CTHoaDon.create(cthoadon, (err, data) => {
+                                                    SanPham.updateSLNVC( masp, soluong,(err, sanpham) => {
+                                                        if (!err) {
+                                   
+                                                        } else {
+                                                            console.log(err);
+                                                        }
+                                                    });
+                                                }
+                                                
+                                               
+                                                 res.redirect('/admin/hoadon/edit/' + req.params.mahd + '?status=success');
+                                            }
+                                        });
+
+                                    }else{
+                                        res.redirect('/admin/hoadon/edit/' + req.params.mahd + '?status=success');
+                                    }
+                                }
+                            }
+                        );
                     }
                 }
             );
@@ -235,7 +342,6 @@ exports.details = (req, res) => {
                                     });
                                 }
                             });
-
                         }
                     });
                 }

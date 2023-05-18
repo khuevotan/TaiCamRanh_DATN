@@ -6,7 +6,7 @@ module.exports = app => {
 
     const controllerbv = require('../controllers/admin/baiviet.controller');
     const controllersp = require('../controllers/admin/sanpham.controller');
-    const controllerdm = require('../controllers/admin/danhmuc.controller');
+  
 
     router.get('/baivietct/:mabv', controllerbv.chitiet);
     
@@ -16,7 +16,7 @@ module.exports = app => {
 
     router.get('/index', controller.getIndex);
 
-    router.get('/vetcr', controller.getVetcr);
+    router.get('/dvruaxe', controller.getDichVuRuaXe);
 
     router.get('/lienhe', controller.getLienhe);
 

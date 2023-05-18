@@ -4,6 +4,7 @@ const Danhmuc = function(danhmuc){
     this.tendm = danhmuc.tendm;
     this.hinhdd = danhmuc.hinhdd;
     this.motact = danhmuc.motact;
+    this.tinhtrang = danhmuc.tinhtrang;
     this.created_at = danhmuc.created_at;
     this.updated_at = danhmuc.updated_at;
 };
@@ -38,7 +39,7 @@ Danhmuc.findByMaDM = (madm, result) => {
 };
 
 Danhmuc.getAll = (tendm, result) => {
-    let query = "SELECT * FROM danhmuc";
+    let query = "SELECT * FROM danhmuc WHERE tinhtrang = 1";
     if (tendm) {
         query += ` WHERE tendm LIKE '%${tendm}%'`;
     }
@@ -92,24 +93,25 @@ Danhmuc.updateADD = (madm, hinhdd,result) => {
     );
 };
 
-// Xóa ảnh đại diện
+// Xóa danh mục
 Danhmuc.remove = (madm, result) => {
-    sql.query("DELETE FROM danhmuc WHERE madm = ?", madm, (err, res) => {
-
-        if (err) {
-            console.log("error: ", err);
-            result(null, err);
-            return;
+    sql.query(
+        "UPDATE danhmuc SET tinhtrang = ?, updated_at = ? WHERE madm = ?",
+        [2, new Date() , madm],
+        (err, res) => {
+            if (err) {
+                console.log("error: ", err);
+                result(null, err);
+                return;
+            }
+            if (res.affectedRows == 0) {
+                // not found danhmuc with the madm
+                result({ kind: "not_found" }, null);
+                return;
+            }
+            result(null, { madm: madm });
         }
-
-        if (res.affectedRows == 0) {
-            // not found danhmuc with the madm
-            result({ kind: "not_found" }, null);
-            return;
-        }
-        
-        result(null, res);
-    });
+    );
 };
 
 module.exports = Danhmuc;

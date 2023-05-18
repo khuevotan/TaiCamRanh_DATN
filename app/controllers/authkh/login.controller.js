@@ -15,16 +15,23 @@ exports.login = (req, res) => {
                 const conflictError = 'Tài khoản này không tồn tại, xin vui lòng nhập lại!';
                 res.render('auth/login', { taikhoan, conflictError });
             } else {
-                bcrypt.compare(matkhau,khachhang.matkhau, (err, result) => {      
-                    if (result == true) {
-                        req.session.loggedin = true;
-                        req.session.khachhang = khachhang;
-                        res.redirect('/');
-                    } else {
-                        const conflictError = 'Sai mật khẩu, xin vui lòng nhập lại!';
-                        res.render('auth/login', { taikhoan, matkhau, conflictError });
-                    }
-                })
+
+                if(khachhang.tinhtrang == 1){
+                    bcrypt.compare(matkhau,khachhang.matkhau, (err, result) => {      
+                        if (result == true) {
+                            req.session.loggedin = true;
+                            req.session.khachhang = khachhang;
+                            res.redirect('/');
+                        } else {
+                            const conflictError = 'Sai mật khẩu, xin vui lòng nhập lại!';
+                            res.render('auth/login', { taikhoan, matkhau, conflictError });
+                        }
+                    })
+                }else{
+                    const conflictError = 'Tài Khoản Đã Bị Vô Hiệu Hóa!';
+                    res.render('auth/login', { taikhoan, matkhau, conflictError });
+                }
+                
             }
         })
     } else {

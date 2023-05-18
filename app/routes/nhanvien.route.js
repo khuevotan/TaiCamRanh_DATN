@@ -58,7 +58,7 @@ module.exports = app => {
 
 
      // thay đổi mật khẩu
-     router.get("/changepass/:manv", authMiddQL.loggedinadql, nhanvien.formthaypasss);
+     router.get("/changepass/:manv", authMiddQL.loggedinadql, nhanvien.formThayPass);
 
      // Đổi mật khẩu khi nhấn nút
      router.put("/doimatkhau/:manv", authMiddQL.loggedinadql, nhanvien.adupdatemk);

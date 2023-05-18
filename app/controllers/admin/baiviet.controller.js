@@ -285,6 +285,7 @@ exports.findAllKH = (req, res) => {
 // Hiển thị chi tiết 1 bài viết.
 exports.chitiet = (req, res) => {
     res.locals.status = req.query.status;
+
     Baiviet.findBymabv(req.params.mabv, (err, data) => {
         if (err) {
             if (err.kind === "not_found") {
@@ -323,5 +324,3 @@ exports.chitiet = (req, res) => {
     });
 };
 
-
-// res.render('baivietct', { baiviet: data , layout: './master'});

@@ -13,6 +13,7 @@ const KhachHang = function(khachhang){
     this.hinhdd= khachhang.hinhdd;
     this.email = khachhang.email;
     this.kichhoat = khachhang.kichhoat;
+    this.tinhtrang = khachhang.tinhtrang;
     this.created_at = khachhang.created_at;
     this.updated_at = khachhang.updated_at;
 };
@@ -85,9 +86,9 @@ KhachHang.findByEmail = (email, result) => {
     });
 }
 
-
+// Hiển thị danh sách khách hàng.
 KhachHang.getAll = (result) => {
-    let query = "SELECT * FROM khachhang";
+    let query = "SELECT * FROM khachhang WHERE tinhtrang = 1";
    
     sql.query(query, (err, res) => {
         if (err) {
@@ -95,7 +96,7 @@ KhachHang.getAll = (result) => {
             result(null, err);
             return;
         }
-        console.log("khachhang: ", res);
+  
         result(null, res);
     });
 };
@@ -190,20 +191,22 @@ KhachHang.updateBymakhAva = (makh, hinhdd, result) => {
 
 // xóa khách hàng.
 KhachHang.remove = (makh, result) => {
-    sql.query("DELETE FROM khachhang WHERE makh = ?", makh, (err, res) => {
-        if (err) {
-            console.log("error: ", err);
-            result(null, err);
-            return;
+    sql.query(
+        "UPDATE khachhang SET tinhtrang = ?,updated_at = ?  WHERE makh = ?",
+        [2,new Date(), makh],
+        (err, res) => {
+            if (err) {
+                console.log("error: ", err);
+                result(null, err);
+                return;
+            }
+            if (res.affectedRows == 0) {
+                result({ kind: "not_found" }, null);
+                return;
+            }
+            result(null, { makh: makh });
         }
-        if (res.affectedRows == 0) {
-            // not found khachhang with the makh
-            result({ kind: "not_found" }, null);
-            return;
-        }
-        console.log("deleted khachhang with makh: ", makh);
-        result(null, res);
-    });
+    );
 };
 
 KhachHang.verify = (email, result) => {
