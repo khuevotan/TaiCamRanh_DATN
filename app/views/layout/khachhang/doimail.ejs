@@ -57,7 +57,7 @@
 
 <div class="row gutters-sm">
   <div class="col-md-4 mb-3">
-    <div class=" card card-default rounded-0 shadow blur" style="border: 1px solid black">
+    <div class=" card card-default rounded-0 shadow blur"  style="border: 1px solid #ccc;">
       <div class="card-body">
         <div class="d-flex flex-column align-items-center text-center">
           <img src="/images/avatarkh/<%= khachhang.hinhdd %>" alt="Khách Hàng" class="rounded-circle" width="150" />
@@ -95,7 +95,7 @@
               <h3 class="mb-0">Mail</h3>
             </div>
             <div class="col-sm-9 text-secondary">
-              <input id="password-field" style="border: 1px solid #ccc;" type="email" name="email"
+              <input id="password-field" maxlength="255" style="border: 1px solid #ccc;" type="email" name="email"
                 placeholder="Nhập Email mới" required class="single-input">
             </div>
           </div>
@@ -107,8 +107,8 @@
             <% } %>
 
           <div class="mt-10 text-center  mb-10">
-            <a href="/khachhang/home" class="genric-btn info circle">Trang Cá Nhân</a>
-            <input class="genric-btn info circle " onclick="return confirm('Bạn có chắc chăn muốn cập nhật không?')" type="submit" value="Cập Nhật">
+           
+            <input class="genric-btn info circle " onclick="return confirm('Bạn có chắc chăn muốn cập nhật không?')" type="submit" value="Đổi">
          
           </div>
 
