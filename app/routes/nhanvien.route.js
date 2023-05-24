@@ -69,9 +69,10 @@ module.exports = app => {
     // Lưu nhân viên khi nhấn nút update
     router.put("/:manv", authMiddQL.loggedinadql, nhanvien.update);
 
-    // Delete a nhanvien with id
+    // Xóa nhân viên
     router.get("/delete/:manv", authMiddQL.loggedinadql, nhanvien.delete);
 
+    // Đổi ảnh đại diện nhân viên
     router.post("/anhdaidien/:manv", authMiddQL.loggedinadql, upload.single('hinhddmoi'), nhanvien.updateADD);
 
     app.use('/admin/nhanvien', router);

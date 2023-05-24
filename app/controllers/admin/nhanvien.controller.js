@@ -382,15 +382,21 @@ exports.details = (req, res) => {
 
 // Delete a nhanvien with the specified id in the request
 exports.delete = (req, res) => {
-    NhanVien.remove(req.params.manv, (err, data) => {
-        if (err) {
-            if (err.kind === "not_found") {
-                res.redirect('/admin/404');
-            } else {
-                res.redirect('/admin/500');
-            }
-        } else res.redirect('/admin/nhanvien/index?deleted=true')
-    });
+
+    if(req.params.manv != 1){
+        NhanVien.remove(req.params.manv, (err, data) => {
+            if (err) {
+                if (err.kind === "not_found") {
+                    res.redirect('/admin/404');
+                } else {
+                    res.redirect('/admin/500');
+                }
+            } else res.redirect('/admin/nhanvien/index?deleted=true')
+        });
+    }else{
+        res.redirect('/admin/nhanvien/index?deleted=nonedelete')
+    }
+   
 };
 
 // Upload fle ảnh

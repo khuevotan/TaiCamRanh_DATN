@@ -102,7 +102,7 @@ exports.datlich = (req, res) => {
         diachi: req.body.diachi,
         ghichu: req.body.ghichu,
         tongtienrx: req.body.tongtienrx,
-        phuongthuctt: req.body.phuongthuctt,
+        ptthanhtoan: req.body.ptthanhtoan,
         thanhtoan: req.body.thanhtoan,
         malx: req.body.malx,
         matt: 1,

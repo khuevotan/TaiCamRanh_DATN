@@ -118,8 +118,6 @@
                                 <label for="ptthanhtoan">Phương Thức Thanh Toán</label>
                                 <div>
 
-                                   
-
                                     <select  class="form-select form-control"  name="ptthanhtoan">      
                                         <option name="ptthanhtoan" value="1" id="1">Tại Cửa Hàng</option>
                                         <option name="ptthanhtoan" value="2" id="2">Thẻ Online</option>
@@ -204,10 +202,10 @@
                 required: !0
             },
             diachi: {
-                rangelength: [2, 100],
+                rangelength: [2, 255],
             },
             ghichu: {
-                rangelength: [2, 500],
+                rangelength: [2, 255],
             }
         },
         errorClass: "help-block error",

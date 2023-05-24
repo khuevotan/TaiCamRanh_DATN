@@ -351,13 +351,7 @@ exports.findAllKHandDMct = (req, res) => {
     const offset = (page - 1) * limit;
 
     res.locals.status = req.query.status;
-    const tensp = req.query.tensp;
-    const madm = req.params.madm;
     const tendm = req.params.tendm;
-
-    console.log("kwdfbw");
-    console.log(limit);
-    console.log(offset);
 
     SanPham.getAllKHdmsp(req.params.madm, limit, offset,(err, data) => {
         if (err)

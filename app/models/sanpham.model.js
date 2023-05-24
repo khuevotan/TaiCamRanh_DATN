@@ -219,9 +219,9 @@ Sanpham.updateADD = (masp, hinhdd, result) => {
 // ======================= GIAO DIỆN KHÁCH HÀNG ======================
 // Hiển thị sản phẩm bên khánh hàng
 Sanpham.getAllKH = (tensp, limit, offset, result) => {
-    let query = `SELECT * FROM sanpham WHERE tinhtrang = 1 LIMIT ${limit} OFFSET ${offset}`;
+    let query = `SELECT * FROM sanpham WHERE tinhtrang = 1 and soluong >=1  LIMIT ${limit} OFFSET ${offset}`;
     if (tensp) {
-        query = `SELECT * FROM sanpham WHERE tinhtrang = 1 and tensp LIKE '%${tensp}%' LIMIT ${limit} OFFSET ${offset}`;
+        query = `SELECT * FROM sanpham WHERE tinhtrang = 1 and soluong >=1 and tensp LIKE '%${tensp}%' LIMIT ${limit} OFFSET ${offset}`;
     }
     sql.query(query, (err, res) => {
         if (err) {
@@ -237,7 +237,7 @@ Sanpham.getAllKH = (tensp, limit, offset, result) => {
 // Hiển thị sản phẩm theo danh mục bên phía khách hàng
 Sanpham.getAllKHdmsp = (madm, limit, offset, result) => {
    
-    let query = `SELECT * FROM sanpham WHERE tinhtrang = 1 and madm = ${madm} LIMIT ${limit} OFFSET ${offset} `;
+    let query = `SELECT * FROM sanpham WHERE tinhtrang = 1 and soluong >= 1 and madm = ${madm} LIMIT ${limit} OFFSET ${offset} `;
   
     sql.query(query, (err, res) => {
         if (err) {

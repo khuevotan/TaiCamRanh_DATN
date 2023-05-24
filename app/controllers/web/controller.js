@@ -17,9 +17,6 @@ exports.getDichVuRuaXe = (req, res) => {
    
 }
 
-
-
-
 exports.getLienhe = (req, res) => {
     res.render('lienhe.ejs');
 }
@@ -37,7 +34,7 @@ exports.showView = (req, res) => {
 }
 
 
-
+// K
 exports.quyenTruyCap = (req, res) => {
     res.render('quyentruycap.ejs',{layout: false});
 }
