@@ -12,6 +12,7 @@
 	<link href="/assets/css/main.css" rel="stylesheet" />
 	<!-- PAGE LEVEL STYLES-->
 	<link href="/assets/css/pages/auth-light.css" rel="stylesheet" />
+	<link rel="shortcut icon" type="image/png" href="/assets/img/favicon.png"/>
 </head>
 
 <body class="bg-silver-300">
@@ -23,7 +24,7 @@
 		<form action="/admin/password/reset" method="POST">
 			<input type="hidden" value="<%= token %>" name="token">
 
-			<h3 class="m-t-10 m-b-10">Đổi Mật Khẩu Mới</h3>
+			<h3 class="m-t-10 m-b-10">Mật Khẩu Mới</h3>
 
 			<% if (typeof conflictError != "undefined" && conflictError) { %>
 			<div class="text-danger text-left  mb-3"><%= conflictError %></div>

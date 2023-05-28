@@ -9,12 +9,4 @@ exports.loggedinadql = (req, res, next) => {
     }
 }
 
-// khong vo duoc trang login (dang nhap roi)
-exports.isAuthadql = (req, res, next) => {
-    if (req.session.loggedin && req.session.nhanvien.manhom == 1) {
-        res.locals.nhanvien = req.session.nhanvien
-        res.redirect('/admin/quyentruycap');
-    } else {
-        next();
-    }
-}
+

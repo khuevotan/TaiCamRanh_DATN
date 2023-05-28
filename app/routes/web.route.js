@@ -6,6 +6,7 @@ module.exports = app => {
 
     const controllerbv = require('../controllers/admin/baiviet.controller');
     const controllersp = require('../controllers/admin/sanpham.controller');
+    const authMiddleware = require('../middlewares/auth.middleware');
   
 
     router.get('/baivietct/:mabv', controllerbv.chitiet);
@@ -32,12 +33,6 @@ module.exports = app => {
 
     router.get('/admin/quyentruycap', controller.quyenTruyCap);
 
-
-    
-    
-    
-  
-    
     app.use(router);
 }
 

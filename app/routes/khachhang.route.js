@@ -1,5 +1,4 @@
 const authMiddleware = require('../middlewares/auth.middleware');
-const controllerlx = require('../controllers/admin/loaixe.controller');
 const khachhang = require("../controllers/khachhang/khachhang.controller");
 const hoadonrx = require("../controllers/admin/hoadonrx.controller");
 const hoadon = require("../controllers/admin/hoadon.controller");

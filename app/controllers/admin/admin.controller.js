@@ -413,8 +413,6 @@ exports.getIndex = (req, res) => {
 
         HoaDonRX.thongKeDG((err, hdrxcd, dtrxn, dtrxnago , dtrxt,  dtrxtago,ngayrx6, ngayrx5, ngayrx4, ngayrx3, ngayrx2, ngayrx1, ngayrx0) => {
             
-            console.log(dtrxtago);
-
             if(hdrxcd[0]['COUNT(*)'] == null){
                 hdrxcd[0]['COUNT(*)'] = 0;
             }
@@ -613,8 +611,6 @@ exports.getIndex = (req, res) => {
                         soLuongDHN1: soLuongDHN1,
                         soLuongDHN0 : soLuongDHN0,
 
-                        
-        
                         dhrxn6 : doanhThuRXN6,
                         dhrxn5 : doanhThuRXN5,
                         dhrxn4 : doanhThuRXN4,

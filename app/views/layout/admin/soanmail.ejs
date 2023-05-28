@@ -9,7 +9,7 @@
                        
                     </div>
                     <div class="mailbox-body">
-                        <form action="/admin/guimail" class="form-horizontal"  method="POST" if="compose_form">
+                        <form onSubmit="return confirm('Bạn có chắc chắn muốn gửi mail?')" action="/admin/guimail" class="form-horizontal"  method="POST" if="compose_form">
                             <div class="form-group row">
                                 <label class="col-sm-2 control-label">Người nhận:</label>
                                 <div class="col-sm-10">

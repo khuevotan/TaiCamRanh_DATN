@@ -80,7 +80,7 @@
                                             <% if(sanpham[i].masp == item.masp){ %>
 
                                             <form action="/admin/ctphieunhap/<%= item.mapn %>/<%= item.masp %>" class="form-horizontal"
-                                                method="POST" onSubmit="return confirm('Bạn có chắc chắn muốn đổi?') ">
+                                                method="POST" onSubmit="return confirm('Bạn có chắc chắn cập nhập dữ liệu?') ">
                                                 <input type="hidden" name="_method" value="put" />
 
                                                 <tr>
@@ -128,7 +128,7 @@
                                     
                                 </br>
                             </br>
-                                    <a href="/admin/phieunhap/index" class="btn btn-info btn-rounded">Hoàn Thành</a>
+                                    <a onclick="return confirm('Xác nhân hoàn thành đơn nhập hàng?')" href="/admin/phieunhap/index" class="btn btn-info btn-rounded">Hoàn Thành</a>
                                 </div>
                              
                             </div>
