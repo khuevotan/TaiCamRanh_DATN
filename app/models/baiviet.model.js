@@ -90,7 +90,7 @@ Baiviet.getNew = (result) => {
 };
 
 
-//Hiển thị bài viết bên phía admin
+// Hiển thị bài viết bên phía admin
 Baiviet.getAllAD = (result) => {
     let query = "SELECT * FROM baiviet";
 
@@ -130,6 +130,7 @@ Baiviet.updateBymabv = (mabv, baiviet, result) => {
     );
 };
 
+// Xóa bài viết
 Baiviet.remove = (mabv, result) => {
     sql.query("DELETE FROM baiviet WHERE mabv = ?", mabv, (err, res) => {
         if (err) {

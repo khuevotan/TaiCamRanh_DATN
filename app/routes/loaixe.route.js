@@ -4,28 +4,26 @@ module.exports = app => {
     const loaixe = require("../controllers/admin/loaixe.controller");
     var router = require("express").Router();
 
-    // Hiển thị danh sách các danh mục
+    // Hiển thị danh sách các loại xe
     router.get("/index",authMiddRX.loggedinadrx, loaixe.findAll);
 
-    // Hiển thị form tạo danh mục
+    // Hiển thị form tạo loại xe
     router.get("/create", authMiddRX.loggedinadrx, loaixe.create);
 
-    // Lưu danh mục mới khi nhấn nút lưu
+    // Lưu loại xe mới khi nhấn nút lưu
     router.post("/", authMiddRX.loggedinadrx, loaixe.store);
 
-    // Xem thông tin chi tiết 1 danh mục
+    // Xem thông tin chi tiết 1 loại xe
     router.get("/details/:malx", authMiddRX.loggedinadrx, loaixe.details);
 
-    // Chỉnh sửa 1 danh mục khi nhấn nút chỉnh sửa -> hiển thị form
+    // Chỉnh sửa 1 loại xe khi nhấn nút chỉnh sửa -> hiển thị form
     router.get("/edit/:malx", authMiddRX.loggedinadrx, loaixe.edit);
-    // Lưu danh mục khi nhấn nút update
+
+    // Lưu loại xe khi nhấn nút update
     router.put("/:malx", authMiddRX.loggedinadrx, loaixe.update);
 
-    // // Delete a loaixe with id
+    // Xóa một loại xe
     router.get("/delete/:malx", authMiddRX.loggedinadrx, loaixe.delete);
-
-    // // Delete all loaixe
-    // router.delete("/delete", loaixe.deleteAll);
 
     app.use('/admin/loaixe', router);
 }

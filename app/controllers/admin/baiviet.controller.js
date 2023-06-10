@@ -10,6 +10,7 @@ exports.create = (req, res) => {
     });
 }
 
+// Lưu bài viết mới khi nhấn nút.
 exports.store = async (req, res) => {
     try {
         if (!req.body) {
@@ -38,78 +39,6 @@ exports.store = async (req, res) => {
         res.redirect('/admin/baiviet/create?status=error')
     }
 };
-
-
-// Lưu bài viết mới khi nhấn nút.
-// exports.store = (req, res) => {
-
-//     if (!req.body) {
-//         res.redirect('/admin/baiviet/create?status=error')
-//     }
-
-//     res.locals.nhanvien = req.session.nhanvien
-//     const manv = res.locals.nhanvien.manv;
-//     ngaydang = new Date()
-//     const file = req.file
-
-//     // Create a baiviet
-//     const baiviet = new Baiviet({
-//         tenbv: req.body.tenbv,
-//         motangan: req.body.motangan,
-//         noidung: req.body.noidung,
-//         hinhdd: file.filename,
-//         ngaydang: ngaydang,
-//         manv: manv
-//     });
-
-//     // Save baiviet in the database
-//     Baiviet.create(baiviet, (err, data) => {
-//         if (err)
-//             res.redirect('/admin/baiviet/create?status=error')
-//         else res.redirect('/admin/baiviet/create?status=success')
-//     });
-// };
-
-
-// exports.store = async (req, res) => {
-//     try {
-
-//         if (!req.body) {
-//             res.redirect('/admin/baiviet/create?status=error')
-//         }
-
-//         res.locals.nhanvien = req.session.nhanvien
-//         const manv = res.locals.nhanvien.manv;
-//         ngaydang = new Date();
-//         const file = req.file;
-
-//         // Tạo một bài viết.
-//         const baiviet = new Baiviet({
-//             tenbv: req.body.tenbv,
-//             motangan: req.body.motangan,
-//             noidung: req.body.noidung,
-//             hinhdd: file.filename,
-//             manv: manv
-//         });
-
-//         // lưu bài viết vào database.
-//         const savedBaiviet = await new Promise((resolve, reject) => {
-//             Baiviet.create(baiviet, (err, data) => {
-//                 if (err) reject(err);
-//                 else resolve(data);
-//             });
-
-//         });
-
-//         res.redirect('/admin/baiviet/create?status=success');
-//     } catch (err) {
-//         console.log("error: ", err);
-//         res.redirect('/admin/baiviet/create?status=error')
-//     }
-// };
-
-
-
 
 // Hiển thị danh sách bài viết.
 exports.findAll = (req, res) => {
@@ -249,7 +178,6 @@ exports.delete = (req, res) => {
         }
     });
 };
-
 
 //======================= GIAO DIEN KHACHHANG ======================= 
 // Hiển thị danh sách bài viết.

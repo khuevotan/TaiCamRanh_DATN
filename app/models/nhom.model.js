@@ -40,26 +40,4 @@ Nhom.getAll = (result) => {
     });
 };
 
-// Cập nhật thông tin nhóm bên phía admin.
-Nhom.updateByMaNhom = (manhom, nhom, result) => {
-    sql.query(
-        "UPDATE nhom SET tennhom = ?, updated_at = ? WHERE manhom = ?",
-        [nhom.tennhom,new Date(),  manhom],
-        (err, res) => {
-            if (err) {
-                console.log("error: ", err);
-                result(null, err);
-                return;
-            }
-            if (res.affectedRows == 0) {
-                // not found nhom with the manhom
-                result({ kind: "not_found" }, null);
-                return;
-            }
-            console.log("updated nhom: ", { manhom: manhom, ...nhom });
-            result(null, { manhom: manhom, ...nhom });
-        }
-    );
-};
-
 module.exports = Nhom;

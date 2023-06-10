@@ -1,3 +1,4 @@
+<title>Chỉnh Sửa Thông Tin Khách Hàng</title>
 
 <div class="page-content fade-in-up">
     <div class="row">
@@ -264,14 +265,14 @@
     <div class="row">
         <div class="col-md-7">
             <% if (typeof status !== 'undefined') { %>
-                <%if (status == 'success') { %>
+                <%if (status == 'Emailtc') { %>
 
                 <div class="ibox ibox-success">
                     <div class="ibox-head">
                         <div class="ibox-title">
                      
                             <div style="color: rgb(255, 255, 255);">
-                                Cập Nhật Thành Công!
+                                Cập Nhật Email Thành Công!
                             </div>
                         </div>
                         <div class="ibox-tools">
@@ -280,13 +281,13 @@
                         </div>
 
                 <% } else { %>
-                    <%if (status == 'error') { %>
+                    <%if (status == 'Emailtontai') { %>
                 <div class=" ibox ibox-danger">
                     <div class="ibox-head">
                             <div class="ibox-title">
                               
                                     <div style="color: rgb(255, 255, 255);">
-                                        Đã xảy ra lỗi khi cập nhật nhân viên!
+                                      Email đã tồn tại!
                                     </div>
                             </div>
                             <div class="ibox-tools">
@@ -342,7 +343,7 @@
                             <label class="col-sm-2 col-form-label">Email Mới</label>
                             <div class="col-sm-10">
                                 <input class="form-control" type="text" name="emailmoi"
-                                    value="<%= nhanvien.email %>">
+                                    >
                             </div>
                         </div>
 
@@ -371,11 +372,11 @@
         rules: {
             hokh: {
                 required: !0,
-                rangelength: [2, 30],
+                rangelength: [2, 255],
             },
             tenkh: {
                 required: !0,
-                rangelength: [2, 30],
+                rangelength: [2, 255],
             },
             ngaysinh: {
                 required: !0,
@@ -386,11 +387,15 @@
             },
             diachi: {
                 required: !0,
-                rangelength: [2, 50],
+                rangelength: [2, 255],
             },
             email: {
                 required: !0,
-                rangelength: [2, 50],
+                rangelength: [2, 255],
+            },
+            emailmoi: {
+                required: !0,
+                rangelength: [2, 255],
             },
         },
         errorClass: "help-block error",
@@ -402,9 +407,6 @@
         },
     });
 </script>
-
-
-
 
 <script>
     const url = window.location.href;

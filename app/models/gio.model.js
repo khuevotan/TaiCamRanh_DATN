@@ -8,37 +8,7 @@ const Gio = function(gio){
 };
 
 
-Gio.create = (newgio, result) => {
-    sql.query("INSERT INTO gio SET ?", newgio, (err, res) => {
-        if (err) {
-            console.log("error: ", err);
-            result(err, null);
-            return;
-        }
-        console.log("created gio: ", { magio: res.insertmagio, ...newgio });
-        result(null, { magio: res.insertmagio, ...newgio });
-    });
-};
-
-Gio.findBymagio = (magio, result) => {
-    sql.query(`SELECT * FROM gio WHERE magio = ${magio}`, (err, res) => {
-        if (err) {
-            console.log("error: ", err);
-            result(err, null);
-            return;
-        }
-        if (res.length) {
-            // console.log("found gio: ", res[0]);
-            result(null, res[0]);
-            return;
-        }
-        // not found gio with the magio
-        result({ kind: "not_found" }, null);
-    });
-};
-
-
-// Hiển thị danh sách giờ bên phía admin.
+// Hiển thị danh sách giờ đầy đủ bên phía admin.
 Gio.getAll = (result) => {
     let query = "SELECT * FROM gio";
    
@@ -83,44 +53,5 @@ Gio.getAllKH = (ngayrua, MAX_ĐL, result) => {
     }
   
 };
-
-Gio.updateBymagio = (magio, gio, result) => {
-    sql.query(
-        "UPDATE gio SET tengio = ?, updated_at = ? WHERE magio = ?",
-        [gio.tengio, new Date(), magio],
-        (err, res) => {
-            if (err) {
-                console.log("error: ", err);
-                result(null, err);
-                return;
-            }
-            if (res.affectedRows == 0) {
-                // not found gio with the magio
-                result({ kind: "not_found" }, null);
-                return;
-            }
-            console.log("updated gio: ", { magio: magio, ...gio });
-            result(null, { magio: magio, ...gio });
-        }
-    );
-};
-
-Gio.remove = (magio, result) => {
-    sql.query("DELETE FROM gio WHERE magio = ?", magio, (err, res) => {
-        if (err) {
-            console.log("error: ", err);
-            result(null, err);
-            return;
-        }
-        if (res.affectedRows == 0) {
-            // not found gio with the magio
-            result({ kind: "not_found" }, null);
-            return;
-        }
-     
-        result(null, res);
-    });
-};
-
 
 module.exports = Gio;

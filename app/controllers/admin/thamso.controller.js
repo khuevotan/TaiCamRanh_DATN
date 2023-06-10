@@ -1,32 +1,6 @@
 const ThamSo = require("../../models/thamso.model");
 
 //======================= GIAO DIEN ADMIN ======================= 
-// Hiển thị form tạo mới tham số.
-// exports.create = (req, res) => {
-//     res.locals.status = req.query.status;
-//     res.render('thamso/createts',  {layout: './master2'});
-// }
-
-// Create and Save a new thamso
-// exports.store = (req, res) => {
-//     // Validate request
-//     if (!req.body) {
-//         res.redirect('/admin/thamso/create?status=error')
-//     }
-
-//     const file = req.file
-
-//     // Create a thamso
-//     const thamso = new ThamSo({
-//         tents: req.body.tents,
-//     });
-//     // Save thamso in the database
-//     thamso.create(thamso, (err, data) => {
-//         if (err)
-//             res.redirect('/admin/thamso/create?status=error')
-//         else res.redirect('/admin/thamso/create?status=success')
-//     });
-// };
 
 // Hiển thị danh sách tham số.
 exports.findAll = (req, res) => {
@@ -34,7 +8,7 @@ exports.findAll = (req, res) => {
     
     ThamSo.getAll((err, data) => {
         if (err)
-            res.redirect('/500')
+            res.redirect('/admin/500')
         else {
             res.render('thamso/indexts',  {thamso: data, layout: './master3'});
         }
@@ -48,9 +22,9 @@ exports.edit = (req, res) => {
     ThamSo.findBymats(req.params.mats, (err, data) => {
         if (err) {
             if (err.kind === "not_found") {
-                res.redirect('/404');
+                res.redirect('/admin/404');
             } else {
-                res.redirect('/500');
+                res.redirect('/admin/500');
             }
         } else res.render('thamso/editts', { thamso: data,  layout: './master2'});
     });
@@ -63,9 +37,9 @@ exports.details = (req, res) => {
     ThamSo.findBymats(req.params.mats, (err, data) => {
         if (err) {
             if (err.kind === "not_found") {
-                res.redirect('/404');
+                res.redirect('/admin/404');
             } else {
-                res.redirect('/500');
+                res.redirect('/admin/500');
             }
         } else res.render('thamso/detailsts', { thamso: data,  layout: './master2'});
     });
@@ -85,7 +59,7 @@ exports.update = (req, res) => {
         chuthich: req.body.chuthich,
     });
 
-    ThamSo.updateBymats(
+    ThamSo.updateByMaTS(
         req.params.mats,
         thamso,
         (err, data) => {
@@ -99,18 +73,5 @@ exports.update = (req, res) => {
         }
     );
 };
-
-// Xóa tham số
-// exports.delete = (req, res) => {
-//     ThamSo.remove(req.params.mats, (err, data) => {
-//         if (err) {
-//             if (err.kind === "not_found") {
-//                 res.redirect('/404');
-//             } else {
-//                 res.redirect('/500');
-//             }
-//         } else res.redirect('/admin/thamso/index?deleted=true')
-//     });
-// };
 
 

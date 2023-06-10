@@ -5,23 +5,28 @@ const SanPham = require("../../models/SanPham.model");
 const NhaCungCap = require("../../models/NhaCungCap.model");
 
 //======================= GIAO DIEN ADMIN ======================= 
-// Hiển thị form tạo mới sản phẩm.
+// Hiển thị form tạo mới phiếu nhập.
 exports.create = (req, res) => {
     res.locals.status = req.query.status;
     const tensp = req.query.tensp;
     SanPham.getAll(tensp, (err, data) => {
         if (err)
             res.redirect('/admin/500')
-        else { 
+        else {
             NhaCungCap.getAll((err, ncc) => {
                 if (err)
                     res.redirect('/admin/500')
-                else { 
+                else {
                     TrangThai.getAll((err, tt) => {
                         if (err)
                             res.redirect('/admin/500')
-                        else { 
-                            res.render('phieunhap/createpn', { nhacungcap: ncc, sanpham: data, trangthai: tt, layout: './master5'});
+                        else {
+                            res.render('phieunhap/createpn', {
+                                nhacungcap: ncc,
+                                sanpham: data,
+                                trangthai: tt,
+                                layout: './master5'
+                            });
                         }
                     });
                 }
@@ -30,7 +35,7 @@ exports.create = (req, res) => {
     });
 }
 
-// Lưu sản phẩm mới khi nhấn nút.
+// Lưu phiếu nhập mới khi nhấn nút.
 exports.store = (req, res) => {
     // Validate request
     if (!req.body) {
@@ -42,9 +47,9 @@ exports.store = (req, res) => {
 
     const crypto = require("crypto");
     const id = crypto.randomBytes(16).toString("hex");
-    
+
     const phieunhap = new PhieuNhap({
-        mapn : id,
+        mapn: id,
         ghichu: req.body.ghichu,
         thanhtoan: req.body.thanhtoan,
         tongtiennhap: 0,
@@ -54,19 +59,19 @@ exports.store = (req, res) => {
     });
 
     PhieuNhap.create(phieunhap, (err, data) => {
-   
-        if (!err){
+
+        if (!err) {
             const tensp = req.query.tensp;
             const mapn = data.mapn;
 
             var arrMaSP = req.body.lsmasp;
-       
+
             for (let i = 0; i < arrMaSP.length; i++) {
-                
+
                 var masp = arrMaSP[i];
 
                 const ctphieunhap = new CTPhieuNhap({
-                    mapn : mapn,
+                    mapn: mapn,
                     masp: masp,
                     soluongnhap: 0,
                     gianhap: 0,
@@ -74,29 +79,29 @@ exports.store = (req, res) => {
 
                 CTPhieuNhap.create(ctphieunhap, (err, data) => {
                     if (!err) {
-                     
-                    }else{
+
+                    } else {
                         console.log(err);
                     }
-                  
+
                 });
             }
 
-            PhieuNhap.findBymapn(mapn,(err, data) => {
+            PhieuNhap.findBymapn(mapn, (err, data) => {
 
                 // console.log("ljieeeeee");
                 res.render('phieunhap/canhbao', {
                     phieunhap: data,
                     layout: './master2'
-                });    
-              
+                });
+
                 // res.redirect('/admin/phieunhap/editsp/' + req.params.mapn + '?status=success'); 
 
                 // console.log("lưdihwqndwk");
             });
-     
-           
-        }else {
+
+
+        } else {
             res.redirect('/admin/phieunhap/create?status=error')
         }
     });
@@ -170,10 +175,9 @@ exports.edit = (req, res) => {
                                                 nhacungcap: nhacungcap,
                                                 sanpham: sanpham,
                                                 layout: './master2'
-                                            });               
+                                            });
                                         }
                                     });
-                                          
                                 }
                             });
                         }
@@ -196,28 +200,23 @@ exports.editsp = (req, res) => {
                 res.redirect('/admin/500');
             }
         } else {
-                 CTPhieuNhap.findBymapn(req.params.mapn, (err, ctpn) => {
+            CTPhieuNhap.findBymapn(req.params.mapn, (err, ctpn) => {
+                if (err)
+                    res.redirect('/admin/500')
+                else {
+                    SanPham.getAll(tensp, (err, sanpham) => {
                         if (err)
                             res.redirect('/admin/500')
                         else {
-                            SanPham.getAll(tensp, (err, sanpham) => {
-                                if (err)
-                                    res.redirect('/admin/500')
-                                else {
-
-                                    res.render('phieunhap/inputsl.ejs', {
-                                        ctpn: ctpn,
-                                        sanpham: sanpham,
-                                      
-                                        layout: './master2'
-                                    });   
-
-                                                
-                                }
+                            res.render('phieunhap/inputsl.ejs', {
+                                ctpn: ctpn,
+                                sanpham: sanpham,
+                                layout: './master2'
                             });
                         }
                     });
-
+                }
+            });
         }
     });
 };
@@ -232,8 +231,8 @@ exports.update = (req, res) => {
     res.locals.nhanvien = req.session.nhanvien
     const manv = res.locals.nhanvien.manv;
 
-     // Create a phieunhap
-     const phieunhap = new PhieuNhap({
+    // Create a phieunhap
+    const phieunhap = new PhieuNhap({
         tennguoinhan: req.body.tennguoinhan,
         ngaygiao: req.body.ngaygiao,
         sodt: req.body.sodt,
@@ -263,17 +262,18 @@ exports.update = (req, res) => {
 // Xóa thông tin phiếu nhập đặt hàng.
 exports.delete = (req, res) => {
 
-    CTPhieuNhap.removeHD(req.params.mapn, (err, data) => {if (err) {
-        if (err.kind === "not_found") {
-            res.redirect('/404');
+    CTPhieuNhap.removeHD(req.params.mapn, (err, data) => {
+        if (err) {
+            if (err.kind === "not_found") {
+                res.redirect('/404');
+            } else {
+                res.redirect('/500');
+            }
         } else {
-            res.redirect('/500');
-        }
-    } else {
             PhieuNhap.remove(req.params.mapn, (err, data) => {
                 res.redirect('/admin/phieunhap/index?deleted=true')
-        });
-    }
+            });
+        }
     });
 };
 
@@ -302,8 +302,7 @@ exports.details = (req, res) => {
                                     res.redirect('/admin/500')
                                 else {
 
-                                   
-                                    NhaCungCap.findBymancc(data.mancc,(err, nhacungcap) => {
+                                    NhaCungCap.findBymancc(data.mancc, (err, nhacungcap) => {
                                         if (err)
                                             res.redirect('/admin/500')
                                         else {
@@ -317,7 +316,6 @@ exports.details = (req, res) => {
                                             });
                                         }
                                     });
-                                   
                                 }
                             });
                         }
@@ -327,4 +325,3 @@ exports.details = (req, res) => {
         }
     });
 };
-

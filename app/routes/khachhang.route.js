@@ -46,7 +46,6 @@ module.exports = app => {
     const multer = require("multer");
     const fsExtra = require('fs-extra');
 
-
     // SET STORAGE
     var storage = multer.diskStorage({
         destination: function (req, file, cb) {
@@ -71,7 +70,6 @@ module.exports = app => {
 
     // xác thực tài khoản
     router.get("/khachhang/xacthuctaikhoan/:email", authMiddleware.loggedin, khachhang.xacthuctaikhoan);
-
 
     // ======================= Đặt Lịch Rửa Xe ======================= 
     // Đặt Lịch Rửa Xe
@@ -174,7 +172,6 @@ module.exports = app => {
     
     })
 
-
     //Thanh toán bằng Stripe bên đặt lịch
     router.get('/khachhang/ttcard/:mahdrx', authMiddleware.loggedin, (req, res) => {
         mahdrx = req.params.mahdrx
@@ -216,8 +213,6 @@ module.exports = app => {
                 res.send(err) // If some error occurs
             });
     })
-
-
 
     app.use(router);
 }

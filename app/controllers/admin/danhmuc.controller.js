@@ -38,7 +38,7 @@ exports.findAll = (req, res) => {
     const tendm = req.query.tendm;
     Danhmuc.getAll(tendm, (err, data) => {
         if (err)
-            res.redirect('/500')
+            res.redirect('/admin/500')
         else {
             res.render('danhmuc/indexdm',  {danhmuc: data, layout: './master3'});
         }
@@ -52,9 +52,9 @@ exports.details = (req, res) => {
     Danhmuc.findByMaDM(req.params.madm, (err, data) => {
         if (err) {
             if (err.kind === "not_found") {
-                res.redirect('/404');
+                res.redirect('/admin/404');
             } else {
-                res.redirect('/500');
+                res.redirect('/admin/500');
             }
         } else res.render('danhmuc/detailsdm', { danhmuc: data,  layout: './master2'});
     });
@@ -67,9 +67,9 @@ exports.edit = (req, res) => {
     Danhmuc.findByMaDM(req.params.madm, (err, data) => {
         if (err) {
             if (err.kind === "not_found") {
-                res.redirect('/404');
+                res.redirect('/admin/404');
             } else {
-                res.redirect('/500');
+                res.redirect('/admin/500');
             }
         } else res.render('danhmuc/editdm', { danhmuc: data,  layout: './master2'});
     });
@@ -94,9 +94,9 @@ exports.update = (req, res) => {
         (err, data) => {
             if (err) {
                 if (err.kind === "not_found") {
-                    res.redirect('/404');
+                    res.redirect('/admin/404');
                 } else {
-                    res.redirect('/500');
+                    res.redirect('/admin/500');
                 }
             } else res.redirect('/admin/danhmuc/edit/' + req.params.madm + '?status=success');
         }
@@ -107,7 +107,7 @@ exports.update = (req, res) => {
 exports.delete = (req, res) => {
     Danhmuc.findByMaDM(req.params.madm, (err, danhmuc) => {
         if (err)
-            res.redirect('/500')
+            res.redirect('/admin/500')
         else {
 
             if(danhmuc.hinhdd != ''){
@@ -124,9 +124,9 @@ exports.delete = (req, res) => {
             Danhmuc.remove(req.params.madm, (err, data) => {
                 if (err) {
                     if (err.kind === "not_found") {
-                        res.redirect('/404');
+                        res.redirect('/admin/404');
                     } else {
-                        res.redirect('/500');
+                        res.redirect('/admin/500');
                     }
                 } else res.redirect('/admin/danhmuc/index?deleted=true')
             });
@@ -164,18 +164,16 @@ exports.updateADD = (req, res, next) => {
 }
 
 //======================= GIAO DIEN KHACHHANG ======================= 
-// Hiển thị danh mục bên phía khách hàng
+// Hiển thị danh mục bên phía khách hàng.
 exports.findAllKHdm = (req, res) => {
     res.locals.deleted = req.query.deleted;
     const tendm = req.query.tendm;
     Danhmuc.getAll(tendm, (err, danhmuc) => {
         if (err)
-            res.redirect('/500')
+            res.redirect('/admin/500')
         else {
             res.render('shop',  {danhmuc: danhmuc, layout: './master'});
-             console.log(danhmuc);
         }
-   
     });
 };
 

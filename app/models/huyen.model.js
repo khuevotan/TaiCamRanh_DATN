@@ -8,18 +8,7 @@ const Huyen = function(huyen){
     this.updated_at = huyen.updated_at;
 };
 
-Huyen.create = (newhuyen, result) => {
-    sql.query("INSERT INTO huyen SET ?", newhuyen, (err, res) => {
-        if (err) {
-            console.log("error: ", err);
-            result(err, null);
-            return;
-        }
-        console.log("created huyen: ", { mahuyen: res.insertmahuyen, ...newhuyen });
-        result(null, { mahuyen: res.insertmahuyen, ...newhuyen });
-    });
-};
-
+// Tìm huyện bằng mã huyện.
 Huyen.findBymahuyen = (mahuyen, result) => {
     sql.query(`SELECT * from huyen WHERE mahuyen = '${mahuyen}'`, (err, res) => {
         if (err) {
@@ -34,7 +23,7 @@ Huyen.findBymahuyen = (mahuyen, result) => {
     });
 };
 
-
+// Hiển thị danh sách huyện trong một tỉnh.
 Huyen.getALLByMT = (matinh, result) => {
     let query =`SELECT * from huyen WHERE matinh = '${matinh}'`;
   
@@ -49,7 +38,7 @@ Huyen.getALLByMT = (matinh, result) => {
     });
 };
 
-
+// Hiển thị danh sách huyện.
 Huyen.getAll = (result) => {
     let query = "SELECT * FROM huyen";
   

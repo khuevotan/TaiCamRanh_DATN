@@ -13,10 +13,8 @@ module.exports = app => {
     require("./hoadon.route")(app);
     require("./nhanvien.route")(app);
     require("./loaixe.route")(app);
-    require("./gio.route")(app);
     require("./cthoadon.route")(app);
     require("./nhacungcap.route")(app);
-    require("./nhom.route")(app);
     require("./khachhang_ad.route")(app);
     require("./ctphieunhap.route")(app);
     require("./phieunhap.route")(app);

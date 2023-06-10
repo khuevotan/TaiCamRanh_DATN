@@ -16,7 +16,7 @@ require('dotenv/config');
 const bcrypt = require('bcrypt');
 
 // ======================== ADMIN =================================
-// Hiện thị form tạo mới khách hàng
+// Hiện thị form tạo mới khách hàng.
 exports.create = (req, res) => {
     res.locals.status = req.query.status;
     res.render('khachhang/createkh', {
@@ -24,7 +24,7 @@ exports.create = (req, res) => {
     });
 }
 
-// Create and Save a new khachhang
+// Tạo mới khách hàng khi nhấn nút thêm mới.
 exports.store = (req, res) => {
     // Validate request
     if (!req.body) {
@@ -65,7 +65,6 @@ exports.store = (req, res) => {
             if (matkhau == matkhauxn) {
                 if (matkhau.match(/[a-z]/) && matkhau.match(/[A-Z]/) && matkhau.match(/\d/) && matkhau.match(/[^a-zA-Z\d]/)) {
                     bcrypt.hash(matkhau, parseInt(process.env.BCRYPT_SALT_ROUND)).then((hashed) => {
-
 
                         const khachhang = new KhachHang({
                             taikhoan: taikhoan,
@@ -122,12 +121,9 @@ exports.store = (req, res) => {
                     sodt,
                     diachi,
                     email,
-
                     ngaysinh,
                     gioitinh,
-
                     conflictError,
-
                     layout: './master2'
                 });
             }
@@ -152,7 +148,7 @@ exports.verify = (req, res) => {
     })
 }
 
-// Hiển thị khách hàng bên phía admin
+// Hiển thị khách hàng bên phía admin.
 exports.findAll = (req, res) => {
     res.locals.deleted = req.query.deleted;
 
@@ -186,6 +182,7 @@ exports.details = (req, res) => {
     });
 };
 
+// Hiển thị form thay đổi mật khẩu.
 exports.formthaypasss = (req, res) => {
     res.locals.status = req.query.status;
 
@@ -203,43 +200,7 @@ exports.formthaypasss = (req, res) => {
     });
 };
 
-// Chỉnh sửa thông tin một khách hàng bên phía admin
-exports.edit = (req, res) => {
-    res.locals.status = req.query.status;
-
-    Khachhang.findByMakh(req.params.makh, (err, data) => {
-        if (err) {
-            if (err.kind === "not_found") {
-                res.redirect('/404');
-            } else {
-                res.redirect('/500');
-            }
-        } else res.render('khachhang/editkh', {
-            khachhang: data,
-            layout: './master2'
-        });
-    });
-};
-
-// Xóa một khách hàng bên phía admin
-exports.delete = (req, res) => {
-
-    if(req.params.makh != 1){
-        Khachhang.remove(req.params.makh, (err, data) => {
-            if (err) {
-                if (err.kind === "not_found") {
-                    res.redirect('/admin/404');
-                } else {
-                    res.redirect('/admin/500');
-                }
-            } else res.redirect('/admin/khachhang/index?deleted=true')
-        });
-    }else{
-        res.redirect('/admin/khachhang/index?deleted=nonedelete')
-    }
-};
-
-// Update mật khẩu bến phía admin
+// Update mật khẩu bến phía admin.
 exports.adupdatemk = (req, res) => {
     res.locals.status = req.query.status;
     const {
@@ -312,7 +273,25 @@ exports.adupdatemk = (req, res) => {
     }
 };
 
-// Update thông tin khách hàng bến phía admin
+// Chỉnh sửa thông tin một khách hàng bên phía admin.
+exports.edit = (req, res) => {
+    res.locals.status = req.query.status;
+
+    Khachhang.findByMakh(req.params.makh, (err, data) => {
+        if (err) {
+            if (err.kind === "not_found") {
+                res.redirect('/admin/404');
+            } else {
+                res.redirect('/admin/500');
+            }
+        } else res.render('khachhang/editkh', {
+            khachhang: data,
+            layout: './master2'
+        });
+    });
+};
+
+// Update thông tin khách hàng bến phía admin.
 exports.update = (req, res) => {
 
     // Validate Request
@@ -322,69 +301,100 @@ exports.update = (req, res) => {
 
     const khachhang = new KhachHang({
         taikhoan: req.body.taikhoan,
-        email: req.body.email,
         hokh: req.body.hokh,
         tenkh: req.body.tenkh,
         diachi: req.body.diachi,
         kichhoat: req.body.kichhoat,
         sodt: req.body.sodt,
         ngaysinh: req.body.ngaysinh,
+        gioitinh: req.body.gioitinh,
     });
 
-    Khachhang.findByEmail(req.body.email, (err, khachhangne) => {
-        if (err || khachhangne) {
-            const conflictError = 'Email này đã tồn tại';
-
-            Khachhang.findByMakh(req.params.makh, (err, data) => {
-                if (err) {
-                    if (err.kind === "not_found") {
-                        res.redirect('/404');
-                    } else {
-                        res.redirect('/500');
-                    }
-                } else res.render('chinhsuatt', {
-                    conflictError,
-                    khachhang: data
-                });
-            });
-
-        } else {
-
-            KhachHang.updateBymakhphiadmin(
+    KhachHang.updateTTByAdmin(
                 req.params.makh,
                 khachhang,
                 (err, data) => {
                     if (err) {
                         if (err.kind === "not_found") {
-                            res.redirect('/404');
+                            res.redirect('/admin/404');
                         } else {
-                            res.redirect('/500');
+                            res.redirect('/admin/500');
                         }
                     } else res.redirect('/admin/khachhang/edit/' + req.params.makh + '?status=success');
                 }
-            );
-        }
-    });
-
-
+    );
+     
 };
 
+// Khachhang.findByEmail(req.body.email, (err, khachhangne) => {
+//     if (err || khachhangne) {
+//         const conflictError = 'Email này đã tồn tại';
 
-// Đổi Email 
+//         Khachhang.findByMakh(req.params.makh, (err, data) => {
+//             if (err) {
+//                 if (err.kind === "not_found") {
+//                     res.redirect('/admin/404');
+//                 } else {
+//                     res.redirect('/admin/500');
+//                 }
+//             } else res.render('chinhsuatt', {
+//                 conflictError,
+//                 khachhang: data
+//             });
+//         });
+
+//     } else {
+
+//         KhachHang.updateTTByAdmin(
+//             req.params.makh,
+//             khachhang,
+//             (err, data) => {
+//                 if (err) {
+//                     if (err.kind === "not_found") {
+//                         res.redirect('/admin/404');
+//                     } else {
+//                         res.redirect('/admin/500');
+//                     }
+//                 } else res.redirect('/admin/khachhang/edit/' + req.params.makh + '?status=success');
+//             }
+//         );
+//     }
+// });
+
+// Xóa một khách hàng bên phía admin.
+exports.delete = (req, res) => {
+
+    if(req.params.makh != 1){
+        Khachhang.remove(req.params.makh, (err, data) => {
+            if (err) {
+                if (err.kind === "not_found") {
+                    res.redirect('/admin/404');
+                } else {
+                    res.redirect('/admin/500');
+                }
+            } else res.redirect('/admin/khachhang/index?deleted=true')
+        });
+    }else{
+        res.redirect('/admin/khachhang/index?deleted=nonedelete')
+    }
+};
+
+// Update Email khi nhấn vào thay đổi email bên phía admin.
 exports.changeEmail = (req, res) => {
-
     res.locals.status = req.query.status;
-    
+
     KhachHang.findByEmail(req.body.emailmoi, (err, khachhangne) => {
         if (khachhangne) {
-
             res.redirect('/admin/khachhang/edit/' + req.params.makh + '?status=Emailtontai');
-
         } else {
+
+            const khachhang = new KhachHang({
+                email: req.body.emailmoi,
+            });
 
             KhachHang.updateMail(
                 req.params.makh,
-                req.body.emailmoi,
+                khachhang,
                 (err, data) => {
                     if (err) {
                         if (err.kind === "not_found") {
@@ -397,7 +407,6 @@ exports.changeEmail = (req, res) => {
             );
         }
     });
-  
 };
 
 
@@ -418,7 +427,7 @@ exports.trangCaNhan = (req, res) => {
     });
 };
 
-// Edit bên phía khách hàng
+// Edit bên phía khách hàng.
 exports.editkh = (req, res) => {
     res.locals.status = req.query.status;
 
@@ -435,7 +444,7 @@ exports.editkh = (req, res) => {
     });
 };
 
-// Hiên thị form đổi  mail
+// Hiên thị form đổi  mail.
 exports.editMail = (req, res) => {
     res.locals.status = req.query.status;
 
@@ -469,7 +478,7 @@ exports.doimk = (req, res) => {
     });
 };
 
-// Update a khachhang khi nhấn vào chỉnh sửa thông tin cá nhân bên phía khách hàng
+// Update a khachhang khi nhấn vào chỉnh sửa thông tin cá nhân bên phía khách hàng.
 exports.updateKH = (req, res) => {
 
     // Validate Request
@@ -722,7 +731,6 @@ exports.updateHddAD = (req, res) => {
     });
 }
 
-
 // Nhấn nút xác thực tài khoản nếu chưa xác thực.
 exports.xacthuctaikhoan = (req, res) => {
 
@@ -735,8 +743,6 @@ exports.xacthuctaikhoan = (req, res) => {
 
     res.redirect('/khachhang/home?status=daguimailxacthuc');
 }
-
-
 
 // ====================== ĐẶT LỊCH RỬA XE =========================
 
@@ -815,7 +821,6 @@ exports.showDLForm = (req, res) => {
 exports.datlich = (req, res) => {
     res.locals.khachhang = req.session.khachhang
     const makh = res.locals.khachhang.makh;
-
     const email = res.locals.khachhang.email;
 
     // Validate Request
@@ -948,7 +953,6 @@ exports.datlich = (req, res) => {
         }
     });
 };
-
 
 // ====================== ĐẶT HÀNG =========================
 

@@ -38,7 +38,7 @@ exports.update = (req, res) => {
 
                 CTHoaDon.findBymahd(req.params.mahd, (err, cthd) => {
                     if (err)
-                        res.redirect('/500')
+                        res.redirect('/admin/500')
                     else {
                       
                         var giatien = cthd.map(item => item.giatien);
@@ -61,18 +61,15 @@ exports.update = (req, res) => {
                                 (err, data) => {
                                     if (err) {
                                         if (err.kind === "not_found") {
-                                            res.redirect('/404');
+                                            res.redirect('/admin/404');
                                         } else {
-                                            res.redirect('/500');
+                                            res.redirect('/admin/500');
                                         }
                                     } else res.redirect('/admin/hoadon/edit/' + req.params.mahd + '?status=successSP');
                                 }
                             );
-
                         });
                         });
-                        
-
                     }
                 });
             }
@@ -84,7 +81,7 @@ exports.update = (req, res) => {
 exports.delete = (req, res) => {
     CTHoaDon.countByMaHD(req.params.mahd, (err, slcthd) => {
         if (err)
-            res.redirect('/500')
+            res.redirect('/admin/500')
         else {
 
             var soluongcthd = slcthd[0]['COUNT(*)'];
@@ -169,11 +166,11 @@ exports.findAllKHLS = (req, res) => {
     const makh = res.locals.khachhang.makh;
     HoaDonRX.getLSAll(makh, (err, data) => {
         if (err)
-            res.redirect('/500')
+            res.redirect('/admin/500')
         else {
             Gio.getAll((err, gio) => {
                 if (err)
-                    res.redirect('/500')
+                    res.redirect('/admin/500')
                 else {
                     res.render('lsdatlich',  {hoadonrx: data, gio: gio, layout: './master'});
                 }
@@ -189,18 +186,18 @@ exports.chitietdatlich = (req, res) => {
     HoaDonRX.findBymahdrx(req.params.mahdrx, (err, data) => {
         if (err) {
             if (err.kind === "not_found") {
-                res.redirect('/404');
+                res.redirect('/admin/404');
             } else {
-                res.redirect('/500');
+                res.redirect('/admin/500');
             }
         } else {
             Gio.getAll((err, gio) => {
                 if (err)
-                    res.redirect('/500')
+                    res.redirect('/admin/500')
                 else {
                     LoaiXe.getAll((err, tenlx) => {
                         if (err)
-                            res.redirect('/500')
+                            res.redirect('/admin/500')
                         else {
                             res.render('ctdatlich', { hoadonrx: data, gio : gio, tenlx: tenlx , layout: './master'});
                             console.log(gio);

@@ -1,4 +1,4 @@
-
+<title>Thêm Loại Xe</title>
     <div class="page-content fade-in-up">
                     <% if (typeof status !== 'undefined') { %>
                         <%if (status == 'success') { %>
@@ -73,12 +73,10 @@
             </div>
         </div>
         <div>
-   
         </div>
-    </div>
+</div>
 
-
-    <div style="height: 580px;"></div>
+<div style="height: 580px;"></div>
 
 <!-- Sử dụng cho jquery - validation -->
 <script src="/assets/vendors/jquery/dist/jquery.min.js" type="text/javascript"></script>
@@ -91,7 +89,6 @@
                 required: !0
             },
             gia: {
-              
                 required: !0,
                 rangelength: [1, 11],
             }
@@ -105,9 +102,7 @@
         },
     });
 
-
-    
- const inputs = document.querySelectorAll('.number-input');
+const inputs = document.querySelectorAll('.number-input');
 
 inputs.forEach(input => {
     input.addEventListener('input', function() {

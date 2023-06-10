@@ -92,12 +92,9 @@
                                         </select>
                                     </div>
                                 </div>
-
                             </div>
                         </div>
                         <hr>
-
-
 
                         <% if (typeof conflictError != "undefined" && conflictError) { %>
                         <div class="text-danger text-left  mb-3"><%= conflictError %></div>
@@ -119,7 +116,6 @@
 <script>
     var matinhSelect = document.getElementById("matinhSelect");
     var mahuyenSelect = document.getElementById("mahuyenSelect");
-
 
     //  sử dụng Ajax và JavaScript để gửi yêu cầu từ client đến server và nhận kết quả trả về để cập nhật select box "mahuyen":
 
@@ -199,7 +195,7 @@
         console.log("Người dùng đã hủy xác nhận thông tin đơn hàng");
       }
     });
-  </script>
+</script>
 
 
 <script>

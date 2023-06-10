@@ -8,8 +8,8 @@
                 <h1 class="mb-20 text-center mt-20">Đặt Lịch Hẹn</h1>
                 <div class="card-body container-fluid">
 
-                    
-                    <form action="/datlich/:makh" method="post" id="booking-form">
+                    <form action="/datlich/:makh" method="post" id="booking-form"
+                    onSubmit="return confirm('Bạn có chắc chắn muốn đặt lịch?') ">
 
                         <input type="hidden" name="id" value="">
                         <div class="row">

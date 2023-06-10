@@ -86,6 +86,7 @@ exports.findAll = (req, res) => {
     });
 };
 
+// Hiển thị danh sách sản phẩm sắp hết.
 exports.findAllSH = (req, res) => {
     res.locals.deleted = req.query.deleted;
     const tensp = req.query.tensp;
@@ -158,7 +159,6 @@ exports.details = (req, res) => {
 // Chỉnh sửa thông tin một sản phẩm.
 exports.edit = (req, res) => {
     res.locals.status = req.query.status;
-
     const tendm = req.query.tensp;
 
     SanPham.findBymasp(req.params.masp, (err, data) => {
@@ -289,22 +289,6 @@ exports.updateADD = (req, res, next) => {
 
 //======================= GIAO DIEN KHACH HANG ======================= 
 // Hiển thị sản phẩm bên phía khách hàng.
-// exports.findAllKH = (req, res) => {
-//     res.locals.deleted = req.query.deleted;
-//     const tensp = req.query.tensp;
-//     SanPham.getAllKH(tensp, (err, data) => {
-//         if (err)
-//             res.redirect('/500')
-//         else {
-//             res.render('shop', {
-//                 sanpham: data,
-//                 layout: './master'
-//             });
-           
-//         }
-//     });
-// };
-
 exports.findAllKHandDM = (req, res) => {
     const page = parseInt(req.query.page) || 1;
     const limit = parseInt(req.query.limit) || 9;
@@ -423,6 +407,3 @@ exports.chitietsp = (req, res) => {
         }
     });
 };
-
-
-// else res.render('sanphamct', { sanpham: data , layout: './master'});

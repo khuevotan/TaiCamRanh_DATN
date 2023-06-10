@@ -10,12 +10,12 @@ module.exports = app => {
     // Hiển thị form tạo bài viết
     router.get("/create", authMiddQL.loggedinadql, baiviet.create);
 
-     //File upload images Bài Viết
-     const multer = require("multer");
-     const fsExtra = require('fs-extra');
+    //File upload images Bài Viết
+    const multer = require("multer");
+    const fsExtra = require('fs-extra');
  
-     // SET STORAGE
-     var storage = multer.diskStorage({
+    // SET STORAGE
+    var storage = multer.diskStorage({
          destination: function (req, file, cb) {
              let path = 'app/public/images/baiviet';
              if (!fsExtra.existsSync(path)) {
@@ -26,19 +26,18 @@ module.exports = app => {
          filename: function (req, file, cb) {
              cb(null, Date.now() + '-' + file.originalname)
          }
-     });
+    });
  
-     //file
-     var upload = multer({
+    //file
+    var upload = multer({
          storage: storage
-     })
+    })
 
     //file
     var uploadctanh = multer({
         storage: storage
     })
 
-    
     // Lưu bài viết mới khi nhấn nút lưu
     router.post("/", authMiddQL.loggedinadql, upload.single('hinhdd'), baiviet.store);
 

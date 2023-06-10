@@ -176,9 +176,9 @@ exports.adupdatemk = (req, res) => {
         NhanVien.findByMaNV(req.params.manv, (err, data) => {
             if (err) {
                 if (err.kind === "not_found") {
-                    res.redirect('/404');
+                    res.redirect('/admin/404');
                 } else {
-                    res.redirect('/500');
+                    res.redirect('/admin/500');
                 }
             } else {
 
@@ -234,8 +234,6 @@ exports.adupdatemk = (req, res) => {
     }
 };
 
-
-
 // Xác thực tài khoản của nhân viên.
 exports.verify = (req, res) => {
     bcrypt.compare(req.query.email, req.query.token, (err, result) => {
@@ -273,14 +271,14 @@ exports.edit = (req, res) => {
     NhanVien.findByMaNV(req.params.manv, (err, data) => {
         if (err) {
             if (err.kind === "not_found") {
-                res.redirect('/404');
+                res.redirect('/admin/404');
             } else {
-                res.redirect('/500');
+                res.redirect('/admin/500');
             }
         } else {
             Nhom.getAll((err, nhom) => {
                 if (err)
-                    res.redirect('/500')
+                    res.redirect('/admin/500')
                 else { 
                     res.render('nhanvien/editnv', { nhom: nhom, nhanvien: data,  layout: './master2'});
                 }
@@ -289,7 +287,7 @@ exports.edit = (req, res) => {
     });
 };
 
-// Đổi Email 
+// Đổi Email
 exports.changeEmail = (req, res) => {
 
     res.locals.status = req.query.status;
@@ -358,8 +356,6 @@ exports.update = (req, res) => {
     }else{
         res.redirect('/admin/nhanvien/edit/' + req.params.manv + '?status=khongthecapnhat');
     }
-
-   
 };
 
 // Xem chi tiết thông tin một nhân viên
@@ -369,15 +365,15 @@ exports.details = (req, res) => {
     NhanVien.findByMaNV(req.params.manv, (err, data) => {
         if (err) {
             if (err.kind === "not_found") {
-                res.redirect('/404');
+                res.redirect('/admin/404');
             } else {
-                res.redirect('/500');
+                res.redirect('/admin/500');
             }
         } else {
             
             Nhom.findByNhom(data.manhom, (err, nhom) => {
                 if (err)
-                    res.redirect('/500')
+                    res.redirect('/admin/500')
                 else { 
                     res.render('nhanvien/detailsnv', { nhom: nhom, nhanvien: data,  layout: './master2'});
                 }

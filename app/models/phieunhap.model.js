@@ -14,7 +14,7 @@ const PhieuNhap = function(phieunhap){
 
 
 //======================= GIAO DIEN ADMIN ======================= 
-// Hiển thị hóa đơn đặt hàng bên phía admin.
+// Hiển thị hóa đơn nhập hàng bên phía admin.
 PhieuNhap.getAllAD = (result) => {
     let query = "SELECT * FROM phieunhap";
   
@@ -29,7 +29,7 @@ PhieuNhap.getAllAD = (result) => {
     });
 };
 
-// Tạo đơn đặt hàng
+// Tạo đơn nhập hàng.
 PhieuNhap.create = (newphieunhap, result) => {
     sql.query("INSERT INTO phieunhap SET ?", newphieunhap, (err, res) => {
         if (err) {
@@ -42,7 +42,7 @@ PhieuNhap.create = (newphieunhap, result) => {
     });
 };
 
-//tìm kiếm 1 hóa đơn bằng mã đơn hàng
+// Tìm kiếm 1 hóa đơn nhập bằng mã đơn nhập.
 PhieuNhap.findBymapn  = (mapn , result) => { 
     sql.query(`SELECT * FROM phieunhap WHERE mapn  = '${mapn }'`, (err, res) => {
         
@@ -61,6 +61,7 @@ PhieuNhap.findBymapn  = (mapn , result) => {
     });
 };
 
+// Cập nhật đơn nhập.
 PhieuNhap.updateBymapn  = (mapn , phieunhap, result) => {
     sql.query(
         "UPDATE phieunhap SET ghichu = ? ,  thanhtoan = ?, mancc  = ? , matt = ? , manv = ?, updated_at = ?  WHERE mapn  = ?",
@@ -82,6 +83,7 @@ PhieuNhap.updateBymapn  = (mapn , phieunhap, result) => {
     );
 };
 
+// Cập nhật đơn nhập với tổng tiền nhập.
 PhieuNhap.updateBymapnwitdtongtien  = (mapn , tongtiennhap, result) => {
     sql.query(
         "UPDATE phieunhap SET  tongtiennhap = ?, updated_at = ?  WHERE mapn  = ?",
@@ -102,6 +104,7 @@ PhieuNhap.updateBymapnwitdtongtien  = (mapn , tongtiennhap, result) => {
     );
 };
 
+// Xóa đơn nhập.
 PhieuNhap.remove = (mapn , result) => {
     sql.query("DELETE FROM phieunhap WHERE mapn  = ?", mapn , (err, res) => {
         if (err) {

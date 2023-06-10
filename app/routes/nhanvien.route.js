@@ -33,10 +33,8 @@ module.exports = app => {
          storage: storage
      })
 
-
     // Hiển thị danh sách các nhân viên
     router.get("/index",authMiddQL.loggedinadql, nhanvien.findAll);
-
 
     const pdfController = require('../controllers/admin/pdfluong.controller');
 
@@ -56,15 +54,14 @@ module.exports = app => {
     // Chỉnh sửa 1 nhân viên khi nhấn nút chỉnh sửa -> hiển thị form
     router.get("/edit/:manv", authMiddQL.loggedinadql, nhanvien.edit);
 
+    // thay đổi mật khẩu
+    router.get("/changepass/:manv", authMiddQL.loggedinadql, nhanvien.formThayPass);
 
-     // thay đổi mật khẩu
-     router.get("/changepass/:manv", authMiddQL.loggedinadql, nhanvien.formThayPass);
+    // Đổi mật khẩu khi nhấn nút
+    router.put("/doimatkhau/:manv", authMiddQL.loggedinadql, nhanvien.adupdatemk);
 
-     // Đổi mật khẩu khi nhấn nút
-     router.put("/doimatkhau/:manv", authMiddQL.loggedinadql, nhanvien.adupdatemk);
-
-     // đổi Email
-     router.put("/doiemail/:manv", authMiddQL.loggedinadql, nhanvien.changeEmail);
+    // đổi Email
+    router.put("/doiemail/:manv", authMiddQL.loggedinadql, nhanvien.changeEmail);
 
     // Lưu nhân viên khi nhấn nút update
     router.put("/:manv", authMiddQL.loggedinadql, nhanvien.update);

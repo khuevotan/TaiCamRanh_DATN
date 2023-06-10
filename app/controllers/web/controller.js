@@ -1,4 +1,3 @@
-
 const LoaiXe = require("../../models/loaixe.model");
 
 exports.getIndex = (req, res) => {

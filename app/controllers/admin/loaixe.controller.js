@@ -4,21 +4,6 @@ const ThamSo = require("../../models/ThamSo.model");
 
 //======================= GIAO DIEN ADMIN ======================= 
 // Hiển thị form tạo mới loại xe.
-
-
-// exports.create = async (req, res) => {
-//     try {
-//       res.locals.status = req.query.status;
-//       await res.render('loaixe/createlx', {
-//         layout: './master2'
-//       });
-//     } catch (err) {
-//       console.error(err);
-//       res.status(500).send('Internal Server Error');
-//     }
-//   };
-
-  
 exports.create = (req, res) => {
     res.locals.status = req.query.status;
     res.render('loaixe/createlx', {
@@ -62,7 +47,6 @@ exports.findAll = (req, res) => {
                 layout: './master3'
             });
         }
-
     });
 };
 
@@ -114,7 +98,7 @@ exports.update = (req, res) => {
     );
 };
 
-// Xóa một loại xe
+// Xóa một loại xe.
 exports.delete = (req, res) => {
     LoaiXe.remove(req.params.malx, (err, data) => {
         if (err) {

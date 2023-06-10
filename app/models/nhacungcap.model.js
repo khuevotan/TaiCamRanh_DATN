@@ -41,7 +41,7 @@ NhaCungCap.findBymancc = (mancc, result) => {
     });
 };
 
-// Hiển thị danh sách nhà cung cấp rửa.
+// Hiển thị danh sách nhà cung cấp.
 NhaCungCap.getAll = (result) => {
     let query = "SELECT * FROM nhacungcap WHERE tinhtrang = 1";
  
@@ -78,7 +78,6 @@ NhaCungCap.updateBymancc = (mancc, nhacungcap, result) => {
 
 // Xóa nhà cung cấp.
 NhaCungCap.remove = (mancc, result) => {
-
     sql.query(
         "UPDATE nhacungcap SET tinhtrang = ? , updated_at = ? WHERE mancc = ?",
         [2, new Date(), mancc],
@@ -97,6 +96,5 @@ NhaCungCap.remove = (mancc, result) => {
         }
     );
 };
-
 
 module.exports = NhaCungCap;

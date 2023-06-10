@@ -19,9 +19,8 @@ const HoaDonRX = function(hoadonrx){
     this.updated_at = hoadonrx.updated_at;
 };
 
-
 //======================= GIAO DIEN ADMIN ======================= 
-// Tạo đơn rửa xe
+// Tạo đơn rửa xe bên phía admin.
 HoaDonRX.create = (newhoadonrx, result) => {
     sql.query("INSERT INTO hoadonrx SET ?", newhoadonrx, (err, res) => {
         if (err) {
@@ -34,7 +33,7 @@ HoaDonRX.create = (newhoadonrx, result) => {
     });
 };
 
-// Hiển thị hóa đơn rửa xe bên phía admin
+// Hiển thị hóa đơn rửa xe bên phía admin.
 HoaDonRX.getAllAD = (result) => {
     let query = `SELECT * FROM hoadonrx `;
   
@@ -49,7 +48,7 @@ HoaDonRX.getAllAD = (result) => {
     });
 };
 
-// Tìm kiếm 1 hóa đơn bằng mã đơn hàng
+// Tìm kiếm 1 hóa đơn bằng mã đơn hàng.
 HoaDonRX.findBymahdrx = (mahdrx, result) => { 
     sql.query(`SELECT * FROM hoadonrx WHERE mahdrx = '${mahdrx}'`, (err, res) => {
         
@@ -68,27 +67,7 @@ HoaDonRX.findBymahdrx = (mahdrx, result) => {
     });
 };
 
-HoaDonRX.updateHuy = (mahdrx, result) => {
-    sql.query(
-        "UPDATE hoadonrx SET matt = ?, updated_at = ?  WHERE mahdrx = ?",
-        [ 3, new Date(), mahdrx],
-        (err, res) => {
-            if (err) {
-                console.log("error: ", err);
-                result(null, err);
-                return;
-            }
-            if (res.affectedRows == 0) {
-                // not found hoadonrx with the mahdrx
-                result({ kind: "not_found" }, null);
-                return;
-            }
-            console.log("updated hoadonrx: ", { mahdrx: mahdrx });
-            result(null, { mahdrx: mahdrx });
-        }
-    );
-};
-
+// Cập nhật đơn đặt lịch bằng mã hóa đơn đặt lịch.
 HoaDonRX.updateBymahdrx = (mahdrx, hoadonrx, result) => {
     sql.query(
         "UPDATE hoadonrx SET tennguoirua = ?, ngayrua = ?, magio = ? , sodt = ? , diachi = ? , ghichu = ? , tongtienrx = ? , thanhtoan = ?, ptthanhtoan = ? , malx = ? , matt = ? , manv = ?, updated_at = ?  WHERE mahdrx = ?",
@@ -110,6 +89,7 @@ HoaDonRX.updateBymahdrx = (mahdrx, hoadonrx, result) => {
     );
 };
 
+// Xóa bỏ đơn đặt lịch.
 HoaDonRX.remove = (mahdrx, result) => {
     sql.query("DELETE FROM hoadonrx WHERE mahdrx = ?", mahdrx, (err, res) => {
         if (err) {
@@ -191,14 +171,11 @@ HoaDonRX.thongkeTT = (result) => {
     let querytt3 = `SELECT COUNT(*) AS SoLuongHoaDon FROM hoadonrx WHERE (created_at >= DATE_SUB(NOW(), INTERVAL 7 DAY)) AND (matt = 3);`;
     let querytt4 = `SELECT COUNT(*) AS SoLuongHoaDon FROM hoadonrx WHERE (created_at >= DATE_SUB(NOW(), INTERVAL 7 DAY)) AND (matt = 4);`;
   
-
     sql.query(querytt1, (err, tt1) => {
        sql.query(querytt2, (err, tt2) => {
         sql.query(querytt3, (err, tt3) => {
             sql.query(querytt4, (err, tt4) => {
-          
-                    result(null, tt1, tt2, tt3, tt4);
-             
+                result(null, tt1, tt2, tt3, tt4);
             });
         });
        });
@@ -245,7 +222,7 @@ HoaDonRX.doanhThuTC = (ngaybatdau, ngayketthuc, thanhtoan, trangthai, result) =>
     });
 };
 
-// Thống kê doanh thu co dinh theo thang.
+// Thống kê doanh thu cố địnhtheo thang.
 HoaDonRX.doanhThuCDT = (thanhtoan, trangthai, result) => {
 
     const queryhrdx = `SELECT MONTH(created_at) as month_number, SUM(tongtienrx) as tongtienrx FROM hoadonrx WHERE YEAR(created_at) = YEAR(NOW()) AND thanhtoan = ${thanhtoan} AND matt =  ${trangthai} GROUP BY MONTH(created_at);`
@@ -271,7 +248,7 @@ HoaDonRX.doanhThuCDT = (thanhtoan, trangthai, result) => {
     });
 };
 
-// Thống kê doanh thu co dinh theo thang.
+// Thống kê doanh thu cố định theo tuần.
 HoaDonRX.doanhThuCDTuan = (thanhtoan, trangthai, result) => {
 
     const queryhrdx = `SELECT WEEK(created_at) as week_number, SUM(tongtienrx) as tongtienrx FROM hoadonrx WHERE YEAR(created_at) = YEAR(NOW()) AND MONTH(created_at) = MONTH(NOW()) AND thanhtoan = ${thanhtoan} AND matt =  ${trangthai} GROUP BY WEEK(created_at) HAVING week_number >= WEEK(NOW()) - 3;`
@@ -298,7 +275,7 @@ HoaDonRX.doanhThuCDTuan = (thanhtoan, trangthai, result) => {
 };
 
 //======================= GIAO DIEN KHÁCH HÀNG ======================= 
-// Hiển thị hóa đơn rửa xe bên phía khách hàng
+// Hiển thị hóa đơn rửa xe bên phía khách hàng.
 HoaDonRX.getAll = (mahdrx, makh,  limit, offset, result) => {
     let query = `SELECT * FROM hoadonrx WHERE makh = ${makh} and matt != 4  ORDER BY updated_at DESC LIMIT ${limit} OFFSET ${offset}`;
     
@@ -332,6 +309,7 @@ HoaDonRX.checkToDay = (makh, result) => {
     });
 };
 
+// Cập nhật thanh toán hóa đơn rửa xe.
 HoaDonRX.updateThanhToan = (mahdrx, result) => {
     sql.query(
         "UPDATE hoadonrx SET thanhtoan = ? WHERE mahdrx = ?",
@@ -351,7 +329,7 @@ HoaDonRX.updateThanhToan = (mahdrx, result) => {
     );
 };
 
-// hiển thị lịch sử hóa đơn rửa xe bên phía khách hàng
+// hiển thị lịch sử hóa đơn rửa xe bên phía khách hàng.
 HoaDonRX.getLSAll = (mahdrx, makh,limit, offset, result) => {
     let query = `SELECT * FROM hoadonrx WHERE makh = ${makh} and matt = 4 and thanhtoan = 2 ORDER BY updated_at DESC LIMIT ${limit} OFFSET ${offset}`;
 
@@ -368,6 +346,28 @@ HoaDonRX.getLSAll = (mahdrx, makh,limit, offset, result) => {
         console.log("hoadonrx: ", res);
         result(null, res);
     });
+};
+
+// Khách hàng chọn hủy đơn rửa xe (<30p).
+HoaDonRX.updateHuy = (mahdrx, result) => {
+    sql.query(
+        "UPDATE hoadonrx SET matt = ?, updated_at = ?  WHERE mahdrx = ?",
+        [ 3, new Date(), mahdrx],
+        (err, res) => {
+            if (err) {
+                console.log("error: ", err);
+                result(null, err);
+                return;
+            }
+            if (res.affectedRows == 0) {
+                // not found hoadonrx with the mahdrx
+                result({ kind: "not_found" }, null);
+                return;
+            }
+            console.log("updated hoadonrx: ", { mahdrx: mahdrx });
+            result(null, { mahdrx: mahdrx });
+        }
+    );
 };
 
 module.exports = HoaDonRX;

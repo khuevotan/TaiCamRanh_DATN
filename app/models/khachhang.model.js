@@ -103,10 +103,10 @@ KhachHang.getAll = (result) => {
 
 
 // Update thông tin bên phía nhân viên.
-KhachHang.updateBymakhphiadmin = (makh, khachhang, result) => {
+KhachHang.updateTTByAdmin = (makh, khachhang, result) => {
     sql.query(
-        "UPDATE khachhang SET taikhoan =?, hokh = ?, tenkh = ?, ngaysinh = ?, sodt = ?, diachi = ? , email = ?, gioitinh = ?, kichhoat = ?, updated_at = ? WHERE makh = ?",
-        [khachhang.taikhoan, khachhang.hokh , khachhang.tenkh, khachhang.ngaysinh , khachhang.sodt, khachhang.diachi, khachhang.email, khachhang.gioitinh , khachhang.kichhoat, new Date(), makh],
+        "UPDATE khachhang SET taikhoan =?, hokh = ?, tenkh = ?, ngaysinh = ?, sodt = ?, diachi = ?, gioitinh = ?, kichhoat = ?, updated_at = ? WHERE makh = ?",
+        [khachhang.taikhoan, khachhang.hokh , khachhang.tenkh, khachhang.ngaysinh , khachhang.sodt, khachhang.diachi,  khachhang.gioitinh , khachhang.kichhoat, new Date(), makh],
         (err, res) => {
             if (err) {
                 console.log("error: ", err);

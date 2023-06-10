@@ -9,18 +9,6 @@ const ThamSo = function(thamso){
     this.updated_at = thamso.updated_at;
 };
 
-ThamSo.create = (newthamso, result) => {
-    sql.query("INSERT INTO thamso SET ?", newthamso, (err, res) => {
-        if (err) {
-            console.log("error: ", err);
-            result(err, null);
-            return;
-        }
-        console.log("created thamso: ", { mats: res.insertmats, ...newthamso });
-        result(null, { mats: res.insertmats, ...newthamso });
-    });
-};
-
 ThamSo.findBymats = (mats, result) => {
     sql.query(`SELECT * from thamso WHERE mats = '${mats}'`, (err, res) => {
         if (err) {
@@ -49,7 +37,7 @@ ThamSo.getAll = (result) => {
     });
 };
 
-ThamSo.updateBymats = (mats, thamso, result) => {
+ThamSo.updateByMaTS = (mats, thamso, result) => {
     sql.query(
         "UPDATE thamso SET tents = ?, giatri = ?, chuthich = ?, updated_at = ? WHERE mats = ?",
         [thamso.tents, thamso.giatri , thamso.chuthich ,new Date(), mats],

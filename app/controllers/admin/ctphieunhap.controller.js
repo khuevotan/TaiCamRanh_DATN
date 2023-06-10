@@ -2,7 +2,7 @@ const CTPhieuNhap = require("../../models/CTPhieuNhap.model");
 const PhieuNhap = require("../../models/PhieuNhap.model");
 const SanPham = require("../../models/SanPham.model");
 
-// Cập nhật số lượng, giá tiền sản phẩm trong hoàn tất phiếu nhập
+// Cập nhật số lượng, giá tiền sản phẩm trong hoàn tất phiếu nhập.
 exports.update = (req, res) => {
 
     if (!req.body) {
@@ -10,8 +10,6 @@ exports.update = (req, res) => {
     }
 
     let giaNhapNumber = parseInt(req.body.gianhap.replace(/,/g, ''));
-
-   
 
     // Tạo một ct hóa đơn
     const ctphieunhap = new CTPhieuNhap({
@@ -59,23 +57,20 @@ exports.update = (req, res) => {
                                         res.redirect('/admin/500');
                                     }
                                 } else {
-
-                                   
-                                  
-
-                                        SanPham.updateTSL(req.params.masp, req.body.soluongnhapcu, (err, data) => {
-                                            if (err)
-                                                res.redirect('/admin/500')
-                                            else {
-                                                SanPham.updateSL(req.params.masp, req.body.soluongnhap, (err, data) => {
-                                                    if (err)
-                                                        res.redirect('/admin/500')
-                                                    else {
-                                                        res.redirect('/admin/phieunhap/editsp/' + req.params.mapn + '?status=successSP');
-                                                    }
-                                                });
-                                            }
-                                        });
+                            
+                                    SanPham.updateTSL(req.params.masp, req.body.soluongnhapcu, (err, data) => {
+                                        if (err)
+                                            res.redirect('/admin/500')
+                                        else {
+                                            SanPham.updateSL(req.params.masp, req.body.soluongnhap, (err, data) => {
+                                                if (err)
+                                                    res.redirect('/admin/500')
+                                                else {
+                                                    res.redirect('/admin/phieunhap/editsp/' + req.params.mapn + '?status=successSP');
+                                                }
+                                            });
+                                        }
+                                    });
                                 }
                             }
                         );
@@ -141,7 +136,6 @@ exports.updateEdit = (req, res) => {
                                         res.redirect('/admin/500');
                                     }
                                 } else {
-
                                     res.redirect('/admin/phieunhap/edit/' + req.params.mapn + '?status=successSP');
                                 }
                             }
@@ -175,7 +169,7 @@ exports.delete = (req, res) => {
             
                         CTPhieuNhap.findBymapn(req.params.mapn, (err, cthd) => {
                             if (err)
-                                res.redirect('/500')
+                                res.redirect('/admin/500')
                             else {
                               
                                 var gianhap = cthd.map(item => item.gianhap);
@@ -197,7 +191,6 @@ exports.delete = (req, res) => {
                                         } else res.redirect('/admin/phieunhap/edit/' + req.params.mapn + '?status=successSP');
                                     }
                                 );
-            
                             }
                         });
                     }

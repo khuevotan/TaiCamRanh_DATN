@@ -55,7 +55,7 @@ module.exports = app => {
     router.get("/edit/:makh", authMiddQL.loggedinadql, khachhang.edit);
 
     // đổi email
-    router.put("/doiemail/:manv", authMiddQL.loggedinadql, khachhang.changeEmail);
+    router.put("/doiemail/:makh", authMiddQL.loggedinadql, khachhang.changeEmail);
 
     // Lưu khách hàng khi nhấn nút update
     router.put("/:makh", authMiddQL.loggedinadql, khachhang.update);

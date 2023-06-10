@@ -7,7 +7,6 @@ const moment = require('moment');
 const bcrypt = require('bcrypt');
 require('dotenv/config');
 
-
 // Trang cá nhân của nhân viên.
 exports.trangCaNhan = (req, res) => {
     res.locals.nhanvien = req.session.nhanvien
@@ -245,7 +244,6 @@ exports.changeEmailTT = (req, res) => {
   
 };
 
-
 // Upload fle ảnh
 exports.uploadFile = (req, res) => {
     const file = req.file
@@ -298,8 +296,7 @@ exports.xacthuctaikhoan = (req, res) => {
 
 // Hiển thị form để gửi mail.
 exports.soanMail = (req, res) => {
-    res.render('soanmail.ejs',{layout: './master2'});
-    
+    res.render('soanmail.ejs',{layout: './master2'});  
 }
 
 // Nhấn nút gửi mail.
@@ -315,7 +312,7 @@ exports.guiMail = (req, res) => {
     var message = req.body.message;
 
     mailer.sendMail(to, subject, message);
-   
+    
     res.redirect('/admin/soanmail?status=success');
 }
 

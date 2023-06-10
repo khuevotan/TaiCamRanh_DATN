@@ -1,4 +1,3 @@
-
 // khong vo dc trang home (chua dang nhap)
 exports.loggedinad = (req, res, next) => {
     if (req.session.loggedin) {

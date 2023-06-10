@@ -45,21 +45,21 @@ exports.chonNgay = (req, res) => {
 
 // Hiển thị ra màn hình đặt lịch bên phía admin
 exports.showDLForm = (req, res) => {
-   
+
     res.locals.status = req.query.status;
     const ngayrua = req.params.ngayrua;
 
     LoaiXe.getAll((err, data) => {
         if (err)
-            res.redirect('/500')
+            res.redirect('/admin/500')
         else {
             ThamSo.findBymats(1, (err, MAX_ĐL) => {
                 if (err)
-                    res.redirect('/500')
+                    res.redirect('/admin/500')
                 else {
                     Gio.getAllKH(ngayrua, MAX_ĐL.giatri, (err, gio) => {
                         if (err)
-                            res.redirect('/500')
+                            res.redirect('/admin/500')
                         else {
 
                             var giaTriDau = data[0].gia;
@@ -128,19 +128,19 @@ exports.findAll = (req, res) => {
 
     HoaDonRX.getAllAD((err, data) => {
         if (err)
-            res.redirect('/500')
+            res.redirect('/admin/500')
         else {
             LoaiXe.getAll((err, loaixe) => {
                 if (err)
-                    res.redirect('/500')
+                    res.redirect('/admin/500')
                 else {
                     Gio.getAll((err, gio) => {
                         if (err)
-                            res.redirect('/500')
+                            res.redirect('/admin/500')
                         else {
                             TrangThai.getAll((err, trangthai) => {
                                 if (err)
-                                    res.redirect('/500')
+                                    res.redirect('/admin/500')
                                 else {
                                     res.render('hoadonrx/indexhdr', {
                                         hoadonrx: data,
@@ -162,49 +162,49 @@ exports.findAll = (req, res) => {
 // Chỉnh sửa thông tin một hóa đơn đặt lịch.
 exports.edit = (req, res) => {
     res.locals.status = req.query.status;
-  
-    var ngayruatd = ''; 
+
+    var ngayruatd = '';
 
     HoaDonRX.findBymahdrx(req.params.mahdrx, (err, data) => {
         if (err) {
             if (err.kind === "not_found") {
-                res.redirect('/404');
+                res.redirect('/admin/404');
             } else {
-                res.redirect('/500');
+                res.redirect('/admin/500');
             }
         } else {
 
             LoaiXe.getAll((err, loaixe) => {
                 if (err)
-                    res.redirect('/500')
+                    res.redirect('/admin/500')
                 else {
 
                     ThamSo.findBymats(1, (err, MAX_ĐL) => {
                         if (err)
-                            res.redirect('/500')
+                            res.redirect('/admin/500')
                         else {
-        
-                            if(req.body.ngayruatd ){
+
+                            if (req.body.ngayruatd) {
                                 var ngayruatd = req.body.ngayruatd;
-                                console.log(ngayruatd);
-                            }else{
+
+                            } else {
                                 var ngayruatd = data.ngayrua;
-                                console.log(ngayruatd);
+
                             }
 
                             Gio.getAllKH(ngayruatd, MAX_ĐL.giatri, (err, gio) => {
 
                                 if (err)
-                                    res.redirect('/500')
+                                    res.redirect('/admin/500')
                                 else {
                                     TrangThai.getAll((err, trangthai) => {
                                         if (err)
-                                            res.redirect('/500')
+                                            res.redirect('/admin/500')
                                         else {
                                             res.render('hoadonrx/edithdr', {
                                                 hoadonrx: data,
                                                 loaixe: loaixe,
-                                                ngayruatd : ngayruatd,
+                                                ngayruatd: ngayruatd,
                                                 gio: gio,
                                                 trangthai: trangthai,
                                                 layout: './master2'
@@ -223,7 +223,7 @@ exports.edit = (req, res) => {
 
 // Cập nhật thông tin một hóa đơn đặt lịch.
 exports.update = (req, res) => {
-    
+
     // Validate Request
     if (!req.body) {
         res.redirect('/admin/hoadonrx/edit/' + req.params.mahdrx + '?status=error')
@@ -233,7 +233,7 @@ exports.update = (req, res) => {
     const manv = res.locals.nhanvien.manv;
 
     LoaiXe.findBymalx(req.body.malx, (err, dataxe) => {
-        
+
         const hoadonrx = new HoaDonRX({
             tennguoirua: req.body.tennguoirua,
             ngayrua: req.body.ngayrua,
@@ -263,10 +263,7 @@ exports.update = (req, res) => {
             }
         );
     });
-
-    
 };
-
 
 // Thay đổi ngày rửa.
 exports.editdoingay = (req, res) => {
@@ -281,56 +278,58 @@ exports.editdoingay = (req, res) => {
     const dateString2 = currentDate.toDateString();
 
     // So sánh chuỗi ngày tháng năm
-    if((chonDate < currentDate) && (dateString1 !== dateString2)){
-        
+    if ((chonDate < currentDate) && (dateString1 !== dateString2)) {
+
         res.redirect('/admin/hoadonrx/edit/' + req.params.mahdrx + '?status=loingayqk');
 
-    }else{
-        if((dateString1 === dateString2) ||  (chonDate > currentDate)){
+    } else {
+        if ((dateString1 === dateString2) || (chonDate > currentDate)) {
 
-    HoaDonRX.findBymahdrx(req.params.mahdrx, (err, data) => {
-        if (err) {
-            if (err.kind === "not_found") {
-                res.redirect('/404');
-            } else {
-                res.redirect('/500');
-            }
-        } else {
+            HoaDonRX.findBymahdrx(req.params.mahdrx, (err, data) => {
+                if (err) {
+                    if (err.kind === "not_found") {
+                        res.redirect('/admin/404');
+                    } else {
+                        res.redirect('/admin/500');
+                    }
+                } else {
 
-            LoaiXe.getAll((err, loaixe) => {
-                if (err)
-                    res.redirect('/500')
-                else {
-
-                    ThamSo.findBymats(1, (err, MAX_ĐL) => {
+                    LoaiXe.getAll((err, loaixe) => {
                         if (err)
-                            res.redirect('/500')
+                            res.redirect('/admin/500')
                         else {
-        
-                            if(req.body.ngayruatd ){
-                                var ngayruatd = req.body.ngayruatd;
-                                console.log(ngayruatd);
-                            }else{
-                                var ngayruatd = data.ngayrua;
-                                console.log(ngayruatd);
-                            }
 
-                            Gio.getAllKH(ngayruatd, MAX_ĐL.giatri, (err, gio) => {
-
+                            ThamSo.findBymats(1, (err, MAX_ĐL) => {
                                 if (err)
-                                    res.redirect('/500')
+                                    res.redirect('/admin/500')
                                 else {
-                                    TrangThai.getAll((err, trangthai) => {
+
+                                    if (req.body.ngayruatd) {
+                                        var ngayruatd = req.body.ngayruatd;
+
+                                    } else {
+                                        var ngayruatd = data.ngayrua;
+
+                                    }
+
+                                    Gio.getAllKH(ngayruatd, MAX_ĐL.giatri, (err, gio) => {
+
                                         if (err)
-                                            res.redirect('/500')
+                                            res.redirect('/admin/500')
                                         else {
-                                            res.render('hoadonrx/edithdr', {
-                                                hoadonrx: data,
-                                                ngayruatd : ngayruatd,
-                                                loaixe: loaixe,
-                                                gio: gio,
-                                                trangthai: trangthai,
-                                                layout: './master2'
+                                            TrangThai.getAll((err, trangthai) => {
+                                                if (err)
+                                                    res.redirect('/admin/500')
+                                                else {
+                                                    res.render('hoadonrx/edithdr', {
+                                                        hoadonrx: data,
+                                                        ngayruatd: ngayruatd,
+                                                        loaixe: loaixe,
+                                                        gio: gio,
+                                                        trangthai: trangthai,
+                                                        layout: './master2'
+                                                    });
+                                                }
                                             });
                                         }
                                     });
@@ -338,24 +337,20 @@ exports.editdoingay = (req, res) => {
                             });
                         }
                     });
-
                 }
             });
         }
-    });
-        }
-    }  
+    }
 };
-
 
 // Xóa lịch.
 exports.delete = (req, res) => {
     HoaDonRX.remove(req.params.mahdrx, (err, data) => {
         if (err) {
             if (err.kind === "not_found") {
-                res.redirect('/404');
+                res.redirect('/admin/404');
             } else {
-                res.redirect('/500');
+                res.redirect('/admin/500');
             }
         } else res.redirect('/admin/hoadonrx/index?deleted=true')
     });
@@ -368,24 +363,24 @@ exports.details = (req, res) => {
     HoaDonRX.findBymahdrx(req.params.mahdrx, (err, data) => {
         if (err) {
             if (err.kind === "not_found") {
-                res.redirect('/404');
+                res.redirect('/admin/404');
             } else {
-                res.redirect('/500');
+                res.redirect('/admin/500');
             }
         } else {
 
             LoaiXe.findBymalx(data.malx, (err, loaixe) => {
                 if (err)
-                    res.redirect('/500')
+                    res.redirect('/admin/500')
                 else {
 
                     Gio.findBymagio(data.magio, (err, gio) => {
                         if (err)
-                            res.redirect('/500')
+                            res.redirect('/admin/500')
                         else {
                             TrangThai.findBymatt(data.matt, (err, trangthai) => {
                                 if (err)
-                                    res.redirect('/500')
+                                    res.redirect('/admin/500')
                                 else {
                                     res.render('hoadonrx/detailshdr', {
                                         hoadonrx: data,
@@ -408,7 +403,6 @@ exports.details = (req, res) => {
 
 // Hiển thị hóa đơn đặt lịch bên phía khach hàng.
 exports.findAllKH = (req, res) => {
-    
 
     res.locals.khachhang = req.session.khachhang
     const makh = res.locals.khachhang.makh;
@@ -420,7 +414,7 @@ exports.findAllKH = (req, res) => {
     res.locals.deleted = req.query.deleted;
     const mahdrx = req.query.mahdrx;
 
-    HoaDonRX.getAll(mahdrx ,makh, limit, offset,(err, data) => {
+    HoaDonRX.getAll(mahdrx, makh, limit, offset, (err, data) => {
         if (err)
             res.redirect('/500')
         else {
@@ -448,10 +442,10 @@ exports.findAllKH = (req, res) => {
 // Hiển thị hóa đơn lịch sử đặt lịch bên phía khách hàng.
 exports.findAllKHLS = (req, res) => {
     res.locals.deleted = req.query.deleted;
-  
+
     res.locals.khachhang = req.session.khachhang
     const makh = res.locals.khachhang.makh;
-    
+
     const mahdrx = req.query.mahdrx;
 
     const page = parseInt(req.query.page) || 1;
@@ -459,7 +453,7 @@ exports.findAllKHLS = (req, res) => {
     const offset = (page - 1) * limit;
 
 
-    HoaDonRX.getLSAll(mahdrx, makh, limit, offset,(err, data) => {
+    HoaDonRX.getLSAll(mahdrx, makh, limit, offset, (err, data) => {
         if (err)
             res.redirect('/500')
         else {
@@ -474,7 +468,7 @@ exports.findAllKHLS = (req, res) => {
                         limit,
                         layout: './master'
                     });
-            
+
                 }
             });
         }
@@ -483,7 +477,7 @@ exports.findAllKHLS = (req, res) => {
 
 // Hủy đơn đặt lịch trong 30p đầu tiên.
 exports.huyDonDL = (req, res) => {
-    
+
     HoaDonRX.updateHuy(
         req.params.mahdrx,
         (err, data) => {
@@ -501,7 +495,7 @@ exports.huyDonDL = (req, res) => {
 // Hiển thị chi tiết 1 đơn đặt lịch hẹn bên phía khách hàng.
 exports.chitietdatlich = (req, res) => {
     res.locals.status = req.query.status;
- 
+
     HoaDonRX.findBymahdrx(req.params.mahdrx, (err, data) => {
         if (err) {
             if (err.kind === "not_found") {

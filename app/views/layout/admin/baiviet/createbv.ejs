@@ -1,78 +1,77 @@
+<title>Thêm Bài Viết</title>
+
 <div class="page-content fade-in-up">
-                    <% if (typeof status !== 'undefined') { %>
-                        <%if (status == 'success') { %>
+    <% if (typeof status !== 'undefined') { %>
+    <%if (status == 'success') { %>
 
-                            <div class="ibox ibox-success">
-                                <div class="ibox-head">
-                                    <div class="ibox-title">   
-                                        <div style="color: rgb(255, 255, 255);">
-                                            Tạo Thành Công!
-                                        </div>
-                                    </div>
+    <div class="ibox ibox-success">
+        <div class="ibox-head">
+            <div class="ibox-title">
+                <div style="color: rgb(255, 255, 255);">
+                    Tạo Thành Công!
+                </div>
+            </div>
 
-                                   
-                        <% } else { %>
+            <% } else { %>
 
-                            <div class=" ibox ibox-danger">
-                                <div class="ibox-head">
-                                    <div class="ibox-title">   
-                                        <div style="color: rgb(255, 255, 255);">
-                                            Đã xảy ra lỗi khi tạo Bài Viết!
-                                        </div>
-                                    </div>
+            <div class=" ibox ibox-danger">
+                <div class="ibox-head">
+                    <div class="ibox-title">
+                        <div style="color: rgb(255, 255, 255);">
+                            Đã xảy ra lỗi khi tạo Bài Viết!
+                        </div>
+                    </div>
 
-                          
-                        <% } %>
-                   
-                  <% } else { %>
+
+                    <% } %>
+
+                    <% } else { %>
 
                     <div class="ibox ibox-info">
                         <div class="ibox-head">
-                            <div class="ibox-title">   
+                            <div class="ibox-title">
                                 <div style="color: rgb(255, 255, 255);">
                                     Tạo Bài Viết Mới
                                 </div>
                             </div>
-                    <% } %>
-            
-                <div class="ibox-tools">
-                    <a class="ibox-collapse"><i class="fa fa-minus"></i></a>
-                </div>
-              
-            </div>
-            <div class="ibox-body">
-                <form action="/admin/baiviet/" 
-                class="form-horizontal"  
-                id="form-sample-1" 
-                method="post" 
-                enctype="multipart/form-data"
-                onSubmit="return confirm('Bạn có chắc chắn muốn thêm mới?') ">
-                    <div class="form-group row">
-                        <label class="col-sm-2 col-form-label">Tên Bài Viết</label>
-                        <div class="col-sm-10">
-                            <input class="form-control" type="text" name="tenbv" >
+                            <% } %>
+
+                            <div class="ibox-tools">
+                                <a class="ibox-collapse"><i class="fa fa-minus"></i></a>
+                            </div>
+
                         </div>
-                        
-                    </div>
-                    <div class="form-group row">
-                        <label class="col-sm-2 col-form-label">Mô Tả Ngắn</label>
-                        <div class="col-sm-10">
-                       
-                            <textarea class="form-control" rows="3" name="motangan"></textarea>
-                        </div>
-                        
-                    </div>
-                    <div class="form-group row">
-                        <label class="col-sm-2 col-form-label">Hình Đại Diện (300px x 815px)</label>
-                        <div class="col-sm-10">
-                            <input class="form-control" type="file" name="hinhdd" accept="image/*">
-                        </div>
-                    </div>
-                    <div class="form-group row">
-                        <label class="col-sm-2 col-form-label">Nội Dung</label>
-                        <div class="col-sm-10">
-                      
-                            <textarea id="summernote" data-plugin="summernote" data-air-mode="true" name="noidung">
+                        <div class="ibox-body">
+                            <form action="/admin/baiviet/" class="form-horizontal" id="form-sample-1" method="post"
+                                enctype="multipart/form-data"
+                                onSubmit="return confirm('Bạn có chắc chắn muốn thêm mới?') ">
+                                <div class="form-group row">
+                                    <label class="col-sm-2 col-form-label">Tên Bài Viết</label>
+                                    <div class="col-sm-10">
+                                        <input class="form-control" type="text" name="tenbv">
+                                    </div>
+
+                                </div>
+                                <div class="form-group row">
+                                    <label class="col-sm-2 col-form-label">Mô Tả Ngắn</label>
+                                    <div class="col-sm-10">
+
+                                        <textarea class="form-control" rows="3" name="motangan"></textarea>
+                                    </div>
+
+                                </div>
+                                <div class="form-group row">
+                                    <label class="col-sm-2 col-form-label">Hình Đại Diện (300px x 815px)</label>
+                                    <div class="col-sm-10">
+                                        <input class="form-control" type="file" name="hinhdd" accept="image/*">
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label class="col-sm-2 col-form-label">Nội Dung</label>
+                                    <div class="col-sm-10">
+
+                                        <textarea id="summernote" data-plugin="summernote" data-air-mode="true"
+                                            name="noidung">
                                 <h4>Tiêu đề 1</h4> 
                                 .
                                 <h4>Tiêu đề 2</h4>
@@ -86,26 +85,28 @@
                                  .
                             </textarea>
 
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <div class="col-sm-10 ml-sm-auto">
+                                        <button class="btn btn-info  btn-rounded" type="submit">Thêm Mới</button>
+                                        <a href="/admin/baiviet/index" class="btn btn-info btn-rounded">Xem Danh
+                                            Sách</a>
+
+                                    </div>
+                                </div>
+                            </form>
                         </div>
                     </div>
-                    <div class="form-group row">
-                        <div class="col-sm-10 ml-sm-auto">
-                            <button class="btn btn-info  btn-rounded" type="submit">Thêm Mới</button>
-                            <a href="/admin/baiviet/index" class="btn btn-info btn-rounded">Xem Danh Sách</a>
-                    
-                        </div>
-                    </div>
-                </form>
-            </div>
-        </div>
-        <div>
-   
-        </div>
+                    <div>
+
     </div>
+</div>
 
 <!-- Sử dụng cho jquery - validation -->
 <script src="/assets/vendors/jquery/dist/jquery.min.js" type="text/javascript"></script>
-<script src="/assets/vendors/jquery-validation/dist/jquery.validate.min.js" type="text/javascript"></script>
+<script src="/assets/vendors/jquery-validation/dist/jquery.validate.min.js" type="text/javascript">
+</script>
 <script type="text/javascript">
     $("#form-sample-1").validate({
         rules: {
@@ -126,10 +127,10 @@
             }
         },
         errorClass: "help-block error",
-        highlight: function(e) {
+        highlight: function (e) {
             $(e).closest(".form-group.row").addClass("has-error")
         },
-        unhighlight: function(e) {
+        unhighlight: function (e) {
             $(e).closest(".form-group.row").removeClass("has-error")
         },
     });

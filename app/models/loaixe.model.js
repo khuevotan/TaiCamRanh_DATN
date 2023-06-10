@@ -96,5 +96,4 @@ LoaiXe.remove = (malx, result) => {
     );
 };
 
-
 module.exports = LoaiXe;

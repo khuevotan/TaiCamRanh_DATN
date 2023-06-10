@@ -94,6 +94,7 @@ PhiShip.updateFastByMaPS  = (maps , phiship, result) => {
     );
 };
 
+// Xóa phí ship.
 PhiShip.remove = (maps, result) => {
 
     sql.query("DELETE FROM phiship WHERE maps = ?",[maps] , (err, res) => {

@@ -18,7 +18,6 @@ const HoaDon = function(hoadon){
     this.updated_at = hoadon.updated_at;
 };
 
-
 //======================= GIAO DIEN ADMIN ======================= 
 // Hiển thị hóa đơn đặt hàng bên phía admin.
 HoaDon.getAllAD = (result) => {
@@ -35,20 +34,7 @@ HoaDon.getAllAD = (result) => {
     });
 };
 
-// Tạo đơn đặt hàng
-HoaDon.create = (newhoadon, result) => {
-    sql.query("INSERT INTO hoadon SET ?", newhoadon, (err, res) => {
-        if (err) {
-            console.log("error: ", err);
-            result(err, null);
-            return;
-        }
-        console.log("created hoadon: ", {  ...newhoadon });
-        result(null, { ...newhoadon });
-    });
-};
-
-//tìm kiếm 1 hóa đơn bằng mã đơn hàng
+// Tìm kiếm 1 hóa đơn bằng mã đơn hàng.
 HoaDon.findBymahd  = (mahd , result) => { 
     sql.query(`SELECT * FROM hoadon WHERE mahd  = '${mahd }'`, (err, res) => {
         
@@ -67,6 +53,7 @@ HoaDon.findBymahd  = (mahd , result) => {
     });
 };
 
+// Cập nhật hóa đơn bằng mã hóa đơn.
 HoaDon.updateBymahd  = (mahd , hoadon, result) => {
     sql.query(
         "UPDATE hoadon SET tennguoinhan = ? , sodt = ?, diachi = ? , ghichu = ? , ptthanhtoan = ?,  tongtienhd = ? ,manv = ?, updated_at = ?  WHERE mahd  = ?",
@@ -87,7 +74,6 @@ HoaDon.updateBymahd  = (mahd , hoadon, result) => {
         }
     );
 };
-
 
 // Update Fast
 HoaDon.updateFastByMaHD  = (mahd , hoadon, result) => {
@@ -111,7 +97,7 @@ HoaDon.updateFastByMaHD  = (mahd , hoadon, result) => {
     );
 };
 
-
+// Xóa hóa đơn.
 HoaDon.remove = (mahd , result) => {
     sql.query("DELETE FROM hoadon WHERE mahd  = ?", mahd , (err, res) => {
         if (err) {
@@ -128,7 +114,6 @@ HoaDon.remove = (mahd , result) => {
         result(null, res);
     });
 };
-
 
 //======================= THỐNG KÊ ======================= 
 // Thống kê đơn giản khi admin đăng nhập vào.
@@ -235,27 +220,20 @@ HoaDon.sanPhamBanChayTrongThang = (result) => {
   
 };
 
-
 //======================= GIAO DIEN KHÁCH HÀNG ======================= 
-HoaDon.updateThanhToan = (mahd , result) => {
-    sql.query(
-        "UPDATE hoadon SET thanhtoan = ? WHERE mahd  = ?",
-        ['2', mahd ],
-        (err, res) => {
-            if (err) {
-                console.log("error: ", err);
-                result(null, err);
-                return;
-            }
-            if (res.affectedRows == 0) {
-                result({ kind: "not_found" }, null);
-                return;
-            }
-            result(null, { mahd : mahd  });
-        }
-    );
-};
 
+// Tạo đơn đặt hàng
+HoaDon.create = (newhoadon, result) => {
+    sql.query("INSERT INTO hoadon SET ?", newhoadon, (err, res) => {
+        if (err) {
+            console.log("error: ", err);
+            result(err, null);
+            return;
+        }
+        console.log("created hoadon: ", {  ...newhoadon });
+        result(null, { ...newhoadon });
+    });
+};
 
 // Hiển thị lịch sử hóa đơn đặt hàng bên phía khách hàng
 HoaDon.getLSAll =  (mahd, makh,limit, offset, result) => {
@@ -313,7 +291,6 @@ HoaDon.checkToDay = (makh, result) => {
     });
 };
 
-
 // Hiển thị hóa đơn rửa xe bên phía khách hàng
 HoaDon.getAll = (mahd, makh,limit, offset, result) => {
 
@@ -334,7 +311,7 @@ HoaDon.getAll = (mahd, makh,limit, offset, result) => {
     });
 };
 
-
+// Cập nhật thanh toán đơn hàng bên phía khách hàng.
 HoaDon.updateThanhToan = (mahd, result) => {
     sql.query(
         "UPDATE hoadon SET thanhtoan = ? WHERE mahd = ?",
