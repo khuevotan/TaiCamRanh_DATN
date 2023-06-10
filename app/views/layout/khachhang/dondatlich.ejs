@@ -175,7 +175,7 @@ href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css" />
                             var diff = (now.getTime() - someDate.getTime()) / (1000 * 60); // Tính khoảng cách thời gian, chuyển đổi sang phút
                             
                             if ((diff <= 30) && (item.matt != 3)) { %>
-                                <div class="pull-right"><a href="/khachhang/huydonhang/<%= item.mahdrx %>"  onclick="return confirm('Bạn có chắc chăn muốn hủy không?')" class="genric-btn danger-border circle">Hủy Đơn Hàng</a></div>
+                                <div class="pull-right"><a href="/khachhang/huydonhang/<%= item.mahdrx %>"  onclick="return confirm('Bạn có chắc chăn muốn hủy không?')" class="genric-btn danger-border circle">Hủy Đơn</a></div>
 
                             <% } else { %>
                                 

@@ -104,3 +104,12 @@
 
 
 
+<script>
+    const url = window.location.href;
+    const status = url.slice(url.lastIndexOf('=') + 1);
+   
+    if (status == 'nonedelete'){
+		alert("Bạn không thể xóa tài khoản khách hàng này!");
+	}
+</script>
+

@@ -98,14 +98,14 @@ exports.details = (req, res) => {
     });
 };
 
-// Xóa giờ 
+// Xóa phí ship
 exports.delete = (req, res) => {
     PhiShip.remove(req.params.maps, (err, data) => {
         if (err) {
             if (err.kind === "not_found") {
-                res.redirect('/404');
+                res.redirect('/admin/404');
             } else {
-                res.redirect('/500');
+                res.redirect('/admin/500');
             }
         } else res.redirect('/admin/phiship/index?deleted=true')
     });

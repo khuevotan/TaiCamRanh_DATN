@@ -94,4 +94,23 @@ PhiShip.updateFastByMaPS  = (maps , phiship, result) => {
     );
 };
 
+PhiShip.remove = (maps, result) => {
+
+    sql.query("DELETE FROM phiship WHERE maps = ?",[maps] , (err, res) => {
+        if (err) {
+            console.log("error: ", err);
+            result(null, err);
+            return;
+        }
+        if (res.affectedRows == 0) {
+            // not found cthoadon with the mahd
+       
+            result({ kind: "not_found" }, null);
+            return;
+        }
+        console.log("deleted phiship with maps: ", maps);
+        result(null, res);
+    });
+};
+
 module.exports = PhiShip;

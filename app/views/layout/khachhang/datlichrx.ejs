@@ -15,21 +15,21 @@
                         <div class="row">
                             <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
                                 <div class="form-group mb-3">
-                                    <label for="tennguoirua"><b>Tên Người Rửa</b></label>
+                                    <label for="tennguoirua"><b>Tên Người Rửa</b> <b class="text-danger">(*)</b> </label>
                                     <input type="text" name="tennguoirua" maxlength="255" placeholder="Nhập họ tên" class="single-input"
                                         style="border: 1px solid #ccc;"
                                         <% if (typeof tennguoirua != "undefined" && tennguoirua) { %>
                                         value="<%= tennguoirua %>" <% } %> required>
                                 </div>
                                 <div class="form-group mb-3">
-                                    <label for="sdt"><b>Số Điện Thoại</b></label>
+                                    <label for="sdt"><b>Số Điện Thoại</b> <b class="text-danger">(*)</b></label>
                                     <input type="number" name="sodt" maxlength="15" placeholder="Nhập số điện thoại"
                                         class="single-input" style="border: 1px solid #ccc;"
                                         <% if (typeof sodt != "undefined" && sodt) { %> value="<%= sodt %>" <% } %>
                                         required>
                                 </div>
                                 <div class="form-group mb-3">
-                                    <label for="diachi"><b>Địa Chỉ</b></label>
+                                    <label for="diachi"><b>Địa Chỉ</b> <b class="text-danger">(*)</b></label>
                                     <input type="text" name="diachi" maxlength="255" placeholder="Nhập địa chỉ" class="single-input"
                                         style="border: 1px solid #ccc;"
                                         <% if (typeof diachi != "undefined" && diachi) { %> value="<%= diachi %>"
@@ -47,7 +47,7 @@
                             <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
 
                                 <div class="form-group mb-3 ">
-                                    <label for="malx"><b>Loại Xe</b></label>
+                                    <label for="malx"><b>Loại Xe</b> <b class="text-danger">(*)</b></label>
 
                                     <select class="form-select single-input" id="box1" name="malx"
                                         style="border: 1px solid #ccc;" onChange="myNewFunction(this);">
@@ -60,7 +60,7 @@
                                 </div>
 
                                 <div class="form-group mb-3">
-                                    <label for="ngayrua"><b>Ngày Rửa</b></label>
+                                    <label for="ngayrua"><b>Ngày Rửa</b><b class="text-danger">(*)</b></label>
                                     <div>
 
                                         <input type="date" name="ngayrua" placeholder="" class="single-input"
@@ -91,7 +91,7 @@
                                 </div>
 
                                 <div class="form-group mb-3">
-                                    <label for="ptthanhtoan"><b>Phương Thức Thanh Toán</b></label>
+                                    <label for="ptthanhtoan"><b>Phương Thức Thanh Toán </b><b class="text-danger">(*)</b></label>
                                     <div>
                                             <select class="form-select single-input"  name="ptthanhtoan"
                                             style="border: 1px solid #ccc;">      

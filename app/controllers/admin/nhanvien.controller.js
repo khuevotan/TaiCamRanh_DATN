@@ -327,7 +327,8 @@ exports.update = (req, res) => {
         res.redirect('/admin/nhanvien/edit/' + req.params.manv + '?status=error')
     }
 
-    let luongNumber = parseFloat(req.body.luong.replace(/,/g, ''));
+    if(req.params.manv != 1){
+        let luongNumber = parseFloat(req.body.luong.replace(/,/g, ''));
 
     const nhanvien = new NhanVien({
         honv: req.body.honv,
@@ -354,6 +355,11 @@ exports.update = (req, res) => {
             } else res.redirect('/admin/nhanvien/edit/' + req.params.manv + '?status=success');
         }
     );
+    }else{
+        res.redirect('/admin/nhanvien/edit/' + req.params.manv + '?status=khongthecapnhat');
+    }
+
+   
 };
 
 // Xem chi tiết thông tin một nhân viên

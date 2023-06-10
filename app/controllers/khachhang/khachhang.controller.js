@@ -223,15 +223,20 @@ exports.edit = (req, res) => {
 
 // Xóa một khách hàng bên phía admin
 exports.delete = (req, res) => {
-    Khachhang.remove(req.params.makh, (err, data) => {
-        if (err) {
-            if (err.kind === "not_found") {
-                res.redirect('/404');
-            } else {
-                res.redirect('/500');
-            }
-        } else res.redirect('/admin/khachhang/index?deleted=true')
-    });
+
+    if(req.params.makh != 1){
+        Khachhang.remove(req.params.makh, (err, data) => {
+            if (err) {
+                if (err.kind === "not_found") {
+                    res.redirect('/admin/404');
+                } else {
+                    res.redirect('/admin/500');
+                }
+            } else res.redirect('/admin/khachhang/index?deleted=true')
+        });
+    }else{
+        res.redirect('/admin/khachhang/index?deleted=nonedelete')
+    }
 };
 
 // Update mật khẩu bến phía admin
@@ -874,7 +879,7 @@ exports.datlich = (req, res) => {
 
                                     var to = email;
                                     var subject = "Xác nhận đặt lịch thành công";
-                                    var message = `CChúng tôi xin gửi thông báo đặt lịch thành công cho bạn. Dưới đây là thông tin chi tiết về đơn đặt lịch của bạn:'
+                                    var message = `Chúng tôi xin gửi thông báo đặt lịch thành công cho bạn. Dưới đây là thông tin chi tiết về đơn đặt lịch của bạn:'
                                     <br><br>Mã đơn hàng: ${mahdrx}
                                     <br>Ngày đặt hàng: ${currentDate}
                                     <br>Tên Người Rửa: ${req.body.tennguoirua}
