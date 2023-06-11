@@ -116,23 +116,23 @@ HoaDonRX.thongKeDG = (result) => {
     let query = `SELECT COUNT(*) FROM hoadonrx WHERE matt = 1`;
 
     // Doanh thu hóa đơn rửa xe ngày hôm nay.
-    let query2 = `SELECT SUM(tongtienrx) FROM hoadonrx WHERE DATE(created_at) = CURDATE()`;
+    let query2 = `SELECT IFNULL(SUM(tongtienrx), 0) as TongTienRXHN FROM hoadonrx WHERE DATE(created_at) = CURDATE()`;
 
-    let query2ago = `SELECT SUM(tongtienrx) as tongtienrx FROM hoadonrx WHERE DATE(created_at) = DATE(CURRENT_DATE - INTERVAL 1 DAY)`;
+    let query2ago = `SELECT IFNULL(SUM(tongtienrx), 0) as TongTienRXHQ FROM hoadonrx WHERE DATE(created_at) = DATE(CURRENT_DATE - INTERVAL 1 DAY)`;
 
     // Doanh thu hóa đơn rửa xe tháng này.
-    let query3 = `SELECT SUM(tongtienrx) FROM hoadonrx WHERE MONTH(created_at) = MONTH(CURDATE()) AND YEAR(created_at) = YEAR(CURDATE())`;
+    let query3 = `SELECT IFNULL(SUM(tongtienrx), 0) as TongTienRXTN FROM hoadonrx WHERE MONTH(created_at) = MONTH(CURDATE()) AND YEAR(created_at) = YEAR(CURDATE())`;
 
-    let query3ago = `SELECT SUM(tongtienrx) as tongtienrx FROM hoadonrx WHERE MONTH(created_at) = MONTH(CURRENT_DATE - INTERVAL 1 MONTH) AND YEAR(created_at) = YEAR(CURRENT_DATE)`;
+    let query3ago = `SELECT IFNULL(SUM(tongtienrx), 0) as TongTienRXTT FROM hoadonrx WHERE MONTH(created_at) = MONTH(CURRENT_DATE - INTERVAL 1 MONTH) AND YEAR(created_at) = YEAR(CURRENT_DATE)`;
 
     // Doanh thu hóa đơn rửa xe ngày gần nhất.
-    let queryn6 = `SELECT SUM(tongtienrx), COUNT(*) AS sldrx FROM hoadonrx WHERE DATEDIFF(NOW(), created_at) = 6;`;
-    let queryn5 = `SELECT SUM(tongtienrx), COUNT(*) AS sldrx FROM hoadonrx WHERE DATEDIFF(NOW(), created_at) = 5;`;
-    let queryn4 = `SELECT SUM(tongtienrx), COUNT(*) AS sldrx FROM hoadonrx WHERE DATEDIFF(NOW(), created_at) = 4;`;
-    let queryn3 = `SELECT SUM(tongtienrx), COUNT(*) AS sldrx FROM hoadonrx WHERE DATEDIFF(NOW(), created_at) = 3;`;
-    let queryn2 = `SELECT SUM(tongtienrx), COUNT(*) AS sldrx FROM hoadonrx WHERE DATEDIFF(NOW(), created_at) = 2;`;
-    let queryn1 = `SELECT SUM(tongtienrx), COUNT(*) AS sldrx FROM hoadonrx WHERE DATEDIFF(NOW(), created_at) = 1;`;
-    let queryn0 = `SELECT SUM(tongtienrx), COUNT(*) AS sldrx FROM hoadonrx WHERE DATEDIFF(NOW(), created_at) = 0;`;
+    let queryn6 = `SELECT IFNULL(SUM(tongtienrx), 0) as TongTienRXN6, COUNT(*) AS sldrx FROM hoadonrx WHERE DATEDIFF(NOW(), created_at) = 6;`;
+    let queryn5 = `SELECT IFNULL(SUM(tongtienrx), 0) as TongTienRXN5, COUNT(*) AS sldrx FROM hoadonrx WHERE DATEDIFF(NOW(), created_at) = 5;`;
+    let queryn4 = `SELECT IFNULL(SUM(tongtienrx), 0) as TongTienRXN4, COUNT(*) AS sldrx FROM hoadonrx WHERE DATEDIFF(NOW(), created_at) = 4;`;
+    let queryn3 = `SELECT IFNULL(SUM(tongtienrx), 0) as TongTienRXN3, COUNT(*) AS sldrx FROM hoadonrx WHERE DATEDIFF(NOW(), created_at) = 3;`;
+    let queryn2 = `SELECT IFNULL(SUM(tongtienrx), 0) as TongTienRXN2, COUNT(*) AS sldrx FROM hoadonrx WHERE DATEDIFF(NOW(), created_at) = 2;`;
+    let queryn1 = `SELECT IFNULL(SUM(tongtienrx), 0) as TongTienRXN1, COUNT(*) AS sldrx FROM hoadonrx WHERE DATEDIFF(NOW(), created_at) = 1;`;
+    let queryn0 = `SELECT IFNULL(SUM(tongtienrx), 0) as TongTienRXN0, COUNT(*) AS sldrx FROM hoadonrx WHERE DATEDIFF(NOW(), created_at) = 0;`;
 
     sql.query(query, (err, hdrxcd) => {
         sql.query(query2, (err, dtrxn) => {
@@ -166,10 +166,10 @@ HoaDonRX.thongKeDG = (result) => {
 HoaDonRX.thongkeTT = (result) => {
 
     // Thống kê trạng thái đơn rửa xe trong tuần.
-    let querytt1 = `SELECT COUNT(*) AS SoLuongHoaDon FROM hoadonrx WHERE (created_at >= DATE_SUB(NOW(), INTERVAL 7 DAY)) AND (matt = 1);`;
-    let querytt2 = `SELECT COUNT(*) AS SoLuongHoaDon FROM hoadonrx WHERE (created_at >= DATE_SUB(NOW(), INTERVAL 7 DAY)) AND (matt = 2);`;
-    let querytt3 = `SELECT COUNT(*) AS SoLuongHoaDon FROM hoadonrx WHERE (created_at >= DATE_SUB(NOW(), INTERVAL 7 DAY)) AND (matt = 3);`;
-    let querytt4 = `SELECT COUNT(*) AS SoLuongHoaDon FROM hoadonrx WHERE (created_at >= DATE_SUB(NOW(), INTERVAL 7 DAY)) AND (matt = 4);`;
+    let querytt1 = `SELECT COUNT(*) AS SoLuongRXTT1 FROM hoadonrx WHERE (created_at >= DATE_SUB(NOW(), INTERVAL 7 DAY)) AND (matt = 1);`;
+    let querytt2 = `SELECT COUNT(*) AS SoLuongRXTT2 FROM hoadonrx WHERE (created_at >= DATE_SUB(NOW(), INTERVAL 7 DAY)) AND (matt = 2);`;
+    let querytt3 = `SELECT COUNT(*) AS SoLuongRXTT3 FROM hoadonrx WHERE (created_at >= DATE_SUB(NOW(), INTERVAL 7 DAY)) AND (matt = 3);`;
+    let querytt4 = `SELECT COUNT(*) AS SoLuongRXTT4 FROM hoadonrx WHERE (created_at >= DATE_SUB(NOW(), INTERVAL 7 DAY)) AND (matt = 4);`;
   
     sql.query(querytt1, (err, tt1) => {
        sql.query(querytt2, (err, tt2) => {
@@ -182,7 +182,7 @@ HoaDonRX.thongkeTT = (result) => {
    });
 };
 
-// thống kê số lượng xe đặt rửa xe trong 1 tháng này.
+// Loại Xe Được Rửa Nhiều Trong Tháng Này
 HoaDonRX.thongkeSLXT = (result) => {
 
     // Số lượng xe ứng với mỗi hóa đơn rửa xe trong tháng này.
@@ -204,25 +204,13 @@ HoaDonRX.doanhThuTC = (ngaybatdau, ngayketthuc, thanhtoan, trangthai, result) =>
     const query2 = `SELECT DATE(created_at) AS date, SUM(tongtienhd) AS tongtienhd FROM hoadon WHERE created_at BETWEEN '${ngaybatdau}' AND '${ngayketthuc}' AND thanhtoan = ${thanhtoan} AND matt =  ${trangthai} GROUP BY DATE(created_at) ORDER BY DATE(created_at);`
 
     sql.query(query, (err, dtHDRX) => {
-        if (err) {
-            console.log("error: ", err);
-            result(null, err);
-            return;
-        }
-
         sql.query(query2, (err, dtHD) => {
-            if (err) {
-                console.log("error: ", err);
-                result(null, err);
-                return;
-            }
-           
             result(null, dtHDRX, dtHD);
         });
     });
 };
 
-// Thống kê doanh thu cố địnhtheo thang.
+// Thống kê doanh thu cố định theo tháng.
 HoaDonRX.doanhThuCDT = (thanhtoan, trangthai, result) => {
 
     const queryhrdx = `SELECT MONTH(created_at) as month_number, SUM(tongtienrx) as tongtienrx FROM hoadonrx WHERE YEAR(created_at) = YEAR(NOW()) AND thanhtoan = ${thanhtoan} AND matt =  ${trangthai} GROUP BY MONTH(created_at);`
@@ -230,19 +218,7 @@ HoaDonRX.doanhThuCDT = (thanhtoan, trangthai, result) => {
     const queryhd = `SELECT MONTH(created_at) as month_number, SUM(tongtienhd) as tongtienhd FROM hoadon WHERE YEAR(created_at) = YEAR(NOW()) AND thanhtoan = ${thanhtoan} AND matt =  ${trangthai} GROUP BY MONTH(created_at);`
 
     sql.query(queryhrdx, (err, dtHDRX) => {
-        if (err) {
-            console.log("error: ", err);
-            result(null, err);
-            return;
-        }
-
         sql.query(queryhd, (err, dtHD) => {
-            if (err) {
-                console.log("error: ", err);
-                result(null, err);
-                return;
-            }
-           
             result(null, dtHDRX, dtHD);
         });
     });
@@ -256,19 +232,7 @@ HoaDonRX.doanhThuCDTuan = (thanhtoan, trangthai, result) => {
     const queryhd = `SELECT WEEK(created_at) as week_number, SUM(tongtienhd) as tongtienhd FROM hoadon WHERE YEAR(created_at) = YEAR(NOW()) AND MONTH(created_at) = MONTH(NOW()) AND thanhtoan = ${thanhtoan} AND matt =  ${trangthai} GROUP BY WEEK(created_at) HAVING week_number >= WEEK(NOW()) - 3;`
 
     sql.query(queryhrdx, (err, dtHDRX) => {
-        if (err) {
-            console.log("error: ", err);
-            result(null, err);
-            return;
-        }
-
         sql.query(queryhd, (err, dtHD) => {
-            if (err) {
-                console.log("error: ", err);
-                result(null, err);
-                return;
-            }
-           
             result(null, dtHDRX, dtHD);
         });
     });

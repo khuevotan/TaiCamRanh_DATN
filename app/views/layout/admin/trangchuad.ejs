@@ -3,7 +3,7 @@
         <div class="col-lg-3 col-md-6">
             <div class="ibox bg-success color-white widget-stat">
                 <div class="ibox-body">
-                    <h2 class="m-b-5 font-strong"> <%= SLHDCD %> </h2>
+                    <h2 class="m-b-5 font-strong"> <%= soLuongBanHangChuaDuyet %> </h2>
                     <div class="m-b-5">ĐƠN ĐẶT HÀNG </br> CHỜ XÁC NHẬN</div><i class="ti-shopping-cart widget-stat-icon"></i>
                     <!-- <div><i class=" m-r-5"></i><small></small></div> -->
                 </div>
@@ -12,7 +12,7 @@
         <div class="col-lg-3 col-md-6">
             <div class="ibox bg-info color-white widget-stat">
                 <div class="ibox-body">
-                    <h2 class="m-b-5 font-strong"> <%= SLHDRXCD %> </h2>
+                    <h2 class="m-b-5 font-strong"> <%= soLuongRXChuaDuyet %> </h2>
                     <div class="m-b-5">ĐƠN ĐẶT LỊCH RỬA XE </br> CHỜ XÁC NHẬN</div><i class="ti-car widget-stat-icon"></i>
                     <!-- <div><i class=" m-r-5"></i><small></small></div> -->
                 </div>
@@ -24,10 +24,10 @@
                     <h2 class="m-b-5 font-strong"><%= (DTN).toLocaleString() %></h2>  
                     <div class="m-b-5">DOANH THU NGÀY <small>(VNĐ)</small></div><i class="fa fa-money widget-stat-icon"></i>
                 
-                    <% if(tyledaanhthuhn > 0){ %>
-                        <div><i class="fa fa-level-up m-r-5"></i><small><%= tyledaanhthuhn %>% higher</small></div>
+                    <% if(tyLeDoanhThuNgay > 0){ %>
+                        <div><i class="fa fa-level-up m-r-5"></i><small><%= tyLeDoanhThuNgay %>% higher</small></div>
                     <% } else{ %>  
-                        <div><i class="fa fa-level-down m-r-5"></i><small><%= tyledaanhthuhn %>% Lower</small></div>
+                        <div><i class="fa fa-level-down m-r-5"></i><small><%= tyLeDoanhThuNgay %>% Lower</small></div>
                      <% } %>
 
                 </div>
@@ -38,10 +38,10 @@
                 <div class="ibox-body">
                     <h2 class="m-b-5 font-strong"><%= (DTT).toLocaleString() %> </h2>
                     <div class="m-b-5">DOANH THU THÁNG <small>(VNĐ)</small></div><i class="ti-bar-chart widget-stat-icon"></i>
-                    <% if(tyldoanhthut > 0){ %>
-                        <div><i class="fa fa-level-up m-r-5"></i><small><%= tyldoanhthut %>% higher</small></div>
+                    <% if(tyLeDoanhThuThang> 0){ %>
+                        <div><i class="fa fa-level-up m-r-5"></i><small><%= tyLeDoanhThuThang%>% higher</small></div>
                     <% } else{ %>  
-                        <div><i class="fa fa-level-down m-r-5"></i><small><%= tyldoanhthut %>% Lower</small></div>
+                        <div><i class="fa fa-level-down m-r-5"></i><small><%= tyLeDoanhThuThang%>% Lower</small></div>
                      <% } %>
                 </div>
             </div>
@@ -253,10 +253,8 @@
         sumslhdrx7n = slrxn6 + slrxn5 + slrxn4 + slrxn3 + slrxn2 + slrxn1 + slrxn0;
     }
 
-
     // Lấy thẻ div cần hiển thị dữ liệu
     const SUMslhdrx7n = document.getElementById("soluongdhrxtuan");
-
 
     if (!isNaN(sumslhdrx7n)) {
         SUMslhdrx7n.textContent = sumslhdrx7n;

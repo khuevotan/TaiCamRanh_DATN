@@ -1,3 +1,4 @@
+<title>Doanh Thu Tùy Chọn</title>
 <link href="/assets/vendors/bootstrap-datepicker/dist/css/bootstrap-datepicker3.min.css" rel="stylesheet" />
 
 <style>
@@ -99,7 +100,6 @@
              </div>
 
         </div>
-      
     </form>
 </div>
 
@@ -117,10 +117,7 @@
 
 <div style="height: 350px;"></div>
 
-
-
 <script src="https://cdn.jsdelivr.net/npm/chart.js@3.7.1/dist/chart.min.js"></script>
-
 
 <script>
     var chuoidatene = '<%= chuoidate %>';
@@ -145,7 +142,6 @@
     for (let i = 0; i < mangtienhdso.length; i++) {
         doanhThuHDRX += mangtienhdrxso[i];
     }
-
 
     // Lấy thẻ div cần hiển thị dữ liệu
     const doanhThuDH = document.getElementById("doanhThuDH");
@@ -188,7 +184,5 @@
 
     const canvas = document.getElementById('canvas')
     const chart = new Chart(canvas, config)
-
-   
 
 </script>
