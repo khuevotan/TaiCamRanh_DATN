@@ -558,11 +558,18 @@ exports.doanhthuCoDinhSecond = (req, res) => {
         // tuần trong tháng hiện tại
         HoaDonRX.doanhThuCDTuan(thanhtoan, trangthai, (err, dtHDRX, dtHD) => {
 
+            console.log("=== DATA GỐC ===");
+            console.log(thanhtoan);
+            console.log(trangthai);
+            console.log(dtHDRX);
+            console.log(dtHD);
+
             // Lấy giá trị date và tongtienrx thành một mảng 2 chiều
             const manghdrx = dtHDRX.map(item => [item.week_number, item.tongtienrx]);
             const manghd = dtHD.map(item => [item.week_number, item.tongtienhd]);
 
             // mang 1 chieu
+            console.log("=== MẢNG 1 CHIỀU ===");
             console.log(manghdrx);
             console.log(manghd);
 
@@ -581,6 +588,12 @@ exports.doanhthuCoDinhSecond = (req, res) => {
                 mang2chieu.push(row);
             }
 
+              // mang 2 chieu
+              console.log("=== đổi 1 ===");
+              console.log(mang2chieu);
+            
+  
+
             for (let i = 0; i < manghdrx.length; i++) {
                 const ngayrx = manghdrx[i][0];
                 let isExists = false;
@@ -596,11 +609,18 @@ exports.doanhthuCoDinhSecond = (req, res) => {
                 }
             }
 
+              // mang 2 chieu
+              console.log("=== đổi 2 ===");
+              console.log(mang2chieu);
+
             mang2chieu.sort((a, b) => {
                 return a[0] - b[0];
             });
+              // mang 2 chieu
+              console.log("===sắp xếp ===");
+              console.log(mang2chieu);
 
-            console.log(mang2chieu);
+         
 
             // lấy giá trị phần tử thứ 3 và chuyển thành chuỗi
 
@@ -614,8 +634,17 @@ exports.doanhthuCoDinhSecond = (req, res) => {
                 }
             }
 
+                // mang 2 chieu
+                console.log("===lấy giá trị phần tử thứ 3 và chuyển thành chuỗi và thêm chuỗi dayte ===");
+                console.log(chuoidate);
+
             const chuoitienhd = mang2chieu.map(item => item[1].toString()).join(', ');
             const chuoitienhdrx = mang2chieu.map(item => item[2].toString()).join(', ');
+
+              // mang 2 chieu
+              console.log("=== ĐỔI THÀNH CHUỖI ===");
+              console.log(chuoitienhd);
+              console.log(chuoitienhdrx);
 
             res.render('thongke/doanhthucodinh.ejs', {
                 chuoidate: chuoidate,
@@ -632,11 +661,17 @@ exports.doanhthuCoDinhSecond = (req, res) => {
         // Doanh thu cố định theo tháng.
         HoaDonRX.doanhThuCDT(thanhtoan, trangthai, (err, dtHDRX, dtHD) => {
 
+            console.log("=== DATA GỐC ===");
+            console.log(thanhtoan);
+            console.log(trangthai);
+            console.log(dtHDRX);
+            console.log(dtHD);
+
             // Lấy giá trị date và tongtienrx thành một mảng 2 chiều
             const manghdrx = dtHDRX.map(item => [item.month_number, item.tongtienrx]);
             const manghd = dtHD.map(item => [item.month_number, item.tongtienhd]);
 
-            // mang 1 chieu
+            console.log("=== Lấy giá trị date và tongtienrx thành một mảng 2 chiều ===");
             console.log(manghdrx);
             console.log(manghd);
 
@@ -655,6 +690,9 @@ exports.doanhthuCoDinhSecond = (req, res) => {
                 mang2chieu.push(row);
             }
 
+            console.log("=== DỔI 1 ===");
+            console.log(mang2chieu);
+
             for (let i = 0; i < manghdrx.length; i++) {
                 const ngayrx = manghdrx[i][0];
                 let isExists = false;
@@ -670,10 +708,14 @@ exports.doanhthuCoDinhSecond = (req, res) => {
                 }
             }
 
+            console.log("=== DỔI 2 ===");
+            console.log(mang2chieu);
+
             mang2chieu.sort((a, b) => {
                 return a[0] - b[0];
             });
 
+            console.log("=== SẮP XẾP LẠI ===");
             console.log(mang2chieu);
 
             // Thêm chữ "Tháng vào mảng chuỗi date"
@@ -685,6 +727,9 @@ exports.doanhthuCoDinhSecond = (req, res) => {
                     chuoidate += ', ';
                 }
             }
+
+            console.log("=== Thêm chữ Tháng vào mảng chuỗi date ===");
+            console.log(chuoidate);
 
             const chuoitienhd = mang2chieu.map(item => item[1].toString()).join(', ');
             const chuoitienhdrx = mang2chieu.map(item => item[2].toString()).join(', ');
@@ -703,22 +748,35 @@ exports.doanhthuCoDinhSecond = (req, res) => {
 }
 
 // Số lượng loại xe được rửa nhiều trong tháng này.
-exports.loaiXeTk = (req, res) => {
-    HoaDonRX.thongkeSLXT((err, slxe, xe) => {
+exports.thongKeLoaiXe = (req, res) => {
+    HoaDonRX.thongkeSLXT((err, slxegoc, loaixegoc) => {
 
         var colIndex = 0;
         var colIndexne = 1;
 
-        // lấy mảng gốc
-        var slxegoc = [].concat(slxe);
-        var loaixegoc = [].concat(xe);
+        console.log("=== DATA GỐC ===");
+        console.log(slxegoc);
+        console.log(loaixegoc);
 
-        // tạo mảng để hứng dữ liệu
+        // [
+        //     RowDataPacket { malx: 1, soluong: 2 },
+        //     RowDataPacket { malx: 2, soluong: 2 },
+        //     RowDataPacket { malx: 3, soluong: 4 },
+        //     RowDataPacket { malx: 4, soluong: 2 }
+        // ]
+
+        // Tạo mảng để hứng dữ liệu
         var mangdlxe = [];
         var mangsl = [];
         var mantenxe = [];
 
-        // tạo mảng 2 chiều với cột thứ 2 là tên xe
+        // Tạo mảng 2 chiều với cột thứ 1 là số lượng, cột 2 là tên xe
+        // [
+        //     [ 2, 'Xe Máy' ],
+        //     [ 2, 'Ô Tô Nhỏ' ],
+        //     [ 4, 'Ô Tô Trung' ],
+        //     [ 2, 'Ô Tô Lớn' ]
+        // ]
         for (var i = 0; i < slxegoc.length; i++) {
             for (var j = 0; j < loaixegoc.length; j++) {
                 if (slxegoc[i].malx == loaixegoc[j].malx) {
@@ -726,6 +784,9 @@ exports.loaiXeTk = (req, res) => {
                 }
             }
         }
+
+        console.log("=== MẢNG 2 CHIỀU ===");
+        console.log(mangdlxe);
 
         // tạo mảng 1 chiều là số lượng
         for (let i = 0; i < mangdlxe.length; i++) {
@@ -737,9 +798,17 @@ exports.loaiXeTk = (req, res) => {
             mantenxe[i] = mangdlxe[i][colIndexne];
         }
 
+        console.log("=== MẢNG 1 CHIỀU ===");
+        console.log(mangsl);
+        console.log(mantenxe);
+
         // chuyển đổi mảng thành chuỗi
         const chuoisl = mangsl.join(', ');
         const chuoitenxe = mantenxe.join(', ');
+
+        console.log("=== CHUYỂN MẢNG THÀNH CHUỖI ===");
+        console.log(chuoisl);
+        console.log(chuoitenxe);
 
         res.render('thongke/loaixe.ejs', {
             cslxe: chuoisl,
@@ -750,16 +819,38 @@ exports.loaiXeTk = (req, res) => {
 }
 
 // Sản phẩm bán chạy trong tháng này
-exports.sanPhamTK = (req, res) => {
+exports.thongkeSanPham = (req, res) => {
 
     HoaDon.sanPhamBanChayTrongThang((err, sanpham) => {
 
+        console.log("==== DATA GOC ===");
         console.log(sanpham);
+
+        // [
+        //     RowDataPacket {
+        //       tensp: 'Bơm Lốp Đa Năng Kiêm Kích Bình Ô Tô Baseus Super',
+        //       masp: 12,
+        //       soluongln: 11
+        //     },
+        //     RowDataPacket {
+        //       tensp: 'Máy Hút Bụi Nhỏ Gọn Cầm Tay Baseus',
+        //       masp: 5,
+        //       soluongln: 5
+        //     },
+        //     RowDataPacket {
+        //       tensp: 'Chổi Lau Rửa/ Vệ Sinh Xe Ô tô Phẳng',
+        //       masp: 25,
+        //       soluongln: 2
+        //     }
+        //   ]
 
         var colIndex = 0;
         var colIndexne = 1;
 
         const mangspgoc = sanpham.map(item => [item.tensp, item.soluongln]);
+
+        console.log("==== CHUYỂN THÀNH MẢNG 2 CHIỀU ====");
+        console.log(mangspgoc);
 
         // Tạo mảng để hứng dữ liệu.
         var mangspln = [];
@@ -775,9 +866,17 @@ exports.sanPhamTK = (req, res) => {
             mangsoln[i] = mangspgoc[i][colIndexne];
         }
 
+        console.log("==== TẠO THÀNH MẢNG 1 CHIỀU ===");
+        console.log(mangspln);
+        console.log(mangsoln);
+
         // Chuyển đổi mảng thành chuỗi.
         const chuoitensp = mangspln.join(', ');
         const chuoisoluongln = mangsoln.join(', ');
+
+        console.log("==== CHUYỂN THÀNH CHUỖI ===");
+        console.log(chuoitensp);
+        console.log(chuoisoluongln);
 
         res.render('thongke/sanpham.ejs', {
             chuoitensp: chuoitensp,

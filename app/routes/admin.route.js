@@ -89,10 +89,10 @@ module.exports = app => {
     router.post('/doanhthucodinh', authMiddleware.loggedinad, nhanVien.doanhthuCoDinhSecond);
 
     // thống kê loại xe
-    router.get('/nhanvien/thongke/loaixe', authMiddleware.loggedinad, nhanVien.loaiXeTk);
+    router.get('/nhanvien/thongke/loaixe', authMiddleware.loggedinad, nhanVien.thongKeLoaiXe);
 
     // thống kê sản phẩm bán chạy
-    router.get('/nhanvien/thongke/sanpham', authMiddleware.loggedinad, nhanVien.sanPhamTK);
+    router.get('/nhanvien/thongke/sanpham', authMiddleware.loggedinad, nhanVien.thongkeSanPham);
 
     app.use('/admin', router);
 }
