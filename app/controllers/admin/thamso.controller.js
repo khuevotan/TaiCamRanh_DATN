@@ -53,6 +53,9 @@ exports.update = (req, res) => {
         res.redirect('/admin/thamso/edit/' + req.params.mats + '?status=error')
     }
 
+    console.log("TEST");
+    console.log(req.body.giatri);
+
     const thamso = new ThamSo({
         tents: req.body.tents,
         giatri	: req.body.giatri,

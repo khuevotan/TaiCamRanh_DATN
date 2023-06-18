@@ -29,7 +29,7 @@ Gio.getAllKH = (ngayrua, MAX_ĐL, result) => {
     date2 = new Date()
 
     if(date1.getYear() == date2.getYear() && date1.getMonth() == date2.getMonth() && date1.getDay() == date2.getDay()){
-        let query = `SELECT * FROM gio where magio not in (select magio from hoadonrx where ngayrua = '${ngayrua}' group by magio having count(magio) >= '${MAX_ĐL}') and (tengio > CURTIME())`;
+        let query = `SELECT * FROM gio where magio not in (select magio from hoadonrx where ngayrua = '${ngayrua}' and matt != 3 group by magio having count(magio) >= '${MAX_ĐL}') and (tengio > CURTIME())`;
         sql.query(query, (err, res) => {
             if (err) {
                 console.log("error: ", err);
@@ -40,7 +40,7 @@ Gio.getAllKH = (ngayrua, MAX_ĐL, result) => {
             result(null, res);
         });
     }else{
-        let query = `SELECT * FROM gio where magio not in (select magio from hoadonrx where ngayrua = '${ngayrua}' group by magio having count(magio) >= '${MAX_ĐL}')`;
+        let query = `SELECT * FROM gio where magio not in (select magio from hoadonrx where ngayrua = '${ngayrua}' and matt != 3 group by magio having count(magio) >= '${MAX_ĐL}')`;
         sql.query(query, (err, res) => {
             if (err) {
                 console.log("error: ", err);

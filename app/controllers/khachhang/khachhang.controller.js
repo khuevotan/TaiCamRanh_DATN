@@ -751,7 +751,7 @@ exports.showDayForm = (req, res) => {
     res.render('chonngay');
 }
 
-// chọn ngày rửa xe
+// Chọn ngày rửa xe bên phía khách hàng.
 exports.chonNgay = (req, res) => {
     res.locals.status = req.query.status;
 
@@ -766,22 +766,53 @@ exports.chonNgay = (req, res) => {
     const dateString1 = chonDate.toDateString();
     const dateString2 = currentDate.toDateString();
 
-    // So sánh chuỗi ngày tháng năm
-    if (dateString1 === dateString2) {
-        res.redirect('/khachhang/datlichrx/' + ngayrua)
-    } else {
-        if (chonDate > currentDate) {
-            res.redirect('/khachhang/datlichrx/' + ngayrua)
-        } else {
-            const conflictError = 'Không được chọn ngày quá khứ!';
+    ThamSo.findBymats(7, (err, NGAY_NGHI) => {
+        const dateArray = NGAY_NGHI.giatri.split(",");
+
+        const ngayNghi = [];
+        const datenNghi = [];
+
+        var dem = 0;
+
+        for (let i = 0; i < dateArray.length; i++) {
+            ngayNghi[i] = new Date(dateArray[i]);
+            datenNghi[i] = ngayNghi[i].toDateString();
+
+            //2023-06-24T00:00:00.000Z
+            // Sat Jun 24 2023
+
+            if (dateString1 === datenNghi[i]) {
+                // tăng biến đếm
+                dem = dem + 1;
+            }
+        }
+
+        if (dem != 0) {
+            const conflictError = 'Ngày này cửa hàng nghỉ!';
             res.render('chonngay', {
                 conflictError
             });
+        } else {
+
+            // So sánh chuỗi ngày tháng năm
+            if (dateString1 === dateString2) {
+                res.redirect('/khachhang/datlichrx/' + ngayrua)
+
+            } else {
+                if (chonDate > currentDate) {
+                    res.redirect('/khachhang/datlichrx/' + ngayrua)
+                } else {
+                    const conflictError = 'Không được chọn ngày quá khứ!';
+                    res.render('chonngay', {
+                        conflictError
+                    });
+                }
+            }
         }
-    }
+    });
 };
 
-// Hiển thị ra màn hình đặt lịch bên phía khách hàng
+// Hiển thị ra màn hình đặt lịch bên phía khách hàng.
 exports.showDLForm = (req, res) => {
     res.locals.deleted = req.query.deleted;
     const ngayrua = req.params.ngayrua;
@@ -810,14 +841,13 @@ exports.showDLForm = (req, res) => {
                             });
                         }
                     });
-
                 }
             });
         }
     });
 };
 
-// Nhấn nút đặt lịch
+// Khách hàng nhấn nút đặt lịch.
 exports.datlich = (req, res) => {
     res.locals.khachhang = req.session.khachhang
     const makh = res.locals.khachhang.makh;
@@ -876,8 +906,7 @@ exports.datlich = (req, res) => {
                                     var thanhtoanpt = "Thanh Toán Tại Cửa Hàng";
                                   
                                 }else{
-                                    var thanhtoanpt = "Thanh Toán Bằng Thẻ Online";
-                                   
+                                    var thanhtoanpt = "Thanh Toán Bằng Thẻ Online";         
                                 }
 
                                 if (req.body.ptthanhtoan == 1) {
@@ -901,17 +930,12 @@ exports.datlich = (req, res) => {
                                     <br>0377975929.
                                     <br>77 Chế Lan Viên, Cam Lộc, Cam Ranh, Khánh Hòa.
                                     `;
-                                    
-                                   
+                                            
                                     mailer.sendMail(to, subject, message);
-
-                           
 
                                     res.redirect('/khachhang/thanhtoantc?mahdrx=' + mahdrx + '&status=taothanhcong')
                                 } else {
-
-
-                                  
+                   
                                     var to = email;
                                     var subject = "Xác nhận đặt lịch thành công";
                                     var message = `CChúng tôi xin gửi thông báo đặt lịch thành công cho bạn. Dưới đây là thông tin chi tiết về đơn đặt lịch của bạn:'
@@ -931,17 +955,13 @@ exports.datlich = (req, res) => {
                                     <br>0377975929.
                                     <br>77 Chế Lan Viên, Cam Lộc, Cam Ranh, Khánh Hòa.
                                     `;
-                                    
-                                   
+                                                
                                     mailer.sendMail(to, subject, message);
-
-                             
-                                    
+                            
                                     res.redirect('/khachhang/ttcard/' + mahdrx)
                                 }
                             } else {
                                 res.redirect('/khachhang/datlichrx/' + req.body.ngayrua + '&status=thatbai')
-
                             }
                         });
 
@@ -1023,15 +1043,12 @@ exports.nhapThongTinDonHang = (req, res) => {
                                     mahuyen: mahuyen,
                                 });
 
-
                                 PhiShip.create(phiship, (err, dataphisipne) => {
                                     Tinh.findBymatinh(req.body.matinh, (err, tentinh) => {
                                         Huyen.findBymahuyen(req.body.mahuyen, (err, tenhuyen) => {
 
-
                                             const hoadon = new HoaDon({
                                                 mahd: id,
-                                          
                                                 tennguoinhan: req.body.tennguoinhan,
                                                 sodt: req.body.sodt,
                                                 diachi: req.body.diachi + ',' + tenhuyen.tenhuyen + ',' + tentinh.tentinh,
@@ -1082,7 +1099,6 @@ exports.nhapThongTinDonHang = (req, res) => {
                                                         var tongtienhdmail = tongtiensp + dataphisipne.giaphi;
                                                     }
                     
-                    
                                                     // Chuyển trang tùy theo phương thức thanh toán.
                                                     if (req.body.ptthanhtoan == 1) {
 
@@ -1101,11 +1117,9 @@ exports.nhapThongTinDonHang = (req, res) => {
                                                         <br>0377975929.
                                                         <br>77 Chế Lan Viên, Cam Lộc, Cam Ranh, Khánh Hòa.
                                                         `;
-                                                        
-                                                       
+                                                                                                
                                                         mailer.sendMail(to, subject, message);
-                    
-                                                       
+                            
                                                         const Cart = require("../../models/cart.model");
                                                         var cart = new Cart(req.session.cart);
                                                         cart.removeAll();

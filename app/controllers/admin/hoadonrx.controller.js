@@ -27,20 +27,53 @@ exports.chonNgay = (req, res) => {
     const dateString1 = chonDate.toDateString();
     const dateString2 = currentDate.toDateString();
 
-    // So sánh chuỗi ngày tháng năm
-    if (dateString1 === dateString2) {
-        res.redirect('/admin/hoadonrx/create/' + ngayrua)
-    } else {
-        if (chonDate > currentDate) {
-            res.redirect('/admin/hoadonrx/create/' + ngayrua)
-        } else {
-            const conflictError = 'Không được chọn ngày quá khứ!';
+    ThamSo.findBymats(7, (err, NGAY_NGHI) => {
+        const dateArray = NGAY_NGHI.giatri.split(",");
+
+        const ngayNghi = [];
+        const datenNghi = [];
+
+        var dem = 0;
+
+        for (let i = 0; i < dateArray.length; i++) {
+            ngayNghi[i] = new Date(dateArray[i]);
+            datenNghi[i] = ngayNghi[i].toDateString();
+
+            //2023-06-24T00:00:00.000Z
+            // Sat Jun 24 2023
+
+            if (dateString1 === datenNghi[i]) {
+                // tăng biến đếm
+                dem = dem + 1;
+            }
+        }
+
+        if (dem != 0) {
+            const conflictError = 'Ngày này cửa hàng nghỉ!';
             res.render('hoadonrx/chonngayhdr', {
                 conflictError,
                 layout: './master2'
             });
+        } else {
+
+            // So sánh chuỗi ngày tháng năm
+            if (dateString1 === dateString2) {
+                res.redirect('/admin/hoadonrx/create/' + ngayrua)
+
+            } else {
+                if (chonDate > currentDate) {
+                    res.redirect('/admin/hoadonrx/create/' + ngayrua)
+
+                } else {
+                    const conflictError = 'Không được chọn ngày quá khứ!';
+                    res.render('hoadonrx/chonngayhdr', {
+                        conflictError,
+                        layout: './master2'
+                    });
+                }
+            }
         }
-    }
+    });
 };
 
 // Hiển thị ra màn hình đặt lịch bên phía admin
