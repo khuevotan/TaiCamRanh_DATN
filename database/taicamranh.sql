@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Máy chủ: 127.0.0.1
--- Thời gian đã tạo: Th6 12, 2023 lúc 08:44 AM
+-- Thời gian đã tạo: Th6 18, 2023 lúc 07:53 AM
 -- Phiên bản máy phục vụ: 10.4.28-MariaDB
 -- Phiên bản PHP: 8.2.4
 
@@ -293,8 +293,10 @@ CREATE TABLE `hoadonrx` (
 
 INSERT INTO `hoadonrx` (`mahdrx`, `ngayrua`, `magio`, `sodt`, `diachi`, `ghichu`, `tongtienrx`, `thanhtoan`, `ptthanhtoan`, `malx`, `matt`, `manv`, `makh`, `tennguoirua`, `created_at`, `updated_at`) VALUES
 ('052325899c9675b8871669032fe3112c', '2023-06-11', 18, '0388052976', 'Thị Trấn Ngã Sáu, Huyện Châu Thành, Hậu Giang', '', 20000, 1, 1, 1, 2, 1, 19, 'Giả Quang Linh', '2023-06-10 13:42:52', '2023-06-10 13:43:42'),
+('0669b592bf77d8bcb72a75fea7e848ef', '2023-06-19', 1, '0398167495', 'Xã B\' Lá, Huyện Bảo Lâm, Lâm Đồng', '', 20000, 1, 1, 1, 1, 1, 21, 'Thân Quang Hà', '2023-06-18 05:17:02', '2023-06-18 05:17:02'),
 ('1dc337361bb2f2255b4f920d1f58a7bd', '2023-05-26', 1, '0894685931', 'Xã Pú Đao, Huyện Nậm Nhùn, Lai Châu', '', 40000, 2, 1, 2, 2, 2, 1, 'Kha Hữu Tâm', '2023-05-24 16:16:34', '2023-06-12 06:41:54'),
 ('1e5eae0c1fc71ab0440d0f729c7033ae', '2023-06-03', 17, '0987664220', '499, Mỹ Ca, Cam Nghĩa, Cam Ranh, Khánh Hòa', '', 40000, 2, 1, 2, 4, 1, 15, 'Giàng Việt Phương', '2023-06-02 15:14:07', '2023-06-10 07:52:17'),
+('24c36a3931a01bb1da5dd691cbef9f29', '2023-06-19', 1, '0394832501', 'Xã Xuân La, Huyện Pác Nặm, Bắc cạn', '', 20000, 1, 1, 1, 1, 1, 21, 'Ty Bảo Bình', '2023-06-18 05:17:25', '2023-06-18 05:17:25'),
 ('2e8d04407fb452baf10d0e68055c30db', '2023-06-14', 1, '0380837924', 'Phường Sở Dầu, Quận Hồng Bàng, Hải Phòng', '', 60000, 2, 1, 3, 2, 2, 18, 'Đức Quốc Hải', '2023-06-10 14:18:05', '2023-06-12 06:42:00'),
 ('3255a7c228c97b52cf192854ce4f46b7', '2023-09-28', 16, '0566912057', 'Xã Đồn Xá, Huyện Bình Lục, Hà Nam', '', 70000, 1, 1, 4, 3, 2, 19, 'Mạc Minh Thu', '2023-01-18 06:35:24', '2023-06-12 06:42:06'),
 ('3a12eb1f202117d94e8cbb3e4a79dfea', '2023-08-17', 14, '0583297860', 'Xã Nậm Xé, Huyện Văn Bàn, Lào Cai', 'Rửa nhanh nhé', 80000, 2, 1, 5, 4, 1, 1, 'Hi Hải Miên', '2023-05-06 08:25:11', '2023-06-10 07:31:44'),
@@ -304,10 +306,13 @@ INSERT INTO `hoadonrx` (`mahdrx`, `ngayrua`, `magio`, `sodt`, `diachi`, `ghichu`
 ('927aaf2a4e56d6e086e51b129bceddfa', '2023-06-23', 13, '0839850234', 'Xã Phước Tín, Thị xã Phước Long, Bình Phước', '', 20000, 2, 1, 1, 4, 2, 16, 'Mạch Huyền Anh', '2023-05-16 06:23:39', '2023-06-12 06:42:18'),
 ('961035663db9243a1503703b3fbd322f', '2023-06-29', 1, '0365784609', 'Xã Đa Lộc, Huyện Châu Thành, Trà Vinh', '', 70000, 1, 1, 4, 2, 2, 16, 'Cái Việt Dương', '2023-06-06 06:22:46', '2023-06-12 06:42:22'),
 ('96cfb3e01e5b3bf37a3f4992aaab3874', '2023-05-20', 16, '0987664220', '499, Mỹ Ca, Cam Nghĩa, Cam Ranh, Khánh Hòa', '', 60000, 1, 1, 3, 2, 2, 1, 'Võ Tấn Khuê', '2023-05-20 05:44:56', '2023-06-12 06:42:26'),
+('97a60809e7f0c876dfacaed22426af1e', '2023-06-19', 1, '0996082431', 'Xã Bạch Lưu, Huyện Sông Lô, Vĩnh Phúc', '', 20000, 1, 1, 1, 1, 1, 21, 'Thế Hòa Hợp', '2023-06-18 05:16:18', '2023-06-18 05:16:18'),
+('9c33bf909956651d3588102dc5428b14', '2023-06-19', 1, '0868012975', 'Xã Khánh Lâm, Huyện U Minh, Cà Mau', '', 20000, 1, 1, 1, 1, 1, 21, 'Tri Quốc Quân', '2023-06-18 05:16:41', '2023-06-18 05:16:41'),
 ('ab47e27ab0b77228691bc36fedba4e74', '2023-06-29', 1, '0833512046', 'Xã Sơn Hải, Huyện Kiên Lương, Kiên Giang', '', 60000, 1, 1, 3, 2, 2, 18, 'Giao Phương Quyên', '2023-06-08 14:23:15', '2023-06-12 06:42:44'),
 ('b63e5b3b3a28f49c86b5fabdc5eabca2', '2023-07-29', 8, '0987946815', 'Phường Hương Chữ, Thị xã Hương Trà, Thừa Thiên Huế', '', 20000, 1, 1, 1, 2, 2, 18, 'Lạc Ngọc Hoa', '2023-03-23 06:29:11', '2023-06-12 06:42:47'),
 ('b6880ce5d041aa82571eb94a7b935a35', '2023-06-21', 16, '0862586910', 'Xã Phước Hòa, Huyện Bác Ái, Ninh Thuận', '', 40000, 1, 1, 2, 2, 2, 1, 'Tấn Thục Oanh', '2023-06-10 13:52:32', '2023-06-12 06:42:50'),
 ('c6764bbc8bc6c446678de39c816f827f', '2024-02-09', 8, '0794758621', 'Thị trấn Hoà Thuận, Huyện Phục Hoà, Cao Bằng', '', 60000, 1, 1, 3, 3, 2, 19, 'Ung Như Bảo', '2023-01-17 06:34:54', '2023-06-12 06:42:53'),
+('c8d1380a20a86863bd753680ff5bcaf8', '2023-06-19', 1, '0387658490', 'Thị trấn Cô Tô, Huyện Cô Tô, Quảng Ninh', '', 20000, 1, 1, 1, 3, 2, 21, 'Mã Minh Hiếu', '2023-06-18 05:15:50', '2023-06-18 05:18:40'),
 ('cb5b483dda63f66b14315ebba6ba47cd', '2023-06-23', 14, '0963052487', 'Xã Trà Trung, Huyện Tây Trà, Quảng Ngãi', '', 60000, 2, 1, 3, 1, 1, 1, 'Võ Tấn Khuê', '2023-06-10 07:33:53', '2023-06-10 07:33:53'),
 ('dfd95492cfee2d8870afe69d3ed0b9e6', '2023-06-29', 1, '0323269418', 'Xã Yên Định, Huyện Sơn Động, Bắc Giang', '', 60000, 1, 1, 3, 1, 1, 16, 'Đặng Hải Thanh', '2023-06-12 06:22:04', '2023-06-12 06:22:04'),
 ('f5ae0644e864bb1ed919a770dfe9bf33', '2024-02-15', 1, '0362846907', 'Xã Phú Mỹ, Huyện Phú Vang, Thừa Thiên Huế', '', 60000, 1, 1, 3, 1, 1, 18, 'Ánh Gia Bình', '2023-03-14 06:30:13', '2023-06-12 06:39:15'),
@@ -1076,7 +1081,8 @@ INSERT INTO `khachhang` (`makh`, `taikhoan`, `matkhau`, `hokh`, `tenkh`, `ngaysi
 (17, 'auduonganhtu818', '$2b$10$ciV6sjVVQXUz6J8.8EJQJu9BxlP86zy1o5Cs/9F5kKW6eUnIyZlzO', 'Âu Dương Anh ', 'Tú', '2006-02-10', '0584736802', 'Xã Triệu Trung, Huyện Triệu Phong, Quảng Trị', 'auduonganhtu818@google.com', 1, '1686400299733-Tan Thanh Vu.jpg', 1, 1, '2023-06-10 12:27:11', '2023-06-10 12:31:39'),
 (18, 'daunamson886', '$2b$10$eQQe00Y2AhYxYUWSTlmz3uC8PdSVaGpJCnbtqJJNSBZzn7QlR4V5K', 'Đầu Nam', 'Sơn', '2023-06-01', '0814796021', 'Xã Đại Bái, Huyện Gia Bình, Bắc Ninh', 'daunamson886@gmail.com', 1, '1686400276705-Hi Ãinh Nam.jpg', 1, 1, '2023-06-10 12:27:54', '2023-06-10 12:31:16'),
 (19, 'khuutrucloan903', '$2b$10$h0Oi9Fo96kmP8xzFINwnt.lI5NBeVulF8Iq9sw6kcHnIJpfIrbLOm', 'Nông Thy ', 'Khanh', '1999-06-24', '0700857236', 'Xã Mỹ Lộc, Huyện Can Lộc, Hà Tĩnh', 'giaquanglinh660@icloud.com', 2, '1686400222289-Khuu Truc Loan.jpg', 2, 1, '2023-06-10 12:28:54', '2023-06-10 13:43:17'),
-(20, 'anhbachkim119', '$2b$10$8GlQ5YdUX0Sxepus//bMi.k1XDu0EwJBpAvsIgq4.98uxydMu7gIK', 'Ánh Bạch ', 'Kim', '1996-07-10', '0863205846', 'Xã Tân An, Huyện Vĩnh Cửu, Đồng Nai', 'anhbachkim119@hotmail.com', 2, '1686400204692-Anh Bach Kim.jpg', 1, 1, '2023-06-10 12:29:41', '2023-06-10 12:30:04');
+(20, 'anhbachkim119', '$2b$10$8GlQ5YdUX0Sxepus//bMi.k1XDu0EwJBpAvsIgq4.98uxydMu7gIK', 'Ánh Bạch ', 'Kim', '1996-07-10', '0863205846', 'Xã Tân An, Huyện Vĩnh Cửu, Đồng Nai', 'anhbachkim119@hotmail.com', 2, '1686400204692-Anh Bach Kim.jpg', 1, 1, '2023-06-10 12:29:41', '2023-06-10 12:30:04'),
+(21, 'machnghixuan288', '$2b$10$Cg/dDQGiGqrRKj/ttpG5oOumtUmt6RamLKB13np91XcqZmW1AOITi', 'Mạch', 'Nghi Xuân', '2023-05-31', '0860439781', 'Phường Sông Cầu, Thành Phố Bắc Kạn, Bắc cạn', 'machnghixuan288@facebook.com', 1, '', 1, 1, '2023-06-18 05:14:54', '2023-06-18 05:14:54');
 
 -- --------------------------------------------------------
 
@@ -1317,7 +1323,7 @@ INSERT INTO `sanpham` (`masp`, `tensp`, `motangan`, `hinhdd`, `soluong`, `motact
 CREATE TABLE `thamso` (
   `mats` int(11) NOT NULL,
   `tents` varchar(255) NOT NULL,
-  `giatri` float NOT NULL,
+  `giatri` varchar(255) NOT NULL,
   `chuthich` varchar(255) NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
   `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
@@ -1328,12 +1334,13 @@ CREATE TABLE `thamso` (
 --
 
 INSERT INTO `thamso` (`mats`, `tents`, `giatri`, `chuthich`, `created_at`, `updated_at`) VALUES
-(1, 'MAX_SLRXCH', 5, 'Số lượng xe mà cửa hàng có thể phục vụ trong một khung giờ (30p)', '2023-05-01 09:01:42', '2023-05-01 09:01:42'),
-(2, 'MAX_KH_ĐL', 20, 'Số lượng tối đa đơn đặt lịch của một khách hàng trong một ngày ', '2023-05-01 09:01:42', '2023-05-06 05:21:59'),
-(3, 'MAX_KH_ĐH', 20, 'Số lượng tối đa đơn đặt hàng của một khách hàng trong một ngày ', '2023-05-01 09:01:42', '2023-05-09 06:08:06'),
-(4, 'SL_SPHET', 4, 'Số lượng sản phẩm sắp hết', '2023-05-04 13:34:54', '2023-06-10 12:16:33'),
-(5, 'PHI_SHIP_KH', 15000, 'Giá phí ship trong khu vực khánh hòa', '2023-05-08 09:10:02', '2023-05-08 09:10:02'),
-(6, 'PHI_SHIP_NGOAITINH', 30000, 'Giá phí ship ngoài khu vực khánh hòa', '2023-05-08 09:10:02', '2023-05-08 09:10:02');
+(1, 'MAX_SLRXCH', '5', 'Số lượng xe mà cửa hàng có thể phục vụ trong một khung giờ (30p)', '2023-05-01 09:01:42', '2023-05-01 09:01:42'),
+(2, 'MAX_KH_ĐL', '20', 'Số lượng tối đa đơn đặt lịch của một khách hàng trong một ngày ', '2023-05-01 09:01:42', '2023-05-06 05:21:59'),
+(3, 'MAX_KH_ĐH', '20', 'Số lượng tối đa đơn đặt hàng của một khách hàng trong một ngày ', '2023-05-01 09:01:42', '2023-05-09 06:08:06'),
+(4, 'SL_SPHET', '4', 'Số lượng sản phẩm sắp hết', '2023-05-04 13:34:54', '2023-06-10 12:16:33'),
+(5, 'PHI_SHIP_KH', '15000', 'Giá phí ship trong khu vực khánh hòa', '2023-05-08 09:10:02', '2023-05-08 09:10:02'),
+(6, 'PHI_SHIP_NGOAITINH', '30000', 'Giá phí ship ngoài khu vực khánh hòa', '2023-05-08 09:10:02', '2023-05-08 09:10:02'),
+(7, 'NGAY_NGHI', '2023-06-19,2023-06-20', 'Ngày nghỉ không cho khách hàng đặt lịch.', '2023-06-18 03:09:44', '2023-06-18 05:37:38');
 
 -- --------------------------------------------------------
 
@@ -1614,7 +1621,7 @@ ALTER TABLE `huyen`
 -- AUTO_INCREMENT cho bảng `khachhang`
 --
 ALTER TABLE `khachhang`
-  MODIFY `makh` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
+  MODIFY `makh` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
 
 --
 -- AUTO_INCREMENT cho bảng `loaixe`
@@ -1650,7 +1657,7 @@ ALTER TABLE `sanpham`
 -- AUTO_INCREMENT cho bảng `thamso`
 --
 ALTER TABLE `thamso`
-  MODIFY `mats` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `mats` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT cho bảng `tinh`
