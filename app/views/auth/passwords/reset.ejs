@@ -1,4 +1,5 @@
 <title>Đổi Mật Khẩu Mới</title>
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" />
 
 <div class="row">
 	<div class="col-lg-3 col-md-4 mt-sm-30">
@@ -17,12 +18,21 @@
 					placeholder="Nhập Password mới" required class="single-input">
 			</div>
 
+		
+
+
 			<div class="mt-10" style="border: 1px solid #ccc;">
 				<input id="password-field" maxlength="40" type="password" name="matkhauxn"
 					placeholder="Xác nhận Password mới" required class="single-input">
 			</div>
 
-			</br>
+			
+
+			<div class="mt-10" >
+				Hiển thị
+			<span toggle="#password-field"
+					class="fa fa-fw fa-eye field-icon toggle-password"></span> 
+			</div>
 
 			<div class="text-danger text-left  mb-3">
 				Chú Ý: Mật khẩu phải dài hơn 8 ký tự, cả chữ thường và chữ in hoa, ít nhất một số và một ký tự đặc biệt
@@ -35,6 +45,9 @@
 	</div>
 </div>
 
+
+<script src="/home/login/js/jquery.min.js"></script>
+<script src="/home/login/js/main.js"></script> 
 
 
 

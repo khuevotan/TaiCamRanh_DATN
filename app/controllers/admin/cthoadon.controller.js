@@ -107,10 +107,14 @@ exports.delete = (req, res) => {
                                 for (let i = 0; i < giatien.length; i++) {
                                     tongtiensp += giatien[i];
                                 }
+
+                                var tongtienhd = tongtiensp + 30000
         
+                                // Tỉnh lại tổng tiền hóa đơn
                                 HoaDon.updateBymahdwitdtongtien(
                                     req.params.mahd,
                                     tongtiensp,
+                                    tongtienhd,
                                     (err, data) => {
                                         if (err) {
                                             if (err.kind === "not_found") {
@@ -121,7 +125,6 @@ exports.delete = (req, res) => {
                                         } else res.redirect('/admin/hoadon/edit/' + req.params.mahd + '?status=successSP');
                                     }
                                 );
-            
                             }
                         });
                     }

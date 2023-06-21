@@ -74,18 +74,15 @@
 <script type="text/javascript">
     $("#form-sample-1").validate({
         rules: {
-            matkhaucu: {
+            emailcu: {
                 required: !0,
-                rangelength: [8, 50]
+                rangelength: [2, 255]
             },
-            matkhaumoi: {
+            emailmoi: {
                 required: !0,
-                rangelength: [8, 50],
+                rangelength: [2, 255],
             },
-            matkhaumoixn: {
-                required: !0,
-                rangelength: [8, 50],
-            },
+            
         },
         errorClass: "help-block error",
         highlight: function (e) {

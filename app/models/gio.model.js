@@ -7,6 +7,23 @@ const Gio = function(gio){
     this.updated_at = gio.updated_at;
 };
 
+// Hiển thị một giờ
+Gio.findBymagio = (magio, result) => {
+    sql.query(`SELECT * FROM gio WHERE magio = ${magio}`, (err, res) => {
+        if (err) {
+            console.log("error: ", err);
+            result(err, null);
+            return;
+        }
+        if (res.length) {
+            // console.log("found gio: ", res[0]);
+            result(null, res[0]);
+            return;
+        }
+        // not found gio with the magio
+        result({ kind: "not_found" }, null);
+    });
+};
 
 // Hiển thị danh sách giờ đầy đủ bên phía admin.
 Gio.getAll = (result) => {

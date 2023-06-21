@@ -172,6 +172,8 @@ exports.adupdatemk = (req, res) => {
         matkhaumoixn,
     } = req.body;
 
+    if(req.params.manv != 1){
+    
     if(req.body.matkhaumoi == req.body.matkhaumoixn){
         NhanVien.findByMaNV(req.params.manv, (err, data) => {
             if (err) {
@@ -232,6 +234,10 @@ exports.adupdatemk = (req, res) => {
         });
 
     }
+
+    }else{
+        res.redirect('/admin/nhanvien/changepass/' + req.params.manv + '?status=khongthecapnhat');
+    }
 };
 
 // Xác thực tài khoản của nhân viên.
@@ -291,6 +297,9 @@ exports.edit = (req, res) => {
 exports.changeEmail = (req, res) => {
 
     res.locals.status = req.query.status;
+
+    if(req.params.manv != 1){
+    
     
     NhanVien.findByEmail(req.body.emailmoi, (err, nhanvienne) => {
         if (nhanvienne) {
@@ -314,6 +323,10 @@ exports.changeEmail = (req, res) => {
             );
         }
     });
+
+    }else{
+        res.redirect('/admin/nhanvien/edit/' + req.params.manv + '?status=khongthecapnhat');
+    }
   
 };
 
@@ -353,6 +366,7 @@ exports.update = (req, res) => {
             } else res.redirect('/admin/nhanvien/edit/' + req.params.manv + '?status=success');
         }
     );
+    
     }else{
         res.redirect('/admin/nhanvien/edit/' + req.params.manv + '?status=khongthecapnhat');
     }

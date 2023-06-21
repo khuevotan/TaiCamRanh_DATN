@@ -466,7 +466,6 @@ const Secret_Key = 'sk_test_51MqHEXDWd2W6upWF1VZ7dn4skGPysk27NeODNhPsXlPgoyMbjqo
 const stripe = require('stripe')(Secret_Key)
 
 exports.thanhToanThe = (req, res) => {
-
     mahd = req.params.mahd
     res.render('ttcarddh', {
             key: Publishable_Key,

@@ -88,9 +88,7 @@ exports.register = (req, res) => {
                             email,
                             conflictError
                         });
-                    }
-
-                  
+                    }    
                 }else{
                     const conflictError = 'Bạn phải xác nhận mật khẩu đúng!';
                     res.render('auth/register', {

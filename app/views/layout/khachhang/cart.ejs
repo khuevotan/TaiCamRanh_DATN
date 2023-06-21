@@ -34,13 +34,8 @@
     
     <% }%>
 
-
-   
-
-
 <!--================Cart Area =================-->
 
-    
 <% if (products) {%>
     <div class="container">
         <div class="cart_inner">
@@ -85,55 +80,22 @@
                                         <form action="/addfromgh/<%= products[i].item.masp %>" method="post">
 
                                         <input type="number" name="quantity" id="sst" min="1" max="<%= products[i].item.soluong %>"  value="<%= products[i].quantity %>" 
-                                            >
-                                       
+                                            >            
                                     </div>
                                 </td>
                                 <td>
                                     <h5><%= (products[i].price).toLocaleString() %> VNĐ</h5>
                                 </td>
                                 <td>
-                                    
-                                    
-                                   
-                                   
-
                                         <button type="submit" class="genric-btn info-border circle small"><i class="fa fa-check-circle "></i></button>
                                         <!-- <a href="/update/<%= products[i].item.masp %>" class="genric-btn info-border circle small" ><i class="fa fa-check-circle "></i></a> -->
                                     </form>
-
-
-
-                                    <a href="/remove/<%= products[i].item.masp %>" class="genric-btn danger-border circle small"><i class="fa fa-trash "></i></a>
-
-
-                                   
+                                    <a href="/remove/<%= products[i].item.masp %>" class="genric-btn danger-border circle small"><i class="fa fa-trash "></i></a>               
                                 </td>
                               
                             </tr>
     
                             <% }%>
-    
- 
-                        <!-- <tr class="bottom_button">
-                            <td>
-                                <a class="button" href="#">Update Cart</a>
-                            </td>
-                            <td>
-
-                            </td>
-                            <td>
-
-                            </td>
-                            <td>
-                                <div class="cupon_text d-flex align-items-center">
-                                    <input type="text" placeholder="Coupon Code">
-                                    <a class="primary-btn" href="#">Apply</a>
-                                    <a class="button" href="#">Have a Coupon?</a>
-                                </div>
-                            </td>
-                        </tr> -->
-
 
                         <tr>
                             <td>
@@ -153,19 +115,14 @@
                             </td>
                         </tr>
 
-                 
-                        
-
                         <tr class="out_button_area">
                             <td class="d-none-l">
 
                             </td>
                             <td class="">
-
-                                
+                        
                             </td>
                             <td>
-
 
                             </td>
                             <td>
@@ -173,14 +130,17 @@
                             </td>
                             <td>
                                 <div class="checkout_btn_inner d-flex align-items-center">
-                                    <a class="gray_btn" href="/shop">Quay lại Shopping</a>
-                                    <a class="primary-btn ml-2" href="/khachhang/thongtintt/">Đặt Hàng</a>
-                                </div>
-
                                 
+                                    <%if (!locals.session.loggedin) { %>
+                              
+                                  <a class="primary-btn ml-2" href="/login">Đăng Nhập Để Đặt Hàng</a>
+                                    <% } else {%>
+                                        <a class="gray_btn" href="/shop">Quay lại Shopping</a>
+                                        <a class="primary-btn ml-2" href="/khachhang/thongtintt/">Đặt Hàng</a>
+                                        <% } %>
+                                </div>
                             </td>
                         </tr>
-
                     </tbody>
                 </table>
             </div>

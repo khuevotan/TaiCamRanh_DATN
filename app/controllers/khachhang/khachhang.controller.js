@@ -1030,9 +1030,11 @@ exports.nhapThongTinDonHang = (req, res) => {
 
                                 // Kiểm tra xem có phải là phí ship không?
                                 if (matinh == 37) {
-                                    var giashipne = giaShipKH;
+                                    var giashipne = parseFloat(giaShipKH);
+                                  
                                 } else {
-                                    var giashipne = giaShipNKH;
+                                    var giashipne = parseFloat(giaShipNKH);
+                                
                                 }
 
                                 const phiship = new PhiShip({

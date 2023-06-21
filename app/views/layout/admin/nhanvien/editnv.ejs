@@ -360,7 +360,7 @@
 
                 <div class="ibox-body">
                     <form action="/admin/nhanvien/doiemail/<%= nhanvien.manv %>" class="form-horizontal"
-                        id="form-sample-1" method="post" novalidate="novalidate"
+                        id="form-sample-2" method="post" novalidate="novalidate"
                         onSubmit="return confirm('Bạn có chắc chắn muốn thay đổi thông tin?') "
                         >
                         <input type="hidden" name="_method" value="put" />
@@ -429,11 +429,6 @@
            manhom: {
                 required: !0,
            },
-           emailmoi: {
-                required: !0,
-                rangelength: [2, 255],
-            },
-
         },
         errorClass: "help-block error",
         highlight: function(e) {
@@ -444,6 +439,27 @@
         },
     });
 
+</script>
+
+<script type="text/javascript">
+    $("#form-sample-2").validate({
+        rules: {
+            
+         
+            emailmoi: {
+                required: !0,
+                rangelength: [2, 255],
+                email: true
+            },
+        },
+        errorClass: "help-block error",
+        highlight: function(e) {
+            $(e).closest(".form-group.row").addClass("has-error")
+        },
+        unhighlight: function(e) {
+            $(e).closest(".form-group.row").removeClass("has-error")
+        },
+    });
 </script>
 
 <script>
