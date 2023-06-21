@@ -320,6 +320,14 @@
         document.getElementById('tongtienrx').value = sel.options[sel.selectedIndex].id;
     }
 
+    const url = window.location.href;
+    const status = url.slice(url.lastIndexOf('=') + 1);
+   
+    if (status == 'ngaynghi'){
+		alert("Ngày này cửa hàng nghỉ!");
+	}
+
+
 </script>
 
 
@@ -354,3 +362,5 @@
         },
     });
 </script>
+
+

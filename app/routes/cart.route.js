@@ -52,7 +52,6 @@ module.exports = app => {
       // thêm sản phẩm vào giỏ hàng
       // cart.addToCart(product, product.masp, quantity, product.soluong);
    
-      
       cart.addToCart(product, product.masp, quantity, product.soluong, (error, thongbao) => {
         if (thongbao) {
           req.session.cart = cart;
@@ -123,7 +122,5 @@ module.exports = app => {
     res.redirect('/cart');
   });
 
-
   app.use(router);
-
 }

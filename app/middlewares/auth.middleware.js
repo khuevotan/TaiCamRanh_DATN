@@ -11,7 +11,6 @@ exports.loggedin = (req, res, next) => {
         }else{
             res.redirect('/admin/quyentruycap');   
         }
-       
     }
 }
 

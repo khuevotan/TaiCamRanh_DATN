@@ -301,7 +301,12 @@ exports.update = (req, res) => {
 // Thay đổi ngày rửa.
 exports.editdoingay = (req, res) => {
 
+
     res.locals.status = req.query.status;
+
+    const {
+        ngayrua
+    } = req.body;
 
     const currentDate = new Date();
     const chonDate = new Date(req.body.ngayruatd);
@@ -310,57 +315,86 @@ exports.editdoingay = (req, res) => {
     const dateString1 = chonDate.toDateString();
     const dateString2 = currentDate.toDateString();
 
-    // So sánh chuỗi ngày tháng năm
-    if ((chonDate < currentDate) && (dateString1 !== dateString2)) {
+    ThamSo.findBymats(7, (err, NGAY_NGHI) => {
+        const dateArray = NGAY_NGHI.giatri.split(",");
 
-        res.redirect('/admin/hoadonrx/edit/' + req.params.mahdrx + '?status=loingayqk');
+        const ngayNghi = [];
+        const datenNghi = [];
 
-    } else {
-        if ((dateString1 === dateString2) || (chonDate > currentDate)) {
+        var dem = 0;
 
-            HoaDonRX.findBymahdrx(req.params.mahdrx, (err, data) => {
-                if (err) {
-                    if (err.kind === "not_found") {
-                        res.redirect('/admin/404');
-                    } else {
-                        res.redirect('/admin/500');
-                    }
-                } else {
+        for (let i = 0; i < dateArray.length; i++) {
+            ngayNghi[i] = new Date(dateArray[i]);
+            datenNghi[i] = ngayNghi[i].toDateString();
 
-                    LoaiXe.getAll((err, loaixe) => {
-                        if (err)
-                            res.redirect('/admin/500')
-                        else {
+            //2023-06-24T00:00:00.000Z
+            // Sat Jun 24 2023
 
-                            ThamSo.findBymats(1, (err, MAX_ĐL) => {
+            if (dateString1 === datenNghi[i]) {
+                // tăng biến đếm
+                dem = dem + 1;
+            }
+        }
+
+        if (dem != 0) {
+           
+
+            res.redirect('/admin/hoadonrx/edit/' + req.params.mahdrx + '?status=ngaynghi');
+        } else {
+
+            // So sánh chuỗi ngày tháng năm
+            if ((chonDate < currentDate) && (dateString1 !== dateString2)) {
+
+                res.redirect('/admin/hoadonrx/edit/' + req.params.mahdrx + '?status=loingayqk');
+
+            } else {
+                if ((dateString1 === dateString2) || (chonDate > currentDate)) {
+
+                    HoaDonRX.findBymahdrx(req.params.mahdrx, (err, data) => {
+                        if (err) {
+                            if (err.kind === "not_found") {
+                                res.redirect('/admin/404');
+                            } else {
+                                res.redirect('/admin/500');
+                            }
+                        } else {
+
+                            LoaiXe.getAll((err, loaixe) => {
                                 if (err)
                                     res.redirect('/admin/500')
                                 else {
 
-                                    if (req.body.ngayruatd) {
-                                        var ngayruatd = req.body.ngayruatd;
-
-                                    } else {
-                                        var ngayruatd = data.ngayrua;
-
-                                    }
-
-                                    Gio.getAllKH(ngayruatd, MAX_ĐL.giatri, (err, gio) => {
-
+                                    ThamSo.findBymats(1, (err, MAX_ĐL) => {
                                         if (err)
                                             res.redirect('/admin/500')
                                         else {
-                                            TrangThai.getAll((err, trangthai) => {
+
+                                            if (req.body.ngayruatd) {
+                                                var ngayruatd = req.body.ngayruatd;
+
+                                            } else {
+                                                var ngayruatd = data.ngayrua;
+
+                                            }
+
+                                            Gio.getAllKH(ngayruatd, MAX_ĐL.giatri, (err, gio) => {
+
                                                 if (err)
                                                     res.redirect('/admin/500')
                                                 else {
-                                                    res.render('hoadonrx/edithdr', {
-                                                        hoadonrx: data,
-                                                        ngayruatd: ngayruatd,
-                                                        loaixe: loaixe,
-                                                        gio: gio,
-                                                        trangthai: trangthai,
-                                                        layout: './master2'
+                                                    TrangThai.getAll((err, trangthai) => {
+                                                        if (err)
+                                                            res.redirect('/admin/500')
+                                                        else {
+                                                            res.render('hoadonrx/edithdr', {
+                                                                hoadonrx: data,
+                                                                ngayruatd: ngayruatd,
+                                                                loaixe: loaixe,
+                                                                gio: gio,
+                                                                trangthai: trangthai,
+                                                                layout: './master2'
+                                                            });
+                                                        }
                                                     });
                                                 }
                                             });
@@ -371,9 +405,14 @@ exports.editdoingay = (req, res) => {
                         }
                     });
                 }
-            });
+            }
+
         }
-    }
+    });
+
+
+
+
 };
 
 // Xóa lịch.

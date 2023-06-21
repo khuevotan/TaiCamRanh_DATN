@@ -69,7 +69,6 @@ module.exports = function Cart(cart) {
         }
     };
 
-
     // update từ giỏ hàng
     this.addToGH = function(item, id, quantity, quantitykho) {
         // kiểm tra xem sản phẩm đã có trong giỏ hàng hay chưa
@@ -78,8 +77,6 @@ module.exports = function Cart(cart) {
             // nếu sản phẩm chưa có trong giỏ hàng, thêm mới sản phẩm vào giỏ hàng
             cartItem = this.items[id] = { item: item, quantity: 0, price: 0 };
         }
-
-     
             cartItem.quantity = quantity;
             // tính toán lại giá tiền của sản phẩm
             cartItem.price = cartItem.item.giaban * cartItem.quantity;
@@ -89,22 +86,14 @@ module.exports = function Cart(cart) {
          
             for (var id in this.items) {
 
-            
                 // tăng tổng số lượng sản phẩm trong giỏ hàng theo giá trị nhập vào
                 this.totalItems += this.items[id].quantity;
                
-
                 // cập nhật lại tổng số tiền của giỏ hàng theo giá trị nhập vào
                 // this.totalPrice += cartItem.item.giaban * this.items[id];
                 
                 this.totalPrice +=  this.items[id].price;
             }
-          
-         
-          
-       
-          
-  
     };
     
     this.removeAll = function() {
@@ -112,6 +101,4 @@ module.exports = function Cart(cart) {
         this.totalItems = 0;
         this.totalPrice = 0;
     };
-    
-    
 };
