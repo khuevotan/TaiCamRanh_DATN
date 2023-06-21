@@ -199,9 +199,9 @@ HoaDonRX.thongkeSLXT = (result) => {
 // Thống kê doanh thu tùy chọn.
 HoaDonRX.doanhThuTC = (ngaybatdau, ngayketthuc, thanhtoan, trangthai, result) => {
 
-    const query = `SELECT DATE(created_at) AS date, SUM(tongtienrx) AS tongtienrx FROM hoadonrx WHERE created_at BETWEEN '${ngaybatdau}' AND '${ngayketthuc}' AND thanhtoan = ${thanhtoan} AND matt =  ${trangthai} GROUP BY DATE(created_at) ORDER BY DATE(created_at);`
+    const query = `SELECT DATE(created_at) AS date, SUM(tongtienrx) AS tongtienrx FROM hoadonrx WHERE DATE(created_at) BETWEEN '${ngaybatdau}' AND '${ngayketthuc}' AND thanhtoan = ${thanhtoan} AND matt =  ${trangthai} GROUP BY DATE(created_at) ORDER BY DATE(created_at);`
 
-    const query2 = `SELECT DATE(created_at) AS date, SUM(tongtienhd) AS tongtienhd FROM hoadon WHERE created_at BETWEEN '${ngaybatdau}' AND '${ngayketthuc}' AND thanhtoan = ${thanhtoan} AND matt =  ${trangthai} GROUP BY DATE(created_at) ORDER BY DATE(created_at);`
+    const query2 = `SELECT DATE(created_at) AS date, SUM(tongtienhd) AS tongtienhd FROM hoadon WHERE DATE(created_at) BETWEEN '${ngaybatdau}' AND '${ngayketthuc}' AND thanhtoan = ${thanhtoan} AND matt =  ${trangthai} GROUP BY DATE(created_at) ORDER BY DATE(created_at);`
 
     sql.query(query, (err, dtHDRX) => {
         sql.query(query2, (err, dtHD) => {

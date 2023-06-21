@@ -558,10 +558,14 @@ exports.doanhthuCoDinhSecond = (req, res) => {
         // tuần trong tháng hiện tại
         HoaDonRX.doanhThuCDTuan(thanhtoan, trangthai, (err, dtHDRX, dtHD) => {
 
-            console.log("=== DATA GỐC ===");
+            console.log("=== DOANH THU CỐ ĐỊNH ===");
+            console.log("=== MÃ THANH TOÁN ===");
             console.log(thanhtoan);
+            console.log("=== MÃ TRẠNG THÁI ===");
             console.log(trangthai);
+            console.log("=== Doanh thu đơn rửa xe ===");
             console.log(dtHDRX);
+            console.log("=== Doanh thu đơn đặt hàng ===");
             console.log(dtHD);
 
             // Lấy giá trị date và tongtienrx thành một mảng 2 chiều
@@ -592,8 +596,6 @@ exports.doanhthuCoDinhSecond = (req, res) => {
               console.log("=== đổi 1 ===");
               console.log(mang2chieu);
             
-  
-
             for (let i = 0; i < manghdrx.length; i++) {
                 const ngayrx = manghdrx[i][0];
                 let isExists = false;
@@ -609,9 +611,9 @@ exports.doanhthuCoDinhSecond = (req, res) => {
                 }
             }
 
-              // mang 2 chieu
-              console.log("=== đổi 2 ===");
-              console.log(mang2chieu);
+            // mang 2 chieu
+            console.log("=== đổi 2 ===");
+            console.log(mang2chieu);
 
             mang2chieu.sort((a, b) => {
                 return a[0] - b[0];
@@ -619,8 +621,6 @@ exports.doanhthuCoDinhSecond = (req, res) => {
               // mang 2 chieu
               console.log("===sắp xếp ===");
               console.log(mang2chieu);
-
-         
 
             // lấy giá trị phần tử thứ 3 và chuyển thành chuỗi
 
@@ -754,8 +754,10 @@ exports.thongKeLoaiXe = (req, res) => {
         var colIndex = 0;
         var colIndexne = 1;
 
-        console.log("=== DATA GỐC ===");
+        console.log("=== Số lượng loại xe được rửa nhiều trong tháng này. ===");
+        console.log("=== Số lượng ===");
         console.log(slxegoc);
+        console.log("=== Mảng các loại xe ===");
         console.log(loaixegoc);
 
         // [
@@ -920,12 +922,22 @@ exports.doanhThuTuyChinh = (req, res) => {
     const thanhtoan = req.body.thanhtoan;
     const trangthai = req.body.trangthai;
 
+    console.log("==== Thống kê doanh thu biểu đồ tùy chọn ====");
+    console.log("==== Ngày Bắt Đầu ====");
+    console.log(ngaybatdau);
+    console.log("==== Ngày Kết Thúc ====");
+    console.log(ngayketthuc);
+    console.log("==== Thanh Toán ====");
+    console.log(thanhtoan);
+    console.log("==== Trạng Thái ====");
+    console.log(trangthai);
+
     // Lấy cả hóa đơn rửa xe và bán hàng.
     HoaDonRX.doanhThuTC(ngaybatdau, ngayketthuc, thanhtoan, trangthai, (err, dtHDRX, dtHD) => {
 
-        // 
-        console.log("KẾT QUẢ LẤY");
+        console.log("==== Danh sách đơn rửa xe ====");
         console.log(dtHDRX);
+        console.log("==== Danh sách đơn đặt hàng ====");
         console.log(dtHD);
 
         // Lấy giá trị date và tongtienrx thành một mảng 2 chiều
@@ -951,11 +963,9 @@ exports.doanhThuTuyChinh = (req, res) => {
             mang2chieu.push(row);
         }
 
-        console.log("======= LẦN 1======");
+        console.log("======= ĐỔI LẦN 1 ======");
         console.log(mang2chieu);
    
-
-
         for (let i = 0; i < manghdrx.length; i++) {
             const ngayrx = new Date(manghdrx[i][0]);
             let isExists = false;
@@ -971,7 +981,7 @@ exports.doanhThuTuyChinh = (req, res) => {
             }
         }
 
-        console.log("======= LẦN 2 ======");
+        console.log("======= ĐỔI LẦN 2 ======");
         console.log(mang2chieu);
 
         // 

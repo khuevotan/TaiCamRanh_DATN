@@ -1034,7 +1034,6 @@ exports.nhapThongTinDonHang = (req, res) => {
                                   
                                 } else {
                                     var giashipne = parseFloat(giaShipNKH);
-                                
                                 }
 
                                 const phiship = new PhiShip({

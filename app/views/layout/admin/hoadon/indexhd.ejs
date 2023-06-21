@@ -35,9 +35,9 @@
                             <th>NgàyGiao</th>
                             <th>TênNgườiNhận</th>
                             <th>SốĐT</th>
-                            <th>ĐịaChỉ</th>
+                     
                             <th>TổngTiền</th>
-                            <th>GhiChú</th>
+                        
                             <th>ThanhToán</th>
                             <th>TrạngThái</th>
                      
@@ -52,9 +52,9 @@
                             <td><%= moment(item.ngaygiao).format('DD-MM-YYYY')  %></td>
                             <td><%= item.tennguoinhan %></td>
                             <td><%= item.sodt %></td>
-                            <td><%= item.diachi %></td>
+                       
                             <td><%= (item.tongtiensp).toLocaleString() %> VNĐ %></td>  
-                            <td><%= item.ghichu %></td>  
+                          
                    
                             <td>
                                 <%if (item.thanhtoan == 1) { %>
@@ -92,9 +92,9 @@
 
                             </td>  
                                 <td>
-                                    <a href="/admin/hoadon/details/<%= item.mahd %>" class="btn btn-default btn-xs m-r-5" data-toggle="tooltip" data-original-title="Details"><i class="fa fa-info font-14"></i></a>
-                                    <a href="/admin/hoadon/edit/<%= item.mahd %>" class="btn btn-default btn-xs m-r-5" data-toggle="tooltip" data-original-title="Edit"><i class="fa fa-pencil font-14"></i></a>
-                                    <a href="/admin/hoadon/delete/<%= item.mahd %>" onclick="return confirm('Bạn có chắc chăn muốn xóa không?')" class="btn btn-default btn-xs" data-toggle="tooltip" data-original-title="Delete"><i class="fa fa-trash font-14"></i></a>
+                                    <a href="/admin/hoadon/details/<%= item.mahd %>" class="btn btn-default btn-xs m-r-5" data-toggle="tooltip" ><i class="fa fa-info font-14"></i></a>
+                                    <a href="/admin/hoadon/edit/<%= item.mahd %>" class="btn btn-default btn-xs m-r-5" data-toggle="tooltip"><i class="fa fa-pencil font-14"></i></a>
+                                    <a href="/admin/hoadon/delete/<%= item.mahd %>" onclick="return confirm('Bạn có chắc chăn muốn xóa không?')" class="btn btn-default btn-xs" data-toggle="tooltip" ><i class="fa fa-trash font-14"></i></a>
                                 </td>
                         </tr>     
                         <% }) %>  
